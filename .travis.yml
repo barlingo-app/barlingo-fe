@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+  - lts/*
+before_install:
+  - chmod +x scripts/
+addons:
+  apt:
+    packages:
+    - sshpass
+git:
+  depth: false
+install: true
+script: npm install; npm run build
+cache:
+  directories:
+  - "node_module"
+branches:
+  only:
+    - CI
+    - /^[0-9]+\.[0-9]+\.[0-9]+$/
+  tags: true
+after_success:
+  - "bash scripts/merge_branch.sh"
+deploy:
+  provider: script
+  script: bash scripts/deploy.sh
+  on:
+    all_branches: true
