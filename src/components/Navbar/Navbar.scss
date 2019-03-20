@@ -1,0 +1,98 @@
+@import "../../styles/variables";
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: $mainColor;
+  height: $navbarHeight;
+
+  .logo-header {
+    max-height: $navbarHeight - 10px;
+  }
+
+  .navigation {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding: 0 1rem;
+  }
+
+  .logo {
+    margin-left: 1rem;
+  }
+
+  .logo a {
+    color: $mainFontColor;
+    text-decoration: none;
+    font-size: 1.5rem;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .navigation-items {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    li {
+      padding: 0 0.5rem;
+    }
+
+    a {
+      color: $mainFontColor;
+      text-decoration: none;
+
+      &:hover,
+      &:active,
+      &.active {
+        text-decoration: underline $mainFontColor;
+      }
+      
+    }
+  }
+  .toggle-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 24px;
+    width: 30px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+    }
+
+    .toggle-button-line {
+      width: 30px;
+      height: 4px;
+      background: $mainFontColor;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .navigation-items {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) {
+  .toggle-button-container {
+    display: none;
+  }
+
+  .logo {
+    margin-left: 0;
+  }
+}
