@@ -1,0 +1,59 @@
+@import "../../styles/variables";
+
+.sidebar {
+  height: 100%;
+  background: $mainColor;
+  box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-out;
+  color: $mainFontColor;
+
+  &.open {
+    transform: translateX(0);
+  }
+
+  ul {
+    height: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    li {
+      margin: 0.5rem 0;
+    }
+  }
+
+  .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 30px;
+    width: 30px;
+    padding: 10px 10px 0 0;
+    font-size: 30px;
+  }
+
+  a {
+    color: $mainFontColor;
+    text-decoration: none;
+    font-size: 1.2rem;
+
+    &:hover,
+    &:active,
+    &.active {
+      text-decoration: underline $mainFontColor;
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  .sidebar {
+    display: none;
+  }
+}
