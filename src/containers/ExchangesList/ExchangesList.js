@@ -1,19 +1,62 @@
 import React, { Component } from 'react';
-import {withNamespaces} from "react-i18next";
-import {Page, Section} from "react-page-layout";
+import { withNamespaces } from "react-i18next";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Page, Section } from "react-page-layout";
+import { Col, Container, Row } from 'reactstrap';
+import CustomCard from '../../components/CustomCard/CustomCard';
+import exchangeGeneric from '../../media/data/LanguageExchangeGeneric';
 import './ExchangesList.scss';
 
-class ExchangesList extends Component {
 
+class ExchangesList extends Component {
+    state = {
+        index: 6,
+        items: exchangeGeneric.slice(0, 6),
+        //items: Array.from({ length: 20 })
+    };
+
+    fetchMoreData = () => {
+        // a fake async api call like which sends
+        // 20 more records in 1.5 secs
+        setTimeout(() => {
+
+            this.setState({
+                index: this.state.index + 3,
+                items: this.state.items.concat(exchangeGeneric.slice(this.state.index, this.state.index + 3))
+            });
+        }, 1500);
+    };
+    hasMore() {
+        return exchangeGeneric.length > this.state.index;
+    }
     componentDidMount() {
         document.title = "Barlingo - Exchanges";
     }
 
     render() {
-        return(
+        const { t } = this.props;
+        let buttonMessage = t('generic.create');
+        let loadingMessage = t('generic.loading');
+        return (
             <Page layout="public">
                 <Section slot="content">
-                    <p>ExchangesList</p>
+                    <Container>
+                        <InfiniteScroll
+                            dataLength={this.state.items.length}
+                            next={this.fetchMoreData}
+                            hasMore={this.hasMore()}
+                            loader={<h4>{loadingMessage}...</h4>}
+                        >
+                            <Row>
+                                {this.state.items.map((i, index) => (
+                                    <Col xs="12" md="6" xl="4">
+                                        <CustomCard route="exchanges" buttonMessage={buttonMessage} image={i.imageProfile} title={i.establishmentName} address={i.address} schedule="Lunes-Viernes: 8:00-21:00" max={i.numberOfParticipants} />
+                                    </Col>
+                                ))}
+                            </Row>
+                        </InfiniteScroll>
+
+                    </Container>
                 </Section>
             </Page>
         );
