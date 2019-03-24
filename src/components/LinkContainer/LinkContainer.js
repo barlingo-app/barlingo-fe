@@ -14,6 +14,8 @@ class LinkContainer extends Component {
             <ul>
                 <li><NavLink activeClassName={"active"} to={"/exchanges"}>{t('links.exchanges')}</NavLink></li>
                 <li><NavLink activeClassName={"active"} to={"/establishments"}>{t('links.establishments')}</NavLink></li>
+                <li><NavLink activeClassName={"active"} to={"/login"}>{t('links.login')}</NavLink></li>
+                
                 <li><LanguageSelector /></li>
             </ul>
         );
