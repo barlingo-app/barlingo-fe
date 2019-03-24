@@ -4,6 +4,22 @@
   },
   "links": {
     "exchanges": "Exchanges",
-    "establishments": "Establishments"
+    "establishments": "Establishments",
+    "login": "Login"
+  },
+  "form": {
+    "emptyUsername": "Please input your username!",
+    "emptyPassword": "Please input your Password!",
+    "username": "Username",
+    "password": "Password",
+    "remember": "Remember me",
+    "forgotPassword": "Forgot password",
+    "login" : "Log in",
+    "register": "Register now!"
+  },
+  "generic":{
+    "create": "Create",
+    "join": "Join",
+    "loading": "Loading"
   }
 }
