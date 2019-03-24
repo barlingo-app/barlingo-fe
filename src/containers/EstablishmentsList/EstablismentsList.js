@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {withNamespaces} from "react-i18next";
 import {Page, Section} from "react-page-layout";
+import { Container, Row, Col } from 'reactstrap';
+import CustomCard from '../../components/CustomCard/CustomCard'
 import './EstablishmentsList.scss';
 
 class EstablismentsList extends Component {
@@ -12,9 +14,18 @@ class EstablismentsList extends Component {
     render() {
         return(
             <Page layout="public">
-                <Section slot="content">
-                    <p>EstablismentsList</p>
-                </Section>
+               <Section slot="content">
+                    <Container>                
+                        <Row>
+                            <Col xs="12" md="6" xl="4" ><CustomCard /></Col>
+                            <Col xs="12" md="6" xl="4" ><CustomCard /></Col>
+                            <Col xs="12" md="6" xl="4" ><CustomCard /></Col>
+                            <Col xs="12" md="6" xl="4" ><CustomCard /></Col>
+                            <Col xs="12" md="6" xl="4" ><CustomCard /></Col>
+                            <Col xs="12" md="6" xl="4" ><CustomCard /></Col>
+                        </Row>
+                    </Container>   
+                </Section>            
             </Page>
         );
     }
