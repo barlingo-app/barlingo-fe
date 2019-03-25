@@ -4,7 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { Page, Section } from "react-page-layout";
 import { Col, Container, Row } from 'reactstrap';
 import CustomCard from '../../components/CustomCard/CustomCard';
-import exchangeGeneric from '../../media/data/LanguageExchangeGeneric';
+import exchangeGeneric from '../../media/data/exchanges';
 import './ExchangesList.scss';
 
 
@@ -35,7 +35,7 @@ class ExchangesList extends Component {
 
     render() {
         const { t } = this.props;
-        let buttonMessage = t('generic.create');
+        let buttonMessage = t('generic.join');
         let loadingMessage = t('generic.loading');
         return (
             <Page layout="public">
@@ -49,8 +49,10 @@ class ExchangesList extends Component {
                         >
                             <Row>
                                 {this.state.items.map((i, index) => (
+
                                     <Col xs="12" md="6" xl="4">
-                                        <CustomCard route="exchanges" buttonMessage={buttonMessage} image={i.imageProfile} title={i.establishmentName} address={i.address} schedule="Lunes-Viernes: 8:00-21:00" max={i.numberOfParticipants} />
+                                        <CustomCard route="exchanges" buttonMessage={buttonMessage} image={i.barPicture}
+                                         title={i.title} address={i.establishmentName + ", " + i.address} schedule={i.moment} max={i.numberOfParticipants} />
                                     </Col>
                                 ))}
                             </Row>
