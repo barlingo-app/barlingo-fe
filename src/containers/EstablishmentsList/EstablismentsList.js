@@ -35,7 +35,7 @@ class EstablismentsList extends Component {
     render() {
         const { t } = this.props;
         let loadingMessage = t('generic.loading');
-        let buttonMessage = t('generic.join');
+        let buttonMessage = t('generic.create');
         return (
             <Page layout="public">
                 <Section slot="content">
