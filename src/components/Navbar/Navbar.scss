@@ -7,6 +7,7 @@
   width: 100%;
   background: $mainColor;
   height: $navbarHeight;
+  z-index: 99999;
 
   .logo-header {
     max-height: $navbarHeight - 10px;
