@@ -31,7 +31,13 @@ class EstablismentsList extends Component {
     hasMore() {
         return EstablishmentGeneric.length > this.state.index;
     }
-
+    handleOnClick(id) {
+        console.log(id)
+        let route = "createExchange";
+        this.props.history.push(`/${route}/${id}`);
+        //return <Redirect to={`/${route}/${id}`} />
+        //console.log(event)
+    }
     render() {
         const { t } = this.props;
         let loadingMessage = t('generic.loading');
@@ -51,7 +57,7 @@ class EstablismentsList extends Component {
                                 {this.state.items.map((i, index) => (
 
                                     <Col xs="12" md="6" xl="4">
-                                        <CustomCard route="establishments" buttonMessage={buttonMessage} image={i.imageProfile} title={i.establishmentName} address={i.address} schedule="Lunes-Viernes: 8:00-21:00" />
+                                        <CustomCard onClick={() => this.handleOnClick(i.id)} route="establishments" buttonMessage={buttonMessage} image={i.imageProfile} title={i.establishmentName} address={i.address} schedule="Lunes-Viernes: 8:00-21:00" />
                                     </Col>
 
                                 ))}

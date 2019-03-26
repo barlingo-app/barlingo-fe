@@ -10,16 +10,33 @@
   "form": {
     "emptyUsername": "Please input your username!",
     "emptyPassword": "Please input your Password!",
+    "emptyTitle": "Please input the title!",
+    "emptyDate": "Please input the date!",
+    "emptyMotherTongue":"Please input your mother tongue!",
+    "emptyTargetLanguage":"Please input your target language",
+    "emptyNumberOfParticipants":"Please input the number of participants",
+    "numberOfParticipants":"Number of participants",
     "username": "Username",
     "password": "Password",
     "remember": "Remember me",
     "forgotPassword": "Forgot password",
-    "login" : "Log in",
-    "register": "Register now!"
+    "login": "Log in",
+    "register": "Register now!",
+    "title": "Title",
+    "description": "Description",
+    "motherTongue": "Mother tongue",
+    "targetLanguage": "Target language",
+    "startDate":"Start date"
   },
-  "generic":{
+  "generic": {
     "create": "Create",
     "join": "Join",
     "loading": "Loading"
+  },
+  "language": {
+    "spanish": "Spanish",
+    "english": "English",
+    "french": "French",
+    "german": "German"
   }
 }
