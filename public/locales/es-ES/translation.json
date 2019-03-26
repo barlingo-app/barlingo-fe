@@ -9,17 +9,34 @@
   },
   "form":{
     "emptyUsername": "Por favor, introduzca su nombre de usuario.",
-    "emptyPassword": "Por favor, introduzca su contraseña.",   
+    "emptyPassword": "Por favor, introduzca su contraseña.",  
+    "emptyTitle" : "Por favor, introduzca el título", 
+    "emptyDate": "Por favor, introduzca la fecha",
+    "emptyMotherTongue":"Por favor, introduzca su lengua nativa",
+    "emptyTargetLanguage":"Por favor, introduzca su lengua objetivo",
+    "emptyNumberOfParticipants":"Por favor, introduzca el número de participantes",
+    "numberOfParticipants":"Número de participantes",
     "username": "Nombre de usuario",
     "password": "Contraseña",
     "remember": "Recordarme",
     "forgotPassword": "He olvidado mi contraseña",
     "login" : "Iniciar sesión",
-    "register": "Registrarse"
+    "register": "Registrarse",
+    "title" : "Título",
+    "description": "Descripción",
+    "motherTongue" : "Lengua nativa",
+    "targetLanguage" :"Lengua objetivo",
+    "startDate":"Fecha de inicio"
   },
   "generic":{
     "create": "Crear",
     "join": "Unirse",
     "loading": "Cargando"
+  },
+  "language": {
+    "spanish": "Español",
+    "english": "Inglés",
+    "french": "Francés",
+    "german": "Alemán"
   }
 }

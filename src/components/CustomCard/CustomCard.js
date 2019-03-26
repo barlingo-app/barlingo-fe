@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {withNamespaces} from "react-i18next";
+import { withNamespaces } from "react-i18next";
 import './CustomCard.scss'
 import barLogo from '../../media/photo-1514933651103-005eec06c04b.jpg'
 import locationIcon from '../../media/imageedit_5_5395394410.png'
@@ -45,21 +45,37 @@ class CustomCard extends Component {
             </div>);
         return null;
     }
+    renderButton() {
+        if (this.props.buttonMessage)
+            return <div className="custom-card__button-wrapper"><button className="custom-card__button" onClick={this.props.onClick}>{this.props.buttonMessage}</button></div>
+        return null;
+    }
+
+    renderNavLink() {
+
+        let route = this.props.route;
+        let title = this.props.title;
+        if (route) {
+            return (
+                <p className="custom-card__title">
+                    <NavLink activeClassName={"active"} to={`/${route}/${title}`}>{title}</NavLink>
+                </p>)
+        }
+        return (
+            <p className="custom-card__title">
+                {title}
+            </p>)
+    }
 
     render() {
         let image = this.props.image;
-        let title = this.props.title;
-        let route = this.props.route;
         let address = this.props.address;
         let schedule = this.props.schedule;
-        let buttonMessage = this.props.buttonMessage;
         return (
             <div>
                 <div className="custom-card">
                     <img className="custom-card__image" src={image} alt="Bar logo" />
-                    <p className="custom-card__title">
-                        <NavLink activeClassName={"active"} to={`/${route}/${title}`}>{title}</NavLink>
-                    </p>
+                    {this.renderNavLink()}
 
                     {this.renderLanguageWrapper()}
                     <div className="custom-card__location-wrapper">
@@ -71,7 +87,7 @@ class CustomCard extends Component {
                         <p className="custom-card__text">{schedule}</p>
                     </div>
                     {this.renderParticipants()}
-                    <div className="custom-card__button-wrapper"><button className="custom-card__button">{buttonMessage}</button></div>
+                    {this.renderButton()}
                 </div>
             </div>
         );
