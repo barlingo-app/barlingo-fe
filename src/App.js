@@ -11,7 +11,7 @@ import ExchangesList from "./containers/ExchangesList/ExchangesList";
 import Home from './containers/Home/Home';
 import LoginForm from "./containers/LoginForm/LoginForm";
 import PublicLayout from './layouts/PublicLayout/PublicLayout';
-
+import ValidateCodeContainer from './containers/ValidateCodeContainer/ValidateCodeContainer'
 const layouts = {
 	'public': PublicLayout,
 };
@@ -30,6 +30,7 @@ class App extends Component {
 					<Route exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
 					<Route exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
 					<Route exact path="/displayCode/:codeId" component={DisplayCodeContainer} />
+					<Route exact path="/validateCode" component={ValidateCodeContainer} />
 				</Switch>
 			</LayoutProvider>
 		);

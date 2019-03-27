@@ -5,7 +5,6 @@ import {
 import { Page, Section } from "react-page-layout";
 import 'antd/dist/antd.css';
 import { withNamespaces } from "react-i18next";
-
 class LoginForm extends Component {
 
     handleSubmit = (e) => {
