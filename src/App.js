@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
 import { LayoutProvider } from 'react-page-layout';
 import { Route, Switch, withRouter } from "react-router-dom";
+import DisplayCodeContainer from './containers/DisplayCodeContainer/DisplayCodeContainer';
 import CreateExchangeForm from "./containers/CreateExchange/CreateExchange";
 import EstablishmentDetails from "./containers/EstablishmentDetails/EstablishmentDetails";
 import EstablismentsList from "./containers/EstablishmentsList/EstablismentsList";
@@ -28,6 +29,7 @@ class App extends Component {
 					<Route exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
 					<Route exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
 					<Route exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
+					<Route exact path="/displayCode/:codeId" component={DisplayCodeContainer} />
 				</Switch>
 			</LayoutProvider>
 		);
