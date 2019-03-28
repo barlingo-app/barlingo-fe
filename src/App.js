@@ -24,9 +24,9 @@ class App extends Component {
 		return (
 			<LayoutProvider layouts={layouts}>
 				<Switch>
-					<Route exact path="/" component={Home} />
-					
+					/*<Route exact path="/" component={Home} />*/
 					<Route exact path="/logout" component={Logout} />
+					<Route exact path="/" component={ExchangesList} />
 					<Route exact path="/login" component={LoginForm} />
 					<Route exact path="/establishments" component={EstablismentsList} />
 					<Route exact path="/exchanges" component={ExchangesList} />

@@ -1,0 +1,117 @@
+@import "../../styles/variables";
+.userMenuInfo {
+  height: 100%;
+  display: flex;
+
+  .userImageContainer,
+  .userInfoContainer {
+    height: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    color: $mainColor;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .userImageContainer {
+    width: 25%;
+  }
+
+  .userInfoContainer {
+    width: 60%;
+    order: 1;
+
+    .mainInfo {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .secondaryInfo {
+      font-size: 0.8rem;
+    }
+  }
+
+  .userImage {
+    display: block;
+    height: 75%;
+    text-align: center;
+
+    img {
+      border: 2px solid $mainColor;
+      border-radius: 50%;
+      height: 100%;
+      max-height: 100%;
+      width: auto;
+    }
+  }
+
+  a {
+    color: $mainColor !important;
+
+    &:hover,
+    &:active,
+    &.active {
+      color: $mainColor !important;
+      text-decoration: none !important;
+      font-weight: bold !important;
+    }
+  }
+}
+
+@media (min-width: 680px) {
+  .userMenuInfo {
+    .userImageContainer,
+    .userInfoContainer {
+      height: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      color: $mainFontColor;
+    }
+
+    .userInfoContainer {
+      order: 1;
+      display: flex;
+      justify-items: center;
+      align-items: flex-end;
+      flex-direction: column;
+
+      .mainInfo {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+    }
+
+    .userImageContainer{
+      order: 2;
+
+      .userImage {
+        display: block;
+        height: 75%;
+        text-align: center;
+
+        img {
+          border: 2px solid $mainFontColor;
+          background-color: $mainFontColor;
+          border-radius: 50%;
+          height: 100%;
+          max-height: 100%;
+          width: auto;
+        }
+      }
+    }
+
+    a {
+      color: $mainFontColor !important;
+
+      &:hover,
+      &:active,
+      &.active {
+        color: $mainFontColor !important;
+        text-decoration: none !important;
+        font-weight: bold !important;
+      }
+    }
+  }
+}

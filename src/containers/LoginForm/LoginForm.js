@@ -51,7 +51,7 @@ class LoginForm extends Component {
                                 <Checkbox>{t('form.remember')}</Checkbox>
                             )}
                             <a className="login-form-forgot" href="/">{t('form.forgotPassword')}</a>
-                            <Button type="primary" htmlType="submit" className="login-form-button">
+                            <Button type="primary" style={{"background-color": "#4357AD"}} htmlType="submit" className="login-form-button">
                                 {t('form.login')}
                             </Button>
                             <a href="/">{t('form.register')}</a>

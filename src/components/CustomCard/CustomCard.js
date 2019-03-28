@@ -72,7 +72,7 @@ class CustomCard extends Component {
         let address = this.props.address;
         let schedule = this.props.schedule;
         return (
-            <div>
+            <div style={{"height": "100%", "padding": "15px 0"}}>
                 <div className="custom-card">
                     <img className="custom-card__image" src={image} alt="Bar logo" />
                     {this.renderNavLink()}
