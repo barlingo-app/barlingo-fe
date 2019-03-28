@@ -35,7 +35,9 @@ class ExchangesList extends Component {
 
     render() {
         const { t } = this.props;
-        let buttonMessage = t('generic.join');
+        let buttonMessage = null
+        if (localStorage.getItem("userData"))
+            buttonMessage = t('generic.join');
         let loadingMessage = t('generic.loading');
         return (
             <Page layout="public">
@@ -52,7 +54,7 @@ class ExchangesList extends Component {
 
                                     <Col xs="12" md="6" xl="4">
                                         <CustomCard route="exchanges" buttonMessage={buttonMessage} image={i.barPicture}
-                                         title={i.title} address={i.establishmentName + ", " + i.address} schedule={i.moment} max={i.numberOfParticipants} />
+                                            title={i.title} address={i.establishmentName + ", " + i.address} schedule={i.moment} max={i.numberOfParticipants} />
                                     </Col>
                                 ))}
                             </Row>

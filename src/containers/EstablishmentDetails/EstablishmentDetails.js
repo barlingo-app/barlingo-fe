@@ -11,7 +11,7 @@ class EstablishmentDetails extends Component {
     state = {
         establishment: null
     }
-    componentDidMount() {
+    componentDidMount() {       
         let establishment = EstablishmentGeneric.find(e => e.establishmentName === this.props.match.params.establishmentName)
         document.title = "Barlingo - " + establishment.establishmentName;
         this.setState({
