@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Page, Section } from "react-page-layout";
-import { Col, Container, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import CustomCard from '../../components/CustomCard/CustomCard';
 import EstablishmentGeneric from '../../media/data/establishments';
 import './EstablishmentsList.scss';
+import {Icon} from "antd";
 
 class EstablismentsList extends Component {
     state = {
@@ -42,20 +43,21 @@ class EstablismentsList extends Component {
     }
     render() {
         const { t } = this.props;
-        let loadingMessage = t('generic.loading');
         let buttonMessage = null
         if (localStorage.getItem("userData"))
             buttonMessage = t('generic.create');
+        const overFlowStyle = {
+            "overflow": "hidden"
+        };
         return (
             <Page layout="public">
                 <Section slot="content">
-                    <Container>
-
                         <InfiniteScroll
                             dataLength={this.state.items.length}
                             next={this.fetchMoreData}
                             hasMore={this.hasMore()}
-                            loader={<h4>{loadingMessage}...</h4>}
+                            loader={<div className={"loadingContainer"}>{<Icon type={"loading"} />}</div>}
+                            style={overFlowStyle}
                         >
                             <Row>
                                 {this.state.items.map((i, index) => (
@@ -67,7 +69,6 @@ class EstablismentsList extends Component {
                                 ))}
                             </Row>
                         </InfiniteScroll>
-                    </Container>
                 </Section>
             </Page>
         );

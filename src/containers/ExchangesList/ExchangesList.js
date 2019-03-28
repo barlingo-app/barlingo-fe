@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Page, Section } from "react-page-layout";
-import { Col, Container, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
+import { Icon } from 'antd';
 import CustomCard from '../../components/CustomCard/CustomCard';
 import exchangeGeneric from '../../media/data/exchanges';
 import './ExchangesList.scss';
@@ -38,21 +39,24 @@ class ExchangesList extends Component {
         let buttonMessage = null
         if (localStorage.getItem("userData"))
             buttonMessage = t('generic.join');
-        let loadingMessage = t('generic.loading');
+        const overFlowStyle = {
+            "overflow": "hidden"
+        };
         return (
             <Page layout="public">
                 <Section slot="content">
-                    <Container>
                         <InfiniteScroll
                             dataLength={this.state.items.length}
                             next={this.fetchMoreData}
                             hasMore={this.hasMore()}
-                            loader={<h4>{loadingMessage}...</h4>}
+                            loader={<div className={"loadingContainer"}>{<Icon type={"loading"} />}</div>}
+                            scrollThreshold={0.5}
+                            style={overFlowStyle}
                         >
                             <Row>
                                 {this.state.items.map((i, index) => (
 
-                                    <Col xs="12" md="6" xl="4">
+                                    <Col xs="12" md="6" xl="4" key={i.id}>
                                         <CustomCard route="exchanges" buttonMessage={buttonMessage} image={i.barPicture}
                                             title={i.title} address={i.establishmentName + ", " + i.address} schedule={i.moment} max={i.numberOfParticipants} />
                                     </Col>
@@ -60,7 +64,6 @@ class ExchangesList extends Component {
                             </Row>
                         </InfiniteScroll>
 
-                    </Container>
                 </Section>
             </Page>
         );

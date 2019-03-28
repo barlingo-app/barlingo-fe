@@ -8,6 +8,7 @@
   background: $mainColor;
   height: $navbarHeight;
   z-index: 99999;
+  border-bottom: 1px solid $mainColor;
 
   .logo-header {
     max-height: $navbarHeight - 10px;
@@ -34,30 +35,68 @@
     flex: 1;
   }
 
-  .navigation-items {
+  .userMenuInfoContainerNavbar {
+    height: 100%;
+    width: 200px;
+    position: absolute;
+    right: 50px;
+  }
+
+  .languageSelectorContainerNavbar {
+    height: 100%;
+    width: 50px;
     position: absolute;
     right: 0;
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-    }
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    color: $mainFontColor;
+  }
 
-    li {
-      padding: 0 0.5rem;
-    }
+  .navigation-items {
+    position: absolute;
+    right: 250px;
+    height: 100%;
+    box-sizing: border-box;
 
-    a {
-      color: $mainFontColor;
-      text-decoration: none;
-
-      &:hover,
-      &:active,
-      &.active {
-        text-decoration: underline $mainFontColor;
+    .linkContainer {
+      height: 100%;
+      box-sizing: border-box;
+      ul {
+        box-sizing: border-box;
+        height: 100%;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
       }
-      
+
+      li {
+        padding: 0 0.5rem;
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      a {
+        color: $mainFontColor;
+        text-decoration: none;
+
+        &:hover,
+        &:active,
+        &.active {
+          li {
+            background: $mainFontColor;
+            color: $mainColor;
+          }
+        }
+        &.active {
+          li {
+            font-weight: bold;
+          }
+        }
+
+      }
     }
   }
   .toggle-button {
@@ -84,13 +123,15 @@
   }
 }
 
-@media (max-width: 575px) {
-  .navigation-items {
-    display: none;
+@media (max-width: 679px) {
+  .navigation-items,
+  .languageSelectorContainerNavbar,
+  .userMenuInfoContainerNavbar {
+    display: none !important;
   }
 }
 
-@media (min-width: 576px) {
+@media (min-width: 680px) {
   .toggle-button-container {
     display: none;
   }

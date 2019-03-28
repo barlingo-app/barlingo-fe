@@ -23,13 +23,12 @@ class LinkContainer extends Component {
     render() {
         const { t } = this.props;
         return (
-            <ul>
-                <li><NavLink activeClassName={"active"} to={"/exchanges"}>{t('links.exchanges')}</NavLink></li>
-                <li><NavLink activeClassName={"active"} to={"/establishments"}>{t('links.establishments')}</NavLink></li>
-
-                {this.renderLogin()}
-                <li><LanguageSelector /></li>
-            </ul>
+            <div className="linkContainer">
+                <ul>
+                    <NavLink activeClassName={"active"} to={"/exchanges"}><li>{t('links.exchanges')}</li></NavLink>
+                    <NavLink activeClassName={"active"} to={"/establishments"}><li>{t('links.establishments')}</li></NavLink>
+                </ul>
+            </div>
         );
     }
 }
