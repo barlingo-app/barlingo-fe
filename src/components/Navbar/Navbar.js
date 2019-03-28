@@ -10,7 +10,7 @@ class Navbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sideDrawerOpen : false
+            sideDrawerOpen: false
         }
     }
 
@@ -21,7 +21,7 @@ class Navbar extends Component {
             <header className="navbar">
                 <nav className="navigation">
                     <div className="toggle-button-container">
-                        <button className="toggle-button" onClick={ showSidebarClickHandler }>
+                        <button className="toggle-button" onClick={showSidebarClickHandler}>
                             <div className="toggle-button-line" />
                             <div className="toggle-button-line" />
                             <div className="toggle-button-line" />
@@ -34,7 +34,7 @@ class Navbar extends Component {
                     </div>
                     <div className="spacer" />
                     <div className="navigation-items">
-                        <LinkContainer/>
+                        <LinkContainer />
                     </div>
                 </nav>
             </header>

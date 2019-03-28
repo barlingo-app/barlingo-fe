@@ -26,6 +26,8 @@ class EstablismentsList extends Component {
         }, 1500);
     };
     componentDidMount() {
+        let user = localStorage.getItem("userData");
+        console.log(user)
         document.title = "Barlingo - Establishments";
     }
     hasMore() {
@@ -41,7 +43,9 @@ class EstablismentsList extends Component {
     render() {
         const { t } = this.props;
         let loadingMessage = t('generic.loading');
-        let buttonMessage = t('generic.create');
+        let buttonMessage = null
+        if (localStorage.getItem("userData"))
+            buttonMessage = t('generic.create');
         return (
             <Page layout="public">
                 <Section slot="content">

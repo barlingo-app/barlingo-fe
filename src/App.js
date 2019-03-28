@@ -9,6 +9,8 @@ import ExchangeDetails from "./containers/ExchangeDetails/ExchangeDetails";
 import ExchangesList from "./containers/ExchangesList/ExchangesList";
 import Home from './containers/Home/Home';
 import LoginForm from "./containers/LoginForm/LoginForm";
+import Logout from "./containers/LoginForm/Logout";
+
 import PublicLayout from './layouts/PublicLayout/PublicLayout';
 
 const layouts = {
@@ -22,6 +24,8 @@ class App extends Component {
 			<LayoutProvider layouts={layouts}>
 				<Switch>
 					<Route exact path="/" component={Home} />
+					
+					<Route exact path="/logout" component={Logout} />
 					<Route exact path="/login" component={LoginForm} />
 					<Route exact path="/establishments" component={EstablismentsList} />
 					<Route exact path="/exchanges" component={ExchangesList} />

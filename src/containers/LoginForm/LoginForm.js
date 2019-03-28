@@ -6,13 +6,19 @@ import { Page, Section } from "react-page-layout";
 import 'antd/dist/antd.css';
 import { withNamespaces } from "react-i18next";
 
-class LoginForm extends Component {
+import users from '../../media/data/users';
 
+class LoginForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                let user = users.find(x => x.userName === values.userName && x.password === values.password);
+
+                if (user) {
+                    localStorage.setItem("userData", user.userName);
+                    this.props.history.push("/");
+                }
             }
         });
     }
