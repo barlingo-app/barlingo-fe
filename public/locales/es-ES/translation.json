@@ -5,7 +5,8 @@
   "links": {
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",
-    "login":"Iniciar sesión"
+    "login":"Iniciar sesión",
+    "logout": "Cerrar sesión"
   },
   "form":{
     "emptyUsername": "Por favor, introduzca su nombre de usuario.",

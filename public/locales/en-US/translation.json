@@ -5,7 +5,8 @@
   "links": {
     "exchanges": "Exchanges",
     "establishments": "Establishments",
-    "login": "Login"
+    "login": "Login",
+    "logout": "Logout"
   },
   "form": {
     "emptyUsername": "Please input your username!",

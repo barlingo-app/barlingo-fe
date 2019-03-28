@@ -78,7 +78,7 @@ class CreateExchangeForm extends Component {
                             { required: true, message: t('form.emptyTargetLanguage') },
                         ],
                     })(
-                        <Select placeholder={t('form.motherTongue')}>
+                        <Select placeholder={t('form.targetLanguage')}>
                             <Option value="es"><img className="custom-card__language-icon" src={spanish} alt="Mother tongue" />{t('language.spanish')}</Option>
                             <Option value="en"><img className="custom-card__language-icon" src={english} alt="Mother tongue" />{t('language.english')}</Option>
                             <Option value="fr"><img className="custom-card__language-icon" src={french} alt="Mother tongue" />{t('language.french')}</Option>
