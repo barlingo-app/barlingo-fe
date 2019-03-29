@@ -4,70 +4,79 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { Page, Section } from "react-page-layout";
 import { Col, Row } from 'reactstrap';
 import CustomCard from '../../components/CustomCard/CustomCard';
-import EstablishmentGeneric from '../../media/data/establishments';
+import Loading from '../../components/Loading/Loading';
+import axios from 'axios';
 import './EstablishmentsList.scss';
 
 import {Icon} from "antd";
 
 class EstablismentsList extends Component {
-    state = {
-        index: 6,
-        items: EstablishmentGeneric.slice(0, 6),
-        //items: Array.from({ length: 20 })
+    constructor(props) {
+        super(props);
+        this.state = {
+            items: [],
+            loaded: false,
+            errorMessage: null
+        }
+    }
+
+    fetchData = () => {
+        axios.get(process.env.REACT_APP_BE_URL + '/establishment/user/list')
+            .then((response) => this.setData(response)).catch((error) => this.setError(error));
     };
 
-    fetchMoreData = () => {
-        // a fake async api call like which sends
-        // 20 more records in 1.5 secs
-        setTimeout(() => {
-
-            this.setState({
-                index: this.state.index + 3,
-                items: this.state.items.concat(EstablishmentGeneric.slice(this.state.index, this.state.index + 3))
-            });
-        }, 1500);
+    setData = (response) => {
+        console.log(response);
+        this.setState({
+            items: response.data,
+            loaded: true
+        })
     };
+
+    setError = (error) => {
+        console.log(error);
+        this.setState({
+            errorMessage: "loadErrorMessage"
+        })
+    };
+
     componentDidMount() {
-        let user = localStorage.getItem("userData");
-        console.log(user)
         document.title = "Barlingo - Establishments";
+        this.fetchData();
     }
-    hasMore() {
-        return EstablishmentGeneric.length > this.state.index;
-    }
+
     handleOnClick(id) {
-        console.log(id)
+        console.log(id);
         let route = "createExchange";
         this.props.history.push(`/${route}/${id}`);
-        //return <Redirect to={`/${route}/${id}`} />
-        //console.log(event)
     }
     render() {
         const { t } = this.props;
+        const { errorMessage, loaded, items } = this.state;
         let buttonMessage = t('generic.create');
-        const overFlowStyle = {
-            "overflow": "hidden"
-        };
+
+        if (!loaded) {
+            return (
+                <Page layout="public">
+                    <Section slot="content">
+                        <Loading message={errorMessage}/>
+                    </Section>
+                </Page>
+            );
+        }
         return (
             <Page layout="public">
                 <Section slot="content">
-                        <InfiniteScroll
-                            dataLength={this.state.items.length}
-                            next={this.fetchMoreData}
-                            hasMore={this.hasMore()}
-                            loader={<div className={"loadingContainer"}>{<Icon type={"loading"} />}</div>}
-                            style={overFlowStyle}
-                        >
-                            <Row>
-                                {this.state.items.map((i, index) => (
-
-                                    <Col xs="12" md="6" xl="4">
-                                        <CustomCard onClick={() => this.handleOnClick(i.id)} route="establishments" buttonMessage={buttonMessage} image={i.imageProfile} title={i.establishmentName} address={i.address} schedule="Lunes-Viernes: 8:00-21:00" />
-                                    </Col>
-
-                                ))}
-                            </Row>
-                        </InfiniteScroll>
+                    <Row>
+                        {items.map((i, index) => (
+                            <Col xs="12" md="6" xl="4" key={i.id}>
+                                <CustomCard onClick={() => this.handleOnClick(i.id)} route="establishments"
+                                            buttonMessage={buttonMessage} image={i.imageProfile}
+                                            title={i.establishmentName} address={i.address}
+                                            schedule={i.workingHours}/>
+                            </Col>
+                        ))}
+                    </Row>
                 </Section>
             </Page>
         );

@@ -55,10 +55,11 @@ class CustomCard extends Component {
 
         let route = this.props.route;
         let title = this.props.title;
+        let id = this.props.id;
         if (route) {
             return (
                 <p className="custom-card__title">
-                    <NavLink exact={true} activeClassName={"active"} to={`/${route}/${title}`}>{title}</NavLink>
+                    <NavLink exact={true} activeClassName={"active"} to={`/${route}/${id}`}>{title}</NavLink>
                 </p>)
         }
         return (

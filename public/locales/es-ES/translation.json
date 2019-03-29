@@ -1,5 +1,6 @@
 {
   "notfound": "Recurso no encontrado",
+  "loadErrorMessage": "Hubo un error al cargar los datos",
   "links": {
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",

@@ -8,22 +8,48 @@ import timeIcon from '../../media/imageedit_8_4988666292.png';
 import personIcon from '../../media/person.png';
 import { Row, Col} from 'reactstrap';
 import './ExchangeDetails.scss';
+import axios from "axios";
+import Loading from "../../components/Loading/Loading";
 
 
 class ExchangeDetails extends Component {
-    state = {
-        exchange: null
+    constructor(props) {
+        super(props);
+        this.state = {
+            exchange: null,
+            loaded: false,
+            errorMessage: null
+        }
     }
-    componentDidMount() {
-        let exchange = exchangeGeneric.find(e => e.title === this.props.match.params.exchangeTitle)
 
-        document.title = "Barlingo - " + exchange.title;
+    fetchData = () => {
+        axios.get(process.env.REACT_APP_BE_URL + '/establishment/user/show/' + this.props.match.params.exchangeTitle)
+            .then((response) => this.setData(response)).catch((error) => this.setError(error));
+    };
+
+    setData = (response) => {
+        console.log(response);
         this.setState({
-            exchange: exchange
+            establishment: response.data,
+            loaded: true
         })
+    };
+
+    setError = (error) => {
+        console.log(error);
+        this.setState({
+            errorMessage: "loadErrorMessage"
+        })
+    };
+
+    componentDidMount() {
+        this.fetchData();
+        document.title = "Barlingo - " + this.state.exchange.title;
     }
+
     renderDescription() {
         let address = this.state.exchange.establishmentName + ", " + this.state.exchange.address;
+        let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'};
         return (
         <div className="exchange">
             <div>
@@ -31,7 +57,7 @@ class ExchangeDetails extends Component {
                 {address}
             </div>
             <div className="exchange__icon-wrapper">
-                <img className="exchange__icon" src={timeIcon} alt="Date and time" />{this.state.exchange.moment}
+                <img className="exchange__icon" src={timeIcon} alt="Date and time" />{this.state.exchange.moment.toLocaleDateString('es-ES', dateFormat)}
             </div>
             <div className="exchange__icon-wrapper">
                 <img className="exchange__icon" src={personIcon} alt="Participants" />{this.state.exchange.numberOfParticipants}
@@ -50,27 +76,36 @@ class ExchangeDetails extends Component {
     }
     render() {
         const { Meta } = Card;
-        if (this.state.exchange)
+        const { errorMessage, loaded, exchange } = this.state;
+
+        if (!loaded) {
             return (
                 <Page layout="public">
                     <Section slot="content">
-                        <Row>
-                            <Col col-sm="12" offset-md="4" col-md="4">
-                                <Card
-                                    cover={<img className="header-img" alt="example" src={this.state.exchange.barPicture} />}>
-                                    <Meta
-                                        avatar={<Avatar src={this.state.exchange.barPicture} />}
-                                        title={this.state.exchange.title}
-                                        description={this.renderDescription()}
-                                    />
-                                    {this.renderParticipants()}
-                                </Card>
-                            </Col>
-                        </Row>
+                        <Loading message={errorMessage}/>
                     </Section>
-                </Page >
+                </Page>
             );
-        return null;
+        }
+        return (
+            <Page layout="public">
+                <Section slot="content">
+                    <Row>
+                        <Col col-sm="12" offset-md="4" col-md="4">
+                            <Card
+                                cover={<img className="header-img" alt="example" src={exchange.profileBackPic} />}>
+                                <Meta
+                                    avatar={<Avatar src={exchange.personalPic} />}
+                                    title={exchange.title}
+                                    description={this.renderDescription()}
+                                />
+                                {this.renderParticipants()}
+                            </Card>
+                        </Col>
+                    </Row>
+                </Section>
+            </Page >
+        );
     }
 }
 

@@ -1,5 +1,6 @@
 {
   "notfound": "Resource not found",
+  "loadErrorMessage": "There was an error loading the data",
   "links": {
     "exchanges": "Exchanges",
     "establishments": "Establishments",
