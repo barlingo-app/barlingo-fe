@@ -1,0 +1,39 @@
+@import "variables";
+
+.loadingContainer {
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+  color: $mainColor;
+}
+
+.primaryButton {
+  background-color: $mainColor;
+  border-color: $mainColor;
+
+  &:hover,
+  &:active,
+  &.active,
+  &:focus {
+    background-color: $mainFontColor;
+    color: $mainColor;
+    border-color: $mainColor;
+  }
+}
+
+.customInput {
+  input {
+    border-color: $mainColor;
+    outline: none;
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:active,
+    &:visited,
+    &.input:not(.ant-input-disabled) {
+      border-color: $mainColor;
+      outline: none;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+@import "../../styles/defaultStyles";
+
+.loginContainer {
+  max-width: 300px;
+  margin: 0 auto;
+  text-align: center;
+  .logo {
+    width: 200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}

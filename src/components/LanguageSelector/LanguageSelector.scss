@@ -1,0 +1,16 @@
+@import "../../styles/variables";
+
+.language-selector {
+  select {
+    background-color: $mainColor;
+    outline: none;
+    border: none;
+    option {
+      &:hover {
+        box-shadow: 0 0 10px 100px $mainFontColor inset;
+        background-color: $mainFontColor;
+        color: $mainColor;
+      }
+    }
+  }
+}
