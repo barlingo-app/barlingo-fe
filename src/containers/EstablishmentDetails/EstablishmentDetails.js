@@ -8,17 +8,43 @@ import './EstablishmentDetails.scss';
 
 import locationIcon from '../../media/imageedit_5_5395394410.png';
 import timeIcon from '../../media/imageedit_8_4988666292.png';
+import axios from "axios";
+import Loading from "../../components/Loading/Loading";
 class EstablishmentDetails extends Component {
-    state = {
-        establishment: null
+    constructor(props) {
+        super(props);
+        this.state = {
+            establishment: {},
+            loaded: false,
+            errorMessage: null
+        }
     }
-    componentDidMount() {       
-        let establishment = EstablishmentGeneric.find(e => e.establishmentName === this.props.match.params.establishmentName)
-        document.title = "Barlingo - " + establishment.establishmentName;
+
+    fetchData = () => {
+        axios.get(process.env.REACT_APP_BE_URL + '/establishment/user/list/' + this.props.match.params.establishmentName)
+            .then((response) => this.setData(response)).catch((error) => this.setError(error));
+    };
+
+    setData = (response) => {
+        console.log(response);
         this.setState({
-            establishment: establishment
+            establishment: response.data,
+            loaded: true
         })
+    };
+
+    setError = (error) => {
+        console.log(error);
+        this.setState({
+            errorMessage: "loadErrorMessage"
+        })
+    };
+
+    componentDidMount() {
+        document.title = "Barlingo - " + this.state.establishment.establishmentName;
+        this.fetchData();
     }
+
     renderDescription() {
         let address = this.state.establishment.establishmentName + ", " + this.state.establishment.address;
         return (
@@ -28,7 +54,7 @@ class EstablishmentDetails extends Component {
                 {address}
             </div>
             <div className="establishment__icon-wrapper">
-                <img className="establishment__icon" src={timeIcon} alt="Date and time" />Lunes-Viernes: 8:00-21:00
+                <img className="establishment__icon" src={timeIcon} alt="Date and time" />this.state.establishment.workingHours
             </div>
         </div>
         );
@@ -36,28 +62,38 @@ class EstablishmentDetails extends Component {
 
     render() {
         const { Meta } = Card;
-        if (this.state.establishment)
+        const { errorMessage, loaded, establishment } = this.state;
+        let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'};
 
+        if (!loaded) {
             return (
                 <Page layout="public">
                     <Section slot="content">
-
-                            <Row>
-                                <Col col-sm="12" offset-md="4" col-md="4">
-                                    <Card
-                                    cover={<img className="header-img" alt="example" src={this.state.establishment.imageProfile} />}>
-                                        <Meta
-                                            avatar={<Avatar src={this.state.establishment.imageProfile} />}
-                                            title={this.state.establishment.establishmentName}
-                                            description={this.renderDescription()}
-                                        />
-                                    </Card>
-                                </Col>
-                            </Row>
+                        <Loading message={errorMessage}/>
                     </Section>
                 </Page>
             );
-        return null;
+        }
+
+        return (
+            <Page layout="public">
+                <Section slot="content">
+
+                        <Row>
+                            <Col col-sm="12" offset-md="4" col-md="4">
+                                <Card
+                                cover={<img className="header-img" alt="example" src={establishment.imageProfile} />}>
+                                    <Meta
+                                        avatar={<Avatar src={establishment.imageProfile} />}
+                                        title={establishment.establishmentName}
+                                        description={this.renderDescription()}
+                                    />
+                                </Card>
+                            </Col>
+                        </Row>
+                </Section>
+            </Page>
+        );
     }
 }
 

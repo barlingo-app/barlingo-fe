@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const AUTH_TOKEN_KEY = "authToken";
 const USER_DATA_KEY = "userData";
 const AUTHENTICATED_FLAG_KEY = "isAuthenticated";

@@ -1,0 +1,16 @@
+@import "../../styles/variables";
+
+.fullLoadingContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $mainColor;
+  font-size: 60px;
+
+  .errorMessage {
+    text-align: center;
+    font-size: 30px;
+  }
+}
