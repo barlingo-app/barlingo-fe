@@ -6,6 +6,7 @@ import exchangeGeneric from '../../media/data/exchanges';
 import locationIcon from '../../media/imageedit_5_5395394410.png';
 import timeIcon from '../../media/imageedit_8_4988666292.png';
 import personIcon from '../../media/person.png';
+import { Row, Col} from 'reactstrap';
 import './ExchangeDetails.scss';
 
 
@@ -23,19 +24,20 @@ class ExchangeDetails extends Component {
     }
     renderDescription() {
         let address = this.state.exchange.establishmentName + ", " + this.state.exchange.address;
-        return <div>
+        return (
+        <div className="exchange">
             <div>
-                <img className="custom-card__location-icon" src={locationIcon} alt="Location" />
+                <img className="exchange__icon" src={locationIcon} alt="Location" />
                 {address}
             </div>
-            <div>
-                <img className="custom-card__time-icon" src={timeIcon} alt="Date and time" />{this.state.exchange.moment}
+            <div className="exchange__icon-wrapper">
+                <img className="exchange__icon" src={timeIcon} alt="Date and time" />{this.state.exchange.moment}
             </div>
-            <div>
-                <img className="custom-card__participants-icon" src={personIcon} alt="Participants" />{this.state.exchange.numberOfParticipants}
+            <div className="exchange__icon-wrapper">
+                <img className="exchange__icon" src={personIcon} alt="Participants" />{this.state.exchange.numberOfParticipants}
             </div>
         </div>
-            ;
+        );
     }
     renderParticipants() {
         return <div style={{ paddingTop: 20 }}>
@@ -52,17 +54,19 @@ class ExchangeDetails extends Component {
             return (
                 <Page layout="public">
                     <Section slot="content">
-                        <Card
-                            style={{ width: 500 }}
-                            cover={<img alt="example" src={this.state.exchange.barPicture} />}
-                        >
-                            <Meta
-                                avatar={<Avatar src={this.state.exchange.barPicture} />}
-                                title={this.state.exchange.title}
-                                description={this.renderDescription()}
-                            />
-                            {this.renderParticipants()}
-                        </Card>
+                        <Row>
+                            <Col col-sm="12" offset-md="4" col-md="4">
+                                <Card
+                                    cover={<img className="header-img" alt="example" src={this.state.exchange.barPicture} />}>
+                                    <Meta
+                                        avatar={<Avatar src={this.state.exchange.barPicture} />}
+                                        title={this.state.exchange.title}
+                                        description={this.renderDescription()}
+                                    />
+                                    {this.renderParticipants()}
+                                </Card>
+                            </Col>
+                        </Row>
                     </Section>
                 </Page >
             );

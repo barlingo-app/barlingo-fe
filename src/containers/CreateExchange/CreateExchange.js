@@ -4,6 +4,7 @@ import { Page, Section } from "react-page-layout";
 import CustomCard from '../../components/CustomCard/CustomCard';
 import EstablishmentGeneric from '../../media/data/establishments';
 import CreateExchangeForm from './CreateExchangeForm/CreateExchangeForm';
+import { Row, Col } from 'reactstrap';
 
 class CreateExchange extends Component {
     state = {
@@ -21,12 +22,16 @@ class CreateExchange extends Component {
             return (
                 <Page layout="public">
                     <Section slot="content">
-                        <div>
-                            <CustomCard image={i.imageProfile} title={i.establishmentName} address={i.address} schedule="Lunes-Viernes: 8:00-21:00" />
-                        </div>
-                        <div>
-                            <CreateExchangeForm />
-                        </div>
+                        <Row>
+                            <Col md={{ size: 6, offset: 3 }}>
+                                <div>
+                                    <CustomCard image={i.imageProfile} title={i.establishmentName} address={i.address} schedule="Lunes-Viernes: 8:00-21:00" />
+                                </div>
+                                <div>
+                                    <CreateExchangeForm />
+                                </div>
+                            </Col>
+                        </Row>
                     </Section>
                 </Page>
             );
