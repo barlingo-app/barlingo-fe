@@ -1,5 +1,5 @@
 [{
-    "id":1,
     "userName":"user",
-    "password":"user"
+    "password":"user",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoiVXNlciIsInN1cm5hbWUiOiIxIiwiYmlydGhkYXRlIjoiMTk5My0wMi0wMSIsImNvdW50cnkiOiJFUyIsImNpdHkiOiJTZXZpbGxhIiwicGVyc29uYWxQaWMiOiIiLCJwcm9maWxlQmFja1BpYyI6IiIsImFib3V0TWUiOiIiLCJzcGVha0xhbmd1YWdlcyI6WyJTcGFuaXNoIl0sImxlYXJuTGFuZ3VhZ2VzIjpbIkVuZ2xpc2giXX0.KhG6TgOxgN_AhbPdUSYYOznomnQcCSMe5L8yiYshYQU"
 }]

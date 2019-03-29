@@ -5,28 +5,24 @@ import { NavLink } from "react-router-dom";
 
 
 class LinkContainer extends Component {
-    state = {
-        user: null
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: null
+        }
     }
     componentDidMount() {
-        console.log("entra")
-        console.log(localStorage.getItem("userData"))
+        console.log("entra");
+        console.log(localStorage.getItem("userData"));
         this.setState({ user: localStorage.getItem("userData") });
-    }
-    renderLogin() {
-        const { t } = this.props;
-        if (this.state.user) {
-            return <li><NavLink activeClassName={"active"} to={"/logout"}>{t('links.logout')}</NavLink></li>
-        }
-        return <li><NavLink activeClassName={"active"} to={"/login"}>{t('links.login')}</NavLink></li>;
     }
     render() {
         const { t } = this.props;
         return (
             <div className="linkContainer">
                 <ul>
-                    <NavLink activeClassName={"active"} to={"/exchanges"}><li>{t('links.exchanges')}</li></NavLink>
-                    <NavLink activeClassName={"active"} to={"/establishments"}><li>{t('links.establishments')}</li></NavLink>
+                    <NavLink activeClassName={"active"} exact={true} to={"/"}><li>{t('links.exchanges')}</li></NavLink>
+                    <NavLink activeClassName={"active"} exact={true} to={"/establishments"}><li>{t('links.establishments')}</li></NavLink>
                 </ul>
             </div>
         );

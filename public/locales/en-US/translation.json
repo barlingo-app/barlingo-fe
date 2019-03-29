@@ -1,11 +1,9 @@
 {
-  "home": {
-    "commingSoon": "Comming soon"
-  },
+  "notfound": "Resource not found",
   "links": {
     "exchanges": "Exchanges",
     "establishments": "Establishments",
-    "login": "Login",
+    "login": "Log In",
     "logout": "Logout"
   },
   "form": {
@@ -39,5 +37,11 @@
     "english": "English",
     "french": "French",
     "german": "German"
+  },
+  "login": {
+    "failed": {
+      "title": "Login failed",
+      "message": "The username and / or password are incorrect."
+    }
   }
 }

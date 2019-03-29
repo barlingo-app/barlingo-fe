@@ -1,7 +1,5 @@
 {
-  "home": {
-    "commingSoon": "Próximamente"
-  },
+  "notfound": "Recurso no encontrado",
   "links": {
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",
@@ -39,5 +37,11 @@
     "english": "Inglés",
     "french": "Francés",
     "german": "Alemán"
+  },
+  "login": {
+    "failed": {
+      "title": "Inicio de sesión fallido",
+      "message": "El nombre de usuario y/o contraseña son incorrectos."
+    }
   }
 }

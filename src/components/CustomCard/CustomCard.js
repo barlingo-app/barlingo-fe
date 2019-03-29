@@ -58,7 +58,7 @@ class CustomCard extends Component {
         if (route) {
             return (
                 <p className="custom-card__title">
-                    <NavLink activeClassName={"active"} to={`/${route}/${title}`}>{title}</NavLink>
+                    <NavLink exact={true} activeClassName={"active"} to={`/${route}/${title}`}>{title}</NavLink>
                 </p>)
         }
         return (

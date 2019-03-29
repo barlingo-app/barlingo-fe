@@ -36,9 +36,7 @@ class ExchangesList extends Component {
 
     render() {
         const { t } = this.props;
-        let buttonMessage = null
-        if (localStorage.getItem("userData"))
-            buttonMessage = t('generic.join');
+        let buttonMessage = t('generic.join');
         const overFlowStyle = {
             "overflow": "hidden"
         };
@@ -50,7 +48,6 @@ class ExchangesList extends Component {
                             next={this.fetchMoreData}
                             hasMore={this.hasMore()}
                             loader={<div className={"loadingContainer"}>{<Icon type={"loading"} />}</div>}
-                            scrollThreshold={0.5}
                             style={overFlowStyle}
                         >
                             <Row>
