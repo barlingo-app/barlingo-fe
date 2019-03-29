@@ -6,6 +6,7 @@ import { Col, Row } from 'reactstrap';
 import CustomCard from '../../components/CustomCard/CustomCard';
 import EstablishmentGeneric from '../../media/data/establishments';
 import './EstablishmentsList.scss';
+
 import {Icon} from "antd";
 
 class EstablismentsList extends Component {
@@ -43,9 +44,7 @@ class EstablismentsList extends Component {
     }
     render() {
         const { t } = this.props;
-        let buttonMessage = null
-        if (localStorage.getItem("userData"))
-            buttonMessage = t('generic.create');
+        let buttonMessage = t('generic.create');
         const overFlowStyle = {
             "overflow": "hidden"
         };

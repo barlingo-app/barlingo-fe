@@ -19,7 +19,7 @@ class Home extends Component {
                     <img src={logo} className="logo" alt="logo" />
                     <div className={"message"}>
                         <p>
-                            {t('home.commingSoon')}
+                            {t('notfound')}
                         </p>
                     </div>
                 </div>
