@@ -28,6 +28,12 @@
     "targetLanguage": "Target language",
     "startDate":"Start date"
   },
+  "exchange":{
+    "error" : {
+      "title" : "An error has occurred",
+      "message" : "There was an error creating a new exchange, try later."
+    }    
+  },
   "generic": {
     "create": "Create",
     "join": "Join",
