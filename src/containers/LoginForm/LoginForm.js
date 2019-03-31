@@ -10,6 +10,7 @@ import users from '../../media/data/users';
 import { Redirect } from 'react-router-dom';
 import './LoginForm.scss'
 import logo from '../../media/logo.png';
+import axios from 'axios';
 
 class LoginForm extends Component {
 
@@ -21,24 +22,48 @@ class LoginForm extends Component {
         };
     }
 
+    processLoginResponse = (response) => {
+        if (response.status === 200) {
+            auth.login(response.data);
+            this.loginSuccessful();
+        } else {
+            this.loginFailed();
+        }
+    };
+
+    loginSuccessful = () => {
+        this.setState({redirectToReferrer: true});
+        this.setState({loginFailed: false});
+    };
+
+    loginFailed = () => {
+        this.setState({loginFailed: true})
+    };
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            if (!err) {
-                let user = users.find(x => x.userName === values.userName && x.password === values.password);
+            let data = new FormData();
+            data.append("username", values.userName);
+            data.append("password", values.password);
 
-                if (user) {
-                    auth.login(user.token);
-                    this.setState({redirectToReferrer: true})
-                } else {
-                    this.setState({loginFailed: true})
-                }
-            }
+            axios.post(process.env.REACT_APP_BE_URL + '/user/signin', data,
+            { headers: {'Content-Type': 'multipart/form-data' }})
+                .then((response) => this.processLoginResponse(response))
+                .catch(() => this.loginFailed());
         });
     };
 
-    closeModalHandler = () => {
-        this.setState({loginFailed : false})
+    showErrorMessage = () => {
+        const { t } = this.props;
+        notification.error({
+            placement: 'bottomRight',
+            bottom: 50,
+            duration: 10,
+            message: t('login.failed.title'),
+            description: t('login.failed.message'),
+        });
+        this.setState({loginFailed : false});
     };
 
     render() {
@@ -53,14 +78,7 @@ class LoginForm extends Component {
 
             <Page layout="public">
                 <Section slot="content">
-                    { loginFailed && notification.error({
-                        placement: 'bottomRight',
-                        bottom: 50,
-                        duration: 10,
-                        onClose: this.closeModalHandler,
-                        message: t('login.failed.title'),
-                        description: t('login.failed.message'),
-                    })}
+                    { loginFailed && this.showErrorMessage()}
                     <div className={"loginContainer"}>
                         <div className={"logo"}>
                             <img src={logo} alt={"Barlingo logo"} />

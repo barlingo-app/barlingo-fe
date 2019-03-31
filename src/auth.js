@@ -11,9 +11,23 @@ export const auth = {
   login(token) {
     console.log("doing login");
     localStorage.setItem(AUTH_TOKEN_KEY, token);
-    let userData = atob(token.split(".")[1]);
-    localStorage.setItem(USER_DATA_KEY, userData);
-    localStorage.setItem(AUTHENTICATED_FLAG_KEY, "true");
+    let username = JSON.parse(atob(token.split(".")[1])).sub;
+    console.log("username " + username);
+    axios.get(process.env.REACT_APP_BE_URL + '/user/username/' + username).then(function(response) {
+        console.log(response.data);
+      if (response.data === null) {
+          console.log(response.data);
+        localStorage.setItem(AUTHENTICATED_FLAG_KEY, "false");
+      } else {
+          console.log(response.data);
+        localStorage.setItem(USER_DATA_KEY, JSON.stringify(response.data));
+        localStorage.setItem(AUTHENTICATED_FLAG_KEY, "true");
+      }
+    }).catch(function(error) {
+      localStorage.setItem(AUTHENTICATED_FLAG_KEY, "false");
+    });
+
+    return this.isAuthenticated();
   },
   logout() {
     localStorage.removeItem(AUTH_TOKEN_KEY);
