@@ -21,7 +21,7 @@ class EstablishmentDetails extends Component {
     }
 
     fetchData = () => {
-        axios.get(process.env.REACT_APP_BE_URL + '/establishment/user/list/' + this.props.match.params.establishmentName)
+        axios.get(process.env.REACT_APP_BE_URL + '/establishment/user/details/' + this.props.match.params.establishmentName)
             .then((response) => this.setData(response)).catch((error) => this.setError(error));
     };
 
@@ -54,7 +54,7 @@ class EstablishmentDetails extends Component {
                 {address}
             </div>
             <div className="establishment__icon-wrapper">
-                <img className="establishment__icon" src={timeIcon} alt="Date and time" />this.state.establishment.workingHours
+                <img className="establishment__icon" src={timeIcon} alt="Date and time" />{this.state.establishment.workingHours}
             </div>
         </div>
         );

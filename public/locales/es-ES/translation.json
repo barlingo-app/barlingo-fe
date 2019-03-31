@@ -44,5 +44,15 @@
       "title": "Inicio de sesión fallido",
       "message": "El nombre de usuario y/o contraseña son incorrectos."
     }
+  },
+  "join": {
+    "failed": {
+      "title": "Unirse fallido",
+      "message": "Hubo un error al intentar unirse al intercambio."
+    },
+    "successful": {
+      "title": "Unirse exitoso",
+      "message": "Unido al intercambio exitosamente."
+    }
   }
 }

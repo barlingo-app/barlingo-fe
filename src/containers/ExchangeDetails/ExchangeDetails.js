@@ -10,7 +10,8 @@ import { Row, Col} from 'reactstrap';
 import './ExchangeDetails.scss';
 import axios from "axios";
 import Loading from "../../components/Loading/Loading";
-
+import image from '../../media/exchange-logo.jpg';
+import person from '../../media/person.png';
 
 class ExchangeDetails extends Component {
     constructor(props) {
@@ -23,14 +24,14 @@ class ExchangeDetails extends Component {
     }
 
     fetchData = () => {
-        axios.get(process.env.REACT_APP_BE_URL + '/establishment/user/show/' + this.props.match.params.exchangeTitle)
+        axios.get(process.env.REACT_APP_BE_URL + '/exchanges/' + this.props.match.params.exchangeTitle)
             .then((response) => this.setData(response)).catch((error) => this.setError(error));
     };
 
     setData = (response) => {
         console.log(response);
         this.setState({
-            establishment: response.data,
+            exchange: response.data,
             loaded: true
         })
     };
@@ -44,11 +45,14 @@ class ExchangeDetails extends Component {
 
     componentDidMount() {
         this.fetchData();
-        document.title = "Barlingo - " + this.state.exchange.title;
+        if (this.state.exchange) {
+            document.title = "Barlingo - " + this.state.exchange.title;
+        }
     }
 
     renderDescription() {
-        let address = this.state.exchange.establishmentName + ", " + this.state.exchange.address;
+
+        let address = this.state.exchange.establishment.establishmentName + ", " + this.state.exchange.establishment.address;
         let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'};
         return (
         <div className="exchange">
@@ -57,7 +61,7 @@ class ExchangeDetails extends Component {
                 {address}
             </div>
             <div className="exchange__icon-wrapper">
-                <img className="exchange__icon" src={timeIcon} alt="Date and time" />{this.state.exchange.moment.toLocaleDateString('es-ES', dateFormat)}
+                <img className="exchange__icon" src={timeIcon} alt="Date and time" />{new Date(this.state.exchange.moment).toLocaleDateString('es-ES', dateFormat)}
             </div>
             <div className="exchange__icon-wrapper">
                 <img className="exchange__icon" src={personIcon} alt="Participants" />{this.state.exchange.numberOfParticipants}
@@ -69,7 +73,7 @@ class ExchangeDetails extends Component {
         return <div style={{ paddingTop: 20 }}>
             {this.state.exchange.participants.map((i, index) => (
 
-                <Avatar src={i} />
+                <Avatar src={person} />
 
             ))}
         </div>
@@ -77,6 +81,8 @@ class ExchangeDetails extends Component {
     render() {
         const { Meta } = Card;
         const { errorMessage, loaded, exchange } = this.state;
+
+        console.log(exchange);
 
         if (!loaded) {
             return (
@@ -93,9 +99,9 @@ class ExchangeDetails extends Component {
                     <Row>
                         <Col col-sm="12" offset-md="4" col-md="4">
                             <Card
-                                cover={<img className="header-img" alt="example" src={exchange.profileBackPic} />}>
+                                cover={<img className="header-img" alt="example" src={image} />}>
                                 <Meta
-                                    avatar={<Avatar src={exchange.personalPic} />}
+                                    avatar={<Avatar src={image} />}
                                     title={exchange.title}
                                     description={this.renderDescription()}
                                 />

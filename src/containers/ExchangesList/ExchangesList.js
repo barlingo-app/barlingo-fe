@@ -3,13 +3,15 @@ import { withNamespaces } from "react-i18next";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Page, Section } from "react-page-layout";
 import { Col, Row } from 'reactstrap';
-import { Icon } from 'antd';
+import {Icon, notification} from 'antd';
 import CustomCard from '../../components/CustomCard/CustomCard';
 import exchangeGeneric from '../../media/data/exchanges';
 import './ExchangesList.scss';
 import axios from "axios";
+import { auth } from '../../auth';
 import Loading from "../../components/Loading/Loading";
-
+import image from '../../media/exchange-logo.jpg';
+import {Redirect} from "react-router-dom";
 
 class ExchangesList extends Component {
 
@@ -47,9 +49,50 @@ class ExchangesList extends Component {
         this.fetchData();
     }
 
-    parseDate =(inputDate) => {
-      let d = new Date(inputDate);
-      let outputDate = d.getDay() + "/" + d.getMonth() + "/" + d.getFullYear();
+    joinProcessResponse = (response) => {
+        if (response.status === 200) {
+            this.showSuccessfulMessage();
+        } else {
+            this.showErrorMessage();
+        }
+    };
+
+    showSuccessfulMessage = () => {
+        const { t } = this.props;
+        notification.success({
+            placement: 'bottomRight',
+            bottom: 50,
+            duration: 10,
+            message: t('join.successful.title'),
+            description: t('join.failed.message'),
+        });
+        this.setState({loginFailed : false});
+    };
+
+    showErrorMessage = () => {
+        const { t } = this.props;
+        notification.error({
+            placement: 'bottomRight',
+            bottom: 50,
+            duration: 10,
+            message: t('join.failed.title'),
+            description: t('join.failed.message'),
+        });
+        this.setState({loginFailed : false});
+    };
+
+    join = (exchangeId) => {
+        if (auth.isAuthenticated()) {
+            axios.get(process.env.REACT_APP_BE_URL + '/languageExchange/user/join/' + exchangeId + '?userId=' + auth.getUserData().id,{
+                headers: {
+                    'Authorization': 'Bearer ' + auth.getToken()
+                }
+            })
+            .then((response) => this.joinProcessResponse(response))
+            .catch(() => this.showErrorMessage());
+        } else {
+            this.props.history.push('/login');
+        }
     };
 
     render() {
@@ -75,7 +118,7 @@ class ExchangesList extends Component {
                                 {items.map((i, index) => (
 
                                     <Col xs="12" md="6" xl="4" key={i.id}>
-                                        <CustomCard route="exchanges" buttonMessage={buttonMessage} id={i.id} image={i.personalPic}
+                                        <CustomCard onClick={() => this.join(i.id)} route="exchanges" buttonMessage={buttonMessage} id={i.id} image={image}
                                             title={i.title} address={i.establishment.establishmentName + ", " + i.establishment.address} schedule={new Date(i.moment).toLocaleDateString('es-ES', dateFormat)} max={i.numberOfParticipants} />
                                     </Col>
                                 ))}
