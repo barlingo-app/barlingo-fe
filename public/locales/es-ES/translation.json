@@ -28,6 +28,12 @@
     "targetLanguage" :"Lengua objetivo",
     "startDate":"Fecha de inicio"
   },
+  "exchange":{
+    "error" : {
+      "title" : "Se ha producido un error",
+      "message" : "Se ha producido un error al crear un nuevo intercambio, inténtelo más tarde."
+    }    
+  },
   "generic":{
     "create": "Crear",
     "join": "Unirse",
