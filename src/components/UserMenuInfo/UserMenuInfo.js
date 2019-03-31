@@ -46,7 +46,7 @@ class UserMenuInfo extends Component {
                         <div className={"userInfoContainer"}>
                             { auth.isAuthenticated() && <div className={"mainInfo"} title={fullName}>{fullName}</div>}
                             { auth.isAuthenticated() && <div className={"secondaryInfo"} title={location}>{location} </div>}
-                            { auth.isAuthenticated() && <div className={"secondaryInfo"}><a onClick={() => this.logoutHandler(window.location.pathname)}>Logout</a></div>}
+                            { auth.isAuthenticated() && <div className={"secondaryInfo"}><a onClick={() => this.logoutHandler(window.location.pathname)}>{t('links.logout')}</a></div>}
                             { !auth.isAuthenticated() && <NavLink exact={true} to={"/login"} activeClassName={"none"} >
                                 <div>{t('links.login')}</div></NavLink>}
                         </div>
