@@ -70,7 +70,7 @@ class EstablismentsList extends Component {
                     <Row>
                         {items.map((i, index) => (
                             <Col xs="12" md="6" xl="4" key={i.id}>
-                                <CustomCard onClick={() => this.handleOnClick(i.id)} route="establishments"
+                                <CustomCard onClick={() => this.handleOnClick(i.id)} id={i.id} route="establishments"
                                             buttonMessage={buttonMessage} image={i.imageProfile}
                                             title={i.establishmentName} address={i.address}
                                             schedule={i.workingHours}/>

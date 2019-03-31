@@ -44,5 +44,15 @@
       "title": "Login failed",
       "message": "The username and / or password are incorrect."
     }
+  },
+  "join": {
+    "failed": {
+      "title": "Join failed",
+      "message": "There was an error trying to join to the exchange."
+    },
+    "successful": {
+      "title": "Join successful",
+      "message": "Join to the exchange successfully"
+    }
   }
 }
