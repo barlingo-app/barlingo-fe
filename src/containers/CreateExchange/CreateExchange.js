@@ -28,7 +28,7 @@ class CreateExchange extends Component {
                                     <CustomCard image={i.imageProfile} title={i.establishmentName} address={i.address} schedule="Lunes-Viernes: 8:00-21:00" />
                                 </div>
                                 <div>
-                                    <CreateExchangeForm />
+                                    <CreateExchangeForm establishmentId={i.id} />
                                 </div>
                             </Col>
                         </Row>
