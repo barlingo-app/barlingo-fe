@@ -4,6 +4,7 @@
   "links": {
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",
+    "validateCode": "Validar código",
     "login":"Iniciar sesión",
     "logout": "Cerrar sesión"
   },
@@ -30,9 +31,17 @@
   },
   "exchange":{
     "error" : {
-      "title" : "Se ha producido un error",
+      "title" : "Creación fallida",
       "message" : "Se ha producido un error al crear un nuevo intercambio, inténtelo más tarde."
-    }    
+    },
+    "dateError" : {
+      "title" : "Creación fallida",
+      "message" : "El momento del intercambio debe ser futuro."
+    },
+    "successful": {
+      "title": "Creación exitosa",
+      "message": "El intercambio se ha creado correctamente."
+    }
   },
   "generic":{
     "create": "Crear",
@@ -59,6 +68,23 @@
     "successful": {
       "title": "Unirse exitoso",
       "message": "Unido al intercambio exitosamente."
+    }
+  },
+  "code": {
+    "show": "Mostrar código",
+    "error": "No hay código para mostrar",
+    "validate": {
+      "placeholder": "Introduzca el código",
+      "button": "Validar código",
+      "empty": "Por favor introduzca el código",
+      "validCode": {
+        "title": "Código válido",
+        "message": "El código es válido."
+      },
+      "failCode": {
+        "title": "Código inválido",
+        "message": "El código es inválido"
+      }
     }
   }
 }

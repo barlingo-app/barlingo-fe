@@ -23,6 +23,7 @@ class LinkContainer extends Component {
                 <ul>
                     <NavLink activeClassName={"active"} exact={true} to={"/"}><li>{t('links.exchanges')}</li></NavLink>
                     <NavLink activeClassName={"active"} exact={true} to={"/establishments"}><li>{t('links.establishments')}</li></NavLink>
+                    <NavLink activeClassName={"active"} exact={true} to={"/validateCode"}><li>{t('links.validateCode')}</li></NavLink>
                 </ul>
             </div>
         );

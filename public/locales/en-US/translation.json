@@ -4,6 +4,7 @@
   "links": {
     "exchanges": "Exchanges",
     "establishments": "Establishments",
+    "validateCode": "Validate code",
     "login": "Log In",
     "logout": "Logout"
   },
@@ -30,9 +31,17 @@
   },
   "exchange":{
     "error" : {
-      "title" : "An error has occurred",
+      "title" : "Failed creation",
       "message" : "There was an error creating a new exchange, try later."
-    }    
+    },
+    "dateError" : {
+      "title" : "Failed creation",
+      "message" : "The moment of exchange must be future."
+    },
+    "successful": {
+      "title": "Successful creation",
+      "message": "The exchange has been created properly."
+    }
   },
   "generic": {
     "create": "Create",
@@ -57,8 +66,25 @@
       "message": "There was an error trying to join to the exchange."
     },
     "successful": {
-      "title": "Join successful",
+      "title": "Joined successfully",
       "message": "Join to the exchange successfully"
+    }
+  },
+  "code": {
+    "show": "Show code",
+    "error": "There isn't code to show",
+    "validate": {
+      "placeholder": "Introduce the code",
+      "button": "Validate code",
+      "empty": "Please input the code",
+      "validCode": {
+        "title": "Valid code",
+        "message": "The code is valid."
+      },
+      "failCode": {
+        "title": "Invalid code",
+        "message": "The code is invalid."
+      }
     }
   }
 }

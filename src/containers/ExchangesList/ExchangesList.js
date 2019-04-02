@@ -66,6 +66,7 @@ class ExchangesList extends Component {
             message: t('join.successful.title'),
             description: t('join.failed.message'),
         });
+        this.fetchData();
         this.setState({loginFailed : false});
     };
 
@@ -83,7 +84,7 @@ class ExchangesList extends Component {
 
     join = (exchangeId) => {
         if (auth.isAuthenticated()) {
-            axios.get(process.env.REACT_APP_BE_URL + '/languageExchange/user/join/' + exchangeId + '?userId=' + auth.getUserData().id,{
+            axios.post(process.env.REACT_APP_BE_URL + '/languageExchange/user/join/' + exchangeId + '?userId=' + auth.getUserData().id,{},{
                 headers: {
                     'Authorization': 'Bearer ' + auth.getToken()
                 }
@@ -93,6 +94,27 @@ class ExchangesList extends Component {
         } else {
             this.props.history.push('/login');
         }
+    };
+
+    checkIfUserJoined = (exchange) => {
+        const { t } = this.props;
+
+        let userData = auth.getUserData();
+
+        if (auth.isAuthenticated()) {
+            if (exchange.creator.id === userData.id) {
+                return false;
+            } else {
+                for (let index in exchange.participants) {
+                    console.log(exchange.participants[index]);
+                    if (exchange.participants[index].id === userData.id) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return t('generic.join');;
     };
 
     render() {
@@ -118,7 +140,7 @@ class ExchangesList extends Component {
                                 {items.map((i, index) => (
 
                                     <Col xs="12" md="6" xl="4" key={i.id}>
-                                        <CustomCard onClick={() => this.join(i.id)} route="exchanges" buttonMessage={buttonMessage} id={i.id} image={image}
+                                        <CustomCard onClick={() => this.join(i.id)} route="exchanges" buttonMessage={this.checkIfUserJoined(i)} id={i.id} image={image}
                                             title={i.title} address={i.establishment.establishmentName + ", " + i.establishment.address} schedule={new Date(i.moment).toLocaleDateString('es-ES', dateFormat)} max={i.numberOfParticipants} />
                                     </Col>
                                 ))}
