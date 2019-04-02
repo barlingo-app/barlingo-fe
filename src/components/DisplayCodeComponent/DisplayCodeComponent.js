@@ -1,12 +1,11 @@
 import React from 'react'
+import {Modal} from 'antd';
 
 
 const DisplayCodeComponent = props =>{
 return(
-    <div>
-    <h2>{props.code}</h2>
-    </div>
-)}
+    null
+)};
 
 
 export default DisplayCodeComponent

@@ -1,4 +1,4 @@
-import { Avatar, Card } from 'antd';
+import {Avatar, Button, Card, Form} from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
@@ -12,6 +12,7 @@ import axios from "axios";
 import Loading from "../../components/Loading/Loading";
 import image from '../../media/exchange-logo.jpg';
 import person from '../../media/person.png';
+import { auth } from '../../auth';
 
 class ExchangeDetails extends Component {
     constructor(props) {
@@ -19,7 +20,8 @@ class ExchangeDetails extends Component {
         this.state = {
             exchange: null,
             loaded: false,
-            errorMessage: null
+            errorMessage: null,
+            codeShown: null
         }
     }
 
@@ -41,6 +43,53 @@ class ExchangeDetails extends Component {
         this.setState({
             errorMessage: "loadErrorMessage"
         })
+    };
+
+    readCodeOk = (response) => {
+        if (response.data.isVisible === true) {
+            this.setState({codeShown: response.data.code})
+        } else {
+            this.readCodeFail();
+        }
+    };
+
+    readCodeFail = () => {
+        const { t } = this.props;
+
+        this.setState({codeShown: t('code.error')})
+    };
+
+    showCode = () => {
+        axios.get(process.env.REACT_APP_BE_URL + '/userDiscount/user/show/' + this.state.exchange.id + "?userId=" + auth.getUserData().id,
+            {
+                headers: {
+                    'Authorization' : 'Bearer ' + auth.getToken()
+                }
+            })
+            .then((response) => this.readCodeOk(response))
+            .catch(() => this.readCodeFail());
+    };
+
+    isJoined = () => {
+        const { t } = this.props;
+        const { exchange } = this.state;
+
+        let userData = auth.getUserData();
+
+        if (auth.isAuthenticated() && (exchange !== null)) {
+            if (exchange.creator.id === userData.id) {
+                return true;
+            } else {
+                for (let index in exchange.participants) {
+                    console.log(exchange.participants[index]);
+                    if (exchange.participants[index].id === userData.id) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     };
 
     componentDidMount() {
@@ -80,7 +129,8 @@ class ExchangeDetails extends Component {
     }
     render() {
         const { Meta } = Card;
-        const { errorMessage, loaded, exchange } = this.state;
+        const { errorMessage, loaded, exchange, codeShown } = this.state;
+        const { t } = this.props;
 
         console.log(exchange);
 
@@ -109,6 +159,15 @@ class ExchangeDetails extends Component {
                             </Card>
                         </Col>
                     </Row>
+                    { auth.isAuthenticated() && this.isJoined() &&
+                        <div style={{width: "100%", textAlign: "center"}}>
+                            {(codeShown === null) && <Button type="primary" htmlType="submit" onClick={() => this.showCode()} className="login-form-button primaryButton">
+                                {t('code.show')}
+                            </Button>}
+                            {(codeShown !== null) && <div style={{fontSize: "18px"}}>The code is:</div>}
+                            {(codeShown !== null) && <div>{codeShown}</div>}
+                        </div>
+                    }
                 </Section>
             </Page >
         );

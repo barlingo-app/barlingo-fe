@@ -40,22 +40,44 @@ class CreateExchangeForm extends Component {
                     "moment": values['date-time-picker']._d,
                     "title": values.title
                 });
-                fetch(process.env.REACT_APP_BE_URL + '/languageExchange/user/create?creatorId=' + auth.getUserData().id +
-                    '&establishmentId=' + this.props.establishmentId, {
-                        method: 'post',
-                        body: data,
+                const { t } = this.props;
+                axios.post(process.env.REACT_APP_BE_URL + '/languageExchange/user/create?creatorId=' + auth.getUserData().id +
+                    '&establishmentId=' + this.props.establishmentId, data,{
                         headers: {
-                            'Authorization': 'Bearer ' + auth.getToken()
+                            'Authorization': 'Bearer ' + auth.getToken(),
+                            'Content-Type': 'application/json'
                         }
                     }).then((response) => {
-                        let route = "";
-                        this.setState(
-                            { cambiar: true }
-                        )
+                        console.log(response.data.message);
+                        if (response.status === 201) {
+                            this.setState(
+                                { cambiar: "/exchanges/" + response.data.id }
+                            );
+                            notification.success({
+                                placement: 'bottomRight',
+                                bottom: 50,
+                                duration: 10,
+                                message: t('join.successful.title'),
+                                description: t('join.successful.message'),
+                            });
+                        } else {
+                            this.setState({ formFailed: true });
+                        }
+
                     })
                     .catch((error) => {
                         console.log(error);
-                        this.setState({ formFailed: true });
+                        if (error === 'Event has already taken place') {
+                            notification.error({
+                                placement: 'bottomRight',
+                                bottom: 50,
+                                duration: 10,
+                                message: t('join.dateError.title'),
+                                description: t('join.dateError.message'),
+                            });
+                        } else {
+                            this.setState({ formFailed: true });
+                        }
                     });
             }
         });
@@ -71,7 +93,7 @@ class CreateExchangeForm extends Component {
         const { getFieldDecorator } = this.props.form;
         const { cambiar, formFailed } = this.state;
 
-        if (cambiar) return <Redirect to={"/"} />;
+        if (cambiar !== null) return <Redirect to={cambiar} />;
         return (
 
             <Form onSubmit={this.handleSubmit} className="login-form">
