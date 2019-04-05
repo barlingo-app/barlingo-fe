@@ -12,6 +12,7 @@ import Home from './containers/Home/Home';
 import LoginForm from "./containers/LoginForm/LoginForm";
 import Logout from "./containers/LoginForm/Logout";
 import { auth } from "./auth";
+import RegisterComponent from './components/RegisterComponent'
 import PublicLayout from './layouts/PublicLayout/PublicLayout';
 import ValidateCodeContainer from './containers/ValidateCodeContainer/ValidateCodeContainer'
 const layouts = {
@@ -42,6 +43,7 @@ class App extends Component {
 
 	render() {
 		return (
+			
 			<LayoutProvider layouts={layouts}>
 				<Switch>
 					<Route exact path="/logout" component={Logout} />
@@ -50,6 +52,7 @@ class App extends Component {
 					<Route exact path="/establishments" component={EstablismentsList} />
 					<Route exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
 					<Route exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
+					<Route exact path="/register"  component={RegisterComponent}/>
 					<Route exact path="/notFound" component={Home} />
 					<PrivateRoute exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
 					<PrivateRoute exact path="/displayCode/:codeId" component={DisplayCodeContainer} />
