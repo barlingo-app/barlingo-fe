@@ -13,7 +13,7 @@ export const auth = {
     localStorage.setItem(AUTH_TOKEN_KEY, token);
     let username = JSON.parse(atob(token.split(".")[1])).sub;
     console.log("username " + username);
-    axios.get(process.env.REACT_APP_BE_URL + '/user/username/' + username).then(function(response) {
+    axios.get(process.env.REACT_APP_BE_URL + '/users/username/' + username).then(function(response) {
       if (response.data === null) {
         localStorage.setItem(AUTHENTICATED_FLAG_KEY, "false");
       } else {

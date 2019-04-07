@@ -18,26 +18,14 @@ class LinkContainer extends Component {
     render() {
         const { t } = this.props;
         const activeFunction = (match, location) => { return location.pathname === "/myExchangesCreated" || location.pathname === "/myExchangesJoined" }
-        const menu = (
-            <Menu>
-                <Menu.Item>
-                    <NavLink activeClassName={"active"} exact={true} to={"/myExchangesCreated"}>{t('links.created')}</NavLink>
-                </Menu.Item>
-                <Menu.Item>
-                    <NavLink activeClassName={"active"} exact={true} to={"/myExchangesJoined"}>{t('links.joined')}</NavLink>
-                </Menu.Item>
-            </Menu>
-        );
         return (
             <div className="linkContainer">
                 <ul>
                     <NavLink activeClassName={"active"} exact={true} to={"/"}><li>{t('links.exchanges')}</li></NavLink>
                     <NavLink activeClassName={"active"} exact={true} to={"/establishments"}><li>{t('links.establishments')}</li></NavLink>
                     <NavLink activeClassName={"active"} exact={true} to={"/validateCode"}><li>{t('links.validateCode')}</li></NavLink>
+                    <NavLink isActive={activeFunction} activeClassName={"active"} exact={true} to={"/myExchanges"}><li>{t('links.myExchanges')}</li></NavLink>
 
-                    <Dropdown overlay={menu}>
-                        <NavLink isActive={activeFunction} activeClassName={"active"} exact={true} to={"#"}><li>{t('links.myExchanges')}</li></NavLink>
-                    </Dropdown>
                 </ul>
             </div>
         );

@@ -9,6 +9,7 @@ import exchangeGeneric from '../../media/data/exchanges';
 import './ExchangesList.scss';
 import axios from "axios";
 import { auth } from '../../auth';
+import { exchangesService } from '../../services/exchangesService';
 import Loading from "../../components/Loading/Loading";
 import image from '../../media/exchange-logo.jpg';
 import { Redirect } from "react-router-dom";
@@ -25,14 +26,14 @@ class ExchangesList extends Component {
     }
 
     fetchData = () => {
-        axios.get(process.env.REACT_APP_BE_URL + '/exchanges',
-        )
+
+        exchangesService.list()
             .then((response) => this.setData(response)).catch((error) => this.setError(error));
     };
 
     setData = (response) => {
         this.setState({
-            items: response.data,
+            items: response,
             loaded: true
         })
     };
@@ -84,11 +85,12 @@ class ExchangesList extends Component {
 
     join = (exchangeId) => {
         if (auth.isAuthenticated()) {
-            axios.post(process.env.REACT_APP_BE_URL + '/languageExchange/user/join/' + exchangeId + '?userId=' + auth.getUserData().id, {}, {
+            /*axios.post(process.env.REACT_APP_BE_URL + '/languageExchange/user/join/' + exchangeId + '?userId=' + auth.getUserData().id, {}, {
                 headers: {
                     'Authorization': 'Bearer ' + auth.getToken()
                 }
-            })
+            })*/
+            exchangesService.join(exchangeId)
                 .then((response) => this.joinProcessResponse(response))
                 .catch(() => this.showErrorMessage());
         } else {
@@ -118,12 +120,11 @@ class ExchangesList extends Component {
     leave(exchangeId) {
 
         if (auth.isAuthenticated()) {
-            axios.post(process.env.REACT_APP_BE_URL + '/languageExchange/user/leave/' + exchangeId + '?userId=' + auth.getUserData().id, {}, {
-                headers: {
-                    'Authorization': 'Bearer ' + auth.getToken()
-                }
-            })
-                .then((response) => this.joinProcessResponse(response))
+            exchangesService.leave(exchangeId)
+                .then((response) => {
+                    this.fetchData();
+                    this.joinProcessResponse(response)
+                })
                 .catch(() => this.showErrorMessage());
         } else {
             this.props.history.push('/login');
@@ -137,7 +138,7 @@ class ExchangesList extends Component {
             } else {
                 for (let index in exchange.participants) {
                     if (exchange.participants[index].id === userData.id) {
-                        this.leave();
+                        this.leave(exchange.id);
                         break;
                     }
                 }
