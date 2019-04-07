@@ -1,19 +1,15 @@
+import { notification } from 'antd';
+import axios from "axios";
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { Page, Section } from "react-page-layout";
 import { Col, Row } from 'reactstrap';
-import { Icon, notification } from 'antd';
-import CustomCard from '../../components/CustomCard/CustomCard';
-import exchangeGeneric from '../../media/data/exchanges';
-import './ExchangesList.scss';
-import axios from "axios";
-import { auth } from '../../auth';
-import Loading from "../../components/Loading/Loading";
-import image from '../../media/exchange-logo.jpg';
-import { Redirect } from "react-router-dom";
+import { auth } from '../../../auth';
+import CustomCard from '../../../components/CustomCard/CustomCard';
+import Loading from "../../../components/Loading/Loading";
+import image from '../../../media/exchange-logo.jpg';
 
-class ExchangesList extends Component {
+class MyExchangesListJoined extends Component {
 
     constructor(props) {
         super(props);
@@ -25,12 +21,12 @@ class ExchangesList extends Component {
     }
 
     fetchData = () => {
-        axios.get(process.env.REACT_APP_BE_URL + '/exchanges',
-        )
+        axios.get(process.env.REACT_APP_BE_URL + '/exchanges')
             .then((response) => this.setData(response)).catch((error) => this.setError(error));
     };
 
     setData = (response) => {
+        console.log(response);
         this.setState({
             items: response.data,
             loaded: true
@@ -107,45 +103,14 @@ class ExchangesList extends Component {
             } else {
                 for (let index in exchange.participants) {
                     if (exchange.participants[index].id === userData.id) {
-                        return t('generic.leave');
+                        return false;
                     }
                 }
             }
         }
 
-        return t('generic.join');
+        return t('generic.join');;
     };
-    leave(exchangeId) {
-
-        if (auth.isAuthenticated()) {
-            axios.post(process.env.REACT_APP_BE_URL + '/languageExchange/user/leave/' + exchangeId + '?userId=' + auth.getUserData().id, {}, {
-                headers: {
-                    'Authorization': 'Bearer ' + auth.getToken()
-                }
-            })
-                .then((response) => this.joinProcessResponse(response))
-                .catch(() => this.showErrorMessage());
-        } else {
-            this.props.history.push('/login');
-        }
-    }
-    manageOnClick = (exchange) => {
-        let userData = auth.getUserData();
-        if (auth.isAuthenticated()) {
-            if (exchange.creator.id === userData.id) {
-                return false;
-            } else {
-                for (let index in exchange.participants) {
-                    if (exchange.participants[index].id === userData.id) {
-                        this.leave();
-                        break;
-                    }
-                }
-            }
-        }
-        console.log('join')
-        this.join(exchange.id);
-    }
 
     render() {
         const { t } = this.props;
@@ -170,7 +135,7 @@ class ExchangesList extends Component {
                         {items.map((i, index) => (
 
                             <Col xs="12" md="6" xl="4" key={i.id}>
-                                <CustomCard onClick={() => this.manageOnClick(i)} route="exchanges" buttonMessage={this.checkIfUserJoined(i)} id={i.id} image={image}
+                                <CustomCard onClick={() => this.join(i.id)} route="exchanges" buttonMessage={this.checkIfUserJoined(i)} id={i.id} image={image}
                                     title={i.title} address={i.establishment.establishmentName + ", " + i.establishment.address} schedule={new Date(i.moment).toLocaleDateString('es-ES', dateFormat)} max={i.numberOfParticipants} />
                             </Col>
                         ))}
@@ -181,4 +146,4 @@ class ExchangesList extends Component {
     }
 }
 
-export default withNamespaces('translation')(ExchangesList);
+export default withNamespaces('translation')(MyExchangesListJoined);
