@@ -11,8 +11,8 @@ import axios from "axios";
 import { auth } from '../../auth';
 import { exchangesService } from '../../services/exchangesService';
 import Loading from "../../components/Loading/Loading";
-import image from '../../media/exchange-logo.jpg';
-import { Redirect } from "react-router-dom";
+import image from '../../media/default-exchange-logo.png';
+import {Redirect} from "react-router-dom";
 
 class ExchangesList extends Component {
 

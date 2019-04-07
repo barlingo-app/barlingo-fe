@@ -10,6 +10,7 @@ class PublicLayout extends Component {
             <>
                 <Header />
                 <Slot name="content" className={"content"}/>
+                <Slot name="fullContent" className={"fullContent"}/>
             </>
         );
     }

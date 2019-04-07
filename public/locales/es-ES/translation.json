@@ -1,6 +1,21 @@
 {
+  "welcomeMessage": "Bienvenido a Barlingo!",
   "notfound": "Recurso no encontrado",
-  "loadErrorMessage": "Hubo un error al cargar los datos",
+  "loadErrorMessage": "Hubo un error al cargar los datos",  
+  "landing": {
+    "message": "Bienvenido a Barlingo!",
+    "navOptions": {
+      "findExchanges": "Encontrar intercambios",
+      "seeEstablishments": "Ver establecimientos"
+    }
+  },
+  "titles": {
+    "exchangesList": "Intercambios",
+    "establishmentsList": "Establecimientos",
+    "validateCode": "Validar código",
+    "login":"Iniciar sesión",
+    "logout": "Cerrar sesión"
+  },
   "links": {
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",

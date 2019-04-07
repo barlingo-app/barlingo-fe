@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { Page, Section } from "react-page-layout";
 import { Col, Row } from 'reactstrap';
 import CustomCard from '../../components/CustomCard/CustomCard';
 import Loading from '../../components/Loading/Loading';
 import axios from 'axios';
 import './EstablishmentsList.scss';
-
-import {Icon} from "antd";
 
 class EstablismentsList extends Component {
     constructor(props) {
@@ -21,7 +18,7 @@ class EstablismentsList extends Component {
     }
 
     fetchData = () => {
-        axios.get(process.env.REACT_APP_BE_URL + '/establishment/user/list')
+        axios.get(process.env.REACT_APP_BE_URL + '/establishments')
             .then((response) => this.setData(response)).catch((error) => this.setError(error));
     };
 
@@ -41,7 +38,8 @@ class EstablismentsList extends Component {
     };
 
     componentDidMount() {
-        document.title = "Barlingo - Establishments";
+        const { t } = this.props;
+        document.title = "Barlingo - " + t('titles.establishmentsList');
         this.fetchData();
     }
 

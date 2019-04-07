@@ -10,7 +10,7 @@ import { Row, Col} from 'reactstrap';
 import './ExchangeDetails.scss';
 import axios from "axios";
 import Loading from "../../components/Loading/Loading";
-import image from '../../media/exchange-logo.jpg';
+import image from '../../media/default-exchange-header.jpg';
 import person from '../../media/person.png';
 import { auth } from '../../auth';
 
