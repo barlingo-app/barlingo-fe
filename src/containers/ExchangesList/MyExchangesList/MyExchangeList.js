@@ -1,20 +1,17 @@
+import { notification } from 'antd';
+import axios from "axios";
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { Page, Section } from "react-page-layout";
 import { Col, Row } from 'reactstrap';
-import { Icon, notification } from 'antd';
-import CustomCard from '../../components/CustomCard/CustomCard';
-import exchangeGeneric from '../../media/data/exchanges';
-import './ExchangesList.scss';
-import axios from "axios";
-import { auth } from '../../auth';
-import { exchangesService } from '../../services/exchangesService';
-import Loading from "../../components/Loading/Loading";
-import image from '../../media/exchange-logo.jpg';
-import { Redirect } from "react-router-dom";
+import { auth } from '../../../auth';
+import CustomCard from '../../../components/CustomCard/CustomCard';
+import Loading from "../../../components/Loading/Loading";
+import image from '../../../media/exchange-logo.jpg';
+import { exchangesService } from '../../../services/exchangesService';
 
-class ExchangesList extends Component {
+
+class MyExchangesList extends Component {
 
     constructor(props) {
         super(props);
@@ -26,11 +23,9 @@ class ExchangesList extends Component {
     }
 
     fetchData = () => {
-
-        exchangesService.list()
+        exchangesService.findByUser()
             .then((response) => this.setData(response)).catch((error) => this.setError(error));
     };
-
     setData = (response) => {
         this.setState({
             items: response,
@@ -91,7 +86,9 @@ class ExchangesList extends Component {
                 }
             })*/
             exchangesService.join(exchangeId)
-                .then((response) => this.joinProcessResponse(response))
+                .then((response) => {
+                    this.joinProcessResponse(response)
+                })
                 .catch(() => this.showErrorMessage());
         } else {
             this.props.history.push('/login');
@@ -182,4 +179,4 @@ class ExchangesList extends Component {
     }
 }
 
-export default withNamespaces('translation')(ExchangesList);
+export default withNamespaces('translation')(MyExchangesList);

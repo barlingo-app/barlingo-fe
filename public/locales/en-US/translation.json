@@ -6,7 +6,10 @@
     "establishments": "Establishments",
     "validateCode": "Validate code",
     "login": "Log In",
-    "logout": "Logout"
+    "logout": "Logout",
+    "myExchanges":"My exchanges",
+    "created": "Created",
+    "joined": "Joined"
   },
   "form": {
     "emptyUsername": "Please input your username!",
@@ -46,7 +49,8 @@
   "generic": {
     "create": "Create",
     "join": "Join",
-    "loading": "Loading"
+    "loading": "Loading",
+    "leave": "Leave"
   },
   "language": {
     "spanish": "Spanish",

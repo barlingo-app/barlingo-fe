@@ -47,7 +47,7 @@ class LoginForm extends Component {
             data.append("username", values.userName);
             data.append("password", values.password);
 
-            axios.post(process.env.REACT_APP_BE_URL + '/user/signin', data,
+            axios.post(process.env.REACT_APP_BE_URL + '/users/signin', data,
             { headers: {'Content-Type': 'multipart/form-data' }})
                 .then((response) => this.processLoginResponse(response))
                 .catch(() => this.loginFailed());

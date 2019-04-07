@@ -6,7 +6,10 @@
     "establishments": "Establecimientos",
     "validateCode": "Validar código",
     "login":"Iniciar sesión",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "myExchanges":"Mis intercambios",    
+    "created": "Creados",
+    "joined": "Unidos"
   },
   "form":{
     "emptyUsername": "Por favor, introduzca su nombre de usuario.",
@@ -46,7 +49,8 @@
   "generic":{
     "create": "Crear",
     "join": "Unirse",
-    "loading": "Cargando"
+    "loading": "Cargando",
+    "leave": "Abandonar"
   },
   "language": {
     "spanish": "Español",
