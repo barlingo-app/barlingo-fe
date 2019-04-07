@@ -7,7 +7,7 @@ import { Col, Row } from 'reactstrap';
 import { auth } from '../../../auth';
 import CustomCard from '../../../components/CustomCard/CustomCard';
 import Loading from "../../../components/Loading/Loading";
-import image from '../../../media/exchange-logo.jpg';
+import image from '../../../media/default-exchange-logo.png';
 import { exchangesService } from '../../../services/exchangesService';
 
 

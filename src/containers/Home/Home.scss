@@ -1,4 +1,6 @@
-.logo-container {
+@import '../../styles/defaultStyles.scss';
+
+.landingContainer {
   box-sizing: border-box;
   display: -webkit-flex;
   display: flex;
@@ -10,13 +12,50 @@
   flex-direction: column;
   width: 100%;
   text-align: center;
+  background: url('../../media/barlingo-background.jpg') no-repeat;
+  background-size: cover; 
 
   .logo {
-    width: 80%;
-    max-width: 400px;
+    width: 60%;
+    max-width: 300px;
+  }
+
+  .message,
+  .navContainer {
+    color: $mainColor;
   }
 
   .message {
     font-size: 25px;
+  }
+
+  .navContainer {
+    display: flex;
+
+    a {
+      text-decoration: none;
+      &:hover,
+      &:active,
+      &.active {
+        text-decoration: none;
+      }
+    }
+
+    .navOption {
+      box-sizing: border-box;
+      margin: 20px;
+      padding: 15px 20px;
+      background-color: $mainColor;
+      color: $mainFontColor;
+      border-radius: 10px;
+      font-size: 15px;
+      border: 2px solid $mainColor;
+      box-shadow: 5px 5px 10px;
+
+      &:hover {
+        color: $mainColor;
+        background-color: $mainFontColor;
+      }
+    }
   }
 }

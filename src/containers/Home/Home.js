@@ -3,6 +3,7 @@ import logo from '../../media/logo.png';
 import { withNamespaces } from 'react-i18next';
 import { Page, Section } from 'react-page-layout';
 import './Home.scss';
+import { NavLink } from "react-router-dom";
 
 class Home extends Component {
 
@@ -14,13 +15,21 @@ class Home extends Component {
         const { t } = this.props;
         return (
           <Page layout="public">
-            <Section slot="content">
-                <div className="logo-container">
+            <Section slot="fullContent">
+                <div className="landingContainer">
                     <img src={logo} className="logo" alt="logo" />
                     <div className={"message"}>
                         <p>
-                            {t('notfound')}
+                        Enjoy talking where you prefer
                         </p>
+                    </div>
+                    <div className={"navContainer"}>
+                        <NavLink exact={true} to={"/exchanges"}>
+                            <div className={"navOption"}>{t('landing.navOptions.findExchanges')}</div>
+                        </NavLink>
+                        <NavLink exact={true} to={"/establishments"}>
+                            <div className={"navOption"}>{t('landing.navOptions.seeEstablishments')}</div>
+                        </NavLink>
                     </div>
                 </div>
             </Section>

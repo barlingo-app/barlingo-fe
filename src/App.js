@@ -13,9 +13,9 @@ import ExchangesList from "./containers/ExchangesList/ExchangesList";
 import MyExchangesList from "./containers/ExchangesList/MyExchangesList/MyExchangeList";
 import Home from './containers/Home/Home';
 import LoginForm from "./containers/LoginForm/LoginForm";
-import Logout from "./containers/LoginForm/Logout";
 import ProfileView from "./containers/ProfileView/ProfileView";
 import ValidateCodeContainer from './containers/ValidateCodeContainer/ValidateCodeContainer';
+import NotFound from "./containers/NotFound/NotFound";
 import PublicLayout from './layouts/PublicLayout/PublicLayout';
 
 
@@ -50,20 +50,20 @@ class App extends Component {
 
 			<LayoutProvider layouts={layouts}>
 				<Switch>
-					<Route exact path="/logout" component={Logout} />
-					<Route exact path="/" component={ExchangesList} />
+					<Route exact path="/" component={Home} />
 					<Route exact path="/login" component={LoginForm} />
 					<Route exact path="/profile" component={ProfileView} />
+					<Route exact path="/exchanges" component={ExchangesList} />
 					<Route exact path="/establishments" component={EstablismentsList} />
 					<Route exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
 					<Route exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
 					<Route exact path="/register" component={RegisterComponent} />
-					<Route exact path="/notFound" component={Home} />
+					<Route exact path="/notFound" component={NotFound} />
 					<PrivateRoute exact path="/myExchanges" component={MyExchangesList} />
 					<PrivateRoute exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
 					<PrivateRoute exact path="/displayCode/:codeId" component={DisplayCodeContainer} />
 					<PrivateRoute exact path="/validateCode" component={ValidateCodeContainer} />
-					<Route component={Home} />
+					<Route component={NotFound}/>
 				</Switch>
 			</LayoutProvider>
 		);

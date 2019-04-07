@@ -1,6 +1,20 @@
 {
   "notfound": "Resource not found",
   "loadErrorMessage": "There was an error loading the data",
+  "landing": {
+    "message": "Welcome to Barlingo!",
+    "navOptions": {
+      "findExchanges": "Find exchanges",
+      "seeEstablishments": "See establishments"
+    }
+  },
+  "titles": {
+    "exchangesList": "Exchanges",
+    "establishmentsList": "Establishments",
+    "validateCode": "Validate code",
+    "login": "Log In",
+    "logout": "Logout"
+  },
   "links": {
     "exchanges": "Exchanges",
     "establishments": "Establishments",

@@ -1,0 +1,22 @@
+.logo-container {
+  box-sizing: border-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+
+  .logo {
+    width: 80%;
+    max-width: 400px;
+  }
+
+  .message {
+    font-size: 25px;
+  }
+}

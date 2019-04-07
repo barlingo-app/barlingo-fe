@@ -9,7 +9,7 @@ import personIcon from '../../media/person.png';
 import { Row, Col } from 'reactstrap';
 import axios from "axios";
 import Loading from "../../components/Loading/Loading";
-import image from '../../media/exchange-logo.jpg';
+import image from '../../media/default-exchange-logo.png';
 import person from '../../media/person.png';
 import { auth } from '../../auth';
 
