@@ -4,6 +4,7 @@ import { LayoutProvider } from 'react-page-layout';
 import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import { auth } from "./auth";
 import RegisterComponent from './components/RegisterComponent';
+import EditProfileComponent from './components/EditProfileComponent';
 import CreateExchangeForm from "./containers/CreateExchange/CreateExchange";
 import DisplayCodeContainer from './containers/DisplayCodeContainer/DisplayCodeContainer';
 import EstablishmentDetails from "./containers/EstablishmentDetails/EstablishmentDetails";
@@ -58,6 +59,7 @@ class App extends Component {
 					<Route exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
 					<Route exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
 					<Route exact path="/register" component={RegisterComponent} />
+					<Route exact path="/editProfile" component={EditProfileComponent} />
 					<Route exact path="/notFound" component={NotFound} />
 					<PrivateRoute exact path="/myExchanges" component={MyExchangesList} />
 					<PrivateRoute exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />

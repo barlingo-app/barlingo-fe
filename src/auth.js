@@ -42,5 +42,17 @@ export const auth = {
     }
 
     return JSON.parse(localStorage.getItem(USER_DATA_KEY));
+  },
+  loadUserData() {
+    axios.get(process.env.REACT_APP_BE_URL + '/users/' + this.getUserData().id).then(function(response) {
+      if (response.data === null) {
+        localStorage.setItem(AUTHENTICATED_FLAG_KEY, "false");
+      } else {
+        localStorage.setItem(USER_DATA_KEY, JSON.stringify(response.data));
+        localStorage.setItem(AUTHENTICATED_FLAG_KEY, "true");
+      }
+    }).catch(function(error) {
+      localStorage.setItem(AUTHENTICATED_FLAG_KEY, "false");
+    });
   }
 };

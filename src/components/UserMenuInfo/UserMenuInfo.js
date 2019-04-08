@@ -50,6 +50,8 @@ class UserMenuInfo extends Component {
                     {auth.isAuthenticated() && <div className={"secondaryInfo"}><a onClick={() => this.logoutHandler(window.location.pathname)}>{t('links.logout')}</a></div>}
                     {!auth.isAuthenticated() && <NavLink exact={true} to={"/login"} activeClassName={"none"} >
                         <div>{t('links.login')}</div></NavLink>}
+                    {!auth.isAuthenticated() && <NavLink exact={true} to={"/register"} activeClassName={"none"} >
+                    <div>{t('links.register')}</div></NavLink>}
                 </div>
             </div>
         );
