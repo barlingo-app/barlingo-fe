@@ -1,18 +1,18 @@
-import {Avatar, Button, Card, Form} from 'antd';
+import { Avatar, Badge, Button, Card, Icon } from 'antd';
+import axios from "axios";
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
-import exchangeGeneric from '../../media/data/exchanges';
+import { NavLink } from "react-router-dom";
+import { Col, Row } from 'reactstrap';
+import { auth } from '../../auth';
+import Loading from "../../components/Loading/Loading";
+import image from '../../media/default-exchange-header.jpg';
 import locationIcon from '../../media/imageedit_5_5395394410.png';
 import timeIcon from '../../media/imageedit_8_4988666292.png';
 import personIcon from '../../media/person.png';
-import { Row, Col} from 'reactstrap';
 import './ExchangeDetails.scss';
-import axios from "axios";
-import Loading from "../../components/Loading/Loading";
-import image from '../../media/default-exchange-header.jpg';
-import person from '../../media/person.png';
-import { auth } from '../../auth';
+
 
 class ExchangeDetails extends Component {
     constructor(props) {
@@ -47,7 +47,7 @@ class ExchangeDetails extends Component {
 
     readCodeOk = (response) => {
         if (response.data.isVisible === true) {
-            this.setState({codeShown: response.data.code})
+            this.setState({ codeShown: response.data.code })
         } else {
             this.readCodeFail();
         }
@@ -56,14 +56,14 @@ class ExchangeDetails extends Component {
     readCodeFail = () => {
         const { t } = this.props;
 
-        this.setState({codeShown: t('code.error')})
+        this.setState({ codeShown: t('code.error') })
     };
 
     showCode = () => {
-        axios.get(process.env.REACT_APP_BE_URL + '/userDiscount/user/show/' + this.state.exchange.id + "?userId=" + auth.getUserData().id,
+        axios.get(process.env.REACT_APP_BE_URL + '/discounts?langExchangeId=' + this.state.exchange.id + "&userId=" + auth.getUserData().id,
             {
                 headers: {
-                    'Authorization' : 'Bearer ' + auth.getToken()
+                    'Authorization': 'Bearer ' + auth.getToken()
                 }
             })
             .then((response) => this.readCodeOk(response))
@@ -100,31 +100,38 @@ class ExchangeDetails extends Component {
     }
 
     renderDescription() {
-
+        console.log(this.state.exchange)
         let address = this.state.exchange.establishment.establishmentName + ", " + this.state.exchange.establishment.address;
-        let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+        let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
         return (
-        <div className="exchange">
-            <div>
-                <img className="exchange__icon" src={locationIcon} alt="Location" />
-                {address}
+            <div className="exchange">
+                <div>
+                    <img className="exchange__icon" src={locationIcon} alt="Location" />
+                    {address}
+                </div>
+                <div className="exchange__icon-wrapper">
+                    <img className="exchange__icon" src={timeIcon} alt="Date and time" />{new Date(this.state.exchange.moment).toLocaleDateString('es-ES', dateFormat)}
+                </div>
+                <div className="exchange__icon-wrapper">
+                    <img className="exchange__icon" src={personIcon} alt="Participants" />{this.state.exchange.participants.length + 1}
+                </div>
             </div>
-            <div className="exchange__icon-wrapper">
-                <img className="exchange__icon" src={timeIcon} alt="Date and time" />{new Date(this.state.exchange.moment).toLocaleDateString('es-ES', dateFormat)}
-            </div>
-            <div className="exchange__icon-wrapper">
-                <img className="exchange__icon" src={personIcon} alt="Participants" />{this.state.exchange.numberOfParticipants}
-            </div>
-        </div>
         );
     }
     renderParticipants() {
+        const { t } = this.props;
         return <div style={{ paddingTop: 20 }}>
+            <NavLink exact={true} to={"/profile/" + this.state.exchange.creator.id} activeClassName={"none"} >
+                <Badge count={<Icon type="smile" style={{ color: '$mainColor' }} />}>
+                    <Avatar size="large" alt={t('exchange.organizer')} src={this.state.exchange.creator.personalPic} />
+                </Badge>
+            </NavLink>
             {this.state.exchange.participants.map((i, index) => (
-
-                <Avatar src={person} />
-
+                <NavLink exact={true} to={"/profile/" + i.id} activeClassName={"none"} >
+                    <Avatar src={i.personalPic} />
+                </NavLink>
             ))}
+
         </div>
     }
     render() {
@@ -138,7 +145,7 @@ class ExchangeDetails extends Component {
             return (
                 <Page layout="public">
                     <Section slot="content">
-                        <Loading message={errorMessage}/>
+                        <Loading message={errorMessage} />
                     </Section>
                 </Page>
             );
@@ -159,12 +166,12 @@ class ExchangeDetails extends Component {
                             </Card>
                         </Col>
                     </Row>
-                    { auth.isAuthenticated() && this.isJoined() &&
-                        <div style={{width: "100%", textAlign: "center"}}>
+                    {auth.isAuthenticated() && this.isJoined() &&
+                        <div style={{ width: "100%", textAlign: "center" }}>
                             {(codeShown === null) && <Button type="primary" htmlType="submit" onClick={() => this.showCode()} className="login-form-button primaryButton">
                                 {t('code.show')}
                             </Button>}
-                            {(codeShown !== null) && <div style={{fontSize: "18px"}}>The code is:</div>}
+                            {(codeShown !== null) && <div style={{ fontSize: "18px" }}>The code is:</div>}
                             {(codeShown !== null) && <div>{codeShown}</div>}
                         </div>
                     }

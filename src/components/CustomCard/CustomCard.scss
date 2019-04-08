@@ -46,6 +46,16 @@
       @media (max-width: 575px) {
         font-size: 14px;
       }
+      &__red{
+        color:red;
+      }
+      &__yellow{
+        color:#FFD733;
+      }
+      &__green{
+        color:#4CFF33;
+      }
+      
     }
 
     &__location-wrapper {

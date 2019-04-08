@@ -40,6 +40,7 @@ export const exchangesService = {
         }).then(response => { return response; }).catch((error) => { return error; });
     },
     join(id) {
+        console.log("join")
         return axios.post(process.env.REACT_APP_BE_URL + '/exchanges/' + id + '/join', { 'userId': auth.getUserData().id }, {
             headers: {
                 'Authorization': 'Bearer ' + auth.getToken(),
@@ -48,6 +49,7 @@ export const exchangesService = {
         }).then(response => { return response; }).catch((error) => { return error; });
     },
     leave(id) {
+        console.log("leave")
         return axios.post(process.env.REACT_APP_BE_URL + '/exchanges/' + id + '/leave', { 'userId': auth.getUserData().id }, {
             headers: {
                 'Authorization': 'Bearer ' + auth.getToken(),
