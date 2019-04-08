@@ -7,16 +7,18 @@ import Button from 'react-bootstrap/Button';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {notification} from 'antd';
+import Loading from "../../components/Loading/Loading";
+import { auth } from '../../auth';
 
 export class index extends Component {
     constructor(props){
         super(props)
         this.state = {
+            errorMessage: null,
+            loaded: false,
             successfulLogin: false,
             validated: false,
-            usernameInvalid: false,
-            username: '',
-            password: '',
+            id: '',
             name:'',
             surname:'',
             email: '',
@@ -32,41 +34,14 @@ export class index extends Component {
     }
 
     componentDidMount(){
-     //   alert("Añadir en el método componenDidMount\nllamadas a la APi para rellenar los selects\nlos cuales están usando valores de prueba")
-     //   alert("Puedes hacer un seguimiento del estado revisando la consola del navegador\nEstos avisos están dentro del método componenDidMount")
-    }
-
-    setUsernameValidity = (validity) => {
-        this.setState({usernameInvalid: validity});
-    }
-
-    checkUsername = (username) => {
-        if (username !== '') {
-            axios.get(process.env.REACT_APP_BE_URL + '/users/checkUsername?username=' + username, {
-            }).then((response) => {
-                if (response.data.success === false) {
-                    this.setUsernameValidity(true);
-                } else {
-                    this.setUsernameValidity(false);
-                }
-            }).catch((error) => {
-                this.setUsernameValidity(false);
-            });
-        }
-    }
-
-    usernameValidity = () => {
-        if (this.state.username == '' || this.state.usernameInvalid) {
-            return 'error';
-        } else {
-            return 'success';
-        }
+        let userData = auth.getUserData();
+        userData.loaded = true;
+        this.setState(userData);
     }
 
     sendForm = () => {
         let dataToSend = {
-            username: this.state.username,
-            password: this.state.password,
+            id: this.state.id,
             name: this.state.name,
             surname: this.state.surname,
             email: this.state.email,
@@ -79,9 +54,10 @@ export class index extends Component {
             learnLanguages: this.state.langsToLearn
         }
 
-        axios.post(process.env.REACT_APP_BE_URL + '/users/register', dataToSend, {
+        axios.post(process.env.REACT_APP_BE_URL + '/users/edit', dataToSend, {
             header: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authentication': 'Bearer ' + auth.getToken()
             }
         }).then((response) => {
             if (response.data.success != true) {
@@ -89,13 +65,14 @@ export class index extends Component {
                     this.setState({usernameInvalid: true, validated: true})
                 }
             } else {  
+                auth.loadUserData();
                 this.setState({successfulLogin: true});     
                 notification.success({
                     placement: 'bottomRight',
                     bottom: 50,
                     duration: 10,
-                    message: "Successful register",
-                    description: "You can log in with your username and password",
+                    message: "Successful edition",
+                    description: "Data updated properly",
                 });     
             }
         }).catch((error) => {
@@ -104,8 +81,8 @@ export class index extends Component {
                 placement: 'bottomRight',
                 bottom: 50,
                 duration: 10,
-                message: "Failed register",
-                description: "There was an error saving the data",
+                message: "Failed edition",
+                description: "There was an error editing the data",
             }); 
         });
     }
@@ -155,15 +132,17 @@ export class index extends Component {
               [name]: value
           });
           
-
-          if (target.id === 'username') {
-            this.checkUsername(value);
-            }
       }
       
+      renderOption = (value, label, selectedValues = []) => (
+            <option value={value} selected={selectedValues.indexOf(value) > -1 ? "selected" : ""}>
+            {label}
+            </option>
+      )
+
       render() {
           console.log("STATE... ", this.state)
-    const { successfulLogin, validated, usernameInvalid } = this.state;
+    const { successfulLogin, validated, usernameInvalid, loaded, errorMessage} = this.state;
 
     let today = new Date()
     let year = today.getFullYear() - 16
@@ -179,7 +158,17 @@ export class index extends Component {
      */
 
     if (successfulLogin) {
-     return (<Redirect to={"/"} />)
+     return (<Redirect to={"/profile"} />)
+    }
+
+    if (!loaded) {
+        return (
+            <Page layout="public">
+                <Section slot="content">
+                    <Loading message={errorMessage} />
+                </Section>
+            </Page>
+        );
     }
     
     return (
@@ -203,26 +192,6 @@ export class index extends Component {
                  */
             }
 
-            <Form.Row>
-                <Form.Group as={Col} md="4" controlId="username" >
-                <Form.Label>*Username</Form.Label>
-                <InputGroup>  
-                    <Form.Control validationState={this.usernameValidity()} onChange={this.handleChange} required type="text" placeholder="Username"/>
-                    <Form.Control.Feedback type="invalid">
-                        {!usernameInvalid && "Please choose a username."}
-                        {usernameInvalid && "Username already exists."}
-                    </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
-
-                <Form.Group as={Col} md="4" controlId="password">
-                    <Form.Label>*Password</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="password" placeholder="Password" />
-                    <Form.Control.Feedback type="invalid">
-                        Please choose a Password
-                    </Form.Control.Feedback>
-                </Form.Group>
-            </Form.Row>
 
 
             {/**
@@ -239,7 +208,7 @@ export class index extends Component {
             <Form.Row>
                 <Form.Group as={Col} md="4" controlId="name">
                     <Form.Label>*Name</Form.Label>
-                    <Form.Control onChange={this.handleChange} type="text" placeholder="Name" required />
+                    <Form.Control onChange={this.handleChange}  value={this.state.name} type="text" placeholder="Name" required />
                     <Form.Control.Feedback type="invalid">
                     Please provide a name.
                     </Form.Control.Feedback>
@@ -247,7 +216,7 @@ export class index extends Component {
         
                 <Form.Group as={Col} md="4" controlId="surname">
                     <Form.Label>*Surname</Form.Label>
-                    <Form.Control onChange={this.handleChange} type="text" placeholder="Surname" required />
+                    <Form.Control onChange={this.handleChange} type="text"  value={this.state.surname} placeholder="Surname" required />
                     <Form.Control.Feedback type="invalid">
                     Please provide a Surname.
                     </Form.Control.Feedback>
@@ -255,7 +224,7 @@ export class index extends Component {
 
                 <Form.Group as={Col} md="4" controlId="email">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="email" placeholder="name@example.com" />
+                    <Form.Control onChange={this.handleChange} required type="email" value={this.state.email} placeholder="name@example.com" />
                     <Form.Text className="text-muted">
                         We'll never share your email with anyone else.
                     </Form.Text>
@@ -268,14 +237,14 @@ export class index extends Component {
             <Form.Row>
                 <Form.Group as={Col} md="6" controlId="country">
                     <Form.Label>*Country</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="text" placeholder="Country" />
+                    <Form.Control onChange={this.handleChange} required type="text" value={this.state.country} placeholder="Country" />
                     <Form.Control.Feedback type="invalid">
                     Please provide your city
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="city">
                     <Form.Label>*City</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="text" placeholder="City" />
+                    <Form.Control onChange={this.handleChange} required type="text" value={this.state.city} placeholder="City" />
                     <Form.Control.Feedback type="invalid">
                     Please provide your city
                     </Form.Control.Feedback>
@@ -298,14 +267,14 @@ export class index extends Component {
             <Form.Row>
                 <Form.Group as={Col} controlId="aboutme">
                 <Form.Label>About me</Form.Label>
-                <Form.Control onChange={this.handleChange} as="textarea" rows="3" />
+                <Form.Control onChange={this.handleChange} as="textarea" value={this.state.aboutMe} rows="3" />
             </Form.Group>
             </Form.Row>
 
             <Form.Row>
                 <Form.Group as={Col} md="8" controlId="birthday">
                     <Form.Label>Birthday</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="date" max={maxDate} placeholder="Date" />
+                    <Form.Control onChange={this.handleChange} required type="date" value={this.state.birthday} max={maxDate} placeholder="Date" />
                     <Form.Control.Feedback type="invalid">
                         Please choose a date
                     </Form.Control.Feedback>
@@ -314,10 +283,10 @@ export class index extends Component {
                 <Form.Group as={Col} md="8" controlId="motherTongue">
                     <Form.Label>Mother tongue</Form.Label>
                     <Form.Control onChange={this.handleChange} as="select">
-                    <option value="es">Spanish</option>
-                    <option value="en">English</option>
-                    <option value="fr">French</option>
-                    <option value="de">Germany</option>
+                    {this.renderOption("es", "Spanish", [this.state.motherTongue])}
+                    {this.renderOption("en", "English", [this.state.motherTongue])}
+                    {this.renderOption("fr", "French", [this.state.motherTongue])}
+                    {this.renderOption("de", "German", [this.state.motherTongue])}
                     </Form.Control>
                 </Form.Group>
             </Form.Row>
@@ -326,20 +295,20 @@ export class index extends Component {
                 <Form.Group as={Col} onChange={this.handleChange} controlId="speakLangs">
                     <Form.Label>Speaked languages</Form.Label>
                     <Form.Control as="select" multiple required>
-                    <option value="es">Spanish</option>
-                    <option value="en">English</option>
-                    <option value="fr">French</option>
-                    <option value="de">Germany</option>
+                    {this.renderOption("es", "Spanish", this.state.speakLangs)}
+                    {this.renderOption("en", "English", this.state.speakLangs)}
+                    {this.renderOption("fr", "French", this.state.speakLangs)}
+                    {this.renderOption("de", "German", this.state.speakLangs)}
                     </Form.Control>
                  
                 </Form.Group>
                 <Form.Group as={Col} controlId="langsToLearn">
                     <Form.Label>Languages to learn</Form.Label>
                     <Form.Control onChange={this.handleChange} as="select" multiple required>
-                    <option value="es">Spanish</option>
-                    <option value="en">English</option>
-                    <option value="fr">French</option>
-                    <option value="de">Germany</option>
+                    {this.renderOption("es", "Spanish", this.state.langsToLearn)}
+                    {this.renderOption("en", "English", this.state.langsToLearn)}
+                    {this.renderOption("fr", "French", this.state.langsToLearn)}
+                    {this.renderOption("de", "German", this.state.langsToLearn)}
                     </Form.Control>
                     
                 </Form.Group>

@@ -1,4 +1,4 @@
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, Button } from 'antd';
 import axios from "axios";
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
@@ -7,13 +7,14 @@ import { Col, Row } from 'reactstrap';
 import { auth } from '../../auth';
 import Loading from "../../components/Loading/Loading";
 import locationIcon from '../../media/imageedit_5_5395394410.png';
-
+import {Redirect} from 'react-router-dom';
 
 class ProfileView extends Component {
     constructor(props) {
         console.log("entra")
         super(props);
         this.state = {
+            editProfile: false,
             user: null,
             loaded: false,
             errorMessage: null
@@ -69,8 +70,12 @@ class ProfileView extends Component {
     render() {
         console.log("entra: " + this.props.match.params.userId)
         const { Meta } = Card;
-        const { errorMessage, loaded, user } = this.state;
+        const { errorMessage, loaded, user, editProfile } = this.state;
         const { t } = this.props;
+
+        if (editProfile) {
+            return (<Redirect to={"/editProfile"} />);
+        }
 
         if (!loaded) {
             return (
@@ -94,8 +99,13 @@ class ProfileView extends Component {
                                     description={this.renderDescription()}
                                 />
                             </Card>
-                        </Col>
+                        </Col> 
                     </Row>
+                    <Col col-sm="12" offset-md="4" col-md="4">                                
+                        <Button type="primary" onClick={() => this.setState({editProfile: true})} htmlType="submit" className="login-form-button primaryButton">
+                            Edit profile
+                        </Button>
+                    </Col>
                 </Section>
             </Page >
         );
