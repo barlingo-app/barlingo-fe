@@ -38,11 +38,15 @@ class CreateExchangeForm extends Component {
                 var data = JSON.stringify({
                     "description": values.description,
                     "moment": values['date-time-picker']._d,
-                    "title": values.title
+                    "title": values.title,
+                    "creatorId": auth.getUserData().id,
+                    "establishmentId": this.props.establishmentId,
+                    "numberOfParticipants": values.numberOfParticipants,
+                    "targetLangs": [values.motherTongue, values.targetLanguage]
+
                 });
                 const { t } = this.props;
-                axios.post(process.env.REACT_APP_BE_URL + '/languageExchange/user/create?creatorId=' + auth.getUserData().id +
-                    '&establishmentId=' + this.props.establishmentId, data,{
+                axios.post(process.env.REACT_APP_BE_URL + '/exchanges', data,{
                         headers: {
                             'Authorization': 'Bearer ' + auth.getToken(),
                             'Content-Type': 'application/json'
@@ -134,7 +138,7 @@ class CreateExchangeForm extends Component {
                             <Option value="es"><img className="custom-card__language-icon" src={spanish} alt="Mother tongue" />{t('language.spanish')}</Option>
                             <Option value="en"><img className="custom-card__language-icon" src={english} alt="Mother tongue" />{t('language.english')}</Option>
                             <Option value="fr"><img className="custom-card__language-icon" src={french} alt="Mother tongue" />{t('language.french')}</Option>
-                            <Option value="ger"><img className="custom-card__language-icon" src={german} alt="Mother tongue" />{t('language.german')}</Option>
+                            <Option value="gr"><img className="custom-card__language-icon" src={german} alt="Mother tongue" />{t('language.german')}</Option>
                         </Select>
                     )}
                 </Form.Item>
@@ -150,7 +154,7 @@ class CreateExchangeForm extends Component {
                             <Option value="es"><img className="custom-card__language-icon" src={spanish} alt="Mother tongue" />{t('language.spanish')}</Option>
                             <Option value="en"><img className="custom-card__language-icon" src={english} alt="Mother tongue" />{t('language.english')}</Option>
                             <Option value="fr"><img className="custom-card__language-icon" src={french} alt="Mother tongue" />{t('language.french')}</Option>
-                            <Option value="ger"><img className="custom-card__language-icon" src={german} alt="Mother tongue" />{t('language.german')}</Option>
+                            <Option value="gr"><img className="custom-card__language-icon" src={german} alt="Mother tongue" />{t('language.german')}</Option>
                         </Select>
                     )}
                 </Form.Item>
