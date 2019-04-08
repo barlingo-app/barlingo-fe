@@ -41,11 +41,11 @@ class UserMenuInfo extends Component {
                 <div className={"userImageContainer"}>
                     <div className={"userImage"}>
                         {!auth.isAuthenticated() && < img src={person} alt={"user photo"} />}
-                        {auth.isAuthenticated() && <NavLink exact={true} to={"/profile"} activeClassName={"none"} >< img src={userData.personalPic} alt={"user photo"} /></NavLink>}
+                        {auth.isAuthenticated() && <NavLink exact={true} to={"/profile/"+auth.getUserData().id} activeClassName={"none"} >< img src={userData.personalPic} alt={"user photo"} /></NavLink>}
                     </div>
                 </div>
                 <div className={"userInfoContainer"}>
-                    {auth.isAuthenticated() && <div className={"mainInfo"} title={fullName}><NavLink exact={true} to={"/profile"} activeClassName={"none"} >{fullName}</NavLink></div>}
+                    {auth.isAuthenticated() && <div className={"mainInfo"} title={fullName}><NavLink exact={true} to={"/profile/"+auth.getUserData().id} activeClassName={"none"} >{fullName}</NavLink></div>}
                     {auth.isAuthenticated() && <div className={"secondaryInfo"} title={location}>{location} </div>}
                     {auth.isAuthenticated() && <div className={"secondaryInfo"}><a onClick={() => this.logoutHandler(window.location.pathname)}>{t('links.logout')}</a></div>}
                     {!auth.isAuthenticated() && <NavLink exact={true} to={"/login"} activeClassName={"none"} >

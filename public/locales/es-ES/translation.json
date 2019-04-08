@@ -1,7 +1,7 @@
 {
   "welcomeMessage": "Bienvenido a Barlingo!",
   "notfound": "Recurso no encontrado",
-  "loadErrorMessage": "Hubo un error al cargar los datos",  
+  "loadErrorMessage": "Hubo un error al cargar los datos",
   "landing": {
     "message": "Bienvenido a Barlingo!",
     "navOptions": {
@@ -13,55 +13,56 @@
     "exchangesList": "Intercambios",
     "establishmentsList": "Establecimientos",
     "validateCode": "Validar código",
-    "login":"Iniciar sesión",
+    "login": "Iniciar sesión",
     "logout": "Cerrar sesión"
   },
   "links": {
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",
     "validateCode": "Validar código",
-    "login":"Iniciar sesión",
+    "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
-    "myExchanges":"Mis intercambios",    
+    "myExchanges": "Mis intercambios",
     "created": "Creados",
     "joined": "Unidos"
   },
-  "form":{
+  "form": {
     "emptyUsername": "Por favor, introduzca su nombre de usuario.",
-    "emptyPassword": "Por favor, introduzca su contraseña.",  
-    "emptyTitle" : "Por favor, introduzca el título", 
+    "emptyPassword": "Por favor, introduzca su contraseña.",
+    "emptyTitle": "Por favor, introduzca el título",
     "emptyDate": "Por favor, introduzca la fecha",
-    "emptyMotherTongue":"Por favor, introduzca su lengua nativa",
-    "emptyTargetLanguage":"Por favor, introduzca su lengua objetivo",
-    "emptyNumberOfParticipants":"Por favor, introduzca el número de participantes",
-    "numberOfParticipants":"Número de participantes",
+    "emptyMotherTongue": "Por favor, introduzca su lengua nativa",
+    "emptyTargetLanguage": "Por favor, introduzca su lengua objetivo",
+    "emptyNumberOfParticipants": "Por favor, introduzca el número de participantes",
+    "numberOfParticipants": "Número de participantes",
     "username": "Nombre de usuario",
     "password": "Contraseña",
     "remember": "Recordarme",
     "forgotPassword": "He olvidado mi contraseña",
-    "login" : "Iniciar sesión",
+    "login": "Iniciar sesión",
     "register": "Registrarse",
-    "title" : "Título",
+    "title": "Título",
     "description": "Descripción",
-    "motherTongue" : "Lengua nativa",
-    "targetLanguage" :"Lengua objetivo",
-    "startDate":"Fecha de inicio"
+    "motherTongue": "Lengua nativa",
+    "targetLanguage": "Lengua objetivo",
+    "startDate": "Fecha de inicio"
   },
-  "exchange":{
-    "error" : {
-      "title" : "Creación fallida",
-      "message" : "Se ha producido un error al crear un nuevo intercambio, inténtelo más tarde."
+  "exchange": {
+    "error": {
+      "title": "Creación fallida",
+      "message": "Se ha producido un error al crear un nuevo intercambio, inténtelo más tarde."
     },
-    "dateError" : {
-      "title" : "Creación fallida",
-      "message" : "El momento del intercambio debe ser futuro."
+    "dateError": {
+      "title": "Creación fallida",
+      "message": "El momento del intercambio debe ser futuro."
     },
     "successful": {
       "title": "Creación exitosa",
       "message": "El intercambio se ha creado correctamente."
-    }
+    },
+    "organizer": "Organizador"
   },
-  "generic":{
+  "generic": {
     "create": "Crear",
     "join": "Unirse",
     "loading": "Cargando",
@@ -87,6 +88,16 @@
     "successful": {
       "title": "Unirse exitoso",
       "message": "Unido al intercambio exitosamente."
+    }
+  },
+  "leave": {
+    "failed": {
+      "title": "Abandonar fallido",
+      "message": "Hubo un error al intentar abandonar el intercambio."
+    },
+    "successful": {
+      "title": "Abandonar exitoso",
+      "message": "Intercambio abandonado exitosamente."
     }
   },
   "code": {

@@ -1,16 +1,17 @@
-import  React from 'react'
-import {Page, Section} from "react-page-layout";
-import {withNamespaces} from "react-i18next";
-import {Form, Icon, Input, Button, notification
+import React from 'react'
+import { Page, Section } from "react-page-layout";
+import { withNamespaces } from "react-i18next";
+import {
+  Form, Icon, Input, Button, notification
 } from 'antd';
 import './ValidateCodeContainer.scss';
 import axios from "axios";
-import {auth} from "../../auth";
+import { auth } from "../../auth";
 
-class ValidateCodeContainer extends React.Component{
-  
+class ValidateCodeContainer extends React.Component {
 
-  constructor(){
+
+  constructor() {
     super()
     this.state = {
       value: ''
@@ -19,7 +20,7 @@ class ValidateCodeContainer extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(e){
+  handleChange(e) {
     this.setState({
       value: e.target.value
     })
@@ -55,39 +56,39 @@ class ValidateCodeContainer extends React.Component{
   };
 
   checkCode = (code) => {
-    axios.get(process.env.REACT_APP_BE_URL + '/userDiscount/user/validate/' + code,
-        {
-          headers: {
-            'Authorization' : 'Bearer ' + auth.getToken()
-          }
-        })
-        .then((response) => this.codeOk(response))
-        .catch(() => this.codeFail());
+    axios.get(process.env.REACT_APP_BE_URL + '/discounts?code=' + code,
+      {
+        headers: {
+          'Authorization': 'Bearer ' + auth.getToken()
+        }
+      })
+      .then((response) => this.codeOk(response))
+      .catch(() => this.codeFail());
   };
 
-  render(){
+  render() {
     const { t } = this.props;
     const { getFieldDecorator } = this.props.form;
 
     return (
-        <Page layout="public">
-          <Section slot="content">
-            <div className={"validateCodeContainer"}>
-              <Form onSubmit={this.handleSubmit}>
-                <Form.Item>
+      <Page layout="public">
+        <Section slot="content">
+          <div className={"validateCodeContainer"}>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Item>
                 {getFieldDecorator('code', {
                   rules: [{ required: true, message: t('code.validate.empty') }],
                 })(
-                    <Input className={"customInput"} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="text" placeholder={t('code.validate.placeholder')} />
+                  <Input className={"customInput"} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="text" placeholder={t('code.validate.placeholder')} />
                 )}
               </Form.Item>
-                <Button type="primary" htmlType="submit" className="login-form-button primaryButton">
-                  {t('code.validate.button')}
-                </Button>
-              </Form>
-            </div>
-          </Section>
-        </Page>
+              <Button type="primary" htmlType="submit" className="login-form-button primaryButton">
+                {t('code.validate.button')}
+              </Button>
+            </Form>
+          </div>
+        </Section>
+      </Page>
     )
   }
 

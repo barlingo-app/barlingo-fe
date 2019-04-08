@@ -1,67 +1,60 @@
-import { Avatar, Button, Card, Form } from 'antd';
+import { Avatar, Card } from 'antd';
+import axios from "axios";
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
-import exchangeGeneric from '../../media/data/exchanges';
-import locationIcon from '../../media/imageedit_5_5395394410.png';
-import timeIcon from '../../media/imageedit_8_4988666292.png';
-import personIcon from '../../media/person.png';
-import { Row, Col } from 'reactstrap';
-import axios from "axios";
-import Loading from "../../components/Loading/Loading";
-import image from '../../media/default-exchange-logo.png';
-import person from '../../media/person.png';
+import { Col, Row } from 'reactstrap';
 import { auth } from '../../auth';
+import Loading from "../../components/Loading/Loading";
+import locationIcon from '../../media/imageedit_5_5395394410.png';
+
 
 class ProfileView extends Component {
     constructor(props) {
+        console.log("entra")
         super(props);
         this.state = {
-            exchange: null,
-            loaded: true,
-            errorMessage: null,
-            codeShown: null
+            user: null,
+            loaded: false,
+            errorMessage: null
         }
     }
 
-    setData = (response) => {
-        console.log(response);
+    componentDidUpdate() {
+        console.log("update")
+        const { user } = this.state;
+        if (user)
+            if (+this.props.match.params.userId !== user.id) {
+                this.consultarUsuario();
+            }
+    }
+    componentDidMount() {
+        this.consultarUsuario();
+        document.title = "Barlingo - Profile";
+
+    }
+
+    setData = (user) => {
         this.setState({
-            exchange: response.data,
+            user: user,
             loaded: true
         })
     };
-
-    isJoined = () => {
-        const { t } = this.props;
-        const { exchange } = this.state;
-
-        let userData = auth.getUserData();
-
-        if (auth.isAuthenticated() && (exchange !== null)) {
-            if (exchange.creator.id === userData.id) {
-                return true;
-            } else {
-                for (let index in exchange.participants) {
-                    console.log(exchange.participants[index]);
-                    if (exchange.participants[index].id === userData.id) {
-                        return true;
-                    }
-                }
-            }
+    consultarUsuario() {
+        const userId = this.props.match.params.userId
+        if (userId === auth.getUserData().id) {
+            const user = auth.getUserData();
+            this.setData(user)
         }
+        else {
+            axios.get(process.env.REACT_APP_BE_URL + '/users/' + userId)
+                .then((response) => this.setData(response.data)).catch((error) => this.setError(error));
 
-        return false;
-    };
-
-    componentDidMount() {
-        let user = auth.getUserData()
-        document.title = "Barlingo - " + user.surname;
-
+        }
     }
 
     renderDescription() {
-        let user = auth.getUserData()
+        let user = this.state.user
         let address = user.city + ", " + user.country;
         let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
         return (
@@ -74,11 +67,10 @@ class ProfileView extends Component {
         );
     }
     render() {
+        console.log("entra: " + this.props.match.params.userId)
         const { Meta } = Card;
-        const { errorMessage, loaded, exchange } = this.state;
+        const { errorMessage, loaded, user } = this.state;
         const { t } = this.props;
-        let user = auth.getUserData();
-        console.log(exchange);
 
         if (!loaded) {
             return (

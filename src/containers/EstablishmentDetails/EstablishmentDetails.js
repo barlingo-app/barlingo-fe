@@ -21,7 +21,7 @@ class EstablishmentDetails extends Component {
     }
 
     fetchData = () => {
-        axios.get(process.env.REACT_APP_BE_URL + '/establishment/user/details/' + this.props.match.params.establishmentName)
+        axios.get(process.env.REACT_APP_BE_URL + '/establishments/' + this.props.match.params.establishmentName)
             .then((response) => this.setData(response)).catch((error) => this.setError(error));
     };
 

@@ -34,7 +34,6 @@ class MyExchangesList extends Component {
     };
 
     setError = (error) => {
-        console.log(error);
         this.setState({
             errorMessage: "loadErrorMessage"
         })
@@ -44,7 +43,13 @@ class MyExchangesList extends Component {
         document.title = "Barlingo - Exchanges";
         this.fetchData();
     }
-
+    leaveProcessResponse = (response) => {
+        if (response.status === 200) {
+            this.showSuccessfulMessage("leave");
+        } else {
+            this.showErrorMessage("leave");
+        }
+    };
     joinProcessResponse = (response) => {
         if (response.status === 200) {
             this.showSuccessfulMessage();
@@ -53,27 +58,41 @@ class MyExchangesList extends Component {
         }
     };
 
-    showSuccessfulMessage = () => {
+    showSuccessfulMessage = (modo) => {
+
         const { t } = this.props;
+        let message = t('join.successful.title');
+        let description = t('join.successful.message');
+        if (modo === "leave") {
+            message = t('leave.successful.title');
+            description = t('leave.successful.message');
+        }
         notification.success({
             placement: 'bottomRight',
             bottom: 50,
             duration: 10,
-            message: t('join.successful.title'),
-            description: t('join.failed.message'),
+            message: message,
+            description: description,
         });
         this.fetchData();
         this.setState({ loginFailed: false });
     };
 
-    showErrorMessage = () => {
+    showErrorMessage = (modo) => {
         const { t } = this.props;
+        let message = t('join.failed.title');
+        let description = t('join.failed.message');
+        if (modo === "leave") {
+
+            message = t('leave.failed.title');
+            description = t('leave.failed.message');
+        }
         notification.error({
             placement: 'bottomRight',
             bottom: 50,
             duration: 10,
-            message: t('join.failed.title'),
-            description: t('join.failed.message'),
+            message: message,
+            description: description,
         });
         this.setState({ loginFailed: false });
     };
@@ -86,9 +105,7 @@ class MyExchangesList extends Component {
                 }
             })*/
             exchangesService.join(exchangeId)
-                .then((response) => {
-                    this.joinProcessResponse(response)
-                })
+                .then((response) => this.joinProcessResponse(response))
                 .catch(() => this.showErrorMessage());
         } else {
             this.props.history.push('/login');
@@ -101,6 +118,7 @@ class MyExchangesList extends Component {
         let userData = auth.getUserData();
 
         if (auth.isAuthenticated()) {
+            if (new Date(exchange.moment) < new Date()) return false;
             if (exchange.creator.id === userData.id) {
                 return false;
             } else {
@@ -120,9 +138,11 @@ class MyExchangesList extends Component {
             exchangesService.leave(exchangeId)
                 .then((response) => {
                     this.fetchData();
-                    this.joinProcessResponse(response)
+                    this.leaveProcessResponse(response);
                 })
-                .catch(() => this.showErrorMessage());
+                .catch((onrejected) => {
+                    this.showErrorMessage("leave")
+                });
         } else {
             this.props.history.push('/login');
         }
@@ -136,15 +156,14 @@ class MyExchangesList extends Component {
                 for (let index in exchange.participants) {
                     if (exchange.participants[index].id === userData.id) {
                         this.leave(exchange.id);
-                        break;
+                        return false;
                     }
                 }
             }
-        }
-        console.log('join')
-        this.join(exchange.id);
-    }
 
+            this.join(exchange.id);
+        }
+    }
     render() {
         const { t } = this.props;
         const { errorMessage, loaded, items } = this.state;

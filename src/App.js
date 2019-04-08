@@ -52,7 +52,7 @@ class App extends Component {
 				<Switch>
 					<Route exact path="/" component={Home} />
 					<Route exact path="/login" component={LoginForm} />
-					<Route exact path="/profile" component={ProfileView} />
+					<PrivateRoute exact path="/profile/:userId" component={ProfileView} />
 					<Route exact path="/exchanges" component={ExchangesList} />
 					<Route exact path="/establishments" component={EstablismentsList} />
 					<Route exact path="/establishments/:establishmentName" component={EstablishmentDetails} />

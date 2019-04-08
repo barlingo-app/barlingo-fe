@@ -21,7 +21,7 @@
     "validateCode": "Validate code",
     "login": "Log In",
     "logout": "Logout",
-    "myExchanges":"My exchanges",
+    "myExchanges": "My exchanges",
     "created": "Created",
     "joined": "Joined"
   },
@@ -30,10 +30,10 @@
     "emptyPassword": "Please input your Password!",
     "emptyTitle": "Please input the title!",
     "emptyDate": "Please input the date!",
-    "emptyMotherTongue":"Please input your mother tongue!",
-    "emptyTargetLanguage":"Please input your target language",
-    "emptyNumberOfParticipants":"Please input the number of participants",
-    "numberOfParticipants":"Number of participants",
+    "emptyMotherTongue": "Please input your mother tongue!",
+    "emptyTargetLanguage": "Please input your target language",
+    "emptyNumberOfParticipants": "Please input the number of participants",
+    "numberOfParticipants": "Number of participants",
     "username": "Username",
     "password": "Password",
     "remember": "Remember me",
@@ -44,21 +44,22 @@
     "description": "Description",
     "motherTongue": "Mother tongue",
     "targetLanguage": "Target language",
-    "startDate":"Start date"
+    "startDate": "Start date"
   },
-  "exchange":{
-    "error" : {
-      "title" : "Failed creation",
-      "message" : "There was an error creating a new exchange, try later."
+  "exchange": {
+    "error": {
+      "title": "Failed creation",
+      "message": "There was an error creating a new exchange, try later."
     },
-    "dateError" : {
-      "title" : "Failed creation",
-      "message" : "The moment of exchange must be future."
+    "dateError": {
+      "title": "Failed creation",
+      "message": "The moment of exchange must be future."
     },
     "successful": {
       "title": "Successful creation",
       "message": "The exchange has been created properly."
-    }
+    },
+    "organizer": "Organizer"
   },
   "generic": {
     "create": "Create",
@@ -86,6 +87,16 @@
     "successful": {
       "title": "Joined successfully",
       "message": "Join to the exchange successfully"
+    }
+  },
+  "leave": {
+    "failed": {
+      "title": "Leave failed",
+      "message": "There was an error trying to leave to the exchange."
+    },
+    "successful": {
+      "title": "Leaved successfully",
+      "message": "Leave to the exchange successfully"
     }
   },
   "code": {
