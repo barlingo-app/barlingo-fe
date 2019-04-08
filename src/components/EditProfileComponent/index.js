@@ -265,7 +265,7 @@ export class index extends Component {
             */}
 
             <Form.Row>
-                <Form.Group as={Col} controlId="aboutme">
+                <Form.Group as={Col} controlId="aboutMe">
                 <Form.Label>About me</Form.Label>
                 <Form.Control onChange={this.handleChange} as="textarea" value={this.state.aboutMe} rows="3" />
             </Form.Group>
