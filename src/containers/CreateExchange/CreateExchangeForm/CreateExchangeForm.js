@@ -8,7 +8,7 @@ import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
 import './CreateExchangeForm.scss'
 import { auth } from '../../../auth';
-import axios from 'axios';
+import { exchangesService } from '../../../services/exchangesService';
 
 import { Redirect } from 'react-router-dom';
 const { Option } = Select;
@@ -46,43 +46,39 @@ class CreateExchangeForm extends Component {
 
                 });
                 const { t } = this.props;
-                axios.post(process.env.REACT_APP_BE_URL + '/exchanges', data,{
-                        headers: {
-                            'Authorization': 'Bearer ' + auth.getToken(),
-                            'Content-Type': 'application/json'
-                        }
-                    }).then((response) => {
-                        console.log(response.data.message);
-                        if (response.status === 201) {
-                            this.setState(
-                                { cambiar: "/exchanges/" + response.data.id }
-                            );
-                            notification.success({
-                                placement: 'bottomRight',
-                                bottom: 50,
-                                duration: 10,
-                                message: t('join.successful.title'),
-                                description: t('join.successful.message'),
-                            });
-                        } else {
-                            this.setState({ formFailed: true });
-                        }
+                exchangesService.create(data)
+                .then((response) => {
+                    console.log(response.data.message);
+                    if (response.status === 201) {
+                        this.setState(
+                            { cambiar: "/exchanges/" + response.data.id }
+                        );
+                        notification.success({
+                            placement: 'bottomRight',
+                            bottom: 50,
+                            duration: 10,
+                            message: t('join.successful.title'),
+                            description: t('join.successful.message'),
+                        });
+                    } else {
+                        this.setState({ formFailed: true });
+                    }
 
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        if (error === 'Event has already taken place') {
-                            notification.error({
-                                placement: 'bottomRight',
-                                bottom: 50,
-                                duration: 10,
-                                message: t('join.dateError.title'),
-                                description: t('join.dateError.message'),
-                            });
-                        } else {
-                            this.setState({ formFailed: true });
-                        }
-                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    if (error === 'Event has already taken place') {
+                        notification.error({
+                            placement: 'bottomRight',
+                            bottom: 50,
+                            duration: 10,
+                            message: t('join.dateError.title'),
+                            description: t('join.dateError.message'),
+                        });
+                    } else {
+                        this.setState({ formFailed: true });
+                    }
+                });
             }
         });
     }

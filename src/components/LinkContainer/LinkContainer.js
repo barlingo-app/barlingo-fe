@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { NavLink } from "react-router-dom";
-import { Menu, Dropdown, Icon } from 'antd';
+import { auth } from '../../auth';
 
 
 class LinkContainer extends Component {
@@ -22,9 +22,8 @@ class LinkContainer extends Component {
                 <ul>
                     <NavLink activeClassName={"active"} exact={true} to={"/exchanges"}><li>{t('links.exchanges')}</li></NavLink>
                     <NavLink activeClassName={"active"} exact={true} to={"/establishments"}><li>{t('links.establishments')}</li></NavLink>
-                    <NavLink activeClassName={"active"} exact={true} to={"/validateCode"}><li>{t('links.validateCode')}</li></NavLink>
-                    <NavLink isActive={activeFunction} activeClassName={"active"} exact={true} to={"/myExchanges"}><li>{t('links.myExchanges')}</li></NavLink>
-
+                    {auth.isAuthenticated() && auth.isEstablishment() && <NavLink activeClassName={"active"} exact={true} to={"/validateCode"}><li>{t('links.validateCode')}</li></NavLink>}
+                    {auth.isAuthenticated() && <NavLink activeClassName={"active"} exact={true} to={"/myExchanges"}><li>{t('links.myExchanges')}</li></NavLink>}
                 </ul>
             </div>
         );

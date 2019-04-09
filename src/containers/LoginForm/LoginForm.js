@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import {
-    Form, Icon, Input, Button, notification
+    Form, Icon, Input, Button, notification, Checkbox
 } from 'antd';
 import { Page, Section } from "react-page-layout";
 import 'antd/dist/antd.css';
 import { withNamespaces } from "react-i18next";
 import {auth} from "../../auth";
-import users from '../../media/data/users';
 import { Redirect } from 'react-router-dom';
 import './LoginForm.scss'
 import logo from '../../media/logo.png';
-import axios from 'axios';
 
 class LoginForm extends Component {
 
@@ -21,15 +19,6 @@ class LoginForm extends Component {
             loginFailed: false
         };
     }
-
-    processLoginResponse = (response) => {
-        if (response.status === 200) {
-            auth.login(response.data);
-            this.loginSuccessful();
-        } else {
-            this.loginFailed();
-        }
-    };
 
     loginSuccessful = () => {
         this.setState({redirectToReferrer: true});
@@ -43,14 +32,25 @@ class LoginForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            let data = new FormData();
-            data.append("username", values.userName);
-            data.append("password", values.password);
 
-            axios.post(process.env.REACT_APP_BE_URL + '/users/signin', data,
-            { headers: {'Content-Type': 'multipart/form-data' }})
-                .then((response) => this.processLoginResponse(response))
-                .catch(() => this.loginFailed());
+            console.log(values);
+            auth.login(values.userName, values.password).then((loginResult) => {    
+                if (loginResult.result) {
+                    auth.authenticate(values.userName, values.password, loginResult.data, values.remember).then(
+                        () => {auth.loadUserData().then((result) => {
+                            console.log(result);
+                            if (result) {
+                                this.loginSuccessful();
+                            } else {
+                                this.loginFailed();
+                            }
+                        })
+                        }
+                    );
+                } else {
+                    this.loginFailed();
+                }
+            });
         });
     };
 
@@ -97,6 +97,14 @@ class LoginForm extends Component {
                                 })(
                                     <Input className={"customInput"} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder={t('form.password')} />
                                 )}
+                            </Form.Item>
+                            <Form.Item>
+                            {getFieldDecorator('remember', {
+                                valuePropName: 'checked',
+                                initialValue: false,
+                            })(
+                                <Checkbox>{t('form.remember')}</Checkbox>
+                            )}
                             </Form.Item>
                                 <Button type="primary" htmlType="submit" className="login-form-button primaryButton">
                                     {t('form.login')}
