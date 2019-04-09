@@ -2,14 +2,14 @@ import { Avatar, Card } from 'antd';
 import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
-import EstablishmentGeneric from '../../media/data/establishments';
+import defaultImage from '../../media/default-exchange-header.jpg';
 import { Col, Row } from 'reactstrap';
 import './EstablishmentDetails.scss';
-
 import locationIcon from '../../media/imageedit_5_5395394410.png';
 import timeIcon from '../../media/imageedit_8_4988666292.png';
-import axios from "axios";
+import { establishmentService } from '../../services/establishmentService';
 import Loading from "../../components/Loading/Loading";
+
 class EstablishmentDetails extends Component {
     constructor(props) {
         super(props);
@@ -21,8 +21,9 @@ class EstablishmentDetails extends Component {
     }
 
     fetchData = () => {
-        axios.get(process.env.REACT_APP_BE_URL + '/establishments/' + this.props.match.params.establishmentName)
-            .then((response) => this.setData(response)).catch((error) => this.setError(error));
+        establishmentService.findOne(this.props.match.params.establishmentName)
+        .then((response) => this.setData(response))
+        .catch((error) => this.setError(error));
     };
 
     setData = (response) => {
@@ -60,6 +61,10 @@ class EstablishmentDetails extends Component {
         );
     }
 
+    getImage = (image) => {
+        return (image === '' || image === null) ? defaultImage : image;
+    };
+
     render() {
         const { Meta } = Card;
         const { errorMessage, loaded, establishment } = this.state;
@@ -82,7 +87,7 @@ class EstablishmentDetails extends Component {
                         <Row>
                             <Col col-sm="12" offset-md="4" col-md="4">
                                 <Card
-                                cover={<img className="header-img" alt="example" src={establishment.imageProfile} />}>
+                                cover={<img className="header-img" alt="example" src={this.getImage(establishment.imageProfile)} onError={(e) => {e.target.src = defaultImage}} />}>
                                     <Meta
                                         avatar={<Avatar src={establishment.imageProfile} />}
                                         title={establishment.establishmentName}
