@@ -32,7 +32,7 @@ class displayCodeContainer extends React.Component{
   }
 
   render(){
-    const {userId, code, exchanged, loaded, t} = this.state
+    const {code} = this.state
     return(
       <Page layout="public">
         <Section slot="content">

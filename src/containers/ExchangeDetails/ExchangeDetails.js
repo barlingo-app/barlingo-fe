@@ -1,7 +1,4 @@
 import { Avatar, Badge, Button, Card, Icon } from 'antd';
-import { exchangesService } from '../../services/exchangesService';
-import { discountCodeService } from '../../services/discountCodeService';
-import axios from 'axios';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
@@ -13,6 +10,8 @@ import image from '../../media/default-exchange-header.jpg';
 import locationIcon from '../../media/imageedit_5_5395394410.png';
 import timeIcon from '../../media/imageedit_8_4988666292.png';
 import personIcon from '../../media/person.png';
+import { discountCodeService } from '../../services/discountCodeService';
+import { exchangesService } from '../../services/exchangesService';
 import './ExchangeDetails.scss';
 
 
@@ -29,12 +28,11 @@ class ExchangeDetails extends Component {
 
     fetchData = () => {
         exchangesService.findOne(this.props.match.params.exchangeTitle)
-        .then((response) => this.setData(response))
-        .catch((error) => this.setError(error));
+            .then((response) => this.setData(response))
+            .catch((error) => this.setError(error));
     };
 
     setData = (response) => {
-        console.log(response);
         this.setState({
             exchange: response,
             loaded: true
@@ -42,7 +40,6 @@ class ExchangeDetails extends Component {
     };
 
     setError = (error) => {
-        console.log(error);
         this.setState({
             errorMessage: "loadErrorMessage"
         })
@@ -67,12 +64,11 @@ class ExchangeDetails extends Component {
 
     showCode = () => {
         discountCodeService.getDiscountCode(this.state.exchange.id)
-        .then((response) => this.readCodeOk(response))
-        .catch(() => this.readCodeFail());
+            .then((response) => this.readCodeOk(response))
+            .catch(() => this.readCodeFail());
     };
 
     isJoined = () => {
-        const { t } = this.props;
         const { exchange } = this.state;
 
         let userData = auth.getUserData();
@@ -82,7 +78,6 @@ class ExchangeDetails extends Component {
                 return true;
             } else {
                 for (let index in exchange.participants) {
-                    console.log(exchange.participants[index]);
                     if (exchange.participants[index].id === userData.id) {
                         return true;
                     }
@@ -101,7 +96,6 @@ class ExchangeDetails extends Component {
     }
 
     renderDescription() {
-        console.log(this.state.exchange)
         let address = this.state.exchange.establishment.establishmentName + ", " + this.state.exchange.establishment.address;
         let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
         return (
@@ -139,8 +133,6 @@ class ExchangeDetails extends Component {
         const { Meta } = Card;
         const { errorMessage, loaded, exchange, codeShown } = this.state;
         const { t } = this.props;
-
-        console.log(exchange);
 
         if (!loaded) {
             return (
