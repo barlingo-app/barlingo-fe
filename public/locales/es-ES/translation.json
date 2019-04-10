@@ -9,6 +9,10 @@
       "seeEstablishments": "Ver establecimientos"
     }
   },
+  "user": {
+    "list": "Lista de usuarios",
+    "deactivate": "Desactivar"
+  },
   "titles": {
     "exchangesList": "Intercambios",
     "establishmentsList": "Establecimientos",

@@ -10,7 +10,6 @@ class Loading extends Component {
         const { t } = this.props;
 
         const { message } = this.props;
-        console.log("message" + message);
 
         if ((message === null || message === undefined)) {
             return (

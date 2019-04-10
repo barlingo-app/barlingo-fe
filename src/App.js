@@ -3,8 +3,8 @@ import { withNamespaces } from "react-i18next";
 import { LayoutProvider } from 'react-page-layout';
 import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import { auth } from "./auth";
-import RegisterComponent from './components/RegisterComponent';
 import EditProfileComponent from './components/EditProfileComponent';
+import RegisterComponent from './components/RegisterComponent';
 import CreateExchangeForm from "./containers/CreateExchange/CreateExchange";
 import DisplayCodeContainer from './containers/DisplayCodeContainer/DisplayCodeContainer';
 import EstablishmentDetails from "./containers/EstablishmentDetails/EstablishmentDetails";
@@ -14,9 +14,10 @@ import ExchangesList from "./containers/ExchangesList/ExchangesList";
 import MyExchangesList from "./containers/ExchangesList/MyExchangesList/MyExchangeList";
 import Home from './containers/Home/Home';
 import LoginForm from "./containers/LoginForm/LoginForm";
-import ProfileView from "./containers/ProfileView/ProfileView";
-import ValidateCodeContainer from './containers/ValidateCodeContainer/ValidateCodeContainer';
 import NotFound from "./containers/NotFound/NotFound";
+import ProfileView from "./containers/ProfileView/ProfileView";
+import UsersList from "./containers/UsersList/UsersList";
+import ValidateCodeContainer from './containers/ValidateCodeContainer/ValidateCodeContainer';
 import PublicLayout from './layouts/PublicLayout/PublicLayout';
 
 
@@ -54,6 +55,7 @@ class App extends Component {
 					<Route exact path="/" component={Home} />
 					<Route exact path="/login" component={LoginForm} />
 					<PrivateRoute exact path="/profile/:userId" component={ProfileView} />
+					<Route exact path="/users" component={UsersList} />
 					<Route exact path="/exchanges" component={ExchangesList} />
 					<Route exact path="/establishments" component={EstablismentsList} />
 					<Route exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
@@ -65,7 +67,7 @@ class App extends Component {
 					<PrivateRoute exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
 					<PrivateRoute exact path="/displayCode/:codeId" component={DisplayCodeContainer} />
 					<PrivateRoute exact path="/validateCode" component={ValidateCodeContainer} />
-					<Route component={NotFound}/>
+					<Route component={NotFound} />
 				</Switch>
 			</LayoutProvider>
 		);

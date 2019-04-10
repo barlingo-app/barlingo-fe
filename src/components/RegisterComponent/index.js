@@ -57,7 +57,7 @@ export class index extends Component {
     }
 
     usernameValidity = () => {
-        if (this.state.username == '' || this.state.usernameInvalid) {
+        if (this.state.username === '' || this.state.usernameInvalid) {
             return 'error';
         } else {
             return 'success';
@@ -85,8 +85,8 @@ export class index extends Component {
                 'Content-Type': 'application/json'
             }
         }).then((response) => {
-            if (response.data.success != true) {
-                if (response.data.message == 'The username already exists.') {
+            if (response.data.success !== true) {
+                if (response.data.message === 'The username already exists.') {
                     this.setState({usernameInvalid: true, validated: true})
                 }
             } else {  
@@ -163,7 +163,6 @@ export class index extends Component {
       }
       
       render() {
-          console.log("STATE... ", this.state)
     const { successfulLogin, validated, usernameInvalid } = this.state;
 
     let today = new Date()

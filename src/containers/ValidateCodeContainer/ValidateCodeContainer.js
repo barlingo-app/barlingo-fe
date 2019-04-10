@@ -9,8 +9,6 @@ import axios from "axios";
 import { auth } from "../../auth";
 function validateStatus(code) {
   if (code.length >= 13) {
-    console.log(code)
-    console.log(code.length)
     return {
       validateStatus: 'success',
       errorMsg: null,
@@ -42,7 +40,6 @@ class ValidateCodeContainer extends React.Component {
         code,
       },
     });
-    console.log(valid.validateStatus)
     if (valid.validateStatus === "success") {
       this.checkCode(code);
     }
@@ -60,7 +57,6 @@ class ValidateCodeContainer extends React.Component {
   };
 
   codeOk = (response) => {
-    console.log(response)
     const { t } = this.props;
     this.setState({
       redeemable: true

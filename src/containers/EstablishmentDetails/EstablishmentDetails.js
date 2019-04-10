@@ -27,7 +27,6 @@ class EstablishmentDetails extends Component {
     };
 
     setData = (response) => {
-        console.log(response);
         this.setState({
             establishment: response.data,
             loaded: true
@@ -35,7 +34,6 @@ class EstablishmentDetails extends Component {
     };
 
     setError = (error) => {
-        console.log(error);
         this.setState({
             errorMessage: "loadErrorMessage"
         })
@@ -68,7 +66,6 @@ class EstablishmentDetails extends Component {
     render() {
         const { Meta } = Card;
         const { errorMessage, loaded, establishment } = this.state;
-        let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'};
 
         if (!loaded) {
             return (

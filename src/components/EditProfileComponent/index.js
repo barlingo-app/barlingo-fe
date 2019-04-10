@@ -1,14 +1,12 @@
-import React, { Component } from 'react'
-import { Page, Section } from "react-page-layout"
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import InputGroup from 'react-bootstrap/InputGroup';
+import { notification } from 'antd';
+import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import { Page, Section } from "react-page-layout";
 import { Redirect } from 'react-router-dom';
-import axios from 'axios';
-import {notification} from 'antd';
-import Loading from "../../components/Loading/Loading";
 import { auth } from '../../auth';
+import Loading from "../../components/Loading/Loading";
 import { userService } from '../../services/userService';
 
 export class index extends Component {
@@ -56,8 +54,8 @@ export class index extends Component {
         }
 
         userService.editUserData(dataToSend).then((response) => {
-            if (response.data.success != true) {
-                if (response.data.message == 'The username already exists.') {
+            if (response.data.success !== true) {
+                if (response.data.message === 'The username already exists.') {
                     this.setState({usernameInvalid: true, validated: true})
                 }
             } else {  
@@ -137,7 +135,6 @@ export class index extends Component {
       )
 
       render() {
-          console.log("STATE... ", this.state)
     const { successfulLogin, validated, usernameInvalid, loaded, errorMessage} = this.state;
 
     let today = new Date()

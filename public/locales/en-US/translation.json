@@ -8,6 +8,10 @@
       "seeEstablishments": "See establishments"
     }
   },
+  "user": {
+    "list": "Users list",
+    "deactivate": "Deactivate"
+  },
   "titles": {
     "exchangesList": "Exchanges",
     "establishmentsList": "Establishments",
