@@ -18,7 +18,6 @@ class UserMenuInfo extends Component {
 
     logoutHandler = (previous) => {
         auth.logout();
-        console.log(previous);
         this.setState({ logout: previous !== "/" });
     };
 

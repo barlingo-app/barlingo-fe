@@ -20,6 +20,10 @@
   "french": "French",
   "german": "German",
   "adviseemail": "We'll never share your email with anyone else",
+  "user": {
+    "list": "Users list",
+    "deactivate": "Deactivate"
+  },
   "titles": {
     "exchangesList": "Exchanges",
     "establishmentsList": "Establishments",
@@ -136,6 +140,16 @@
     }
   },
   "code": {
+    "redeem": {
+      "ok": {
+        "title": "Reedem succesfully",
+        "message": "The reedem was completed succesfully"
+      },
+      "fail": {
+        "title": "Fail during reedem",
+        "message": "An error has ocurred while reedeming"
+      }
+    },
     "show": "Show code",
     "showTitle": "The discount code is",
     "error": "There isn't code to show",

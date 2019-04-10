@@ -31,7 +31,6 @@ class EstablismentsList extends Component {
     };
 
     setError = (error) => {
-        console.log(error);
         this.setState({
             errorMessage: "loadErrorMessage"
         })
@@ -44,7 +43,6 @@ class EstablismentsList extends Component {
     }
 
     handleOnClick(id) {
-        console.log(id);
         let route = "createExchange";
         this.props.history.push(`/${route}/${id}`);
     }

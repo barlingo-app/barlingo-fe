@@ -1,5 +1,4 @@
 import { notification } from 'antd';
-import axios from "axios";
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
@@ -166,9 +165,7 @@ class MyExchangesList extends Component {
     }
 
     render() {
-        const { t } = this.props;
         const { errorMessage, loaded, items } = this.state;
-        let buttonMessage = t('generic.join');
         let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
 
         if (!loaded) {

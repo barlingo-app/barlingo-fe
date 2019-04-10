@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
-import './CustomCard.scss'
-import barLogo from '../../media/photo-1514933651103-005eec06c04b.jpg'
-import defaultImage from '../../media/default-exchange-logo.png';
-import locationIcon from '../../media/imageedit_5_5395394410.png'
-import timeIcon from '../../media/imageedit_8_4988666292.png'
-import personIcon from '../../media/person.png'
-import spanish from '../../media/spain.svg'
-import english from '../../media/united-kingdom.svg'
-import french from '../../media/france.svg'
-import german from '../../media/germany.svg'
 import { NavLink } from "react-router-dom";
+import defaultImage from '../../media/default-exchange-logo.png';
+import french from '../../media/france.svg';
+import german from '../../media/germany.svg';
+import locationIcon from '../../media/imageedit_5_5395394410.png';
+import timeIcon from '../../media/imageedit_8_4988666292.png';
+import personIcon from '../../media/person.png';
+import spanish from '../../media/spain.svg';
+import english from '../../media/united-kingdom.svg';
+import './CustomCard.scss';
 
 class CustomCard extends Component {
 

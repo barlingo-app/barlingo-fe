@@ -7,12 +7,11 @@ import { Col, Row } from 'reactstrap';
 import { auth } from '../../auth';
 import Loading from "../../components/Loading/Loading";
 import locationIcon from '../../media/imageedit_5_5395394410.png';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import defaultImage from '../../media/default-exchange-header.jpg';
 
 class ProfileView extends Component {
     constructor(props) {
-        console.log("entra")
         super(props);
         this.state = {
             editProfile: false,
@@ -23,7 +22,6 @@ class ProfileView extends Component {
     }
 
     componentDidUpdate() {
-        console.log("update")
         const { user } = this.state;
         if (user)
             if (+this.props.match.params.userId !== user.id) {
@@ -58,7 +56,6 @@ class ProfileView extends Component {
     renderDescription() {
         let user = this.state.user
         let address = user.city + ", " + user.country;
-        //let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
         return (
             <div className="exchange">
                 <div>
@@ -74,10 +71,8 @@ class ProfileView extends Component {
     };
 
     render() {
-        console.log("entra: " + this.props.match.params.userId)
         const { Meta } = Card;
         const { errorMessage, loaded, user, editProfile } = this.state;
-        const { t } = this.props;
 
         if (editProfile) {
             return (<Redirect to={"/editProfile"} />);
@@ -98,20 +93,18 @@ class ProfileView extends Component {
                     <Row>
                         <Col col-sm="12" offset-md="4" col-md="4">
                             <Card
-                                cover={<img className="header-img" alt="example" src={this.getImage(user.profileBackPic)} onError={(e) => {e.target.src = defaultImage}}/>}>
+                                cover={<img className="header-img" alt="example" src={this.getImage(user.profileBackPic)} onError={(e) => { e.target.src = defaultImage }} />}>
                                 <Meta
                                     avatar={<Avatar src={user.personalPic} />}
                                     title={user.name}
                                     description={this.renderDescription()}
                                 />
+                                {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.setState({ editProfile: true })} htmlType="submit" className="login-form-button primaryButton">
+                                    Edit profile
+                                </Button>}
                             </Card>
-                        </Col> 
+                        </Col>
                     </Row>
-                    <Col col-sm="12" offset-md="4" col-md="4">                                
-                        <Button type="primary" onClick={() => this.setState({editProfile: true})} htmlType="submit" className="login-form-button primaryButton">
-                            Edit profile
-                        </Button>
-                    </Col>
                 </Section>
             </Page >
         );

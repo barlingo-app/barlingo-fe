@@ -22,6 +22,10 @@
   "german": "Alemán",
   "submit": "Enviar",
   "adviseemail": "No compartiremos tu información con nadie",
+  "user": {
+    "list": "Lista de usuarios",
+    "deactivate": "Desactivar"
+  },
   "titles": {
     "exchangesList": "Intercambios",
     "establishmentsList": "Establecimientos",
@@ -33,7 +37,7 @@
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",
     "validateCode": "Validar código",
-    "login":"Iniciar sesión",
+    "login": "Iniciar sesión",
     "register": "Registrarse",
     "logout": "Cerrar sesión",
     "myExchanges": "Mis intercambios",
@@ -137,6 +141,16 @@
     }
   },
   "code": {
+    "redeem": {
+      "ok": {
+        "title": "Canjeado correctamente",
+        "message": "Se ha canjeado el código de manera correcta."
+      },
+      "fail": {
+        "title": "Ups, algo ha salido mal",
+        "message": "Se ha producido un error mientras se canjeaba el código."
+      }
+    },
     "show": "Mostrar código",
     "showTitle": "El codigo de descuento es",
     "error": "No hay código para mostrar",
