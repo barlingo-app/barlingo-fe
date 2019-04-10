@@ -8,7 +8,7 @@ import { Redirect } from 'react-router-dom';
 import { auth } from '../../auth';
 import Loading from "../../components/Loading/Loading";
 import { userService } from '../../services/userService';
-
+import { withNamespaces } from "react-i18next";
 export class index extends Component {
     constructor(props){
         super(props)
