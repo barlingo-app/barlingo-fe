@@ -61,7 +61,7 @@ class App extends Component {
 					<Route exact path="/register" component={RegisterComponent} />
 					<Route exact path="/editProfile" component={EditProfileComponent} />
 					<Route exact path="/notFound" component={NotFound} />
-					<Route exact patch="/registerEstablishment" component={RegisterEstablishmentContainer} />
+					<Route exact path="/registerEstablishment" component={RegisterEstablishmentContainer} />
 					<PrivateRoute exact path="/myExchanges" component={MyExchangesList} />
 					<PrivateRoute exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
 					<PrivateRoute exact path="/displayCode/:codeId" component={DisplayCodeContainer} />
