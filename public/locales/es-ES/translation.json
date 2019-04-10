@@ -1,4 +1,6 @@
 {
+  "error": "Error",
+  "warning": "Alerta",
   "welcomeMessage": "Bienvenido a Barlingo!",
   "notfound": "Recurso no encontrado",
   "loadErrorMessage": "Hubo un error al cargar los datos",
@@ -151,6 +153,7 @@
         "message": "Se ha producido un error mientras se canjeaba el código."
       }
     },
+    "outDate": "El código solo se mostrará 4 horas antes del evento y 48 horas después.",
     "show": "Mostrar código",
     "showTitle": "El codigo de descuento es",
     "error": "No hay código para mostrar",
