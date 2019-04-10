@@ -1,16 +1,16 @@
-import { Button, Checkbox, Form, Icon, Input, Radio, Select, DatePicker, notification } from 'antd';
+import { Button, DatePicker, Form, Icon, Input, notification, Radio, Select } from 'antd';
 import 'antd/dist/antd.css';
-import spanish from '../../../media/spain.svg'
-import english from '../../../media/united-kingdom.svg'
-import french from '../../../media/france.svg'
-import german from '../../../media/germany.svg'
 import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
-import './CreateExchangeForm.scss'
-import { auth } from '../../../auth';
-import { exchangesService } from '../../../services/exchangesService';
-
 import { Redirect } from 'react-router-dom';
+import { auth } from '../../../auth';
+import french from '../../../media/france.svg';
+import german from '../../../media/germany.svg';
+import spanish from '../../../media/spain.svg';
+import english from '../../../media/united-kingdom.svg';
+import { exchangesService } from '../../../services/exchangesService';
+import './CreateExchangeForm.scss';
+import './CreateExchangeForm.scss';
 const { Option } = Select;
 
 class CreateExchangeForm extends Component {
@@ -48,7 +48,6 @@ class CreateExchangeForm extends Component {
                 const { t } = this.props;
                 exchangesService.create(data)
                 .then((response) => {
-                    console.log(response.data.message);
                     if (response.status === 201) {
                         this.setState(
                             { cambiar: "/exchanges/" + response.data.id }
@@ -66,7 +65,6 @@ class CreateExchangeForm extends Component {
 
                 })
                 .catch((error) => {
-                    console.log(error);
                     if (error === 'Event has already taken place') {
                         notification.error({
                             placement: 'bottomRight',

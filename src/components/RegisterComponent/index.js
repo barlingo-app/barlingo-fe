@@ -165,7 +165,6 @@ export class index extends Component {
       }
       
       render() {
-          console.log("STATE... ", this.state)
     const { successfulLogin, validated, usernameInvalid } = this.state;
     const { t } = this.props;
     let today = new Date()

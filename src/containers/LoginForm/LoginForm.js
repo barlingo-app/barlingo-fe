@@ -33,12 +33,10 @@ class LoginForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
 
-            console.log(values);
             auth.login(values.userName, values.password).then((loginResult) => {    
                 if (loginResult.result) {
                     auth.authenticate(values.userName, values.password, loginResult.data, values.remember).then(
                         () => {auth.loadUserData().then((result) => {
-                            console.log(result);
                             if (result) {
                                 this.loginSuccessful();
                             } else {
