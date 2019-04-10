@@ -12,6 +12,7 @@ import timeIcon from '../../media/imageedit_8_4988666292.png';
 import personIcon from '../../media/person.png';
 import { discountCodeService } from '../../services/discountCodeService';
 import { exchangesService } from '../../services/exchangesService';
+import { notification } from 'antd';
 import './ExchangeDetails.scss';
 
 
@@ -63,9 +64,29 @@ class ExchangeDetails extends Component {
     };
 
     showCode = () => {
-        discountCodeService.getDiscountCode(this.state.exchange.id)
-            .then((response) => this.readCodeOk(response))
-            .catch(() => this.readCodeFail());
+        const { t } = this.props;
+
+        let before = new Date(this.state.exchange.moment);
+        before.setHours(before.getHours() - 4);
+
+        let after = new Date(this.state.exchange.moment);
+        after.setHours(after.getHours() + 48);
+
+        if (new Date() >= before && new Date() <= after) {
+            discountCodeService.getDiscountCode(this.state.exchange.id)
+                .then((response) => this.readCodeOk(response))
+                .catch(() => this.readCodeFail());
+        } else {
+            notification.error({
+                placement: 'bottomRight',
+                bottom: 50,
+                duration: 10,
+                message: t('warning'),
+                description: t('code.outDate'),
+            });
+        }
+
+
     };
 
     isJoined = () => {

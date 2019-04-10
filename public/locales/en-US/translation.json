@@ -1,4 +1,6 @@
 {
+  "error" : "Error",
+  "warning" : "Warning",
   "notfound": "Resource not found",
   "loadErrorMessage": "There was an error loading the data",
   "landing": {
@@ -150,6 +152,7 @@
         "message": "An error has ocurred while reedeming"
       }
     },
+    "outDate":"The code only can be showed 4 hours before the event and 48 hours after.",
     "show": "Show code",
     "showTitle": "The discount code is",
     "error": "There isn't code to show",
