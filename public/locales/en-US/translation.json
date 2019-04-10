@@ -101,6 +101,16 @@
     }
   },
   "code": {
+    "redeem": {
+      "ok": {
+        "title": "Reedem succesfully",
+        "message": "The reedem was completed succesfully"
+      },
+      "fail": {
+        "title": "Fail during reedem",
+        "message": "An error has ocurred while reedeming"
+      }
+    },
     "show": "Show code",
     "error": "There isn't code to show",
     "validate": {

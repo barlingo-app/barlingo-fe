@@ -20,7 +20,7 @@
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",
     "validateCode": "Validar código",
-    "login":"Iniciar sesión",
+    "login": "Iniciar sesión",
     "register": "Registrarse",
     "logout": "Cerrar sesión",
     "myExchanges": "Mis intercambios",
@@ -102,6 +102,16 @@
     }
   },
   "code": {
+    "redeem": {
+      "ok": {
+        "title": "Canjeado correctamente",
+        "message": "Se ha canjeado el código de manera correcta."
+      },
+      "fail": {
+        "title": "Ups, algo ha salido mal",
+        "message": "Se ha producido un error mientras se canjeaba el código."
+      }
+    },
     "show": "Mostrar código",
     "error": "No hay código para mostrar",
     "validate": {
