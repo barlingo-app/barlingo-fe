@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import './CustomCard.scss'
 import barLogo from '../../media/photo-1514933651103-005eec06c04b.jpg'
-import image from '../../media/default-exchange-logo.png';
+import defaultImage from '../../media/default-exchange-logo.png';
 import locationIcon from '../../media/imageedit_5_5395394410.png'
 import timeIcon from '../../media/imageedit_8_4988666292.png'
 import personIcon from '../../media/person.png'
@@ -13,6 +13,11 @@ import german from '../../media/germany.svg'
 import { NavLink } from "react-router-dom";
 
 class CustomCard extends Component {
+
+
+    getImage = (originalImage) => {
+        return (originalImage === '' || originalImage === null) ? defaultImage : originalImage;
+    };
 
     getRandomArbitrary(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
@@ -76,7 +81,7 @@ class CustomCard extends Component {
         return (
             <div style={{"height": "100%", "padding": "15px 0"}}>
                 <div className="custom-card">
-                    <img className="custom-card__image" src={image} alt="Bar logo" onError={(e) => e.target.src = image}/>
+                    <img className="custom-card__image" src={image} alt="Bar logo" onError={(e) => e.target.src = defaultImage}/>
                     {this.renderNavLink()}
 
                     {this.renderLanguageWrapper()}

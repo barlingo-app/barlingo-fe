@@ -8,6 +8,7 @@ import { auth } from '../../auth';
 import Loading from "../../components/Loading/Loading";
 import locationIcon from '../../media/imageedit_5_5395394410.png';
 import {Redirect} from 'react-router-dom';
+import defaultImage from '../../media/default-exchange-header.jpg';
 
 class ProfileView extends Component {
     constructor(props) {
@@ -67,6 +68,11 @@ class ProfileView extends Component {
             </div>
         );
     }
+
+    getImage = (image) => {
+        return (image === '' || image === null) ? defaultImage : image;
+    };
+
     render() {
         console.log("entra: " + this.props.match.params.userId)
         const { Meta } = Card;
@@ -92,7 +98,7 @@ class ProfileView extends Component {
                     <Row>
                         <Col col-sm="12" offset-md="4" col-md="4">
                             <Card
-                                cover={<img className="header-img" alt="example" src={user.profileBackPic} />}>
+                                cover={<img className="header-img" alt="example" src={this.getImage(user.profileBackPic)} onError={(e) => {e.target.src = defaultImage}}/>}>
                                 <Meta
                                     avatar={<Avatar src={user.personalPic} />}
                                     title={user.name}

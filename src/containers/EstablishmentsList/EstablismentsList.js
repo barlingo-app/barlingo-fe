@@ -4,7 +4,7 @@ import { Page, Section } from "react-page-layout";
 import { Col, Row } from 'reactstrap';
 import CustomCard from '../../components/CustomCard/CustomCard';
 import Loading from '../../components/Loading/Loading';
-import axios from 'axios';
+import { establishmentService } from '../../services/establishmentService';
 import './EstablishmentsList.scss';
 
 class EstablismentsList extends Component {
@@ -18,12 +18,12 @@ class EstablismentsList extends Component {
     }
 
     fetchData = () => {
-        axios.get(process.env.REACT_APP_BE_URL + '/establishments')
-            .then((response) => this.setData(response)).catch((error) => this.setError(error));
+        establishmentService.list()
+        .then((response) => this.setData(response))
+        .catch((error) => this.setError(error));
     };
 
     setData = (response) => {
-        console.log(response);
         this.setState({
             items: response.data,
             loaded: true

@@ -8,7 +8,7 @@ import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
 import './CreateExchangeForm.scss'
 import { auth } from '../../../auth';
-import axios from 'axios';
+import { exchangesService } from '../../../services/exchangesService';
 
 import { Redirect } from 'react-router-dom';
 const { Option } = Select;
@@ -38,47 +38,47 @@ class CreateExchangeForm extends Component {
                 var data = JSON.stringify({
                     "description": values.description,
                     "moment": values['date-time-picker']._d,
-                    "title": values.title
+                    "title": values.title,
+                    "creatorId": auth.getUserData().id,
+                    "establishmentId": this.props.establishmentId,
+                    "numberOfParticipants": values.numberOfParticipants,
+                    "targetLangs": [values.motherTongue, values.targetLanguage]
+
                 });
                 const { t } = this.props;
-                axios.post(process.env.REACT_APP_BE_URL + '/languageExchange/user/create?creatorId=' + auth.getUserData().id +
-                    '&establishmentId=' + this.props.establishmentId, data,{
-                        headers: {
-                            'Authorization': 'Bearer ' + auth.getToken(),
-                            'Content-Type': 'application/json'
-                        }
-                    }).then((response) => {
-                        console.log(response.data.message);
-                        if (response.status === 201) {
-                            this.setState(
-                                { cambiar: "/exchanges/" + response.data.id }
-                            );
-                            notification.success({
-                                placement: 'bottomRight',
-                                bottom: 50,
-                                duration: 10,
-                                message: t('join.successful.title'),
-                                description: t('join.successful.message'),
-                            });
-                        } else {
-                            this.setState({ formFailed: true });
-                        }
+                exchangesService.create(data)
+                .then((response) => {
+                    console.log(response.data.message);
+                    if (response.status === 201) {
+                        this.setState(
+                            { cambiar: "/exchanges/" + response.data.id }
+                        );
+                        notification.success({
+                            placement: 'bottomRight',
+                            bottom: 50,
+                            duration: 10,
+                            message: t('join.successful.title'),
+                            description: t('join.successful.message'),
+                        });
+                    } else {
+                        this.setState({ formFailed: true });
+                    }
 
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        if (error === 'Event has already taken place') {
-                            notification.error({
-                                placement: 'bottomRight',
-                                bottom: 50,
-                                duration: 10,
-                                message: t('join.dateError.title'),
-                                description: t('join.dateError.message'),
-                            });
-                        } else {
-                            this.setState({ formFailed: true });
-                        }
-                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    if (error === 'Event has already taken place') {
+                        notification.error({
+                            placement: 'bottomRight',
+                            bottom: 50,
+                            duration: 10,
+                            message: t('join.dateError.title'),
+                            description: t('join.dateError.message'),
+                        });
+                    } else {
+                        this.setState({ formFailed: true });
+                    }
+                });
             }
         });
     }
@@ -134,7 +134,7 @@ class CreateExchangeForm extends Component {
                             <Option value="es"><img className="custom-card__language-icon" src={spanish} alt="Mother tongue" />{t('language.spanish')}</Option>
                             <Option value="en"><img className="custom-card__language-icon" src={english} alt="Mother tongue" />{t('language.english')}</Option>
                             <Option value="fr"><img className="custom-card__language-icon" src={french} alt="Mother tongue" />{t('language.french')}</Option>
-                            <Option value="ger"><img className="custom-card__language-icon" src={german} alt="Mother tongue" />{t('language.german')}</Option>
+                            <Option value="gr"><img className="custom-card__language-icon" src={german} alt="Mother tongue" />{t('language.german')}</Option>
                         </Select>
                     )}
                 </Form.Item>
@@ -150,7 +150,7 @@ class CreateExchangeForm extends Component {
                             <Option value="es"><img className="custom-card__language-icon" src={spanish} alt="Mother tongue" />{t('language.spanish')}</Option>
                             <Option value="en"><img className="custom-card__language-icon" src={english} alt="Mother tongue" />{t('language.english')}</Option>
                             <Option value="fr"><img className="custom-card__language-icon" src={french} alt="Mother tongue" />{t('language.french')}</Option>
-                            <Option value="ger"><img className="custom-card__language-icon" src={german} alt="Mother tongue" />{t('language.german')}</Option>
+                            <Option value="gr"><img className="custom-card__language-icon" src={german} alt="Mother tongue" />{t('language.german')}</Option>
                         </Select>
                     )}
                 </Form.Item>

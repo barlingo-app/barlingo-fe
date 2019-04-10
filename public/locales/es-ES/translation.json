@@ -113,7 +113,9 @@
       }
     },
     "show": "Mostrar código",
+    "showTitle": "El codigo de descuento es",
     "error": "No hay código para mostrar",
+    "used": "Este código ya ha sido canjeado",
     "validate": {
       "placeholder": "Introduzca el código",
       "button": "Validar código",

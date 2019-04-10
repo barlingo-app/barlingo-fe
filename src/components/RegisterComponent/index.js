@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {notification} from 'antd';
+import { userService } from '../../services/userService';
 
 export class index extends Component {
     constructor(props){
@@ -42,8 +43,8 @@ export class index extends Component {
 
     checkUsername = (username) => {
         if (username !== '') {
-            axios.get(process.env.REACT_APP_BE_URL + '/users/checkUsername?username=' + username, {
-            }).then((response) => {
+            userService.checkUsername(username)
+            .then((response) => {
                 if (response.data.success === false) {
                     this.setUsernameValidity(true);
                 } else {
@@ -296,7 +297,7 @@ export class index extends Component {
             */}
 
             <Form.Row>
-                <Form.Group as={Col} controlId="aboutme">
+                <Form.Group as={Col} controlId="aboutMe">
                 <Form.Label>About me</Form.Label>
                 <Form.Control onChange={this.handleChange} as="textarea" rows="3" />
             </Form.Group>

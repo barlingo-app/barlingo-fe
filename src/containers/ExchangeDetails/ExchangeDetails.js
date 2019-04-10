@@ -1,5 +1,7 @@
 import { Avatar, Badge, Button, Card, Icon } from 'antd';
-import axios from "axios";
+import { exchangesService } from '../../services/exchangesService';
+import { discountCodeService } from '../../services/discountCodeService';
+import axios from 'axios';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
@@ -26,14 +28,15 @@ class ExchangeDetails extends Component {
     }
 
     fetchData = () => {
-        axios.get(process.env.REACT_APP_BE_URL + '/exchanges/' + this.props.match.params.exchangeTitle)
-            .then((response) => this.setData(response)).catch((error) => this.setError(error));
+        exchangesService.findOne(this.props.match.params.exchangeTitle)
+        .then((response) => this.setData(response))
+        .catch((error) => this.setError(error));
     };
 
     setData = (response) => {
         console.log(response);
         this.setState({
-            exchange: response.data,
+            exchange: response,
             loaded: true
         })
     };
@@ -46,28 +49,26 @@ class ExchangeDetails extends Component {
     };
 
     readCodeOk = (response) => {
-        if (response.data.isVisible === true) {
+        if (response.data.exchanged) {
+            this.readCodeFail('code.used');
+        }
+        if (response.data.visible === true) {
             this.setState({ codeShown: response.data.code })
         } else {
             this.readCodeFail();
         }
     };
 
-    readCodeFail = () => {
+    readCodeFail = (errorCode = 'code.error') => {
         const { t } = this.props;
 
-        this.setState({ codeShown: t('code.error') })
+        this.setState({ codeShown: t(errorCode) })
     };
 
     showCode = () => {
-        axios.get(process.env.REACT_APP_BE_URL + '/discounts?langExchangeId=' + this.state.exchange.id + "&userId=" + auth.getUserData().id,
-            {
-                headers: {
-                    'Authorization': 'Bearer ' + auth.getToken()
-                }
-            })
-            .then((response) => this.readCodeOk(response))
-            .catch(() => this.readCodeFail());
+        discountCodeService.getDiscountCode(this.state.exchange.id)
+        .then((response) => this.readCodeOk(response))
+        .catch(() => this.readCodeFail());
     };
 
     isJoined = () => {
@@ -171,7 +172,7 @@ class ExchangeDetails extends Component {
                             {(codeShown === null) && <Button type="primary" htmlType="submit" onClick={() => this.showCode()} className="login-form-button primaryButton">
                                 {t('code.show')}
                             </Button>}
-                            {(codeShown !== null) && <div style={{ fontSize: "18px" }}>The code is:</div>}
+                            {(codeShown !== null) && <div style={{ fontSize: "18px" }}>{t('code.showTitle')}:</div>}
                             {(codeShown !== null) && <div>{codeShown}</div>}
                         </div>
                     }
