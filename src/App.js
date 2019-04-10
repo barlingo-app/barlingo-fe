@@ -18,7 +18,7 @@ import ProfileView from "./containers/ProfileView/ProfileView";
 import ValidateCodeContainer from './containers/ValidateCodeContainer/ValidateCodeContainer';
 import NotFound from "./containers/NotFound/NotFound";
 import PublicLayout from './layouts/PublicLayout/PublicLayout';
-
+import RegisterEstablishmentContainer from './containers/RegisterEstablishmentContainer'
 
 const layouts = {
 	'public': PublicLayout,
@@ -61,6 +61,7 @@ class App extends Component {
 					<Route exact path="/register" component={RegisterComponent} />
 					<Route exact path="/editProfile" component={EditProfileComponent} />
 					<Route exact path="/notFound" component={NotFound} />
+					<Route exact patch="/registerEstablishment" component={RegisterEstablishmentContainer} />
 					<PrivateRoute exact path="/myExchanges" component={MyExchangesList} />
 					<PrivateRoute exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
 					<PrivateRoute exact path="/displayCode/:codeId" component={DisplayCodeContainer} />

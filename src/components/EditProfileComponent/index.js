@@ -2,14 +2,13 @@ import React, { Component } from 'react'
 import { Page, Section } from "react-page-layout"
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {notification} from 'antd';
 import Loading from "../../components/Loading/Loading";
 import { auth } from '../../auth';
-import { userService } from '../../services/userService';
+import { withNamespaces } from "react-i18next";
 
 export class index extends Component {
     constructor(props){
@@ -55,9 +54,14 @@ export class index extends Component {
             learnLanguages: this.state.langsToLearn
         }
 
-        userService.editUserData(dataToSend).then((response) => {
-            if (response.data.success != true) {
-                if (response.data.message == 'The username already exists.') {
+        axios.post(process.env.REACT_APP_BE_URL + '/users/edit', dataToSend, {
+            header: {
+                'Content-Type': 'application/json',
+                'Authentication': 'Bearer ' + auth.getToken()
+            }
+        }).then((response) => {
+            if (response.data.success !== true) {
+                if (response.data.message === 'The username already exists.') {
                     this.setState({usernameInvalid: true, validated: true})
                 }
             } else {  
@@ -139,7 +143,7 @@ export class index extends Component {
       render() {
           console.log("STATE... ", this.state)
     const { successfulLogin, validated, usernameInvalid, loaded, errorMessage} = this.state;
-
+    const { t } = this.props;
     let today = new Date()
     let year = today.getFullYear() - 16
     const maxDate =year+"-01-01"
@@ -168,7 +172,7 @@ export class index extends Component {
     }
     
     return (
-      <div>
+        <div>
         <Page layout="public">
           <Section slot="content">
             
@@ -177,19 +181,6 @@ export class index extends Component {
           validated={validated}
           usernameInvalid={usernameInvalid}
           onSubmit={e => this.handleSubmit(e)}>
-
-            {
-                /**
-                 * ---->
-                 * DATOS PARA EL TIPO USER
-                 * username: string required
-                 * password: string required
-                 * <----
-                 */
-            }
-
-
-
             {/**
             *------>
             *DATOS PARA EL TIPO ACTOR
@@ -203,46 +194,46 @@ export class index extends Component {
 
             <Form.Row>
                 <Form.Group as={Col} md="4" controlId="name">
-                    <Form.Label>*Name</Form.Label>
-                    <Form.Control onChange={this.handleChange}  value={this.state.name} type="text" placeholder="Name" required />
+                    <Form.Label>*{t('form.name')}</Form.Label>
+                    <Form.Control onChange={this.handleChange} type="text" placeholder="Name" required />
                     <Form.Control.Feedback type="invalid">
-                    Please provide a name.
+                    {t('form.emptyfield')}
                     </Form.Control.Feedback>
                 </Form.Group>
         
                 <Form.Group as={Col} md="4" controlId="surname">
-                    <Form.Label>*Surname</Form.Label>
-                    <Form.Control onChange={this.handleChange} type="text"  value={this.state.surname} placeholder="Surname" required />
+                    <Form.Label>*{t('form.surname')}</Form.Label>
+                    <Form.Control onChange={this.handleChange} type="text" placeholder="Surname" required />
                     <Form.Control.Feedback type="invalid">
-                    Please provide a Surname.
+                    {t('form.emptyfield')}
                     </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group as={Col} md="4" controlId="email">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="email" value={this.state.email} placeholder="name@example.com" />
+                    <Form.Label>{t('form.email')}</Form.Label>
+                    <Form.Control onChange={this.handleChange} required type="email" placeholder="name@example.com" />
                     <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
+                        {t('adviseemail')}
                     </Form.Text>
                     <Form.Control.Feedback type="invalid">
-                    Please provide a valid@email.com
+                    {t('form.validemail')}
                     </Form.Control.Feedback>
                 </Form.Group>
             </Form.Row>
 
             <Form.Row>
                 <Form.Group as={Col} md="6" controlId="country">
-                    <Form.Label>*Country</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="text" value={this.state.country} placeholder="Country" />
+                    <Form.Label>*{t('form.country')}</Form.Label>
+                    <Form.Control onChange={this.handleChange} required type="text" placeholder="Country" />
                     <Form.Control.Feedback type="invalid">
-                    Please provide your city
+                    {t('form.emptyfield')}
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="city">
-                    <Form.Label>*City</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="text" value={this.state.city} placeholder="City" />
+                    <Form.Label>*{t('form.city')}</Form.Label>
+                    <Form.Control onChange={this.handleChange} required type="text" placeholder="City" />
                     <Form.Control.Feedback type="invalid">
-                    Please provide your city
+                    {t('form.emptyfield')}
                     </Form.Control.Feedback>
                 </Form.Group>
             </Form.Row>
@@ -262,56 +253,60 @@ export class index extends Component {
 
             <Form.Row>
                 <Form.Group as={Col} controlId="aboutMe">
-                <Form.Label>About me</Form.Label>
-                <Form.Control onChange={this.handleChange} as="textarea" value={this.state.aboutMe} rows="3" />
+                <Form.Label>{t('form.aboutme')}</Form.Label>
+                <Form.Control onChange={this.handleChange} as="textarea" rows="3" />
             </Form.Group>
             </Form.Row>
 
             <Form.Row>
                 <Form.Group as={Col} md="8" controlId="birthday">
-                    <Form.Label>Birthday</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="date" value={this.state.birthday} max={maxDate} placeholder="Date" />
+                    <Form.Label>{t('form.birthday')}</Form.Label>
+                    <Form.Control onChange={this.handleChange} required type="date" max={maxDate} placeholder="Date" />
                     <Form.Control.Feedback type="invalid">
-                        Please choose a date
+                    {t('form.emptyDate')}
                     </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group as={Col} md="8" controlId="motherTongue">
-                    <Form.Label>Mother tongue</Form.Label>
+                    <Form.Label>{t('form.mothertongue')}</Form.Label>
                     <Form.Control onChange={this.handleChange} as="select">
-                    {this.renderOption("es", "Spanish", [this.state.motherTongue])}
-                    {this.renderOption("en", "English", [this.state.motherTongue])}
-                    {this.renderOption("fr", "French", [this.state.motherTongue])}
-                    {this.renderOption("de", "German", [this.state.motherTongue])}
+                    <option value="es">{t('spanish')}</option>
+                    <option value="en">{t('english')}</option>
+                    <option value="fr">{t('french')}</option>
+                    <option value="de">{t('german')}</option>
                     </Form.Control>
                 </Form.Group>
             </Form.Row>
 
             <Form.Row>
                 <Form.Group as={Col} onChange={this.handleChange} controlId="speakLangs">
-                    <Form.Label>Speaked languages</Form.Label>
+                    <Form.Label>{t('form.speakedlanguages')}</Form.Label>
                     <Form.Control as="select" multiple required>
-                    {this.renderOption("es", "Spanish", this.state.speakLangs)}
-                    {this.renderOption("en", "English", this.state.speakLangs)}
-                    {this.renderOption("fr", "French", this.state.speakLangs)}
-                    {this.renderOption("de", "German", this.state.speakLangs)}
+                    <option value="es">{t('spanish')}</option>
+                    <option value="en">{t('english')}</option>
+                    <option value="fr">{t('french')}</option>
+                    <option value="de">{t('german')}</option>
                     </Form.Control>
-                 
+                    <Form.Control.Feedback type="invalid">
+                    {t('form.emptyfield')}
+                    </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} controlId="langsToLearn">
-                    <Form.Label>Languages to learn</Form.Label>
+                    <Form.Label>{t('form.languagesToLearn')}</Form.Label>
                     <Form.Control onChange={this.handleChange} as="select" multiple required>
-                    {this.renderOption("es", "Spanish", this.state.langsToLearn)}
-                    {this.renderOption("en", "English", this.state.langsToLearn)}
-                    {this.renderOption("fr", "French", this.state.langsToLearn)}
-                    {this.renderOption("de", "German", this.state.langsToLearn)}
+                    <option value="es">{t('spanish')}</option>
+                    <option value="en">{t('english')}</option>
+                    <option value="fr">{t('french')}</option>
+                    <option value="de">{t('german')}</option>
                     </Form.Control>
-                    
+                    <Form.Control.Feedback type="invalid">
+                    {t('form.emptyfield')}
+                    </Form.Control.Feedback>
                 </Form.Group>
 
             </Form.Row>
 
-                <Button type="submit">Submit form</Button>
+                <Button type="submit">{t('submit')}</Button>
             </Form>
 
             </Section>
@@ -321,5 +316,4 @@ export class index extends Component {
   }
 }
 
-export default index
-
+export default withNamespaces('translation')(index)

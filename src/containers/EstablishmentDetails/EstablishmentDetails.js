@@ -2,8 +2,8 @@ import { Avatar, Card } from 'antd';
 import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
-import defaultImage from '../../media/default-exchange-header.jpg';
 import { Col, Row } from 'reactstrap';
+import defaultImage from '../../media/default-exchange-header.jpg';
 import './EstablishmentDetails.scss';
 import locationIcon from '../../media/imageedit_5_5395394410.png';
 import timeIcon from '../../media/imageedit_8_4988666292.png';
@@ -68,7 +68,7 @@ class EstablishmentDetails extends Component {
     render() {
         const { Meta } = Card;
         const { errorMessage, loaded, establishment } = this.state;
-        let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+        //let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'};
 
         if (!loaded) {
             return (
