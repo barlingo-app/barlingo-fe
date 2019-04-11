@@ -26,7 +26,8 @@
   "adviseemail": "No compartiremos tu información con nadie",
   "user": {
     "list": "Lista de usuarios",
-    "deactivate": "Desactivar"
+    "deactivate": "Desactivar",
+    "activate": "Activar"
   },
   "titles": {
     "exchangesList": "Intercambios",
@@ -45,6 +46,36 @@
     "myExchanges": "Mis intercambios",
     "created": "Creados",
     "joined": "Unidos"
+  },
+  "admin": {
+    "ban": {
+      "confirm": {
+        "title": "¿Quieres banear a este usuario?",
+        "message": "El usuario no podrá utilizar la aplicación."
+      },
+      "successful": {
+        "title": "El usuario ha sido baneado",
+        "message": "El usuario no podrá entrar en la aplicación."
+      },
+      "error": {
+        "title": "Baneo fallido",
+        "message": "Ha ocurrido un error al banear al usuario."
+      }
+    },
+    "unban": {
+      "confirm": {
+        "title": "¿Quieres desbanear a este usuario?",
+        "message": "El usuario podrá utilizar la aplicación de nuevo."
+      },
+      "successful": {
+        "title": "El usuario ha sido desbaneado",
+        "message": "El usuario podrá entrar en la aplicación."
+      },
+      "error": {
+        "title": "Desbaneo fallido",
+        "message": "Ha ocurrido un error al desbanear al usuario."
+      }
+    }
   },
   "form": {
     "emptyUsername": "Por favor, introduzca su nombre de usuario.",
@@ -108,7 +139,9 @@
     "create": "Crear",
     "join": "Unirse",
     "loading": "Cargando",
-    "leave": "Abandonar"
+    "leave": "Abandonar",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar"
   },
   "language": {
     "spanish": "Español",

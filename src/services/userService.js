@@ -47,5 +47,16 @@ export const userService = {
                 .then((response) => { return response; })
                 .catch((error) => { return error });
         })
+    },
+    async banUser(id) {
+        return auth.getToken().then((token) => {
+            return axios.post(process.env.REACT_APP_BE_URL + '/users/' + id + '/ban', {}, {
+                headers: {
+                    'Authorization': "Bearer " + token
+                }
+            })
+                .then((response) => { return response; })
+                .catch((error) => { return error });
+        })
     }
 }

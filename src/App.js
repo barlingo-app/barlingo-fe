@@ -16,7 +16,7 @@ import Home from './containers/Home/Home';
 import LoginForm from "./containers/LoginForm/LoginForm";
 import NotFound from "./containers/NotFound/NotFound";
 import ProfileView from "./containers/ProfileView/ProfileView";
-import UsersList from "./containers/UsersList/UsersList";
+import UsersListAdmin from "./containers/UsersListAdmin/UsersListAdmin";
 import ValidateCodeContainer from './containers/ValidateCodeContainer/ValidateCodeContainer';
 import PublicLayout from './layouts/PublicLayout/PublicLayout';
 import RegisterEstablishmentContainer from './containers/RegisterEstablishmentContainer'
@@ -55,7 +55,7 @@ class App extends Component {
 					<Route exact path="/" component={Home} />
 					<Route exact path="/login" component={LoginForm} />
 					<PrivateRoute exact path="/profile/:userId" component={ProfileView} />
-					<Route exact path="/users" component={UsersList} />
+					<PrivateRoute exact path="/users" component={UsersListAdmin} />
 					<Route exact path="/exchanges" component={ExchangesList} />
 					<Route exact path="/establishments" component={EstablismentsList} />
 					<Route exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
