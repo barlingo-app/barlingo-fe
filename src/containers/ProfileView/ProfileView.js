@@ -11,6 +11,7 @@ import locationIcon from '../../media/imageedit_5_5395394410.png';
 import { Redirect } from 'react-router-dom';
 import defaultImage from '../../media/default-exchange-header.jpg';
 import FileUploadComponent from './../../components/FileUploadComponent/'
+import {aut} from './../../auth'
 
 class ProfileView extends Component {
     constructor(props) {
@@ -104,11 +105,11 @@ class ProfileView extends Component {
                         <Col col-sm="12" offset-md="4" col-md="4">
                             <Card
                                 cover={
-                                    <FileUploadComponent imageUrl = {this.getImage(user.profileBackPic)} onError={(e) => {e.target.src = defaultImage}} />
+                                    <FileUploadComponent imageUrl = { auth.isUser() ? this.getImage(user.profileBackPic): this.getImage(user.images[0]) } onError={(e) => {e.target.src = defaultImage}} />
                                     }>
                                 <Meta
                                     avatar={
-                                        <FileUploadComponent imageUrl = {user.personalPic} />
+                                        <FileUploadComponent imageUrl = { auth.isUser() ? user.personalPic: user.imageProfile} />
 
                                 }
                                     title={user.name}

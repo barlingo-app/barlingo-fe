@@ -49,11 +49,11 @@ class index extends Component {
         super(props)
         this.state = {
           confirmDirty: false,
+          id: props.data.id
         }
+
+        console.log("****props", props)
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.compareToFirstPassword = this.compareToFirstPassword.bind(this)
-        this.validateToNextPassword = this.validateToNextPassword.bind(this)
-        this.handleConfirmBlur = this.handleConfirmBlur.bind(this)
     }
 
 
@@ -71,9 +71,9 @@ class index extends Component {
           for (const value of weekscheadule) {
             workinghours = workinghours + ", "+ value 
           }
-          workinghours += "\n" + values.open.format("HH:mm") + " - " + values.close.format("HH:mm") 
-
-          console.log("Datas to send", address, city, country,
+          workinghours += "-\n" + values.open.format("HH:mm") + "-" + values.close.format("HH:mm") 
+          const {id} = this.state
+          console.log("Datas to send", id, address, city, country,
             description, email,
             name, offer,
             workinghours, establishmentname)
@@ -85,6 +85,11 @@ class index extends Component {
     const { getFieldDecorator, getFieldsError } = this.props.form;
     const { autoCompleteResult } = this.state;
     const { t } = this.props;
+
+    const {name, surname, country, 
+      city, email,  establishmentName, 
+      description, address, workingHours, offer} = this.props.data
+
     return (
       <div>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -92,17 +97,17 @@ class index extends Component {
             
 
             <Form.Item label={t('form.name')}>
-                {getFieldDecorator('name', {
+                {getFieldDecorator('name', { initialValue: name }, {
                     rules: [{
                         required: true, 
-                        message: t('form.emptyfield')
+                        message: t('form.emptyfield'),
                       }],
                 })(
-                    <Input />
+                    <Input/>
                 )}
             </Form.Item>
             <Form.Item label={t('form.surname')}>
-                {getFieldDecorator('surname', {
+                {getFieldDecorator('surname', { initialValue: surname }, {
                     rules: [{
                         required: true, 
                         message: t('form.emptyfield')
@@ -112,7 +117,7 @@ class index extends Component {
                 )}
             </Form.Item>
             <Form.Item label={t('form.country')}>
-                {getFieldDecorator('country', {
+                {getFieldDecorator('country', { initialValue: country }, {
                     rules: [{
                         required: true, 
                         message: t('form.emptyfield')
@@ -122,7 +127,7 @@ class index extends Component {
                 )}
             </Form.Item>
             <Form.Item label={t('form.city')}>
-                {getFieldDecorator('city', {
+                {getFieldDecorator('city', { initialValue: city }, {
                     rules: [{
                         required: true, 
                         message: t('form.emptyfield')
@@ -132,7 +137,7 @@ class index extends Component {
                 )}
             </Form.Item>
             <Form.Item label={t('form.email')}>
-                {getFieldDecorator('email', {
+                {getFieldDecorator('email', { initialValue: email },{
                     rules: [{
                         required: true, 
                         message: t('form.emptyfield')},{
@@ -146,7 +151,7 @@ class index extends Component {
             <hr></hr>
 
             <Form.Item label={t('form.establishmentname')}>
-                {getFieldDecorator('establishmentname', {
+                {getFieldDecorator('establishmentname', { initialValue: establishmentName }, {
                     rules: [{
                         required: true, 
                         message: t('form.emptyfield')}
@@ -156,14 +161,14 @@ class index extends Component {
                 )}
             </Form.Item>
             <Form.Item label={t('form.description')}>
-                {getFieldDecorator('description', {
+                {getFieldDecorator('description', { initialValue: description },{
                     rules: [{}],
                 })(
                     <Input.TextArea rows={3} />
                 )}
             </Form.Item>
             <Form.Item label={t('form.address')}>
-                {getFieldDecorator('address', {
+                {getFieldDecorator('address',{ initialValue: address }, {
                     rules: [{
                         required: true, 
                         message: t('form.emptyfield')}],
@@ -219,7 +224,7 @@ class index extends Component {
             </Form.Item>
                   
             <Form.Item label={t('form.offer')}>
-                {getFieldDecorator('offer', {
+                {getFieldDecorator('offer',{ initialValue: offer }, {
                     rules: [{required: true,
                     message: t('form.emptyfield') }],
                 })(

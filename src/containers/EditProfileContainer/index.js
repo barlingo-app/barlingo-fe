@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {auth} from './../../auth'
 import EditEstablishmentComponent from './../../components/EditEstablishmentComponent'
 import EditUserComponent from './../../components/EditUserComponent'
-
+import { Page, Section } from "react-page-layout";
 export class index extends Component {
 
     constructor(props){
@@ -26,7 +26,12 @@ export class index extends Component {
        else if(auth.isAuthenticated() && auth.isEstablishment()){
            // llamada a la api de mi perfil stablishment y actualizdo el estado
            const rol = "establishment"
-           console.log("soy establishment", auth.get)
+           const data = auth.getUserData()
+           
+           this.setState({
+               rol: 'establishment',
+               data: data
+           })
        }
        else{
            alert("fallo! no se qué hacer, mirame en componentDidMount")
@@ -35,17 +40,27 @@ export class index extends Component {
 
     render() {
         const {rol, data} = this.state
+        console.log("este es mi rol", rol)
         if(rol === 'user'){
             return(
-                <div>
-                    <EditUserComponent data ={data} />
-                </div>
+            <Page layout="public">
+                <Section slot="content">
+                    <div>
+                        <EditUserComponent data ={data} />
+                    </div>
+                </Section>
+            </Page>
+                
             )
         }
         else if(rol === 'establishment'){
             return(
                 <div>
-                    soy establishment
+                    <Page layout="public">
+                        <Section slot="content">
+                            <EditEstablishmentComponent data = {data} />
+                        </Section>
+                    </Page>
                 </div>
             )
         }
