@@ -10,6 +10,8 @@
       "seeEstablishments": "See establishments"
     }
   },
+  "userword": "User",
+  "establishmentword": "Establishment",
   "monday": "Monday",
   "thuesday": "Thuesday",
   "wednesday": "Wednesday",
@@ -24,6 +26,7 @@
   "submit": "Send",
   "register": "Register",
   "create-account": "Create your account",
+  "edit": "Edit",
   "adviseemail": "We'll never share your email with anyone else",
   "user": {
     "list": "Users list",

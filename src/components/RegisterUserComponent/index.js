@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Page, Section } from "react-page-layout"
 import Form from 'react-bootstrap/Form';
 import {Col, Row} from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -9,8 +8,6 @@ import axios from 'axios';
 import {notification} from 'antd';
 import { userService } from '../../services/userService';
 import { withNamespaces } from "react-i18next";
-import './index.scss'
-
 
 export class index extends Component {
     constructor(props){
@@ -28,9 +25,8 @@ export class index extends Component {
             city: '',
             aboutMe: '',
             birthday: '',
-            motherTongue: 'es',
             speakLangs: [],
-            langsToLearn: []
+            langsToLearn: [],
             }
         this.handleChange = this.handleChange.bind(this);
     }
@@ -78,9 +74,8 @@ export class index extends Component {
             city: this.state.city,
             aboutMe: this.state.aboutMe,
             birthdate: this.state.birthday,
-            motherTongue: this.state.motherTongue,
             speakLanguages: this.state.speakLangs,
-            learnLanguages: this.state.langsToLearn
+            learnLanguages: this.state.langsToLearn,
         }
 
         axios.post(process.env.REACT_APP_BE_URL + '/users/register', dataToSend, {
@@ -151,6 +146,7 @@ export class index extends Component {
 
               value = resul
           }
+          
           else{
               value = target.value
           }
@@ -165,8 +161,10 @@ export class index extends Component {
             }
       }
       
+
       render() {
     const { successfulLogin, validated, usernameInvalid } = this.state;
+    
     const { t } = this.props;
     let today = new Date()
     let year = today.getFullYear() - 16
@@ -187,8 +185,7 @@ export class index extends Component {
     
     return (
       <div className="register">
-        <Page layout="public">
-          <Section slot="content">
+
           <Row>
             <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
                 <div className="register__title">{t('create-account')}</div>
@@ -359,8 +356,6 @@ export class index extends Component {
                     </Form>
                 </Col>
             </Row>
-            </Section>
-        </Page>
       </div>
     )
   }

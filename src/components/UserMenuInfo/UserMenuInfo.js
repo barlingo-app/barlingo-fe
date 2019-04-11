@@ -5,6 +5,8 @@ import defaultImage from "../../media/person.png"
 import { NavLink } from "react-router-dom";
 import { auth } from '../../auth';
 import { Redirect } from 'react-router-dom';
+import { Menu, Dropdown, Icon } from 'antd';
+
 
 
 class UserMenuInfo extends Component {
@@ -29,7 +31,20 @@ class UserMenuInfo extends Component {
         const { t } = this.props;
         const { logout } = this.state;
         const userData = auth.getUserData();
-
+        const menu = (
+            <Menu>
+              <Menu.Item>
+                <NavLink exact={true} to={"/registerUser"} >
+                            <div>{t('links.register')} {t('userword')}</div>
+                </NavLink>
+              </Menu.Item>
+              <Menu.Item>
+              <NavLink exact={true} to={"/registerEstablishment"} >
+                            <div>{t('links.register')} {t('establishmentword')}</div>
+                </NavLink>
+              </Menu.Item>
+            </Menu>
+          );
         if (logout) return <Redirect to={"/"} />;
         let fullName = "";
         let location = "";
@@ -53,8 +68,12 @@ class UserMenuInfo extends Component {
                     {auth.isAuthenticated() && <div className={"secondaryInfo"}><a onClick={() => this.logoutHandler(window.location.pathname)}>{t('links.logout')}</a></div>}
                     {!auth.isAuthenticated() && <NavLink exact={true} to={"/login"} activeClassName={"none"} >
                         <div>{t('links.login')}</div></NavLink>}
-                    {!auth.isAuthenticated() && <NavLink exact={true} to={"/register"} activeClassName={"none"} >
-                    <div>{t('links.register')}</div></NavLink>}
+                    {!auth.isAuthenticated() &&
+                    <Dropdown overlay={menu}>
+                    <a className="ant-dropdown-link" href="#">
+                    {t('links.register')} <Icon type="down" />
+                    </a>
+                  </Dropdown> }
                 </div>
             </div>
         );

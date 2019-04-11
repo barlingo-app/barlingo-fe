@@ -8,12 +8,9 @@ import {
     TimePicker,
     Select,
     Checkbox,
-    Slider,
-    Radio,
     Row,
     Col,
-    Button,
-    AutoComplete,
+    Button
   } from 'antd'
 
  const { Option } = Select;
@@ -59,29 +56,6 @@ class index extends Component {
         this.handleConfirmBlur = this.handleConfirmBlur.bind(this)
     }
 
-    compareToFirstPassword(rule, value, callback){
-      const form = this.props.form;
-      const {t} = this.props
-      if (value && value !== form.getFieldValue('password')) {
-        callback(t('form.inconsistpassword'));
-      } else {
-        callback();
-      }
-    }
-  
-    validateToNextPassword(rule, value, callback){
-      const form = this.props.form;
-      if (value && this.state.confirmDirty) {
-        form.validateFields(['confirm'], { force: true });
-      }
-      callback();
-    }
-
-    handleConfirmBlur(e){
-      const value = e.target.value;
-      this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-    }
-
 
     handleSubmit(e){
       e.preventDefault();
@@ -90,8 +64,8 @@ class index extends Component {
 
         const {address, city, country,
           description = '', email,
-          name, offer, password,
-          username, weekscheadule, establishmentname} = values
+          name, offer,
+          weekscheadule, establishmentname} = values
           let workinghours = '' 
 
           for (const value of weekscheadule) {
@@ -101,8 +75,8 @@ class index extends Component {
 
           console.log("Datas to send", address, city, country,
             description, email,
-            name, offer, password,
-            username, workinghours, establishmentname)
+            name, offer,
+            workinghours, establishmentname)
       }
     });
     }
@@ -114,41 +88,9 @@ class index extends Component {
     return (
       <div>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-            <Form.Item label={t('form.username')}>
-                {getFieldDecorator('username', {
-                    rules: [{
-                        required: true, 
-                        message: t('form.emptyUsername')
-                      }],
-                })(
-                    <Input />
-                )}
-            </Form.Item>
-            <Form.Item label={t('form.password')}>
-                {getFieldDecorator('password', {
-                    rules: [{
-                        required: true, 
-                        message: t('form.emptyPassword')
-                      },{
-                        validator: this.validateToNextPassword,
-                      }],
-                })(
-                    <Input type="password" />
-                )}
-            </Form.Item>
-            <Form.Item label={t('form.confirmPassword')}>
-              {getFieldDecorator('confirm', {
-                rules: [{
-                  required: true, message: t('form.pleaseconfirmpassword'),
-                },{
-                  validator: this.compareToFirstPassword,
-                }],
-              })(
-                <Input type="password" onBlur={this.handleConfirmBlur} />
-              )}
-        </Form.Item>
+            
+            
 
-            <hr></hr>
             <Form.Item label={t('form.name')}>
                 {getFieldDecorator('name', {
                     rules: [{

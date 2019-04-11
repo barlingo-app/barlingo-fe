@@ -9,6 +9,7 @@ import Loading from "../../components/Loading/Loading";
 import locationIcon from '../../media/imageedit_5_5395394410.png';
 import { Redirect } from 'react-router-dom';
 import defaultImage from '../../media/default-exchange-header.jpg';
+import FileUploadComponent from './../../components/FileUploadComponent/'
 
 class ProfileView extends Component {
     constructor(props) {
@@ -71,6 +72,7 @@ class ProfileView extends Component {
     };
 
     render() {
+        const {t} = this.props
         const { Meta } = Card;
         const { errorMessage, loaded, user, editProfile } = this.state;
 
@@ -93,14 +95,19 @@ class ProfileView extends Component {
                     <Row>
                         <Col col-sm="12" offset-md="4" col-md="4">
                             <Card
-                                cover={<img className="header-img" alt="example" src={this.getImage(user.profileBackPic)} onError={(e) => { e.target.src = defaultImage }} />}>
+                                cover={
+                                    <FileUploadComponent imageUrl = {this.getImage(user.profileBackPic)} onError={(e) => {e.target.src = defaultImage}} />
+                                    }>
                                 <Meta
-                                    avatar={<Avatar src={user.personalPic} />}
+                                    avatar={
+                                        <FileUploadComponent imageUrl = {user.personalPic} />
+
+                                }
                                     title={user.name}
                                     description={this.renderDescription()}
                                 />
                                 {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.setState({ editProfile: true })} htmlType="submit" className="login-form-button primaryButton">
-                                    Edit profile
+                                    {t('edit')}
                                 </Button>}
                             </Card>
                         </Col>
