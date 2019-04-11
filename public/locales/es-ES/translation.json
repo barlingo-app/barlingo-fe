@@ -53,6 +53,12 @@
     "created": "Creados",
     "joined": "Unidos"
   },
+  "access": {
+    "error": {
+      "title": "Acceso no permitido",
+      "message": "No tiene permisos suficientes para acceder a esta página."
+    }
+  },
   "admin": {
     "ban": {
       "confirm": {
