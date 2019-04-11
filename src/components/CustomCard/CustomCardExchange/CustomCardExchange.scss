@@ -20,7 +20,7 @@
     }
 
     &__title {
-      font-size: 25px;
+      font-size: 22px;
       margin-left: 10px;
       text-align: center;
 
@@ -40,11 +40,12 @@
       width: 23px;
     }
     &__text {
-      display: inline;
+      display: table-cell;
       margin-left: 5px;
+      font-size: 14px;
 
       @media (max-width: 575px) {
-        font-size: 14px;
+        font-size: 12px;
       }
       &__red{
         color:red;
@@ -64,7 +65,9 @@
     }
 
     &__location-icon {
-      width: 30px;
+      display: table-cell;
+      float: left;
+      width: 10px;
     }
 
     &__time-wrapper {

@@ -180,27 +180,27 @@ class CustomCardExchange extends Component {
         return (
             <div style={{ "height": "100%", "padding": "15px 0" }}>
                 <div className="custom-card">
+                    
                     <img className="custom-card__image" src={image} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
-                    <p className="custom-card__title">
-                        <NavLink exact={true} activeClassName={"active"} to={"exchanges/" + exchange.id}>{title}</NavLink>
-                    </p>
-
                     {this.renderLanguageWrapper()}
-                    <div className="custom-card__location-wrapper">
-                        <img className="custom-card__location-icon" src={locationIcon} alt="Location" />
-                        <p className="custom-card__text">{address}</p>
-                    </div>
-                    <div className="custom-card__time-wrapper">
-                        <img className="custom-card__time-icon" src={timeIcon} alt="Date and time" />
-                        <p className="custom-card__text">{schedule}</p>
-                    </div>
-                    <div className="custom-card__participants-wrapper">
-                        <img className="custom-card__participants-icon" src={personIcon} alt="Participants" />
-                        <p className="custom-card__text">{numberOfParticipants}</p>
+                        <p className="custom-card__title">
+                            <NavLink  className="custom-card__link" exact={true} activeClassName={"active"} to={"exchanges/" + exchange.id}>{title}</NavLink>
+                        </p>
+                        <div className="custom-card__location-wrapper">
+                            <img className="custom-card__location-icon" src={locationIcon} alt="Location" />
+                            <p className="custom-card__text">{address}</p>
+                        </div>
+                        <div className="custom-card__time-wrapper">
+                            <img className="custom-card__time-icon" src={timeIcon} alt="Date and time" />
+                            <p className="custom-card__text">{schedule}</p>
+                        </div>
+                        <div className="custom-card__participants-wrapper">
+                            <img className="custom-card__participants-icon" src={personIcon} alt="Participants" />
+                            <p className="custom-card__text">{numberOfParticipants}</p>
+                        </div>
                     </div>
                     {this.renderButton()}
                 </div>
-            </div>
         );
     }
 }
