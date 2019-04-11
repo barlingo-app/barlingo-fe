@@ -56,8 +56,8 @@ class CreateExchangeForm extends Component {
                             placement: 'bottomRight',
                             bottom: 50,
                             duration: 10,
-                            message: t('join.successful.title'),
-                            description: t('join.successful.message'),
+                            message: t('exchange.successful.title'),
+                            description: t('exchange.successful.message'),
                         });
                     } else {
                         this.setState({ formFailed: true });
@@ -70,8 +70,8 @@ class CreateExchangeForm extends Component {
                             placement: 'bottomRight',
                             bottom: 50,
                             duration: 10,
-                            message: t('join.dateError.title'),
-                            description: t('join.dateError.message'),
+                            message: t('exchange.dateError.title'),
+                            description: t('exchange.dateError.message'),
                         });
                     } else {
                         this.setState({ formFailed: true });
