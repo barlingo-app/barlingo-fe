@@ -188,7 +188,7 @@ export class index extends Component {
             <Form.Row>
                 <Form.Group as={Col} md="4" controlId="name">
                     <Form.Label>*{t('form.name')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} type="text" placeholder="Name" required />
+                    <Form.Control onChange={this.handleChange} type="text" value={this.state.name} placeholder="Name" required />
                     <Form.Control.Feedback type="invalid">
                     {t('form.emptyfield')}
                     </Form.Control.Feedback>
@@ -196,7 +196,7 @@ export class index extends Component {
         
                 <Form.Group as={Col} md="4" controlId="surname">
                     <Form.Label>*{t('form.surname')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} type="text" placeholder="Surname" required />
+                    <Form.Control onChange={this.handleChange} type="text" placeholder="Surname" value={this.state.surname} required />
                     <Form.Control.Feedback type="invalid">
                     {t('form.emptyfield')}
                     </Form.Control.Feedback>
@@ -204,7 +204,7 @@ export class index extends Component {
 
                 <Form.Group as={Col} md="4" controlId="email">
                     <Form.Label>{t('form.email')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="email" placeholder="name@example.com" />
+                    <Form.Control onChange={this.handleChange} value={this.state.email} required type="email" placeholder="name@example.com" />
                     <Form.Text className="text-muted">
                         {t('adviseemail')}
                     </Form.Text>
@@ -217,14 +217,14 @@ export class index extends Component {
             <Form.Row>
                 <Form.Group as={Col} md="6" controlId="country">
                     <Form.Label>*{t('form.country')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="text" placeholder="Country" />
+                    <Form.Control onChange={this.handleChange} value={this.state.country} required type="text" placeholder="Country" />
                     <Form.Control.Feedback type="invalid">
                     {t('form.emptyfield')}
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="city">
                     <Form.Label>*{t('form.city')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="text" placeholder="City" />
+                    <Form.Control onChange={this.handleChange} value={this.state.city} required type="text" placeholder="City" />
                     <Form.Control.Feedback type="invalid">
                     {t('form.emptyfield')}
                     </Form.Control.Feedback>
@@ -247,14 +247,14 @@ export class index extends Component {
             <Form.Row>
                 <Form.Group as={Col} controlId="aboutMe">
                 <Form.Label>{t('form.aboutme')}</Form.Label>
-                <Form.Control onChange={this.handleChange} as="textarea" rows="3" />
+                <Form.Control onChange={this.handleChange} value={this.state.aboutMe} as="textarea" rows="3" />
             </Form.Group>
             </Form.Row>
 
             <Form.Row>
                 <Form.Group as={Col} md="8" controlId="birthday">
                     <Form.Label>{t('form.birthday')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="date" max={maxDate} placeholder="Date" />
+                    <Form.Control onChange={this.handleChange} value = {this.state.birthday} required type="date" max={maxDate} placeholder="Date" />
                     <Form.Control.Feedback type="invalid">
                     {t('form.emptyDate')}
                     </Form.Control.Feedback>
@@ -274,7 +274,7 @@ export class index extends Component {
             <Form.Row>
                 <Form.Group as={Col} onChange={this.handleChange} controlId="speakLangs">
                     <Form.Label>{t('form.speakedlanguages')}</Form.Label>
-                    <Form.Control as="select" multiple required>
+                    <Form.Control as="select" multiple value={this.state.speakLangs} required>
                     <option value="es">{t('spanish')}</option>
                     <option value="en">{t('english')}</option>
                     <option value="fr">{t('french')}</option>
@@ -286,7 +286,7 @@ export class index extends Component {
                 </Form.Group>
                 <Form.Group as={Col} controlId="langsToLearn">
                     <Form.Label>{t('form.languagesToLearn')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} as="select" multiple required>
+                    <Form.Control onChange={this.handleChange} value={this.state.langsToLearn} as="select" multiple required>
                     <option value="es">{t('spanish')}</option>
                     <option value="en">{t('english')}</option>
                     <option value="fr">{t('french')}</option>

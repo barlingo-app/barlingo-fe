@@ -3,8 +3,8 @@ import { withNamespaces } from "react-i18next";
 import { LayoutProvider } from 'react-page-layout';
 import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import { auth } from "./auth";
-import EditProfileComponent from './components/EditProfileComponent';
-import RegisterComponent from './components/RegisterComponent';
+import RegisterUserContainer from './containers/RegisterUserContainer'
+import EditProfileContainer from './containers/EditProfileContainer'
 import CreateExchangeForm from "./containers/CreateExchange/CreateExchange";
 import DisplayCodeContainer from './containers/DisplayCodeContainer/DisplayCodeContainer';
 import EstablishmentDetails from "./containers/EstablishmentDetails/EstablishmentDetails";
@@ -60,8 +60,8 @@ class App extends Component {
 					<Route exact path="/establishments" component={EstablismentsList} />
 					<Route exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
 					<Route exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
-					<Route exact path="/register" component={RegisterComponent} />
-					<Route exact path="/editProfile" component={EditProfileComponent} />
+					<Route exact path="/registerUser" component={RegisterUserContainer} />
+					<Route exact path="/editProfile" component={EditProfileContainer} />
 					<Route exact path="/notFound" component={NotFound} />
 					<Route exact path="/registerEstablishment" component={RegisterEstablishmentContainer} />
 					<PrivateRoute exact path="/myExchanges" component={MyExchangesList} />

@@ -11,6 +11,8 @@
       "seeEstablishments": "Ver establecimientos"
     }
   },
+  "userword": "Usuario",
+  "establishmentword": "Establecimiento",
   "monday": "Lunes",
   "thuesday": "Martes",
   "wednesday": "Miércoles",
@@ -25,6 +27,8 @@
   "submit": "Enviar",
   "register": "Registrarse",
   "create-account": "Crea tu cuenta",
+
+  "edit": "Editar",
   "adviseemail": "No compartiremos tu información con nadie",
   "user": {
     "list": "Lista de usuarios",
@@ -118,9 +122,10 @@
     "offer": "Oferta",
     "aboutme": "Algo sobre tí",
     "birthday": "Fecha de nacimiento",
-    "mothertongue": "Lengua materna",
-    "speakedlanguages": "Idiomas que hablas",
-    "languagesToLearn": "Idiomas que quieres aprender"
+    "mothertongue": "Lengua madre",
+    "speakedlanguages": "Lenguas habladas",
+    "languagesToLearn": "Lenguas para aprender",
+    "submit": "Enviar"
   },
   "exchange": {
     "error": {
