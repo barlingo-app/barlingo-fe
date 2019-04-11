@@ -23,6 +23,8 @@
   "french": "Francés",
   "german": "Alemán",
   "submit": "Enviar",
+  "register": "Registrarse",
+  "create-account": "Crea tu cuenta",
   "adviseemail": "No compartiremos tu información con nadie",
   "user": {
     "list": "Lista de usuarios",
@@ -114,11 +116,11 @@
     "open": "Abierto",
     "closed": "Cierre",
     "offer": "Oferta",
-    "aboutme": "Sobre mi",
+    "aboutme": "Algo sobre tí",
     "birthday": "Fecha de nacimiento",
-    "mothertongue": "Lengua madre",
-    "speakedlanguages": "Lenguas habladas",
-    "languagesToLearn": "Lenguas para aprender"
+    "mothertongue": "Lengua materna",
+    "speakedlanguages": "Idiomas que hablas",
+    "languagesToLearn": "Idiomas que quieres aprender"
   },
   "exchange": {
     "error": {

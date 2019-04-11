@@ -21,6 +21,9 @@
   "english": "English",
   "french": "French",
   "german": "German",
+  "submit": "Send",
+  "register": "Register",
+  "create-account": "Create your account",
   "adviseemail": "We'll never share your email with anyone else",
   "user": {
     "list": "Users list",
@@ -82,11 +85,11 @@
     "open": "Open",
     "closed": "Closed",
     "offer": "Offer",
-    "aboutme": "About me",
+    "aboutme": "Something about you",
     "birthday": "Birthday",
     "mothertongue": "Mother tongue",
-    "speakedlanguages": "Speaked languages",
-    "languagesToLearn": "Languages to learn",
+    "speakedlanguages": "Languages you speak",
+    "languagesToLearn": "Languages you want to learn",
     "submit": "Submit"
   },
   "admin": {
