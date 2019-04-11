@@ -77,6 +77,7 @@ class App extends Component {
 				<Switch>
 					<Route exact path="/" component={Home} />
 					<Route exact path="/login" component={LoginForm} />
+					<PrivateRoute exact path="/profile" component={ProfileView} />
 					<PrivateRoute exact path="/profile/:userId" component={ProfileView} />
 					<PrivateRoute roles={ADMIN_ROLE} exact path="/users" component={UsersListAdmin} />
 					<Route exact path="/exchanges" component={ExchangesList} />
