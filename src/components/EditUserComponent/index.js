@@ -165,10 +165,7 @@ export class index extends Component {
     }
     
     return (
-        <div>
-        <Page layout="public">
-          <Section slot="content">
-            
+        <div>  
           <Form
           noValidate
           validated={validated}
@@ -301,9 +298,6 @@ export class index extends Component {
 
                 <Button type="submit">{t('submit')}</Button>
             </Form>
-
-            </Section>
-        </Page>
       </div>
     )
   }
