@@ -64,11 +64,12 @@ class CustomCardUser extends Component {
         return (
             <div style={{ "height": "100%", "padding": "15px 0" }}>
                 <div className="custom-card-user">
-                    <img className="custom-card-user__image" src={image} alt="User" onError={(e) => e.target.src = personIcon} />
+                    <NavLink exact={true} activeClassName={"active"} to={`/${route}/${user.id}`}>
+                        <img className="custom-card-user__image" src={image} alt="User" onError={(e) => e.target.src = personIcon} />
+                    </NavLink>
                     <p className="custom-card-user__title">
-                        <NavLink exact={true} activeClassName={"active"} to={`/${route}/${user.id}`}>{title}</NavLink>
+                        <NavLink className="custom-card-user__link" exact={true} activeClassName={"active"} to={`/${route}/${user.id}`}>{title}</NavLink>
                     </p>
-                    {this.renderLanguageWrapper()}
                     <div className="custom-card-user__location-wrapper">
                         <img className="custom-card-user__location-icon" src={locationIcon} alt="Location" />
                         <p className="custom-card-user__text">{address}</p>
