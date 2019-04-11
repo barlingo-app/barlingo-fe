@@ -9,10 +9,23 @@ export const userService = {
                     'Authorization': "Bearer " + token
                 }
             })
-                .then((response) => { return response; })
-                .catch((error) => { return error });
+            .then((response) => { return response; })
+            .catch((error) => { return error });
         })
     },
+
+    async findById(id) {
+        return auth.getToken().then((token) => {
+            return axios.get(process.env.REACT_APP_BE_URL + '/users/' + id, {
+                headers: {
+                    'Authorization': "Bearer " + token
+                }
+            })
+            .then((response) => { return response; })
+            .catch((error) => { return error });
+        })
+    },
+
     async getUserByUsername(username) {
         return auth.getToken().then((token) => {
             return axios.get(process.env.REACT_APP_BE_URL + '/users/username/' + username, {

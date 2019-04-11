@@ -5,6 +5,7 @@ import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
 import { Col, Row } from 'reactstrap';
 import { auth } from '../../auth';
+import { userService } from '../../services/userService';
 import Loading from "../../components/Loading/Loading";
 import locationIcon from '../../media/imageedit_5_5395394410.png';
 import { Redirect } from 'react-router-dom';
@@ -18,38 +19,45 @@ class ProfileView extends Component {
             editProfile: false,
             user: null,
             loaded: false,
+            isLoggedUser: false,
             errorMessage: null
         }
     }
 
     componentDidUpdate() {
-        const { user } = this.state;
-        if (user)
-            if (+this.props.match.params.userId !== user.id) {
+        const { user, isLoggedUser } = this.state;
+        if (user) {
+            if ((this.props.match.params.userId === null || this.props.match.params.userId === undefined) && !isLoggedUser) {
+                this.consultarUsuario();
+            } else if (this.props.match.params.userId !== null && this.props.match.params.userId !== undefined && +this.props.match.params.userId !== user.id) {
                 this.consultarUsuario();
             }
+        }
     }
+
     componentDidMount() {
         this.consultarUsuario();
         document.title = "Barlingo - Profile";
-
     }
 
-    setData = (user) => {
+    setData = (user, loggedUser) => {
         this.setState({
             user: user,
-            loaded: true
+            loaded: true,
+            isLoggedUser: loggedUser
         })
     };
     consultarUsuario() {
         const userId = this.props.match.params.userId
-        if (userId === auth.getUserData().id) {
+        console.log(userId);
+        if (userId === undefined || userId === null) {
             const user = auth.getUserData();
-            this.setData(user)
-        }
-        else {
-            axios.get(process.env.REACT_APP_BE_URL + '/users/' + userId)
-                .then((response) => this.setData(response.data)).catch((error) => this.setError(error));
+            console.log(user);
+            this.setData(user, true)
+        } else {
+            userService.findById(userId)
+            .then((response) => this.setData(response.data, false))
+            .catch((error) => this.setError(error));
 
         }
     }

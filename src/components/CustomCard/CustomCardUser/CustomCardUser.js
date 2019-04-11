@@ -16,7 +16,7 @@ class CustomCardUser extends Component {
 
 
     getImage = (originalImage) => {
-        return (originalImage === '' || originalImage === null) ? defaultImage : originalImage;
+        return (originalImage === '' || originalImage === null || originalImage === undefined) ? defaultImage : originalImage;
     };
 
     getRandomArbitrary(min, max) {

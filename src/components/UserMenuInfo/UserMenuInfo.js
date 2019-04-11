@@ -4,9 +4,8 @@ import "./UserMenuInfo.scss";
 import defaultImage from "../../media/person.png"
 import { NavLink } from "react-router-dom";
 import { auth } from '../../auth';
-import { Redirect } from 'react-router-dom';
 import { Menu, Dropdown, Icon } from 'antd';
-
+import { withRouter } from 'react-router-dom';
 
 
 class UserMenuInfo extends Component {
@@ -20,19 +19,18 @@ class UserMenuInfo extends Component {
 
     logoutHandler = (previous) => {
         auth.logout();
-        this.setState({ logout: previous !== "/" });
+        this.props.history.push("/");
     };
 
     getImage = (image) => {
-        return (image === '' || image === null) ? defaultImage : image;
+        return (image === '' || image === null || image === undefined) ? defaultImage : image;
     };
 
     render() {
         const { t } = this.props;
-        const { logout } = this.state;
         const userData = auth.getUserData();
         const menu = (
-            <Menu>
+            <Menu style={{zIndex: 10000000}}>
               <Menu.Item>
                 <NavLink exact={true} to={"/registerUser"} >
                             <div>{t('links.register')} {t('userword')}</div>
@@ -45,7 +43,6 @@ class UserMenuInfo extends Component {
               </Menu.Item>
             </Menu>
           );
-        if (logout) return <Redirect to={"/"} />;
         let fullName = "";
         let location = "";
 
@@ -59,11 +56,12 @@ class UserMenuInfo extends Component {
                 <div className={"userImageContainer"}>
                     <div className={"userImage"}>
                         {!auth.isAuthenticated() && < img src={defaultImage} alt={"user photo"} />}
-                        {auth.isAuthenticated() && <NavLink exact={true} to={"/profile/"+auth.getUserData().id} activeClassName={"none"} ><img src={ this.getImage(userData.personalPic) } alt={"user photo"} onError={(e) => { e.target.src = defaultImage }}/></NavLink>}
+                        {auth.isAuthenticated() && <NavLink exact={true} to={"/profile"} activeClassName={"none"} ><img src={ this.getImage(userData.personalPic) } alt={"user photo"} onError={(e) => { e.target.src = defaultImage }}/></NavLink>}
                     </div>
                 </div>
                 <div className={"userInfoContainer"}>
-                    {auth.isAuthenticated() && <div className={"mainInfo"} title={fullName}><NavLink exact={true} to={"/profile/"+auth.getUserData().id} activeClassName={"none"} >{fullName}</NavLink></div>}
+                    {auth.isAuthenticated() && !auth.isAdmin() && <div className={"mainInfo"} title={fullName}><NavLink exact={true} to={"/profile"} activeClassName={"none"} >{fullName}</NavLink></div>}
+                    {auth.isAuthenticated() && auth.isAdmin() && <div className={"mainInfo"} title={fullName}>{fullName}</div>}
                     {auth.isAuthenticated() && <div className={"secondaryInfo"} title={location}>{location} </div>}
                     {auth.isAuthenticated() && <div className={"secondaryInfo"}><a onClick={() => this.logoutHandler(window.location.pathname)}>{t('links.logout')}</a></div>}
                     {!auth.isAuthenticated() && <NavLink exact={true} to={"/login"} activeClassName={"none"} >
@@ -80,4 +78,4 @@ class UserMenuInfo extends Component {
     }
 }
 
-export default withNamespaces('translation')(UserMenuInfo);
+export default withRouter(withNamespaces('translation')(UserMenuInfo));

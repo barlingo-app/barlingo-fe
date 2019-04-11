@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { userService } from './services/userService';
+import { establishmentService } from './services/establishmentService';
+import { adminService } from './services/adminService';
 
 const AUTH_TOKEN_KEY = "authToken";
 const USER_ID_KEY = "userId";
@@ -58,7 +60,7 @@ export const auth = {
     let tokenData = JSON.parse(atob(token.split(".")[1]));
 
     this.setToken(token);
-    this.setUserId(tokenData.sub);
+    this.setUserId(tokenData.userId);
     this.setCredentials(username, password);
     this.setExpirationMoment(tokenData.exp);
     this.setRole(tokenData.auth[0].authority);
@@ -232,15 +234,41 @@ export const auth = {
   },
 
   async loadUserData() {
-    return await userService.getUserByUsername(this.getUserId()).then((response) => {
-      if (response.data === null || response.data === "") {
-        this.logout();
-        return false;
-      } else {
-        this.setUserData(response.data);
-        this.setAuthenticationFlag("true");
-        return true;
-      }
-    }).catch((error) => { this.logout(); return false; });
+    if (this.isUser()) {
+      return await userService.findById(this.getUserId()).then((response) => {
+        if (response.data === null || response.data === "") {
+          this.logout();
+          return false;
+        } else {
+          this.setUserData(response.data);
+          this.setAuthenticationFlag("true");
+          return true;
+        }
+      }).catch((error) => {this.logout();return false;});
+    } else if (this.isEstablishment()) {
+      return await establishmentService.findById(this.getUserId()).then((response) => {
+        if (response.data === null || response.data === "") {
+          this.logout();
+          return false;
+        } else {
+          this.setUserData(response.data);
+          this.setAuthenticationFlag("true");
+          return true;
+        }
+      }).catch((error) => {this.logout();return false;});
+    } else if (this.isAdmin()) {
+      return await adminService.findById(this.getUserId()).then((response) => {
+        if (response.data === null || response.data === "") {
+          this.logout();
+          return false;
+        } else {
+          this.setUserData(response.data);
+          this.setAuthenticationFlag("true");
+          return true;
+        }
+      }).catch((error) => {this.logout();return false;});
+    } else {
+      this.logout();
+    }
   }
 };

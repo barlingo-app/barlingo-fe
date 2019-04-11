@@ -151,7 +151,7 @@ export class index extends Component {
      */
 
     if (successfulLogin) {
-     return (<Redirect to={"/profile/" + auth.getUserData().id} />)
+     return (<Redirect to={"/profile"} />)
     }
 
     if (!loaded) {
