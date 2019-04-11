@@ -25,14 +25,33 @@ const layouts = {
 	'public': PublicLayout,
 };
 
-function PrivateRoute({ component: Component, ...rest }) {
+function checkRoles(roles) {
+	if (roles) {
+		if (roles && typeof roles === 'object' && roles.constructor === Array) {
+			return roles.include(auth.getRole());
+		} else if (typeof roles === 'string' || roles instanceof String) {
+			return roles === auth.getRole();
+		}
+		return false;
+	}
+	return true;
+}
+
+function PrivateRoute({ component: Component, roles: roles, ...rest }) {
 	return (
 		<Route
 			{...rest}
 			render={props =>
-				auth.isAuthenticated() ? (
+				auth.isAuthenticated() ? (checkRoles(roles) ? (
 					<Component {...props} />
 				) : (
+						<Redirect
+							to={{
+								pathname: "/",
+								state: { wrongAccess: true }
+							}}
+						/>
+					)) : (
 						<Redirect
 							to={{
 								pathname: "/login",
@@ -48,6 +67,10 @@ function PrivateRoute({ component: Component, ...rest }) {
 class App extends Component {
 
 	render() {
+		const USER_ROLE = auth._USER_ROLE;
+		const ESTABLISMENT_ROLE = auth._ESTABLISMENT_ROLE;
+		const ADMIN_ROLE = auth._ADMIN_ROLE;
+		/* Para el uso de roles, hay que pasarle a PrivateRoute en el atributo roles, o un string con el rol permitido, o un array con los roles permitidos */
 		return (
 
 			<LayoutProvider layouts={layouts}>
@@ -55,19 +78,19 @@ class App extends Component {
 					<Route exact path="/" component={Home} />
 					<Route exact path="/login" component={LoginForm} />
 					<PrivateRoute exact path="/profile/:userId" component={ProfileView} />
-					<PrivateRoute exact path="/users" component={UsersListAdmin} />
+					<PrivateRoute roles={ADMIN_ROLE} exact path="/users" component={UsersListAdmin} />
 					<Route exact path="/exchanges" component={ExchangesList} />
 					<Route exact path="/establishments" component={EstablismentsList} />
 					<Route exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
 					<Route exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
 					<Route exact path="/register" component={RegisterComponent} />
-					<Route exact path="/editProfile" component={EditProfileComponent} />
+					<PrivateRoute exact path="/editProfile" component={EditProfileComponent} />
 					<Route exact path="/notFound" component={NotFound} />
 					<Route exact path="/registerEstablishment" component={RegisterEstablishmentContainer} />
-					<PrivateRoute exact path="/myExchanges" component={MyExchangesList} />
-					<PrivateRoute exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
+					<PrivateRoute roles={USER_ROLE} exact path="/myExchanges" component={MyExchangesList} />
+					<PrivateRoute roles={USER_ROLE} exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
 					<PrivateRoute exact path="/displayCode/:codeId" component={DisplayCodeContainer} />
-					<PrivateRoute exact path="/validateCode" component={ValidateCodeContainer} />
+					<PrivateRoute roles={ESTABLISMENT_ROLE} exact path="/validateCode" component={ValidateCodeContainer} />
 					<Route component={NotFound} />
 				</Switch>
 			</LayoutProvider>

@@ -15,15 +15,19 @@ const ADMIN_ROLE = "ROLE_ADMIN";
 
 export const auth = {
 
+  _USER_ROLE: USER_ROLE,
+  _ESTABLISMENT_ROLE: ESTABLISMENT_ROLE,
+  _ADMIN_ROLE: ADMIN_ROLE,
+
   async login(username, password) {
     let data = new FormData();
     data.append("username", username);
     data.append("password", password);
 
     return await axios.post(process.env.REACT_APP_BE_URL + '/users/signin', data,
-    { headers: {'Content-Type': 'multipart/form-data' }})
-        .then((response) => {return {result: response.status === 200, data: response.data}})
-        .catch(() => {return {result: false}});
+      { headers: { 'Content-Type': 'multipart/form-data' } })
+      .then((response) => { return { result: response.status === 200, data: response.data } })
+      .catch(() => { return { result: false } });
   },
 
   isAuthenticated() {
@@ -63,21 +67,21 @@ export const auth = {
   },
 
   logout() {
-      sessionStorage.removeItem(AUTH_TOKEN_KEY);
-      sessionStorage.removeItem(USER_ID_KEY);
-      sessionStorage.removeItem(USER_DATA_KEY);
-      sessionStorage.removeItem(AUTHENTICATED_FLAG_KEY);
-      sessionStorage.removeItem(EXPIRATION_MOMENT_KEY);
-      sessionStorage.removeItem(CREDENTIALS_KEY);
-      sessionStorage.removeItem(ROLE_KEY);
+    sessionStorage.removeItem(AUTH_TOKEN_KEY);
+    sessionStorage.removeItem(USER_ID_KEY);
+    sessionStorage.removeItem(USER_DATA_KEY);
+    sessionStorage.removeItem(AUTHENTICATED_FLAG_KEY);
+    sessionStorage.removeItem(EXPIRATION_MOMENT_KEY);
+    sessionStorage.removeItem(CREDENTIALS_KEY);
+    sessionStorage.removeItem(ROLE_KEY);
 
-      localStorage.removeItem(AUTH_TOKEN_KEY);
-      localStorage.removeItem(USER_ID_KEY);
-      localStorage.removeItem(USER_DATA_KEY);
-      localStorage.removeItem(AUTHENTICATED_FLAG_KEY);
-      localStorage.removeItem(EXPIRATION_MOMENT_KEY);
-      localStorage.removeItem(CREDENTIALS_KEY);
-      localStorage.removeItem(ROLE_KEY);
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(USER_ID_KEY);
+    localStorage.removeItem(USER_DATA_KEY);
+    localStorage.removeItem(AUTHENTICATED_FLAG_KEY);
+    localStorage.removeItem(EXPIRATION_MOMENT_KEY);
+    localStorage.removeItem(CREDENTIALS_KEY);
+    localStorage.removeItem(ROLE_KEY);
   },
 
   setAuthenticationFlag(flag) {
@@ -121,7 +125,7 @@ export const auth = {
   },
 
   setCredentials(username, password) {
-    let credentials = {username: username, password: password};
+    let credentials = { username: username, password: password };
     if (sessionStorage.getItem(AUTHENTICATED_FLAG_KEY) !== null) {
       sessionStorage.setItem(CREDENTIALS_KEY, btoa(JSON.stringify(credentials)));
     } else {
@@ -130,7 +134,7 @@ export const auth = {
   },
 
   getCredentials() {
-    let credentials = {username: null, password: null};
+    let credentials = { username: null, password: null };
     let crendentialsToken = null;
 
     if (sessionStorage.getItem(AUTHENTICATED_FLAG_KEY) !== null) {
@@ -237,6 +241,6 @@ export const auth = {
         this.setAuthenticationFlag("true");
         return true;
       }
-    }).catch((error) => {this.logout();return false;});
+    }).catch((error) => { this.logout(); return false; });
   }
 };
