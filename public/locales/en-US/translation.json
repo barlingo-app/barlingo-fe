@@ -95,19 +95,25 @@
     "languagesToLearn": "Languages you want to learn",
     "submit": "Submit"
   },
+  "access": {
+    "error": {
+      "title": "Access not allowed",
+      "message": "You do not have enough permissions to access this page."
+    }
+  },
   "admin": {
     "ban": {
       "confirm": {
         "title": "Do you want to ban this user?",
         "message": "The user may not log in the application."
       },
-      "successful":{
+      "successful": {
         "title": "The user has been banned",
-        "message":"The user will not be able to access the application"
+        "message": "The user will not be able to access the application"
       },
-      "error":{
+      "error": {
         "title": "Failed ban",
-        "message":"An error has ben ocurred while banning the user."
+        "message": "An error has ben ocurred while banning the user."
       }
     },
     "unban": {
@@ -115,13 +121,13 @@
         "title": "Do you want to unban this user?",
         "message": "The user will be unbanned"
       },
-      "successful":{
+      "successful": {
         "title": "The user has been unbanned",
-        "message":"The user will be able to access the application"
+        "message": "The user will be able to access the application"
       },
-      "error":{
+      "error": {
         "title": "Failed unban",
-        "message":"An error has ben ocurred while unbanning the user."
+        "message": "An error has ben ocurred while unbanning the user."
       }
     }
   },
