@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Page, Section } from "react-page-layout"
 import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
+import {Col, Row} from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import { Redirect } from 'react-router-dom';
@@ -9,6 +9,7 @@ import axios from 'axios';
 import {notification} from 'antd';
 import { userService } from '../../services/userService';
 import { withNamespaces } from "react-i18next";
+import './index.scss'
 
 
 export class index extends Component {
@@ -185,176 +186,179 @@ export class index extends Component {
     }
     
     return (
-      <div>
+      <div className="register">
         <Page layout="public">
           <Section slot="content">
-            
-          <Form
-          noValidate
-          validated={validated}
-          usernameInvalid={usernameInvalid}
-          onSubmit={e => this.handleSubmit(e)}>
+          <Row>
+            <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
+                <div className="register__title">{t('create-account')}</div>
+                <Form
+                noValidate
+                validated={validated}
+                usernameInvalid={usernameInvalid}
+                onSubmit={e => this.handleSubmit(e)}>
 
-            {
-                /**
-                 * ---->
-                 * DATOS PARA EL TIPO USER
-                 * username: string required
-                 * password: string required
-                 * <----
-                 */
-            }
+                    {
+                        /**
+                         * ---->
+                         * DATOS PARA EL TIPO USER
+                         * username: string required
+                         * password: string required
+                         * <----
+                         */
+                    }
+                    <Form.Row>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="username" >
+                            <Form.Label>{t('form.username')}*</Form.Label>
+                            <InputGroup>  
+                                <Form.Control validationState={this.usernameValidity()} onChange={this.handleChange} required type="text"/>
+                                <Form.Control.Feedback type="invalid">
+                                    {!usernameInvalid && t('form.emptyUsername')}
+                                    {usernameInvalid && t('form.usernamealreadyexist')}
+                                </Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="password">
+                            <Form.Label>{t('form.password')}*</Form.Label>
+                            <Form.Control onChange={this.handleChange} required type="password"/>
+                            <Form.Control.Feedback type="invalid">
+                                {t('form.emptyPassword')}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Form.Row>
 
-            <Form.Row>
-                <Form.Group as={Col} md="4" controlId="username" >
-                <Form.Label>*{t('form.username')}</Form.Label>
-                <InputGroup>  
-                    <Form.Control validationState={this.usernameValidity()} onChange={this.handleChange} required type="text" placeholder="Username"/>
-                    <Form.Control.Feedback type="invalid">
-                        {!usernameInvalid && t('form.emptyUsername')}
-                        {usernameInvalid && t('form.usernamealreadyexist')}
-                    </Form.Control.Feedback>
-                    </InputGroup>
-                </Form.Group>
 
-                <Form.Group as={Col} md="4" controlId="password">
-                    <Form.Label>*{t('form.password')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="password" placeholder="Password" />
-                    <Form.Control.Feedback type="invalid">
-                        {t('form.emptyPassword')}
-                    </Form.Control.Feedback>
-                </Form.Group>
-            </Form.Row>
+                    {/**
+                    *------>
+                    *DATOS PARA EL TIPO ACTOR
+                    *name: string required
+                    *surname: string required
+                    *country: string required
+                    *city: string required
+                    *email: string email 
+                    *<------
+                    */}
+                    <Form.Row>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="name">
+                            <Form.Label>{t('form.name')}*</Form.Label>
+                            <Form.Control onChange={this.handleChange} type="text" required />
+                            <Form.Control.Feedback type="invalid">
+                            {t('form.emptyfield')}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:0}} controlId="surname">
+                            <Form.Label>{t('form.surname')}*</Form.Label>
+                            <Form.Control onChange={this.handleChange} type="text" required />
+                            <Form.Control.Feedback type="invalid">
+                            {t('form.emptyfield')}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="email">
+                            <Form.Label>{t('form.email')}*</Form.Label>
+                            <Form.Control onChange={this.handleChange} required type="email" placeholder="name@example.com" />
+                            <Form.Text className="text-muted">
+                                {t('adviseemail')}
+                            </Form.Text>
+                            <Form.Control.Feedback type="invalid">
+                            {t('form.validemail')}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Form.Row>
+
+                    <Form.Row>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="country">
+                            <Form.Label>{t('form.country')}*</Form.Label>
+                            <Form.Control onChange={this.handleChange} required type="text"/>
+                            <Form.Control.Feedback type="invalid">
+                            {t('form.emptyfield')}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:0}} controlId="city">
+                            <Form.Label>{t('form.city')}*</Form.Label>
+                            <Form.Control onChange={this.handleChange} required type="text"/>
+                            <Form.Control.Feedback type="invalid">
+                            {t('form.emptyfield')}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Form.Row>
+                    {/**
+                    *----->DATOS PARA USER
+                    *personalPick:File required (por hacer)
+                    *profileBackgroundPick: File required (por hacer)
+                    *aboutMe:string
+                    *birthDay:date required
+                    *moherTongue:string required
+                    *speakLangs:String required
+                    *LangsToLearn:String required
+                    *location: Sring (por hacer)
+                    *<-------
+                    */}
+
+                    <Form.Row>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="aboutMe">
+                        <Form.Label>{t('form.aboutme')}</Form.Label>
+                        <Form.Control onChange={this.handleChange} as="textarea" rows="3" />
+                    </Form.Group>
+                    </Form.Row>
+
+                    <Form.Row>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="birthday">
+                            <Form.Label>{t('form.birthday')}*</Form.Label>
+                            <Form.Control onChange={this.handleChange} required type="date" max={maxDate}/>
+                            <Form.Control.Feedback type="invalid">
+                            {t('form.emptyDate')}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="motherTongue">
+                            <Form.Label>{t('form.mothertongue')}</Form.Label>
+                            <Form.Control onChange={this.handleChange} as="select">
+                            <option value="es">{t('spanish')}</option>
+                            <option value="en">{t('english')}</option>
+                            <option value="fr">{t('french')}</option>
+                            <option value="de">{t('german')}</option>
+                            </Form.Control>
+                        </Form.Group>
+                    </Form.Row>
 
 
-            {/**
-            *------>
-            *DATOS PARA EL TIPO ACTOR
-            *name: string required
-            *surname: string required
-            *country: string required
-            *city: string required
-            *email: string email 
-            *<------
-            */}
+                    <Form.Row>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} onChange={this.handleChange} controlId="speakLangs">
+                            <Form.Label>{t('form.speakedlanguages')}*</Form.Label>
+                            <Form.Control as="select" multiple required>
+                            <option value="es">{t('spanish')}</option>
+                            <option value="en">{t('english')}</option>
+                            <option value="fr">{t('french')}</option>
+                            <option value="de">{t('german')}</option>
+                            </Form.Control>
+                            <Form.Control.Feedback type="invalid">
+                            {t('form.emptyfield')}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:0}} controlId="langsToLearn">
+                            <Form.Label>{t('form.languagesToLearn')}*</Form.Label>
+                            <Form.Control onChange={this.handleChange} as="select" multiple required>
+                            <option value="es">{t('spanish')}</option>
+                            <option value="en">{t('english')}</option>
+                            <option value="fr">{t('french')}</option>
+                            <option value="de">{t('german')}</option>
+                            </Form.Control>
+                            <Form.Control.Feedback type="invalid">
+                            {t('form.emptyfield')}
+                            </Form.Control.Feedback>
+                        </Form.Group>
 
-            <Form.Row>
-                <Form.Group as={Col} md="4" controlId="name">
-                    <Form.Label>*{t('form.name')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} type="text" placeholder="Name" required />
-                    <Form.Control.Feedback type="invalid">
-                    {t('form.emptyfield')}
-                    </Form.Control.Feedback>
-                </Form.Group>
-        
-                <Form.Group as={Col} md="4" controlId="surname">
-                    <Form.Label>*{t('form.surname')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} type="text" placeholder="Surname" required />
-                    <Form.Control.Feedback type="invalid">
-                    {t('form.emptyfield')}
-                    </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group as={Col} md="4" controlId="email">
-                    <Form.Label>{t('form.email')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="email" placeholder="name@example.com" />
-                    <Form.Text className="text-muted">
-                        {t('adviseemail')}
-                    </Form.Text>
-                    <Form.Control.Feedback type="invalid">
-                    {t('form.validemail')}
-                    </Form.Control.Feedback>
-                </Form.Group>
-            </Form.Row>
-
-            <Form.Row>
-                <Form.Group as={Col} md="6" controlId="country">
-                    <Form.Label>*{t('form.country')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="text" placeholder="Country" />
-                    <Form.Control.Feedback type="invalid">
-                    {t('form.emptyfield')}
-                    </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="6" controlId="city">
-                    <Form.Label>*{t('form.city')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="text" placeholder="City" />
-                    <Form.Control.Feedback type="invalid">
-                    {t('form.emptyfield')}
-                    </Form.Control.Feedback>
-                </Form.Group>
-            </Form.Row>
-            <hr></hr>
-            {/**
-            *----->DATOS PARA USER
-            *personalPick:File required (por hacer)
-            *profileBackgroundPick: File required (por hacer)
-            *aboutMe:string
-            *birthDay:date required
-            *moherTongue:string required
-            *speakLangs:String required
-            *LangsToLearn:String required
-            *location: Sring (por hacer)
-            *<-------
-            */}
-
-            <Form.Row>
-                <Form.Group as={Col} controlId="aboutMe">
-                <Form.Label>{t('form.aboutme')}</Form.Label>
-                <Form.Control onChange={this.handleChange} as="textarea" rows="3" />
-            </Form.Group>
-            </Form.Row>
-
-            <Form.Row>
-                <Form.Group as={Col} md="8" controlId="birthday">
-                    <Form.Label>{t('form.birthday')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} required type="date" max={maxDate} placeholder="Date" />
-                    <Form.Control.Feedback type="invalid">
-                    {t('form.emptyDate')}
-                    </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group as={Col} md="8" controlId="motherTongue">
-                    <Form.Label>{t('form.mothertongue')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} as="select">
-                    <option value="es">{t('spanish')}</option>
-                    <option value="en">{t('english')}</option>
-                    <option value="fr">{t('french')}</option>
-                    <option value="de">{t('german')}</option>
-                    </Form.Control>
-                </Form.Group>
-            </Form.Row>
-
-            <Form.Row>
-                <Form.Group as={Col} onChange={this.handleChange} controlId="speakLangs">
-                    <Form.Label>{t('form.speakedlanguages')}</Form.Label>
-                    <Form.Control as="select" multiple required>
-                    <option value="es">{t('spanish')}</option>
-                    <option value="en">{t('english')}</option>
-                    <option value="fr">{t('french')}</option>
-                    <option value="de">{t('german')}</option>
-                    </Form.Control>
-                    <Form.Control.Feedback type="invalid">
-                    {t('form.emptyfield')}
-                    </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} controlId="langsToLearn">
-                    <Form.Label>{t('form.languagesToLearn')}</Form.Label>
-                    <Form.Control onChange={this.handleChange} as="select" multiple required>
-                    <option value="es">{t('spanish')}</option>
-                    <option value="en">{t('english')}</option>
-                    <option value="fr">{t('french')}</option>
-                    <option value="de">{t('german')}</option>
-                    </Form.Control>
-                    <Form.Control.Feedback type="invalid">
-                    {t('form.emptyfield')}
-                    </Form.Control.Feedback>
-                </Form.Group>
-
-            </Form.Row>
-
-                <Button type="submit">{t('submit')}</Button>
-            </Form>
-
+                    </Form.Row>
+                        <button className="register__button" as={Col} md={{span: 2, offset: 4}} type="submit">{t('register')}</button>
+                    </Form>
+                </Col>
+            </Row>
             </Section>
         </Page>
       </div>
