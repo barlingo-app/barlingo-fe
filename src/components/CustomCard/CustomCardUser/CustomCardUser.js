@@ -45,9 +45,7 @@ class CustomCardUser extends Component {
             ))}
         </div>);
     }
-    handleOnClick = () => {
 
-    }
     calculate_age(dob) {
         var diff_ms = Date.now() - dob.getTime();
         var age_dt = new Date(diff_ms);
@@ -75,9 +73,9 @@ class CustomCardUser extends Component {
                         <img className="custom-card-user__location-icon" src={locationIcon} alt="Location" />
                         <p className="custom-card-user__text">{address}</p>
                     </div>
-                    <div className="custom-card-user__button-wrapper">
-                        <button className="custom-card-user__button" onClick={this.handleOnClick}>{t('user.deactivate')}</button>
-                    </div >
+                    {this.props.buttonMessage && <div className="custom-card-user__button-wrapper">
+                        <button className="custom-card-user__button" onClick={this.props.handleOnClick}>{this.props.buttonMessage}</button>
+                    </div >}
                 </div>
             </div>
         );

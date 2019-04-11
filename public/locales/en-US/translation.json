@@ -1,6 +1,6 @@
 {
-  "error" : "Error",
-  "warning" : "Warning",
+  "error": "Error",
+  "warning": "Warning",
   "notfound": "Resource not found",
   "loadErrorMessage": "There was an error loading the data",
   "landing": {
@@ -24,7 +24,8 @@
   "adviseemail": "We'll never share your email with anyone else",
   "user": {
     "list": "Users list",
-    "deactivate": "Deactivate"
+    "deactivate": "Deactivate",
+    "activate": "Activate"
   },
   "titles": {
     "exchangesList": "Exchanges",
@@ -88,6 +89,36 @@
     "languagesToLearn": "Languages to learn",
     "submit": "Submit"
   },
+  "admin": {
+    "ban": {
+      "confirm": {
+        "title": "Do you want to ban this user?",
+        "message": "The user may not log in the application."
+      },
+      "successful":{
+        "title": "The user has been banned",
+        "message":"The user will not be able to access the application"
+      },
+      "error":{
+        "title": "Failed ban",
+        "message":"An error has ben ocurred while banning the user."
+      }
+    },
+    "unban": {
+      "confirm": {
+        "title": "Do you want to unban this user?",
+        "message": "The user will be unbanned"
+      },
+      "successful":{
+        "title": "The user has been unbanned",
+        "message":"The user will be able to access the application"
+      },
+      "error":{
+        "title": "Failed unban",
+        "message":"An error has ben ocurred while unbanning the user."
+      }
+    }
+  },
   "exchange": {
     "error": {
       "title": "Failed creation",
@@ -107,7 +138,9 @@
     "create": "Create",
     "join": "Join",
     "loading": "Loading",
-    "leave": "Leave"
+    "leave": "Leave",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar"
   },
   "language": {
     "spanish": "Spanish",
@@ -152,7 +185,7 @@
         "message": "An error has ocurred while reedeming"
       }
     },
-    "outDate":"The code only can be showed 4 hours before the event and 48 hours after.",
+    "outDate": "The code only can be showed 4 hours before the event and 48 hours after.",
     "show": "Show code",
     "showTitle": "The discount code is",
     "error": "There isn't code to show",
