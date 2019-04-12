@@ -43,23 +43,25 @@ export class index extends Component {
         console.log("este es mi rol", rol)
         if(rol === 'user'){
             return(
-            <Page layout="public">
-                <Section slot="content">
-                    <div>
-                        <EditUserComponent data ={data} />
-                    </div>
-                </Section>
-            </Page>
-                
+            <div className="register-bg">
+                <Page layout="public">
+                    <Section slot="content">
+                            <EditUserComponent data ={data} />
+                    </Section>
+                </Page>
+            </div>
+
             )
         }
         else if(rol === 'establishment'){
             return(
-                <Page layout="public">
-                    <Section slot="content">
-                        <EditEstablishmentComponent data = {data} />
-                    </Section>
-                </Page>
+                <div className="register-bg">
+                    <Page layout="public">
+                        <Section slot="content">
+                            <EditEstablishmentComponent data = {data} />
+                        </Section>
+                    </Page>
+                </div>
             )
         }
         else {

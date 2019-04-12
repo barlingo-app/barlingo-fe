@@ -8,6 +8,7 @@ import axios from 'axios';
 import {notification} from 'antd';
 import { userService } from '../../services/userService';
 import { withNamespaces } from "react-i18next";
+import './index.scss'
 
 
 const tailFormItemLayout = {
@@ -327,7 +328,7 @@ export class index extends Component {
                     </Form.Row>
                     <Form.Row>
                         <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="motherTongue">
-                            <Form.Label>{t('form.mothertongue')}</Form.Label>
+                            <Form.Label>{t('form.mothertongue')}*</Form.Label>
                             <Form.Control onChange={this.handleChange} as="select">
                             <option value="es">{t('spanish')}</option>
                             <option value="en">{t('english')}</option>
@@ -341,7 +342,7 @@ export class index extends Component {
                     <Form.Row>
                         <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} onChange={this.handleChange} controlId="speakLangs">
                             <Form.Label>{t('form.speakedlanguages')}*</Form.Label>
-                            <Form.Control as="select" multiple required>
+                            <Form.Control className="register__select" as="select" multiple required>
                             <option value="es">{t('spanish')}</option>
                             <option value="en">{t('english')}</option>
                             <option value="fr">{t('french')}</option>
@@ -353,7 +354,7 @@ export class index extends Component {
                         </Form.Group>
                         <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:0}} controlId="langsToLearn">
                             <Form.Label>{t('form.languagesToLearn')}*</Form.Label>
-                            <Form.Control onChange={this.handleChange} as="select" multiple required>
+                            <Form.Control className="register__select" onChange={this.handleChange} as="select" multiple required>
                             <option value="es">{t('spanish')}</option>
                             <option value="en">{t('english')}</option>
                             <option value="fr">{t('french')}</option>
@@ -365,7 +366,7 @@ export class index extends Component {
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
-                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:0}}>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:11, offset:1}}>
                             <Form.Check
                                 required
                                 label= {<div>
@@ -376,10 +377,9 @@ export class index extends Component {
                                         t('term&cond')
                                     }
                                     </NavLink></div>}/>
-                        </Form.Group>
-                        
+                        </Form.Group>  
                     </Form.Row>
-                        <button className="register__button" as={Col} md={{span: 2, offset: 4}} type="submit">{t('register')}</button>
+                    <button className="register__button" as={Col} md={{span: 2, offset: 4}} type="submit">{t('register')}</button>
                     </Form>
                 </Col>
             </Row>

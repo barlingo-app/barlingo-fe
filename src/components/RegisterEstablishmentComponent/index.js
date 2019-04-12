@@ -4,6 +4,8 @@ import { withNamespaces } from "react-i18next";
 import { userService } from '../../services/userService'; 
 import { establishmentService } from '../../services/establishmentService';
 import PaySubscriptionContainer from '../../containers/PaySubscriptionContainer/PaySubscriptionContainer';
+import {Row, Col} from 'react-bootstrap';
+import './index.scss'
 
 import {
     Form,
@@ -14,37 +16,12 @@ import {
     Checkbox,
     Slider,
     Radio,
-    Row,
-    Col,
     Button,
     AutoComplete,
     notification
   } from 'antd'
 
- const { Option } = Select;
-const formItemLayout = {
-
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-},
-wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 16 },
-},
-};
-const tailFormItemLayout = {
-wrapperCol: {
-    xs: {
-    span: 24,
-    offset: 0,
-    },
-    sm: {
-    span: 16,
-    offset: 8,
-    },
-},
-};
+const { Option } = Select;
 
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -199,210 +176,272 @@ class index extends Component {
       return(<PaySubscriptionContainer establishmentId={establishmentId} />)
     }
     return (
-      <div>
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-            <Form.Item label={t('form.username')}>
-                {getFieldDecorator('username', {
-                    rules: [{
-                        required: true, 
-                        message: t('form.emptyUsername')
-                      }],
-                })(
-                    <Input />
-                )}
-            </Form.Item>
-            <Form.Item label={t('form.password')}>
-                {getFieldDecorator('password', {
-                    rules: [{
-                        required: true, 
-                        message: t('form.emptyPassword')
-                      },{
-                        validator: this.validateToNextPassword,
-                      }],
-                })(
-                    <Input type="password" />
-                )}
-            </Form.Item>
-            <Form.Item label={t('form.confirmPassword')}>
-              {getFieldDecorator('confirm', {
-                rules: [{
-                  required: true, message: t('form.pleaseconfirmpassword'),
-                },{
-                  validator: this.compareToFirstPassword,
-                }],
-              })(
-                <Input type="password" onBlur={this.handleConfirmBlur} />
-              )}
-        </Form.Item>
-
-            <hr></hr>
-            <Form.Item label={t('form.name')}>
-                {getFieldDecorator('name', {
-                    rules: [{
-                        required: true, 
-                        message: t('form.emptyfield')
-                      }],
-                })(
-                    <Input />
-                )}
-            </Form.Item>
-            <Form.Item label={t('form.surname')}>
-                {getFieldDecorator('surname', {
-                    rules: [{
-                        required: true, 
-                        message: t('form.emptyfield')
-                      }],
-                })(
-                    <Input />
-                )}
-            </Form.Item>
-            <Form.Item label={t('form.country')}>
-                {getFieldDecorator('country', {
-                    rules: [{
-                        required: true, 
-                        message: t('form.emptyfield')
-                      }],
-                })(
-                    <Input />
-                )}
-            </Form.Item>
-            <Form.Item label={t('form.city')}>
-                {getFieldDecorator('city', {
-                    rules: [{
-                        required: true, 
-                        message: t('form.emptyfield')
-                      }],
-                })(
-                    <Input />
-                )}
-            </Form.Item>
-            <Form.Item label={t('form.email')}>
-                {getFieldDecorator('email', {
-                    rules: [{
-                        required: true, 
-                        message: t('form.emptyfield')},{
-                          type: 'email', message: 'The input is not valid E-mail!',
+      <div className="register">
+        <Row>
+          <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
+            <div className="register__title">{t('create-account')}</div>
+            <Form  onSubmit={this.handleSubmit}>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.username')}>
+                        {getFieldDecorator('username', {
+                            rules: [{
+                                required: true, 
+                                message: t('form.emptyUsername')
+                              }],
+                        })(
+                            <Input />
+                        )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.password')}>
+                        {getFieldDecorator('password', {
+                            rules: [{
+                                required: true, 
+                                message: t('form.emptyPassword')
+                              },{
+                                validator: this.validateToNextPassword,
+                              }],
+                        })(
+                            <Input type="password" />
+                        )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.confirmPassword')}>
+                      {getFieldDecorator('confirm', {
+                        rules: [{
+                          required: true, message: t('form.pleaseconfirmpassword'),
+                        },{
+                          validator: this.compareToFirstPassword,
                         }],
-                })(
-                    <Input />
-                )}
-            </Form.Item>
-
-            <Form.Item label={t('form.birthday')}>
-                    {getFieldDecorator('date-picker', config)(
-                        <DatePicker showTime format="YYYY-MM-DD" />
-                    )}
-                </Form.Item>
-
-            <hr></hr>
-
-            <Form.Item label={t('form.establishmentname')}>
-                {getFieldDecorator('establishmentname', {
-                    rules: [{
-                        required: true, 
-                        message: t('form.emptyfield')}
-                      ]
-                })(
-                    <Input />
-                )}
-            </Form.Item>
-            <Form.Item label={t('form.description')}>
-                {getFieldDecorator('description', {
-                    rules: [{}],
-                })(
-                    <Input.TextArea rows={3} />
-                )}
-            </Form.Item>
-            <Form.Item label={t('form.address')}>
-                {getFieldDecorator('address', {
-                    rules: [{
-                        required: true, 
-                        message: t('form.emptyfield')}],
-                })(
-                    <Input />
-                )}
-            </Form.Item>
-            
-            <Form.Item
-          label={t('form.weekscheadule')}
-        >
-          {getFieldDecorator("weekscheadule", {
-            rules: [
-              { required: true, message: t('form.emptyfield'), type: 'array' },
-            ],
-          })(
-            <Checkbox.Group style={{ width: "100%" }}>
-              <Row>
-                <Col span={8}><Checkbox value="Mon">{t('monday')}</Checkbox></Col>
-                <Col span={8}><Checkbox value="Thues">{t('thuesday')}</Checkbox></Col>
-                <Col span={8}><Checkbox value="Wednes">{t('wednesday')}</Checkbox></Col>
-                <Col span={8}><Checkbox value="Thurs">{t('thursday')}</Checkbox></Col>
-                <Col span={8}><Checkbox value="Fri">{t('friday')}</Checkbox></Col>
-                <Col span={8}><Checkbox value="Satur">{t('saturday')}</Checkbox></Col>
-                <Col span={8}><Checkbox value="Sun">{t('sunday')}</Checkbox></Col>
-              </Row>
-            </Checkbox.Group>
-          )}
-        </Form.Item>
-
-            <Form.Item label={t('form.open')}>
-                  {getFieldDecorator('open', {
-                rules: [
-                  { required: true,
-                    message: t('form.emptyfield'),
-                    },
-                ],
-              })(
-                <TimePicker format="HH:mm" />
-              )}  
-            </Form.Item>
-
-            <Form.Item label={t('form.closed')}>
-                  {getFieldDecorator('close', {
-                rules: [
-                  { required: true,
-                    message: t('form.emptyfield'),
-                    },
-                ],
-              })(
-                <TimePicker format="HH:mm" />
-              )}  
-            </Form.Item>
-                  
-            <Form.Item label={t('form.offer')}>
-                {getFieldDecorator('offer', {
-                    rules: [{required: true,
-                    message: t('form.emptyfield') }],
-                })(
-                    <Input.TextArea rows={3} />
-                )}
-            </Form.Item>
-
-            <Form.Item {...tailFormItemLayout}>
-                {getFieldDecorator('agreement',
-                {
-                  rules: [{required: true,
-                  message: t('form.emptytem&cond') }],
-              }, {
-                  valuePropName: 'checked',
-                })(
-                  <Checkbox>
+                      })(
+                        <Input type="password" onBlur={this.handleConfirmBlur} />
+                      )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <hr></hr>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.name')}>
+                        {getFieldDecorator('name', {
+                            rules: [{
+                                required: true, 
+                                message: t('form.emptyfield')
+                              }],
+                        })(
+                            <Input />
+                        )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.surname')}>
+                        {getFieldDecorator('surname', {
+                            rules: [{
+                                required: true, 
+                                message: t('form.emptyfield')
+                              }],
+                        })(
+                            <Input />
+                        )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.country')}>
+                        {getFieldDecorator('country', {
+                            rules: [{
+                                required: true, 
+                                message: t('form.emptyfield')
+                              }],
+                        })(
+                            <Input />
+                        )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.city')}>
+                        {getFieldDecorator('city', {
+                            rules: [{
+                                required: true, 
+                                message: t('form.emptyfield')
+                              }],
+                        })(
+                            <Input />
+                        )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.email')}>
+                        {getFieldDecorator('email', {
+                            rules: [{
+                                required: true, 
+                                message: t('form.emptyfield')},{
+                                  type: 'email', message: 'The input is not valid E-mail!',
+                                }],
+                        })(
+                            <Input />
+                        )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.birthday')}>
+                      {getFieldDecorator('date-picker', config)(
+                          <DatePicker showTime format="YYYY-MM-DD" />
+                      )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <hr></hr>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.establishmentname')}>
+                        {getFieldDecorator('establishmentname', {
+                            rules: [{
+                                required: true, 
+                                message: t('form.emptyfield')}
+                              ]
+                        })(
+                            <Input />
+                        )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.description')}>
+                        {getFieldDecorator('description', {
+                            rules: [{}],
+                        })(
+                            <Input.TextArea rows={3} />
+                        )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.address')}>
+                        {getFieldDecorator('address', {
+                            rules: [{
+                                required: true, 
+                                message: t('form.emptyfield')}],
+                        })(
+                            <Input />
+                        )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>          
+                    <Form.Item
+                      label={t('form.weekscheadule')}
+                    >
+                      {getFieldDecorator("weekscheadule", {
+                        rules: [
+                          { required: true, message: t('form.emptyfield'), type: 'array' },
+                        ],
+                      })(
+                        <Checkbox.Group style={{ width: "100%" }}>
+                        <Row> 
+                          <Col xs="6" sm="4" md="6"><Checkbox value="Mon">{t('monday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="Thues">{t('thuesday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="Wednes">{t('wednesday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="Thurs">{t('thursday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="Fri">{t('friday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="Satur">{t('saturday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="Sun">{t('sunday')}</Checkbox></Col>
+                        </Row>  
+                        </Checkbox.Group>
+                      )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}> 
+                    <Form.Item label={t('form.open')}>
+                          {getFieldDecorator('open', {
+                        rules: [
+                          { required: true,
+                            message: t('form.emptyfield'),
+                            },
+                        ],
+                      })(
+                        <TimePicker format="HH:mm" />
+                      )}  
+                    </Form.Item>
+                  </Col> 
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.closed')}>
+                          {getFieldDecorator('close', {
+                        rules: [
+                          { required: true,
+                            message: t('form.emptyfield'),
+                            },
+                        ],
+                      })(
+                        <TimePicker format="HH:mm" />
+                      )}  
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item label={t('form.offer')}>
+                        {getFieldDecorator('offer', {
+                            rules: [{required: true,
+                            message: t('form.emptyfield') }],
+                        })(
+                            <Input.TextArea rows={3} />
+                        )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                    <Form.Item>
+                        {getFieldDecorator('agreement',
                         {
-                            t('ihaveread')
-                        } 
-                        <NavLink exact={true} to={"/termCondition"} >{ 
-                            t('term&cond')
-                        }
-                        </NavLink>
-                  </Checkbox>
-                )}
-            </Form.Item>
-
-            <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">Register</Button>
-        </Form.Item>
-
-        </Form> 
+                          rules: [{required: true,
+                          message: t('form.emptytem&cond') }],
+                      }, {
+                          valuePropName: 'checked',
+                        })(
+                          <Checkbox>
+                                {
+                                    t('ihaveread')
+                                } 
+                                <NavLink exact={true} to={"/termCondition"} >{ 
+                                    t('term&cond')
+                                }
+                                </NavLink>
+                          </Checkbox>
+                        )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Form.Item>
+                  <button className="register__button" htmlType="submit">{t('register')}</button>
+                </Form.Item>
+            </Form>
+          </Col>
+        </Row>
       </div>
     )
   }
