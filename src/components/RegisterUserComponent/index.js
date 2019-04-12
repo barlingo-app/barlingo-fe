@@ -8,6 +8,7 @@ import axios from 'axios';
 import {notification} from 'antd';
 import { userService } from '../../services/userService';
 import { withNamespaces } from "react-i18next";
+import { Modal, Button } from 'antd';
 import './index.scss'
 
 
@@ -43,6 +44,7 @@ export class index extends Component {
             birthday: '',
             speakLangs: [],
             langsToLearn: [],
+            visible: false
             }
         this.handleChange = this.handleChange.bind(this);
     }
@@ -50,6 +52,25 @@ export class index extends Component {
     componentDidMount(){
      
     }
+
+    showModal = () => {
+        this.setState({
+          visible: true,
+        });
+      }
+
+    handleOk = (e) => {
+        console.log(e);
+        this.setState({
+          visible: false,
+        });
+      }
+    handleCancel = (e) => {
+        console.log(e);
+        this.setState({
+          visible: false,
+        });
+      }
 
     setUsernameValidity = (validity) => {
         this.setState({usernameInvalid: validity});
@@ -372,17 +393,41 @@ export class index extends Component {
                                 label= {<div>
                                     {
                                         t('ihaveread')
-                                    } 
-                                    <NavLink exact={true} to={"/termCondition"} >{ 
-                                        t('term&cond')
                                     }
-                                    </NavLink></div>}/>
+                                    <Button className="register__terms" onClick={this.showModal}>
+                                        {t('term&cond')}
+                                    </Button> 
+                                    </div>}/>
                         </Form.Group>  
-                    </Form.Row>
+                                </Form.Row>
                     <button className="register__button" as={Col} md={{span: 2, offset: 4}} type="submit">{t('register')}</button>
                     </Form>
                 </Col>
             </Row>
+            <Modal
+          title={t('term&cond')}
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          >
+          <p>{t('terms-intro')}</p>
+          <p><b>{t('terms-data')}</b></p>
+          <p>{t('terms-data-text')}</p>
+          <ul>
+              <li>{t('terms-right1')}</li>
+              <li>{t('terms-right2')}</li>
+              <li>{t('terms-right3')}</li>
+          </ul>
+          <p><b>{t('terms-prices')}</b></p>
+          <p>{t('terms-prices-title')}</p>
+          <ul>
+              <li>{t('terms-price1')}</li>
+              <li>{t('terms-price2')}</li>
+              <li>{t('terms-price3')}</li>
+          </ul>
+          <p><b>{t('terms-modifications')}</b></p>
+          <p>{t('terms-modifications-text')}</p>
+        </Modal>
       </div>
     )
   }

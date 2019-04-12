@@ -1,9 +1,17 @@
 @import "../../styles/variables";
 
-.register {
+.footer {
+    background: $mainColor;
+    position: fixed;
+    height: 50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+
     &__terms {
         background:none!important;
-        color:$mainColor!important;
+        color:white!important;
         border:none!important; 
         padding:0!important;
         font: inherit;
@@ -12,7 +20,7 @@
         cursor: pointer;
         &:hover {
             background:none!important;
-            color: $mainColor!important;
+            color:white!important;
             border:none!important; 
             padding:0!important;
             font: inherit;
@@ -21,4 +29,5 @@
             cursor: pointer;
         }
     }
+
 }
