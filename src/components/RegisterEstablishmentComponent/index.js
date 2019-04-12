@@ -133,7 +133,7 @@ class index extends Component {
             for (const value of weekscheadule) {
               workinghours = workinghours + ", "+ value 
             }
-            workinghours += "\n" + values.open.format("HH:mm") + " - " + values.close.format("HH:mm") 
+            workinghours += "\n" + values.open.format("HH:mm") + "-" + values.close.format("HH:mm") 
 
             let dataToSend = {
               username: values.username,
