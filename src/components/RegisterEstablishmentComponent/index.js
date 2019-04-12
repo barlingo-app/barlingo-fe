@@ -5,6 +5,7 @@ import { userService } from '../../services/userService';
 import { establishmentService } from '../../services/establishmentService';
 import PaySubscriptionContainer from '../../containers/PaySubscriptionContainer/PaySubscriptionContainer';
 import {Row, Col} from 'react-bootstrap';
+import { Modal, Button } from 'antd';
 import './index.scss'
 
 import {
@@ -16,7 +17,6 @@ import {
     Checkbox,
     Slider,
     Radio,
-    Button,
     AutoComplete,
     notification
   } from 'antd'
@@ -45,11 +45,31 @@ class index extends Component {
           validated: false,
           usernameInvalid: false,
           confirmDirty: false,
+          visible: false
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.compareToFirstPassword = this.compareToFirstPassword.bind(this)
         this.validateToNextPassword = this.validateToNextPassword.bind(this)
         this.handleConfirmBlur = this.handleConfirmBlur.bind(this)
+    }
+
+    showModal = () => {
+      this.setState({
+        visible: true,
+      });
+    }
+
+  handleOk = (e) => {
+      console.log(e);
+      this.setState({
+        visible: false,
+      });
+    }
+  handleCancel = (e) => {
+      console.log(e);
+      this.setState({
+        visible: false,
+      });
     }
 
     compareToFirstPassword(rule, value, callback){
@@ -440,10 +460,9 @@ class index extends Component {
                                 {
                                     t('ihaveread')
                                 } 
-                                <NavLink exact={true} to={"/termCondition"} >{ 
-                                    t('term&cond')
-                                }
-                                </NavLink>
+                            <Button className="register__terms" onClick={this.showModal}>
+                              {t('term&cond')}
+                            </Button>
                           </Checkbox>
                         )}
                     </Form.Item>
@@ -455,6 +474,30 @@ class index extends Component {
             </Form>
           </Col>
         </Row>
+        <Modal
+          title={t('term&cond')}
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          >
+          <p>{t('terms-intro')}</p>
+          <p><b>{t('terms-data')}</b></p>
+          <p>{t('terms-data-text')}</p>
+          <ul>
+              <li>{t('terms-right1')}</li>
+              <li>{t('terms-right2')}</li>
+              <li>{t('terms-right3')}</li>
+          </ul>
+          <p><b>{t('terms-prices')}</b></p>
+          <p>{t('terms-prices-title')}</p>
+          <ul>
+              <li>{t('terms-price1')}</li>
+              <li>{t('terms-price2')}</li>
+              <li>{t('terms-price3')}</li>
+          </ul>
+          <p><b>{t('terms-modifications')}</b></p>
+          <p>{t('terms-modifications-text')}</p>
+        </Modal>
       </div>
     )
   }
