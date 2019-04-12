@@ -50,7 +50,9 @@ class ValidateCodeContainer extends React.Component {
   }
   redeemOk = (response) => {
     const { t } = this.props;
-
+    this.setState({
+      redeemable: false
+    })
     notification.success({
       placement: 'bottomRight',
       bottom: 50,
@@ -60,10 +62,9 @@ class ValidateCodeContainer extends React.Component {
     });
   };
   checkExchange(code) {
-    console.log(code)
     exchangesService.findOne(code.langExchangeId)
       .then((response) => {
-        if (new Date(response.moment) < new Date() && !response.exchanged) {
+        if (new Date(response.moment) < new Date()) {
           this.codeOk();
         } else {
           if (!new Date(response.moment) < new Date())
@@ -128,8 +129,11 @@ class ValidateCodeContainer extends React.Component {
   checkCode = (code) => {
     discountCodeService.validateCode(code)
       .then((response) => {
-        console.log(response)
-        this.checkExchange(response.data[0])
+        const code = response.data[0]
+        if (!code.exchanged)
+          this.checkExchange(code)
+        else
+          this.codeFail("exchanged")
       })
       .catch((onrejected) => {
         this.codeFail()
