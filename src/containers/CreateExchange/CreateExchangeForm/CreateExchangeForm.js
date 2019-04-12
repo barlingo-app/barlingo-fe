@@ -84,6 +84,13 @@ class CreateExchangeForm extends Component {
     }
     render() {
 
+        let today = new Date()
+        let year = today.getFullYear()
+        let day = today.getDay()
+        let month = today.getMonth()
+        const maxDate =year+"-"+month+"-"+day
+
+
         const { t } = this.props;
         const config = {
             rules: [{ type: 'object', required: true, message: t('form.emptyDate') }],
@@ -155,7 +162,7 @@ class CreateExchangeForm extends Component {
                 <Form.Item
                 >
                     {getFieldDecorator('date-time-picker', config)(
-                        <DatePicker placeholder={t('form.startDate')} showTime format="YYYY-MM-DD HH:mm:ss" />
+                        <DatePicker placeholder={t('form.startDate')} disabledDate={d => !d || d.isBefore(new Date())} showTime  format="YYYY-MM-DD HH:mm:ss" />
                     )}
                 </Form.Item>
                 <Form.Item className="create__button">
