@@ -127,11 +127,11 @@ class ProfileView extends Component {
                         <Col col-sm="12" offset-md="4" col-md="4">
                             <Card
                                 cover={
-                                    <FileUploadComponent imageUrl = { auth.isUser() ? this.getImage(user.profileBackPic): this.getImage(user.images[0]) } onError={(e) => {e.target.src = defaultImage}} />
+                                    <FileUploadComponent allowUpload={auth.isUser()} imageType={"profileBackPic"} full={true} width={"auto"} height={300} endpoint={"/users/" + auth.getUserData().id + "/upload?imageType=backPic"} imageUrl = { auth.isUser() ? user.profileBackPic: user.images[0] } defaultImage={defaultImage} />
                                     }>
                                 <Meta
                                     avatar={
-                                        <FileUploadComponent imageUrl = { auth.isUser() ? user.personalPic: user.imageProfile} />
+                                        <FileUploadComponent allowUpload={auth.isUser()} imageType={"personalPic"} width={40} height={"auto"} endpoint={"/users/" + auth.getUserData().id + "/upload?imageType=personal"} imageUrl = { auth.isUser() ? user.personalPic: user.imageProfile} defaultImage={defaultImage} />
 
                                 }
                                     title={auth.isUser() ? user.name:user.establishmentName}

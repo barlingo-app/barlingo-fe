@@ -4,6 +4,7 @@ import { withNamespaces } from "react-i18next";
 import { establishmentService } from '../../services/establishmentService';
 import moment from 'moment';
 import {Row, Col} from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 
 import { auth } from '../../auth';
 
@@ -27,8 +28,9 @@ class index extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      successfulLogin: false,
       confirmDirty: false,
-      id: props.data.id
+      id: auth.getUserData().id
     }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -57,6 +59,7 @@ class index extends Component {
         workinghours += ", " + values.open.format("HH:mm") + "-" + values.close.format("HH:mm")
         console.log("Horario", workinghours)
         let dataToSend = {
+          id: auth.getUserData().id,
           name: values.name,
           surname: values.surname,
           email: values.email,
@@ -81,15 +84,16 @@ class index extends Component {
             this.setState({ usernameInvalid: true, validated: true })
           }
         } else {
-          auth.loadUserData();
-          notification.success({
-            placement: 'bottomRight',
-            bottom: 50,
-            duration: 10,
-            message: "Successful register",
-            description: "You can choose and pay your subscription",
+          auth.loadUserData().then(() => {
+            notification.success({
+              placement: 'bottomRight',
+              bottom: 50,
+              duration: 10,
+              message: "Successful register",
+              description: "You can choose and pay your subscription",
+            });
+            this.setState({ successfulLogin: true, establishmentId: response.data.content.id });
           });
-          this.setState({ successfulLogin: true, establishmentId: response.data.content.id });
         }
       }).catch((error) => {
 
@@ -120,7 +124,7 @@ class index extends Component {
   }
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
-    const { autoCompleteResult } = this.state;
+    const { autoCompleteResult, successfulLogin } = this.state;
     const { t } = this.props;
 
     const { name, surname, country,
@@ -134,6 +138,12 @@ class index extends Component {
     let closeHour = hours.substr(6)
     closeHour = moment(closeHour, "HH:mm");
     openHour = moment(openHour, "HH:mm");
+
+    if (successfulLogin) {
+      return (
+        <Redirect to={"/profile"} />
+      )
+    }
 
     return (
       <div className="register">
