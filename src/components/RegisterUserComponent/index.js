@@ -110,6 +110,7 @@ export class index extends Component {
             city: this.state.city,
             aboutMe: this.state.aboutMe,
             birthdate: this.state.birthday,
+            motherTongue: this.state.motherTongue,
             speakLanguages: this.state.speakLangs,
             learnLanguages: this.state.langsToLearn,
         }
