@@ -1,37 +1,180 @@
 {
+  "error": "Error",
+  "warning": "Alerta",
+  "welcomeMessage": "Bienvenido a Barlingo!",
   "notfound": "Recurso no encontrado",
   "loadErrorMessage": "Hubo un error al cargar los datos",
+  "landing": {
+    "message": "Bienvenido a Barlingo!",
+    "navOptions": {
+      "findExchanges": "Encontrar intercambios",
+      "seeEstablishments": "Ver establecimientos"
+    }
+  },
+  "details": " Detalles",
+  "term&cond": "Términos y Condiciones",
+  "terms-intro": "En el presente documento se detallan los términos y condiciones de www.barlingo.es.",
+  "terms-data": "1. Protección de datos",
+  "terms-data-text": "Barlingo se compromete a cumplir con el Reglamento General de Protección de Datos (RGPD). De acuerdo con esta ley, aseguramos al usuario los siguientes derechos:",
+  "terms-right1": "Los usuarios tienen derecho a ser notificados de todas las brechas que resulten un riesgo para sus derechos y libertades individuales. Esto se hará en un plazo máximo de 72 horas desde el momento en el que se produzca.",
+  "terms-right2": "Los usuarios tienen derecho a solicitar que se borren sus datos y que terceros detengan su procesamiento.",
+  "terms-right3": "Los usuarios tienen derecho a solicitar sus datos en formato electrónico, de manera que puedan portar esos datos a otras compañías.",
+  "terms-prices": "2. Precios y pagos",
+  "terms-prices-title": "Barlingo cuenta con tres tipos de suscripción al servicio:",
+  "terms-price1": "Suscripción mensual: el precio de la suscripción mensual es de 6.99€.",
+  "terms-price2": "Suscripción trimestral: el precio de la suscripción trimestral es de 18.99€.  Se aplica un descuento del 10% con respecto a la suscripción mensual.",
+  "terms-price3": "Suscripción anual: el precio de la suscripción anual es de 62.99€. Se aplica un descuento del 25% con respecto a la suscripción mensual.",
+  "terms-modifications": "3. Modificaciones",
+  "terms-modifications-text": "Barlingo se reserva el derecho a modificar en cualquier momento los términos y condiciones de uso del portal.",
+  "ihaveread": "He leído y acepto los ",
+  "userword": "Usuario",
+  "establishmentword": "Establecimiento",
+  "monday": "Lunes",
+  "thuesday": "Martes",
+  "wednesday": "Miércoles",
+  "thursday": "Jueves",
+  "friday": "Viernes",
+  "saturday": "Sábado",
+  "sunday": "Domingo",
+  "spanish": "Español",
+  "english": "Inglés",
+  "french": "Francés",
+  "german": "Alemán",
+  "submit": "Enviar",
+  "register": "Registrarse",
+  "create-account": "Crea tu cuenta",
+  "edit-account": "Edita tu cuenta",
+  "as-user": "Como usuario",
+  "as-establishment": "Como establecimiento",
+  "edit": "Editar",
+  "adviseemail": "No compartiremos tu información con nadie",
+  "user": {
+    "list": "Lista de usuarios",
+    "deactivate": "Desactivar",
+    "activate": "Activar"
+  },
+  "titles": {
+    "exchangesList": "Intercambios",
+    "establishmentsList": "Establecimientos",
+    "validateCode": "Validar código",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión"
+  },
   "links": {
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",
-    "login":"Iniciar sesión",
-    "logout": "Cerrar sesión"
+    "validateCode": "Validar código",
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar sesión",
+    "myExchanges": "Mis intercambios",
+    "created": "Creados",
+    "joined": "Unidos"
   },
-  "form":{
+  "access": {
+    "error": {
+      "title": "Acceso no permitido",
+      "message": "No tiene permisos suficientes para acceder a esta página."
+    }
+  },
+  "admin": {
+    "ban": {
+      "confirm": {
+        "title": "¿Quieres banear a este usuario?",
+        "message": "El usuario no podrá utilizar la aplicación."
+      },
+      "successful": {
+        "title": "El usuario ha sido baneado",
+        "message": "El usuario no podrá entrar en la aplicación."
+      },
+      "error": {
+        "title": "Baneo fallido",
+        "message": "Ha ocurrido un error al banear al usuario."
+      }
+    },
+    "unban": {
+      "confirm": {
+        "title": "¿Quieres desbanear a este usuario?",
+        "message": "El usuario podrá utilizar la aplicación de nuevo."
+      },
+      "successful": {
+        "title": "El usuario ha sido desbaneado",
+        "message": "El usuario podrá entrar en la aplicación."
+      },
+      "error": {
+        "title": "Desbaneo fallido",
+        "message": "Ha ocurrido un error al desbanear al usuario."
+      }
+    }
+  },
+  "form": {
     "emptyUsername": "Por favor, introduzca su nombre de usuario.",
-    "emptyPassword": "Por favor, introduzca su contraseña.",  
-    "emptyTitle" : "Por favor, introduzca el título", 
+    "emptyPassword": "Por favor, introduzca su contraseña.",
+    "validemail": "Por favor, introduzca un email válido",
+    "emptyTitle": "Por favor, introduzca el título",
     "emptyDate": "Por favor, introduzca la fecha",
-    "emptyMotherTongue":"Por favor, introduzca su lengua nativa",
-    "emptyTargetLanguage":"Por favor, introduzca su lengua objetivo",
-    "emptyNumberOfParticipants":"Por favor, introduzca el número de participantes",
-    "numberOfParticipants":"Número de participantes",
+    "emptytem&cond": "Debes aceptar nuestros términos y condiciones",
+    "emptyfield": "Esta información es necesaria",
+    "usernamealreadyexist": "Nombre de usuario ya existe",
+    "pleaseconfirmpassword": "Por favor, confirme su contraseña",
+    "inconsistpassword": "Las contraseñas no coinciden",
+    "emptyMotherTongue": "Por favor, introduzca su lengua nativa",
+    "emptyTargetLanguage": "Por favor, introduzca su lengua objetivo",
+    "emptyNumberOfParticipants": "Por favor, introduzca el número de participantes",
+    "numberOfParticipants": "Número de participantes",
     "username": "Nombre de usuario",
     "password": "Contraseña",
     "remember": "Recordarme",
     "forgotPassword": "He olvidado mi contraseña",
-    "login" : "Iniciar sesión",
+    "login": "Iniciar sesión",
     "register": "Registrarse",
-    "title" : "Título",
+    "title": "Título",
     "description": "Descripción",
-    "motherTongue" : "Lengua nativa",
-    "targetLanguage" :"Lengua objetivo",
-    "startDate":"Fecha de inicio"
+    "motherTongue": "Lengua nativa",
+    "targetLanguage": "Lengua objetivo",
+    "startDate": "Fecha de inicio",
+    "confirmPassword": "Confirme contraseña",
+    "name": "Nombre",
+    "surname": "Apellidos",
+    "country": "País",
+    "city": "Ciudad",
+    "email": "Email",
+    "establishmentname": "Nombre del local",
+    "address": "Dirección",
+    "weekscheadule": "Horario semanal",
+    "workingHours": "Horario de apertura",
+    "open": "Abierto",
+    "closed": "Cierre",
+    "offer": "Oferta",
+    "aboutme": "Algo sobre tí",
+    "birthday": "Fecha de nacimiento",
+    "mothertongue": "Lengua madre",
+    "speakedlanguages": "Lenguas habladas",
+    "languagesToLearn": "Lenguas para aprender",
+    "submit": "Enviar"
   },
-  "generic":{
+  "exchange": {
+    "error": {
+      "title": "Creación fallida",
+      "message": "Se ha producido un error al crear un nuevo intercambio, inténtelo más tarde."
+    },
+    "dateError": {
+      "title": "Creación fallida",
+      "message": "El momento del intercambio debe ser futuro."
+    },
+    "successful": {
+      "title": "Creación exitosa",
+      "message": "El intercambio se ha creado correctamente."
+    },
+    "organizer": "Organizador"
+  },
+  "generic": {
     "create": "Crear",
     "join": "Unirse",
-    "loading": "Cargando"
+    "loading": "Cargando",
+    "leave": "Abandonar",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar"
   },
   "language": {
     "spanish": "Español",
@@ -43,6 +186,104 @@
     "failed": {
       "title": "Inicio de sesión fallido",
       "message": "El nombre de usuario y/o contraseña son incorrectos."
+    },
+    "ban": {
+      "title": "Usuario baneado",
+      "message": "La cuenta del usuario se encuentra baneada del sistema."
+    }
+  },
+  "join": {
+    "failed": {
+      "title": "Unirse fallido",
+      "message": "Hubo un error al intentar unirse al intercambio."
+    },
+    "successful": {
+      "title": "Unirse exitoso",
+      "message": "Unido al intercambio exitosamente."
+    }
+  },
+  "leave": {
+    "failed": {
+      "title": "Abandonar fallido",
+      "message": "Hubo un error al intentar abandonar el intercambio."
+    },
+    "successful": {
+      "title": "Abandonar exitoso",
+      "message": "Intercambio abandonado exitosamente."
+    }
+  },
+  "establishmentRegister": {
+    "successfulMessage": {
+      "title": "Registro exitoso",
+      "message": "Ahora puedes elegir y pagar tu suscripción."
+    },
+    "failedMessage": {
+      "title": "Registro fallido",
+      "message": "Se produjo un error al guardar los datos."
+    }
+  },
+  "subscription": {
+    "title": "Elige una suscripción",
+    "discounts": {
+      "10%": "¡Obten un 10% de descuento!",
+      "25%": "¡Obten un 25% de descuento!"
+    },
+    "type": {
+      "monthly": "Suscripción mensual",
+      "trimestral": "Suscripción trimestral",
+      "annual": "Suscripción anual"
+    },
+    "successMessage": {
+      "title": "Pago exitoso",
+      "message": "Ahora puedes ver tu establecimiento en la aplicación."
+    },
+    "cancelMessage": {
+      "title": "Pago cancelado",
+      "message": ""
+    },
+    "errorMessage": {
+      "title": "Pago fallido",
+      "message": ""
+    }
+  },
+  "code": {
+    "redeem": {
+      "buttonMessage": "Canjear",
+      "ok": {
+        "title": "Canjeado correctamente",
+        "message": "Se ha canjeado el código de manera correcta."
+      },
+      "fail": {
+        "title": "Ups, algo ha salido mal",
+        "message": "Se ha producido un error mientras se canjeaba el código."
+      }
+    },
+    "outDate": "El código solo se mostrará 4 horas antes del evento y 48 horas después.",
+    "show": "Mostrar código",
+    "showTitle": "El codigo de descuento es",
+    "error": "No hay código para mostrar",
+    "used": "Este código ya ha sido canjeado",
+    "validate": {
+      "placeholder": "Introduzca el código",
+      "button": "Validar código",
+      "empty": "Por favor introduzca el código",
+      "validCode": {
+        "title": "Código válido",
+        "message": "El código es válido."
+      },
+      "failCode": {
+        "date": {
+          "title": "No canjeable",
+          "message": "El código es válido, pero el intercambio aún no ha ocurrido."
+        },
+        "exchanged": {
+          "title": "No canjeable",
+          "message": "El código ya ha sido canjeado."
+        },
+        "format": "El código debe tener el siguiente formato: <<00000000-AAAA>>",
+        "title": "Código inválido",
+        "message": "El código no es válido"
+      }
     }
   }
 }

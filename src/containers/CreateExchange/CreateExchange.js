@@ -2,23 +2,34 @@ import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
 import CustomCard from '../../components/CustomCard/CustomCard';
-import EstablishmentGeneric from '../../media/data/establishments';
 import CreateExchangeForm from './CreateExchangeForm/CreateExchangeForm';
 import { Row, Col } from 'reactstrap';
+import { establishmentService } from '../../services/establishmentService';
+import Loading from "../../components/Loading/Loading";
 
 class CreateExchange extends Component {
     state = {
-        establishment: null
+        establishment: null,
+        loaded: false
     }
     componentDidMount() {
-        let establishment = EstablishmentGeneric.find(e => +e.id === +this.props.match.params.establishmentId);
-        this.setState({
-            establishment: establishment
-        })
+        this.consultaEstablecimiento();
+    }
+    consultaEstablecimiento() {
+        const id = this.props.match.params.establishmentId;
+        establishmentService.findOne(id).then(
+            response => {
+                this.setState({
+                    establishment: response.data,
+                    loaded: true
+                });
+            }).catch(onrejected => (console.log(onrejected)))
     }
     render() {
-        if (this.state.establishment) {
-            let i = this.state.establishment;
+        const { establishment, loaded } = this.state;
+        console.log(establishment)
+        if (loaded) {
+            let i = establishment;
             return (
                 <Page layout="public">
                     <Section slot="content">
@@ -28,7 +39,7 @@ class CreateExchange extends Component {
                                     <CustomCard image={i.imageProfile} title={i.establishmentName} address={i.address} schedule="Lunes-Viernes: 8:00-21:00" />
                                 </div>
                                 <div>
-                                    <CreateExchangeForm />
+                                    <CreateExchangeForm establishmentId={i.id} />
                                 </div>
                             </Col>
                         </Row>
@@ -36,7 +47,13 @@ class CreateExchange extends Component {
                 </Page>
             );
         }
-        return null;
+        return (
+            <Page layout="public">
+                <Section slot="content">
+                    <Loading />
+                </Section>
+            </Page>
+        );;
     }
 }
 
