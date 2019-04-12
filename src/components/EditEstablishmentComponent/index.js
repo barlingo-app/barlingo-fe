@@ -233,7 +233,7 @@ class index extends Component {
             </Form.Item>
 
             <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">Register</Button>
+          <Button type="primary" htmlType="submit">Save</Button>
         </Form.Item>
 
         </Form> 

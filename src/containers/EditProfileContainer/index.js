@@ -55,13 +55,11 @@ export class index extends Component {
         }
         else if(rol === 'establishment'){
             return(
-                <div>
-                    <Page layout="public">
-                        <Section slot="content">
-                            <EditEstablishmentComponent data = {data} />
-                        </Section>
-                    </Page>
-                </div>
+                <Page layout="public">
+                    <Section slot="content">
+                        <EditEstablishmentComponent data = {data} />
+                    </Section>
+                </Page>
             )
         }
         else {
