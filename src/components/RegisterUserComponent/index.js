@@ -2,12 +2,27 @@ import React, { Component } from 'react'
 import Form from 'react-bootstrap/Form';
 import {Col, Row} from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
+import { NavLink } from "react-router-dom";
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {notification} from 'antd';
 import { userService } from '../../services/userService';
 import { withNamespaces } from "react-i18next";
+
+
+const tailFormItemLayout = {
+    wrapperCol: {
+      xs: {
+        span: 24,
+        offset: 0,
+      },
+      sm: {
+        span: 16,
+        offset: 8,
+      },
+    },
+  };
+
 
 export class index extends Component {
     constructor(props){
@@ -32,8 +47,7 @@ export class index extends Component {
     }
 
     componentDidMount(){
-     //   alert("Añadir en el método componenDidMount\nllamadas a la APi para rellenar los selects\nlos cuales están usando valores de prueba")
-     //   alert("Puedes hacer un seguimiento del estado revisando la consola del navegador\nEstos avisos están dentro del método componenDidMount")
+     
     }
 
     setUsernameValidity = (validity) => {
@@ -164,7 +178,6 @@ export class index extends Component {
 
       render() {
     const { successfulLogin, validated, usernameInvalid } = this.state;
-    
     const { t } = this.props;
     let today = new Date()
     let year = today.getFullYear() - 16
@@ -350,7 +363,21 @@ export class index extends Component {
                             {t('form.emptyfield')}
                             </Form.Control.Feedback>
                         </Form.Group>
-
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:0}}>
+                            <Form.Check
+                                required
+                                label= {<div>
+                                    {
+                                        t('ihaveread')
+                                    } 
+                                    <NavLink exact={true} to={"/termCondition"} >{ 
+                                        t('term&cond')
+                                    }
+                                    </NavLink></div>}/>
+                        </Form.Group>
+                        
                     </Form.Row>
                         <button className="register__button" as={Col} md={{span: 2, offset: 4}} type="submit">{t('register')}</button>
                     </Form>
