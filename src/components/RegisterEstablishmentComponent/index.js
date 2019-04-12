@@ -27,6 +27,13 @@ function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
+const week = ["monday",
+            "thuesday",
+            "wednesday", 
+            "thursday", 
+            "friday", 
+            "saturday", 
+            "sunday"]
 
 class index extends Component {
 
@@ -88,6 +95,7 @@ class index extends Component {
 
 
     handleSubmit(e){
+      const {t} = this.props
       e.preventDefault();
       this.props.form.validateFieldsAndScroll((err, values) => {
         this.usernameExists(values.username).then((result) => {
@@ -107,10 +115,15 @@ class index extends Component {
             username, weekscheadule, establishmentname} = values
             let workinghours = '' 
 
-            for (const value of weekscheadule) {
-              workinghours = workinghours + ", "+ value 
+            weekscheadule.sort();
+
+
+            for(let i of weekscheadule){
+              workinghours += t(week[i]) +" "
             }
-            workinghours += "\n" + values.open.format("HH:mm") + "-" + values.close.format("HH:mm") 
+            workinghours.trim()
+
+            workinghours += ", " +values.open.format("HH:mm") + "-" + values.close.format("HH:mm") 
 
             let dataToSend = {
               username: values.username,
@@ -353,18 +366,18 @@ class index extends Component {
                     >
                       {getFieldDecorator("weekscheadule", {
                         rules: [
-                          { required: true, message: t('form.emptyfield'), type: 'array' },
+                          { required: true, message: t('form.emptyfield') },
                         ],
                       })(
                         <Checkbox.Group style={{ width: "100%" }}>
                         <Row> 
-                          <Col xs="6" sm="4" md="6"><Checkbox value="Mon">{t('monday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="Thues">{t('thuesday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="Wednes">{t('wednesday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="Thurs">{t('thursday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="Fri">{t('friday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="Satur">{t('saturday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="Sun">{t('sunday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="0">{t('monday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="1">{t('thuesday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="2">{t('wednesday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="3">{t('thursday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="4">{t('friday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="5">{t('saturday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="6">{t('sunday')}</Checkbox></Col>
                         </Row>  
                         </Checkbox.Group>
                       )}
