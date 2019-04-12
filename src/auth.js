@@ -246,7 +246,7 @@ export const auth = {
         }
       }).catch((error) => {this.logout();return false;});
     } else if (this.isEstablishment()) {
-      return await establishmentService.findById(this.getUserId()).then((response) => {
+      return await establishmentService.findOne(this.getUserId()).then((response) => {
         if (response.data === null || response.data === "") {
           this.logout();
           return false;
