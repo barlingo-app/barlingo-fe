@@ -166,6 +166,10 @@
     "failed": {
       "title": "Inicio de sesión fallido",
       "message": "El nombre de usuario y/o contraseña son incorrectos."
+    },
+    "ban": {
+      "title": "Usuario baneado",
+      "message": "La cuenta del usuario se encuentra baneada del sistema."
     }
   },
   "join": {
