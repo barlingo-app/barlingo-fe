@@ -50,7 +50,7 @@ class index extends Component {
 
 
         for(let i of weekscheadule){
-          workinghours += t(week[i]) +" "
+          workinghours += t(week[i])+" "
         }
         workinghours.trim()
 
@@ -108,7 +108,7 @@ class index extends Component {
     let c;
     for (var i = 0; i < daysString.length; i++) {
       c = daysString.charAt(i);
-      if (c !== ',' && c !== '' && c.match(/[a-z]/i)) {
+      if (c !== ',' && c !== '' && c.match(/[0-9]/i)) {
         day += c;
       } else {
         daysArray.push(day);
@@ -259,7 +259,7 @@ class index extends Component {
                   <Form.Item
                     label={t('form.weekscheadule')}
                   >
-                    {getFieldDecorator("weekscheadule", { initialValue: days }, {
+                    {getFieldDecorator("weekscheadule", {
                       rules: [
                         { required: true, message: t('form.emptyfield')},
                       ],

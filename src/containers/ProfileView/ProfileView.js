@@ -64,14 +64,35 @@ class ProfileView extends Component {
     }
 
     renderDescription() {
+        const{t} = this.props
         let user = this.state.user
-        let address = user.city + ", " + user.country;
+        const {city, country, address = "", workingHours = "", birthday = "", email = "", description ="", offer = "" } = user
+        const address1 = city + ", " + country+", "+address;
+
         return (
             <div className="exchange">
+            <div>
+                    {birthday}
+                </div>
+                <div>
+                    {email}
+                </div>
                 <div>
                     <img className="exchange__icon" src={locationIcon} alt="Location" />
-                    {address}
+                    {address1}
                 </div>
+                <div>
+                    {workingHours}
+                </div>
+                
+                <div>
+                    {description}
+                </div>
+                <div>
+                    {offer}
+                </div>
+                
+                
             </div>
         );
     }
@@ -84,6 +105,7 @@ class ProfileView extends Component {
         const {t} = this.props
         const { Meta } = Card;
         const { errorMessage, loaded, user, editProfile } = this.state;
+        console.log(user)
 
         if (editProfile) {
             return (<Redirect to={"/editProfile"} />);
@@ -112,13 +134,17 @@ class ProfileView extends Component {
                                         <FileUploadComponent imageUrl = { auth.isUser() ? user.personalPic: user.imageProfile} />
 
                                 }
-                                    title={user.name}
-                                    description={this.renderDescription()}
+                                    title={auth.isUser() ? user.name:user.establishmentName}
+                                    description={<div>{this.renderDescription()}</div>}
+                                    
                                 />
+
+
                                 {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.setState({ editProfile: true })} htmlType="submit" className="login-form-button primaryButton">
                                     {t('edit')}
                                 </Button>}
                             </Card>
+                            
                         </Col>
                     </Row>
                 </Section>
