@@ -10,6 +10,9 @@
       "seeEstablishments": "See establishments"
     }
   },
+  "details": " Details",
+  "ihaveread": "I have read",
+  "term&cond": "Terms and conditions",
   "userword": "User",
   "establishmentword": "Establishment",
   "monday": "Monday",
@@ -66,6 +69,7 @@
     "emptyNumberOfParticipants": "Please input the number of participants",
     "numberOfParticipants": "Number of participants",
     "username": "Username",
+    "emptytem&cond": "Must be agree with our tems and conditions",
     "password": "Password",
     "remember": "Remember me",
     "forgotPassword": "Forgot password",

@@ -11,6 +11,9 @@
       "seeEstablishments": "Ver establecimientos"
     }
   },
+  "details": " Detalles",
+  "term&cond": "Términos y Condiciones",
+  "ihaveread": "He leido",
   "userword": "Usuario",
   "establishmentword": "Establecimiento",
   "monday": "Lunes",
@@ -94,6 +97,7 @@
     "validemail": "Por favor, introduzca un email válido",
     "emptyTitle": "Por favor, introduzca el título",
     "emptyDate": "Por favor, introduzca la fecha",
+    "emptytem&cond": "Debes aceptar nuestros términos y condiciones",
     "emptyfield": "Esta información es necesaria",
     "usernamealreadyexist": "Nombre de usuario ya existe",
     "pleaseconfirmpassword": "Por favor, confirme su contraseña",

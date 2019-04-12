@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Page, Section } from "react-page-layout";
+import { NavLink } from "react-router-dom";
 import { withNamespaces } from "react-i18next";
 import { userService } from '../../services/userService'; 
 import { establishmentService } from '../../services/establishmentService';
@@ -375,6 +375,26 @@ class index extends Component {
                     message: t('form.emptyfield') }],
                 })(
                     <Input.TextArea rows={3} />
+                )}
+            </Form.Item>
+
+            <Form.Item {...tailFormItemLayout}>
+                {getFieldDecorator('agreement',
+                {
+                  rules: [{required: true,
+                  message: t('form.emptytem&cond') }],
+              }, {
+                  valuePropName: 'checked',
+                })(
+                  <Checkbox>
+                        {
+                            t('ihaveread')
+                        } 
+                        <NavLink exact={true} to={"/termCondition"} >{ 
+                            t('term&cond')
+                        }
+                        </NavLink>
+                  </Checkbox>
                 )}
             </Form.Item>
 
