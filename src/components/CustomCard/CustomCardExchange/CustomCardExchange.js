@@ -198,8 +198,8 @@ class CustomCardExchange extends Component {
                             <img className="custom-card__participants-icon" src={personIcon} alt="Participants" />
                             <p className="custom-card__text">{numberOfParticipants}</p>
                         </div>
+                        {this.renderButton()}
                     </div>
-                    {this.renderButton()}
                 </div>
         );
     }
