@@ -1,22 +1,91 @@
 {
+  "error": "Error",
+  "warning": "Warning",
   "notfound": "Resource not found",
   "loadErrorMessage": "There was an error loading the data",
-  "links": {
-    "exchanges": "Exchanges",
-    "establishments": "Establishments",
+  "landing": {
+    "message": "Welcome to Barlingo!",
+    "navOptions": {
+      "findExchanges": "Find exchanges",
+      "seeEstablishments": "See establishments"
+    }
+  },
+  "details": " Details",
+  "ihaveread": "I have read and I accept the ",
+  "term&cond": "Terms and conditions",
+  "terms-intro": "The terms and conditions of www.barlingo.es are detailed in this document.",
+  "terms-data": "1. Data protection",
+  "terms-data-text": "Barlingo is committed to comply with the General Data Protection Regulation (GDPR). According to this law, we assure the user the following rights:",
+  "terms-right1": "Users have the right to be notified of all breaches that result in a risk to their individual rights and freedoms. This will be done within a maximum period of 72 hours from the moment it occurs.",
+  "terms-right2": "Users have the right to request that their data be deleted and that third parties stop processing it.",
+  "terms-right3": "Users have the right to request their data in electronic format, so that they can carry this data to other companies.",
+  "terms-prices": "2. Prices and payments",
+  "terms-prices-title": "Barlingo has three types of subscription to the service:",
+  "terms-price1": "Monthly subscription: the price of the monthly subscription is € 6.99.",
+  "terms-price2": "Quarterly subscription: the price of the quarterly subscription is 18.99 €. A discount of 10% is applied with respect to the monthly subscription.",
+  "terms-price3": "Annual subscription: the price of the annual subscription is € 62.99. A discount of 25% is applied with respect to the monthly subscription.",
+  "terms-modifications": "3. Modifications",
+  "terms-modifications-text": "Barlingo reserves the right to modify at any time the terms and conditions of use of the portal.",
+  "userword": "User",
+  "establishmentword": "Establishment",
+  "monday": "Monday",
+  "thuesday": "Thuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+  "spanish": "Spanish",
+  "english": "English",
+  "french": "French",
+  "german": "German",
+  "submit": "Send",
+  "register": "Register",
+  "create-account": "Create your account",
+  "edit-account": "Edit your account",
+  "as-user": "As user",
+  "as-establishment": "As establishment",
+  "edit": "Edit",
+  "adviseemail": "We'll never share your email with anyone else",
+  "user": {
+    "list": "Users list",
+    "deactivate": "Deactivate",
+    "activate": "Activate"
+  },
+  "titles": {
+    "exchangesList": "Exchanges",
+    "establishmentsList": "Establishments",
+    "validateCode": "Validate code",
     "login": "Log In",
     "logout": "Logout"
   },
+  "links": {
+    "exchanges": "Exchanges",
+    "establishments": "Establishments",
+    "validateCode": "Validate code",
+    "login": "Log In",
+    "register": "Sign in",
+    "logout": "Logout",
+    "myExchanges": "My exchanges",
+    "created": "Created",
+    "joined": "Joined"
+  },
   "form": {
     "emptyUsername": "Please input your username!",
+    "validemail": "Please, provide a valid email",
     "emptyPassword": "Please input your Password!",
+    "usernamealreadyexist": "Username already exists",
     "emptyTitle": "Please input the title!",
     "emptyDate": "Please input the date!",
-    "emptyMotherTongue":"Please input your mother tongue!",
-    "emptyTargetLanguage":"Please input your target language",
-    "emptyNumberOfParticipants":"Please input the number of participants",
-    "numberOfParticipants":"Number of participants",
+    "emptyfield": "This information is needed",
+    "pleaseconfirmpassword": "Please, confirm your password",
+    "inconsistpassword": "Two passwords that you enter is inconsistent!",
+    "emptyMotherTongue": "Please input your mother tongue!",
+    "emptyTargetLanguage": "Please input your target language",
+    "emptyNumberOfParticipants": "Please input the number of participants",
+    "numberOfParticipants": "Number of participants",
     "username": "Username",
+    "emptytem&cond": "Must be agree with our tems and conditions",
     "password": "Password",
     "remember": "Remember me",
     "forgotPassword": "Forgot password",
@@ -26,12 +95,85 @@
     "description": "Description",
     "motherTongue": "Mother tongue",
     "targetLanguage": "Target language",
-    "startDate":"Start date"
+    "startDate": "Start date",
+    "confirmPassword": "Confirm Password",
+    "name": "Name",
+    "surname": "Surname",
+    "country": "Country",
+    "city": "City",
+    "email": "Email",
+    "establishmentname": "Establishment name",
+    "address": "Address",
+    "weekscheadule": "Week scheadule",
+    "workingHours": "Opening hours",
+    "open": "Open",
+    "closed": "Closed",
+    "offer": "Offer",
+    "aboutme": "Something about you",
+    "birthday": "Birthday",
+    "mothertongue": "Mother tongue",
+    "speakedlanguages": "Languages you speak",
+    "languagesToLearn": "Languages you want to learn",
+    "submit": "Submit"
+  },
+  "access": {
+    "error": {
+      "title": "Access not allowed",
+      "message": "You do not have enough permissions to access this page."
+    }
+  },
+  "admin": {
+    "ban": {
+      "confirm": {
+        "title": "Do you want to ban this user?",
+        "message": "The user may not log in the application."
+      },
+      "successful": {
+        "title": "The user has been banned",
+        "message": "The user will not be able to access the application"
+      },
+      "error": {
+        "title": "Failed ban",
+        "message": "An error has ben ocurred while banning the user."
+      }
+    },
+    "unban": {
+      "confirm": {
+        "title": "Do you want to unban this user?",
+        "message": "The user will be unbanned"
+      },
+      "successful": {
+        "title": "The user has been unbanned",
+        "message": "The user will be able to access the application"
+      },
+      "error": {
+        "title": "Failed unban",
+        "message": "An error has ben ocurred while unbanning the user."
+      }
+    }
+  },
+  "exchange": {
+    "error": {
+      "title": "Failed creation",
+      "message": "There was an error creating a new exchange, try later."
+    },
+    "dateError": {
+      "title": "Failed creation",
+      "message": "The moment of exchange must be future."
+    },
+    "successful": {
+      "title": "Successful creation",
+      "message": "The exchange has been created properly."
+    },
+    "organizer": "Organizer"
   },
   "generic": {
     "create": "Create",
     "join": "Join",
-    "loading": "Loading"
+    "loading": "Loading",
+    "leave": "Leave",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar"
   },
   "language": {
     "spanish": "Spanish",
@@ -43,6 +185,104 @@
     "failed": {
       "title": "Login failed",
       "message": "The username and / or password are incorrect."
+    },
+    "ban": {
+      "title": "User banned",
+      "message": "The user account is banned from the system."
+    }
+  },
+  "join": {
+    "failed": {
+      "title": "Join failed",
+      "message": "There was an error trying to join to the exchange."
+    },
+    "successful": {
+      "title": "Joined successfully",
+      "message": "Join to the exchange successfully"
+    }
+  },
+  "leave": {
+    "failed": {
+      "title": "Leave failed",
+      "message": "There was an error trying to leave to the exchange."
+    },
+    "successful": {
+      "title": "Leaved successfully",
+      "message": "Leave to the exchange successfully"
+    }
+  },
+  "establishmentRegister": {
+    "successfulMessage": {
+      "title": "Successful register",
+      "message": "Now you can choose and pay for your subscription."
+    },
+    "failedMessage": {
+      "title": "Failed register",
+      "message": "There was an error saving the data."
+    }
+  },
+  "subscription": {
+    "title": "Choose a subscription",
+    "discounts": {
+      "10%": "Get 10% discount!",
+      "25%": "Get 25% discount!"
+    },
+    "type": {
+      "monthly": "Monthy subscription",
+      "trimestral": "Trimestral subscription",
+      "annual": "Annual subscription"
+    },
+    "successMessage": {
+      "title": "Successful payment",
+      "message": "Now you can see your establishment in the application."
+    },
+    "cancelMessage": {
+      "title": "Payment cancelled",
+      "message": ""
+    },
+    "errorMessage": {
+      "title": "Failed payment",
+      "message": ""
+    }
+  },
+  "code": {
+    "redeem": {
+      "buttonMessage": "Redeem",
+      "ok": {
+        "title": "Reedem succesfully",
+        "message": "The reedem was completed succesfully"
+      },
+      "fail": {
+        "date": {
+          "title": "Not redeemable",
+          "message": "The code is valid, but the exchange has not yet occurred."
+        },
+        "exchanged": {
+          "title": "Not redeemable",
+          "message": "The code has been already redeemed."
+        },
+        "format": "The code must have the next format: <<00000000-AAAA>>",
+        "title": "Fail during reedem",
+        "message": "An error has ocurred while reedeming"
+      }
+    },
+    "outDate": "The code only can be showed 4 hours before the event and 48 hours after.",
+    "show": "Show code",
+    "showTitle": "The discount code is",
+    "error": "There isn't code to show",
+    "used": "This code has already been redeemed",
+    "validate": {
+      "placeholder": "Introduce the code",
+      "button": "Validate code",
+      "empty": "Please input the code",
+      "validCode": {
+        "title": "Valid code",
+        "message": "The code is valid."
+      },
+      "failCode": {
+        "title": "Invalid code",
+        "message": "The code is invalid."
+      }
     }
   }
 }

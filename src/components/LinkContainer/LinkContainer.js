@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
-import LanguageSelector from '../LanguageSelector/LanguageSelector';
 import { NavLink } from "react-router-dom";
+import { auth } from '../../auth';
 
 
 class LinkContainer extends Component {
@@ -12,8 +12,6 @@ class LinkContainer extends Component {
         }
     }
     componentDidMount() {
-        console.log("entra");
-        console.log(localStorage.getItem("userData"));
         this.setState({ user: localStorage.getItem("userData") });
     }
     render() {
@@ -21,8 +19,13 @@ class LinkContainer extends Component {
         return (
             <div className="linkContainer">
                 <ul>
-                    <NavLink activeClassName={"active"} exact={true} to={"/"}><li>{t('links.exchanges')}</li></NavLink>
-                    <NavLink activeClassName={"active"} exact={true} to={"/establishments"}><li>{t('links.establishments')}</li></NavLink>
+                    {!auth.isAuthenticated() && <NavLink activeClassName={"active"} exact={true} to={"/exchanges"}><li>{t('links.exchanges')}</li></NavLink>}
+                    {auth.isAuthenticated() && auth.isUser() && <NavLink activeClassName={"active"} exact={true} to={"/exchanges"}><li>{t('links.exchanges')}</li></NavLink>}
+                    {!auth.isAuthenticated() && <NavLink activeClassName={"active"} exact={true} to={"/establishments"}><li>{t('links.establishments')}</li></NavLink>}
+                    {auth.isAuthenticated() && auth.isUser() && <NavLink activeClassName={"active"} exact={true} to={"/establishments"}><li>{t('links.establishments')}</li></NavLink>}
+                    {auth.isAuthenticated() && auth.isAdmin() && <NavLink activeClassName={"active"} exact={true} to={"/users"}><li>{t('user.list')}</li></NavLink>}
+                    {auth.isAuthenticated() && auth.isEstablishment() && <NavLink activeClassName={"active"} exact={true} to={"/validateCode"}><li>{t('links.validateCode')}</li></NavLink>}
+                    {auth.isAuthenticated() && auth.isUser() && <NavLink activeClassName={"active"} exact={true} to={"/myExchanges"}><li>{t('links.myExchanges')}</li></NavLink>}
                 </ul>
             </div>
         );

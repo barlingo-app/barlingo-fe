@@ -1,0 +1,24 @@
+@import "../../styles/variables";
+
+.register {
+    &__terms {
+        background:none!important;
+        color:$mainColor!important;
+        border:none!important; 
+        padding:0!important;
+        font: inherit;
+        /*border is optional*/
+        border-bottom:1px solid #444; 
+        cursor: pointer;
+        &:hover {
+            background:none!important;
+            color: $mainColor!important;
+            border:none!important; 
+            padding:0!important;
+            font: inherit;
+            /*border is optional*/
+            border-bottom:1px solid #444; 
+            cursor: pointer;
+        }
+    }
+}

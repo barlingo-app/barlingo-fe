@@ -3,8 +3,17 @@
 .content {
   //position: absolute;
   //top: 0;
-  height: 100%;
   width: 100%;
   box-sizing: border-box;
-  padding: $navbarHeight + 30px 40px 30px 40px;
+  padding: $navbarHeight + 30px 40px 50px 40px;
+}
+
+.fullContent {
+  position: absolute;
+  top: $navbarHeight;
+  bottom:0;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 0;
 }
