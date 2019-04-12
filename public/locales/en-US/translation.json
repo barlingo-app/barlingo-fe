@@ -211,6 +211,40 @@
       "message": "Leave to the exchange successfully"
     }
   },
+  "establishmentRegister": {
+    "successfulMessage": {
+      "title": "Successful register",
+      "message": "Now you can choose and pay for your subscription."
+    },
+    "failedMessage": {
+      "title": "Failed register",
+      "message": "There was an error saving the data."
+    }
+  },
+  "subscription": {
+    "title": "Choose a subscription",
+    "discounts": {
+      "10%": "Get 10% discount!",
+      "25%": "Get 25% discount!"
+    },
+    "type": {
+      "monthly": "Monthy subscription",
+      "trimestral": "Trimestral subscription",
+      "annual": "Annual subscription"
+    },
+    "successMessage": {
+      "title": "Successful payment",
+      "message": "Now you can see your establishment in the application."
+    },
+    "cancelMessage": {
+      "title": "Payment cancelled",
+      "message": ""
+    },
+    "errorMessage": {
+      "title": "Failed payment",
+      "message": ""
+    }
+  },
   "code": {
     "redeem": {
       "buttonMessage": "Redeem",

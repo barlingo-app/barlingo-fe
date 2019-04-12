@@ -1,11 +1,9 @@
 import React from 'react';
 import { Upload, Icon, message } from 'antd';
+import { auth } from '../../auth';
+import './styles.scss';
+import { withRouter } from 'react-router-dom';
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
 
 function beforeUpload(file) {
   const isImg = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -28,6 +26,7 @@ function beforeUpload(file) {
       super(props)
       const {imageUrl = ''} = props
       this.state = {
+        token: null,
         loading: false,
         imageUrl: imageUrl
       }
@@ -39,12 +38,19 @@ function beforeUpload(file) {
         return;
       }
       if (info.file.status === 'done') {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj, imageUrl => this.setState({
-          imageUrl,
-          loading: false,
-        }));
+        auth.setUserData(info.file.response.content);
+        this.setState({imageUrl: info.file.response.content[this.props.imageType]})
       }
+    }
+
+    getImage = (image) => {
+      return (image === '' || image === null) ? this.props.defaultImage : (auth.isUser() ? process.env.REACT_APP_BE_URL + '/users/uploads/' + image : image);
+    };
+
+    componentDidMount() {
+      auth.getToken().then(token => {
+        this.setState({token: token});
+      });
     }
   
     render() {
@@ -56,20 +62,31 @@ function beforeUpload(file) {
       );
       const imageUrl = this.state.imageUrl;
       console.log("STATE fileUpload, ", this.state)
+      console.log(process.env.REACT_APP_BE_URL + this.props.endpoint);
+
+      if (this.props.allowUpload !== true) {
+        return (
+          <img style={{height: this.props.height, width: this.props.width, maxWidth: "100%" }}src={this.getImage(imageUrl)} alt="avatar"  onError={(e) => {e.target.src = this.props.defaultImage}} />
+        )
+      }
+
       return (
-        <Upload
-          name="avatar"
-          listType="picture-card"
-          showUploadList={false}
-          action="//jsonplaceholder.typicode.com/posts/"
-          beforeUpload={beforeUpload}
-          onChange={this.handleChange}
-        >
-          {imageUrl ? <img src={imageUrl} alt="avatar" /> : uploadButton}
-        </Upload>
+        <div className={(this.props.full ? "full" : "")}>
+          <Upload
+            name="file"
+            listType="picture-card"
+            showUploadList={false}
+            action={process.env.REACT_APP_BE_URL + this.props.endpoint}
+            headers={{"Authorization": "Bearer " + this.state.token}}
+            beforeUpload={beforeUpload}
+            onChange={this.handleChange}
+          >
+            {imageUrl ? <img style={{height: this.props.height, width: this.props.width, maxWidth: "100%" }}src={this.getImage(imageUrl)} alt="avatar"  onError={(e) => {e.target.src = this.props.defaultImage}} /> : uploadButton}
+          </Upload>
+          </div>
       );
     }
   }
 
-export default index
+export default withRouter(index);
 

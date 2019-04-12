@@ -212,6 +212,40 @@
       "message": "Intercambio abandonado exitosamente."
     }
   },
+  "establishmentRegister": {
+    "successfulMessage": {
+      "title": "Registro exitoso",
+      "message": "Ahora puedes elegir y pagar tu suscripción."
+    },
+    "failedMessage": {
+      "title": "Registro fallido",
+      "message": "Se produjo un error al guardar los datos."
+    }
+  },
+  "subscription": {
+    "title": "Elige una suscripción",
+    "discounts": {
+      "10%": "¡Obten un 10% de descuento!",
+      "25%": "¡Obten un 25% de descuento!"
+    },
+    "type": {
+      "monthly": "Suscripción mensual",
+      "trimestral": "Suscripción trimestral",
+      "annual": "Suscripción anual"
+    },
+    "successMessage": {
+      "title": "Pago exitoso",
+      "message": "Ahora puedes ver tu establecimiento en la aplicación."
+    },
+    "cancelMessage": {
+      "title": "Pago cancelado",
+      "message": ""
+    },
+    "errorMessage": {
+      "title": "Pago fallido",
+      "message": ""
+    }
+  },
   "code": {
     "redeem": {
       "buttonMessage": "Canjear",

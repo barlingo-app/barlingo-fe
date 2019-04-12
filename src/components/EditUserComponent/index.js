@@ -58,15 +58,16 @@ export class index extends Component {
                     this.setState({usernameInvalid: true, validated: true})
                 }
             } else {  
-                auth.loadUserData();
-                this.setState({successfulLogin: true});     
-                notification.success({
-                    placement: 'bottomRight',
-                    bottom: 50,
-                    duration: 10,
-                    message: "Successful edition",
-                    description: "Data updated properly",
-                });     
+                auth.loadUserData().then(() => {
+                    this.setState({successfulLogin: true});     
+                    notification.success({
+                        placement: 'bottomRight',
+                        bottom: 50,
+                        duration: 10,
+                        message: "Successful edition",
+                        description: "Data updated properly",
+                    });     
+                });
             }
         }).catch((error) => {
 

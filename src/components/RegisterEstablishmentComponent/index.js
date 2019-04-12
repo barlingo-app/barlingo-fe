@@ -168,6 +168,7 @@ class index extends Component {
     }
 
     sendForm = (data) => {
+      const { t } = this.props;
 
       establishmentService.create(data)
       .then((response) => {
@@ -180,8 +181,8 @@ class index extends Component {
                   placement: 'bottomRight',
                   bottom: 50,
                   duration: 10,
-                  message: "Successful register",
-                  description: "You can choose and pay your subscription",
+                  message: t('establishmentRegister.successfulMessage.title'),
+                  description: t('establishmentRegister.successfulMessage.message'),
               });     
               this.setState({successfulLogin: true, establishmentId: response.data.content.id});    
           }
@@ -191,8 +192,8 @@ class index extends Component {
               placement: 'bottomRight',
               bottom: 50,
               duration: 10,
-              message: "Failed register",
-              description: "There was an error saving the data",
+              message: t('establishmentRegister.failedMessage.title'),
+              description: t('establishmentRegister.failedfulMessage.message'),
           }); 
       });
   }

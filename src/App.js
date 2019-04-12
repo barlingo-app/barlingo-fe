@@ -20,7 +20,6 @@ import UsersListAdmin from "./containers/UsersListAdmin/UsersListAdmin";
 import ValidateCodeContainer from './containers/ValidateCodeContainer/ValidateCodeContainer';
 import PublicLayout from './layouts/PublicLayout/PublicLayout';
 import RegisterEstablishmentContainer from './containers/RegisterEstablishmentContainer'
-import PaySubscriptionContainer from './containers/PaySubscriptionContainer/PaySubscriptionContainer'
 
 const layouts = {
 	'public': PublicLayout,
