@@ -7,18 +7,9 @@ import {
 import './ValidateCodeContainer.scss';
 import axios from "axios";
 import { auth } from "../../auth";
-function validateStatus(code) {
-  if (code.length >= 13) {
-    return {
-      validateStatus: 'success',
-      errorMsg: null,
-    };
-  }
-  return {
-    validateStatus: 'error',
-    errorMsg: 'The prime between 8 and 12 is 11!',
-  };
-}
+import { discountCodeService } from '../../services/discountCodeService';
+import { exchangesService } from '../../services/exchangesService';
+
 class ValidateCodeContainer extends React.Component {
 
 
@@ -26,14 +17,27 @@ class ValidateCodeContainer extends React.Component {
     super()
     this.state = {
       code: {
-        value: null,
+        code: null,
       },
       redeemable: false
     };
   }
+  validateStatus(code) {
+    const { t } = this.props;
+    if (code.length >= 13) {
+      return {
+        validateStatus: 'success',
+        errorMsg: null,
+      };
+    }
+    return {
+      validateStatus: 'error',
+      errorMsg: t('code.validate.failCode.format'),
+    };
+  }
   handleInput = (event) => {
     const code = event.target.value;
-    const valid = validateStatus(code);
+    const valid = this.validateStatus(code);
     this.setState({
       code: {
         ...valid,
@@ -51,10 +55,25 @@ class ValidateCodeContainer extends React.Component {
       placement: 'bottomRight',
       bottom: 50,
       duration: 10,
-      message: t('code.validate.validCode.title'),
-      description: t('code.validate.validCode.message'),
+      message: t('code.redeem.ok.title'),
+      description: t('code.redeem.ok.message'),
     });
   };
+  checkExchange(code) {
+    console.log(code)
+    exchangesService.findOne(code.langExchangeId)
+      .then((response) => {
+        if (new Date(response.moment) < new Date() && !response.exchanged) {
+          this.codeOk();
+        } else {
+          if (!new Date(response.moment) < new Date())
+            this.codeFail("undone")
+          if (response.exchanged)
+            this.codeFail("exchanged")
+        }
+      })
+      .catch((error) => { this.codeFail() });
+  }
 
   codeOk = (response) => {
     const { t } = this.props;
@@ -65,8 +84,8 @@ class ValidateCodeContainer extends React.Component {
       placement: 'bottomRight',
       bottom: 50,
       duration: 10,
-      message: t('code.redeem.ok.title'),
-      description: t('code.redeem.ok.message'),
+      message: t('code.validate.validCode.title'),
+      description: t('code.validate.validCode.message'),
     });
   };
   redeemFail = () => {
@@ -79,40 +98,52 @@ class ValidateCodeContainer extends React.Component {
       description: t('code.redeem.fail.message'),
     });
   };
-  codeFail = () => {
+  codeFail = (string) => {
     const { t } = this.props;
     this.setState({
-      redeemable: true
+      redeemable: false
     })
+    let message = t('code.validate.failCode.title');
+    let description = t('code.validate.failCode.message');
+
+    if (string) {
+      if (string === "undone") {
+        message = t('code.validate.failCode.date.title');
+        description = t('code.validate.failCode.date.message');
+      } else if (string === "exchanged") {
+        message = t('code.validate.failCode.exchanged.title');
+        description = t('code.validate.failCode.exchanged.message');
+      }
+    }
+
     notification.error({
       placement: 'bottomRight',
       bottom: 50,
       duration: 10,
-      message: t('code.validate.failCode.title'),
-      description: t('code.validate.failCode.message'),
+      message: message,
+      description: description,
     });
   };
 
   checkCode = (code) => {
-    axios.get(process.env.REACT_APP_BE_URL + '/discounts?code=' + code,
-      {
-        headers: {
-          'Authorization': 'Bearer ' + auth.getToken()
-        }
+    discountCodeService.validateCode(code)
+      .then((response) => {
+        console.log(response)
+        this.checkExchange(response.data[0])
       })
-      .then((response) => this.codeOk(response))
       .catch((onrejected) => {
         this.codeFail()
-      });
+      })
   };
   handleOnClick = () => {
-    axios.get(process.env.REACT_APP_BE_URL + '/discounts/' + this.state.code.value + '/redeem',
-      {
-        headers: {
-          'Authorization': 'Bearer ' + auth.getToken()
-        }
+
+    discountCodeService.redeem(this.state.code.code)
+      .then((response) => {
+        if (response.status === 200)
+          this.redeemOk(response)
+        else
+          this.redeemFail()
       })
-      .then((response) => this.redeemOk(response))
       .catch((onrejected) => {
         this.redeemFail()
       });
@@ -136,8 +167,8 @@ class ValidateCodeContainer extends React.Component {
                 )}
               </Form.Item>
               {this.state.redeemable && <Button type="primary" onClick={this.handleOnClick} className="login-form-button primaryButton">
-                {/*t('code.validate.button')*/}Canjear
-                </Button>}
+                {t('code.redeem.buttonMessage')}
+              </Button>}
             </Form>
           </div>
         </Section>

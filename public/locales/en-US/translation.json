@@ -189,11 +189,21 @@
   },
   "code": {
     "redeem": {
+      "buttonMessage": "Redeem",
       "ok": {
         "title": "Reedem succesfully",
         "message": "The reedem was completed succesfully"
       },
       "fail": {
+        "date": {
+          "title": "Not redeemable",
+          "message": "The code is valid, but the exchange has not yet occurred."
+        },
+        "exchanged": {
+          "title": "Not redeemable",
+          "message": "The code has been already redeemed."
+        },
+        "format": "The code must have the next format: <<00000000-AAAA>>",
         "title": "Fail during reedem",
         "message": "An error has ocurred while reedeming"
       }
