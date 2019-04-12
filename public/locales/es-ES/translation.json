@@ -27,7 +27,6 @@
   "submit": "Enviar",
   "register": "Registrarse",
   "create-account": "Crea tu cuenta",
-
   "edit": "Editar",
   "adviseemail": "No compartiremos tu información con nadie",
   "user": {
@@ -190,6 +189,7 @@
   },
   "code": {
     "redeem": {
+      "buttonMessage": "Canjear",
       "ok": {
         "title": "Canjeado correctamente",
         "message": "Se ha canjeado el código de manera correcta."
@@ -213,8 +213,17 @@
         "message": "El código es válido."
       },
       "failCode": {
+        "date": {
+          "title": "No canjeable",
+          "message": "El código es válido, pero el intercambio aún no ha ocurrido."
+        },
+        "exchanged": {
+          "title": "No canjeable",
+          "message": "El código ya ha sido canjeado."
+        },
+        "format": "El código debe tener el siguiente formato: <<00000000-AAAA>>",
         "title": "Código inválido",
-        "message": "El código es inválido"
+        "message": "El código no es válido"
       }
     }
   }
