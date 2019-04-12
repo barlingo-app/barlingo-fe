@@ -41,6 +41,7 @@ export class index extends Component {
             country: '',
             city: '',
             aboutMe: '',
+            motherTongue: '',
             birthday: '',
             speakLangs: [],
             langsToLearn: [],
@@ -244,7 +245,7 @@ export class index extends Component {
                         <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="username" >
                             <Form.Label>{t('form.username')}*</Form.Label>
                             <InputGroup>  
-                                <Form.Control validationState={this.usernameValidity()} onChange={this.handleChange} required type="text"/>
+                                <Form.Control validationstate={this.usernameValidity()} onChange={this.handleChange} required type="text"/>
                                 <Form.Control.Feedback type="invalid">
                                     {!usernameInvalid && t('form.emptyUsername')}
                                     {usernameInvalid && t('form.usernamealreadyexist')}
