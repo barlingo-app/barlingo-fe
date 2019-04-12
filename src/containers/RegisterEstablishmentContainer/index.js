@@ -6,7 +6,7 @@ class index extends Component {
 
   render() {
     return(
-      <div>
+      <div className="register-bg">
         <Page layout="public">
           <Section slot="content">
             <RegisterEstablishmentComoponent />

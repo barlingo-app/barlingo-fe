@@ -11,7 +11,7 @@
     }
   },
   "details": " Details",
-  "ihaveread": "I have read",
+  "ihaveread": "I have read and I accept the ",
   "term&cond": "Terms and conditions",
   "userword": "User",
   "establishmentword": "Establishment",
@@ -29,6 +29,9 @@
   "submit": "Send",
   "register": "Register",
   "create-account": "Create your account",
+  "edit-account": "Edit your account",
+  "as-user": "As user",
+  "as-establishment": "As establishment",
   "edit": "Edit",
   "adviseemail": "We'll never share your email with anyone else",
   "user": {

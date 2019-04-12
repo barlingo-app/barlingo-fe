@@ -13,7 +13,7 @@
   },
   "details": " Detalles",
   "term&cond": "Términos y Condiciones",
-  "ihaveread": "He leido",
+  "ihaveread": "He leído y acepto los ",
   "userword": "Usuario",
   "establishmentword": "Establecimiento",
   "monday": "Lunes",
@@ -30,6 +30,9 @@
   "submit": "Enviar",
   "register": "Registrarse",
   "create-account": "Crea tu cuenta",
+  "edit-account": "Edita tu cuenta",
+  "as-user": "Como usuario",
+  "as-establishment": "Como establecimiento",
   "edit": "Editar",
   "adviseemail": "No compartiremos tu información con nadie",
   "user": {

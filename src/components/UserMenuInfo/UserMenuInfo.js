@@ -33,12 +33,12 @@ class UserMenuInfo extends Component {
             <Menu style={{zIndex: 10000000}}>
               <Menu.Item>
                 <NavLink exact={true} to={"/registerUser"} >
-                            <div>{t('links.register')} {t('userword')}</div>
+                            <div>{t('as-user')}</div>
                 </NavLink>
               </Menu.Item>
               <Menu.Item>
               <NavLink exact={true} to={"/registerEstablishment"} >
-                            <div>{t('links.register')} {t('establishmentword')}</div>
+                            <div>{t('as-establishment')}</div>
                 </NavLink>
               </Menu.Item>
             </Menu>
