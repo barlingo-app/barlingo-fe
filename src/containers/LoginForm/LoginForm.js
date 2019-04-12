@@ -5,7 +5,7 @@ import {
 import { Page, Section } from "react-page-layout";
 import 'antd/dist/antd.css';
 import { withNamespaces } from "react-i18next";
-import {auth} from "../../auth";
+import { auth } from "../../auth";
 import { Redirect } from 'react-router-dom';
 import './LoginForm.scss'
 import logo from '../../media/logo.png';
@@ -16,33 +16,41 @@ class LoginForm extends Component {
         super(props);
         this.state = {
             redirectToReferrer: false,
-            loginFailed: false
+            loginFailed: false,
+            banned: false
         };
     }
 
     loginSuccessful = () => {
-        this.setState({redirectToReferrer: true});
-        this.setState({loginFailed: false});
+        this.setState({ redirectToReferrer: true });
+        this.setState({ loginFailed: false });
     };
-
+    banned = () => {
+        this.setState({ banned: true })
+    };
     loginFailed = () => {
-        this.setState({loginFailed: true})
+        this.setState({ loginFailed: true })
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
 
-            auth.login(values.userName, values.password).then((loginResult) => {    
+            auth.login(values.userName, values.password).then((loginResult) => {
                 if (loginResult.result) {
                     auth.authenticate(values.userName, values.password, loginResult.data, values.remember).then(
-                        () => {auth.loadUserData().then((result) => {
-                            if (result) {
-                                this.loginSuccessful();
-                            } else {
-                                this.loginFailed();
-                            }
-                        })
+                        () => {
+                            auth.loadUserData().then((result) => {
+                                if (result) {
+                                    if (!auth.getUserData().userAccount.active) {
+                                        auth.logout();
+                                        this.banned();
+                                    } else
+                                        this.loginSuccessful();
+                                } else {
+                                    this.loginFailed();
+                                }
+                            })
                         }
                     );
                 } else {
@@ -50,6 +58,17 @@ class LoginForm extends Component {
                 }
             });
         });
+    };
+    showBanMessage = () => {
+        const { t } = this.props;
+        notification.error({
+            placement: 'bottomRight',
+            bottom: 50,
+            duration: 10,
+            message: t('login.ban.title'),
+            description: t('login.ban.message'),
+        });
+        this.setState({ banned: false });
     };
 
     showErrorMessage = () => {
@@ -61,12 +80,12 @@ class LoginForm extends Component {
             message: t('login.failed.title'),
             description: t('login.failed.message'),
         });
-        this.setState({loginFailed : false});
+        this.setState({ loginFailed: false });
     };
 
     render() {
         let { from } = this.props.location.state || { from: { pathname: "/" } };
-        let { redirectToReferrer, loginFailed } = this.state;
+        let { redirectToReferrer, loginFailed, banned } = this.state;
         const { t } = this.props;
         const { getFieldDecorator } = this.props.form;
 
@@ -76,7 +95,8 @@ class LoginForm extends Component {
 
             <Page layout="public">
                 <Section slot="content">
-                    { loginFailed && this.showErrorMessage()}
+                    {loginFailed && this.showErrorMessage()}
+                    {banned && this.showBanMessage()}
                     <div className={"loginContainer"}>
                         <div className={"logo"}>
                             <img src={logo} alt={"Barlingo logo"} />
@@ -97,16 +117,16 @@ class LoginForm extends Component {
                                 )}
                             </Form.Item>
                             <Form.Item>
-                            {getFieldDecorator('remember', {
-                                valuePropName: 'checked',
-                                initialValue: false,
-                            })(
-                                <Checkbox>{t('form.remember')}</Checkbox>
-                            )}
+                                {getFieldDecorator('remember', {
+                                    valuePropName: 'checked',
+                                    initialValue: false,
+                                })(
+                                    <Checkbox>{t('form.remember')}</Checkbox>
+                                )}
                             </Form.Item>
-                                <Button type="primary" htmlType="submit" className="login-form-button primaryButton">
-                                    {t('form.login')}
-                                </Button>
+                            <Button type="primary" htmlType="submit" className="login-form-button primaryButton">
+                                {t('form.login')}
+                            </Button>
                         </Form>
                     </div>
                 </Section>

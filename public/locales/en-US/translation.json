@@ -165,6 +165,10 @@
     "failed": {
       "title": "Login failed",
       "message": "The username and / or password are incorrect."
+    },
+    "ban": {
+      "title": "User banned",
+      "message": "The user account is banned from the system."
     }
   },
   "join": {
