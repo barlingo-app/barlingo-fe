@@ -123,6 +123,7 @@
     "establishmentname": "Nombre del local",
     "address": "Dirección",
     "weekscheadule": "Horario semanal",
+    "workingHours": "Horario de apertura",
     "open": "Abierto",
     "closed": "Cierre",
     "offer": "Oferta",

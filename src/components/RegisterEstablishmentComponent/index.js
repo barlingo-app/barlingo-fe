@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { Page, Section } from "react-page-layout";
 import { withNamespaces } from "react-i18next";
+import { userService } from '../../services/userService'; 
+import { establishmentService } from '../../services/establishmentService';
+import PaySubscriptionContainer from '../../containers/PaySubscriptionContainer/PaySubscriptionContainer';
 
 import {
     Form,
     Input,
     TimePicker,
+    DatePicker,
     Select,
     Checkbox,
     Slider,
@@ -14,6 +18,7 @@ import {
     Col,
     Button,
     AutoComplete,
+    notification
   } from 'antd'
 
  const { Option } = Select;
@@ -51,6 +56,10 @@ class index extends Component {
     constructor(props){
         super(props)
         this.state = {
+          establishmentId: null,
+          successfulLogin: false,
+          validated: false,
+          usernameInvalid: false,
           confirmDirty: false,
         }
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -82,35 +91,113 @@ class index extends Component {
       this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
+    usernameExists = async (username) => {
+        if (username !== '' && username !== null && username != undefined) {
+            return userService.checkUsername(username)
+            .then((response) => {
+                if (response.data.success === false) {
+                  console.log(true);
+                    return true;
+                } else {
+                    return false;
+                }
+            }).catch((error) => {
+                return true;
+            });
+        } else {
+          return false;
+        }
+    }
+
 
     handleSubmit(e){
       e.preventDefault();
       this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
+        this.usernameExists(values.username).then((result) => {
+        if (result) {
+          notification.error({
+              placement: 'bottomRight',
+              bottom: 50,
+              duration: 10,
+              message: "Username error",
+              description: "The username already exists",
+          });
+        } else if (!err) {
 
-        const {address, city, country,
-          description = '', email,
-          name, offer, password,
-          username, weekscheadule, establishmentname} = values
-          let workinghours = '' 
-
-          for (const value of weekscheadule) {
-            workinghours = workinghours + ", "+ value 
-          }
-          workinghours += "\n" + values.open.format("HH:mm") + " - " + values.close.format("HH:mm") 
-
-          console.log("Datas to send", address, city, country,
-            description, email,
+          const {address, city, country,
+            description = '', email,
             name, offer, password,
-            username, workinghours, establishmentname)
-      }
+            username, weekscheadule, establishmentname} = values
+            let workinghours = '' 
+
+            for (const value of weekscheadule) {
+              workinghours = workinghours + ", "+ value 
+            }
+            workinghours += "\n" + values.open.format("HH:mm") + " - " + values.close.format("HH:mm") 
+
+            let dataToSend = {
+              username: values.username,
+              password: values.password,
+              name: values.name,
+              surname: values.surname,
+              email: values.email,
+              birthdate: values['date-picker']._d,
+              country: values.country,
+              city: values.city,
+              establishmentName: values.establishmentname,
+              description: values.description,
+              address: values.address,
+              workingHours: workinghours,
+              offer: values.speakLangs
+            }
+
+            this.sendForm(dataToSend);
+        }
+      })
     });
     }
 
+    sendForm = (data) => {
+
+      establishmentService.create(data)
+      .then((response) => {
+          if (response.data.success !== true) {
+              if (response.data.message === 'The username already exists.') {
+                  this.setState({usernameInvalid: true, validated: true})
+              }
+          } else {   
+              notification.success({
+                  placement: 'bottomRight',
+                  bottom: 50,
+                  duration: 10,
+                  message: "Successful register",
+                  description: "You can choose and pay your subscription",
+              });     
+              this.setState({successfulLogin: true, establishmentId: response.data.content.id});    
+          }
+      }).catch((error) => {
+
+          notification.error({
+              placement: 'bottomRight',
+              bottom: 50,
+              duration: 10,
+              message: "Failed register",
+              description: "There was an error saving the data",
+          }); 
+      });
+  }
+
   render() {
     const { getFieldDecorator, getFieldsError } = this.props.form;
-    const { autoCompleteResult } = this.state;
+    const { autoCompleteResult, establishmentId, successfulLogin } = this.state;
     const { t } = this.props;
+    const config = {
+        rules: [{ type: 'object', required: true, message: t('form.emptyDate') }],
+    };
+
+    if (successfulLogin) {
+      return(<PaySubscriptionContainer establishmentId={establishmentId} />)
+    }
     return (
       <div>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -200,6 +287,12 @@ class index extends Component {
                     <Input />
                 )}
             </Form.Item>
+
+            <Form.Item label={t('form.birthday')}>
+                    {getFieldDecorator('date-picker', config)(
+                        <DatePicker showTime format="YYYY-MM-DD" />
+                    )}
+                </Form.Item>
 
             <hr></hr>
 
