@@ -22,8 +22,8 @@ class EstablishmentDetails extends Component {
 
     fetchData = () => {
         establishmentService.findOne(this.props.match.params.establishmentName)
-        .then((response) => this.setData(response))
-        .catch((error) => this.setError(error));
+            .then((response) => this.setData(response))
+            .catch((error) => this.setError(error));
     };
 
     setData = (response) => {
@@ -45,17 +45,22 @@ class EstablishmentDetails extends Component {
     }
 
     renderDescription() {
-        let address = this.state.establishment.establishmentName + ", " + this.state.establishment.address;
+        console.log(this.state.establishment)
+        const address = this.state.establishment.establishmentName + ", " + this.state.establishment.address;
+        const description = this.state.establishment.description;
         return (
-        <div className="establishment">
-            <div>
-                <img className="establishment__icon" src={locationIcon} alt="Location" />
-                {address}
+            <div className="establishment">
+                <div>
+                    {description}
+                </div>
+                <div>
+                    <img className="establishment__icon" src={locationIcon} alt="Location" />
+                    {address}
+                </div>
+                <div className="establishment__icon-wrapper">
+                    <img className="establishment__icon" src={timeIcon} alt="Date and time" />{this.state.establishment.workingHours}
+                </div>
             </div>
-            <div className="establishment__icon-wrapper">
-                <img className="establishment__icon" src={timeIcon} alt="Date and time" />{this.state.establishment.workingHours}
-            </div>
-        </div>
         );
     }
 
@@ -71,7 +76,7 @@ class EstablishmentDetails extends Component {
             return (
                 <Page layout="public">
                     <Section slot="content">
-                        <Loading message={errorMessage}/>
+                        <Loading message={errorMessage} />
                     </Section>
                 </Page>
             );
@@ -81,18 +86,18 @@ class EstablishmentDetails extends Component {
             <Page layout="public">
                 <Section slot="content">
 
-                        <Row>
-                            <Col col-sm="12" offset-md="4" col-md="4">
-                                <Card
-                                cover={<img className="header-img" alt="example" src={this.getImage(establishment.imageProfile)} onError={(e) => {e.target.src = defaultImage}} />}>
-                                    <Meta
-                                        avatar={<Avatar src={establishment.imageProfile} />}
-                                        title={establishment.establishmentName}
-                                        description={this.renderDescription()}
-                                    />
-                                </Card>
-                            </Col>
-                        </Row>
+                    <Row>
+                        <Col col-sm="12" offset-md="4" col-md="4">
+                            <Card
+                                cover={<img className="header-img" alt="example" src={this.getImage(establishment.imageProfile)} onError={(e) => { e.target.src = defaultImage }} />}>
+                                <Meta
+                                    avatar={<Avatar src={establishment.imageProfile} />}
+                                    title={establishment.establishmentName}
+                                    description={this.renderDescription()}
+                                />
+                            </Card>
+                        </Col>
+                    </Row>
                 </Section>
             </Page>
         );

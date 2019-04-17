@@ -285,5 +285,11 @@
         "message": "El código no es válido"
       }
     }
+  },
+  "establishment": {
+    "error": {
+      "title": "Ha ocurrido un error",
+      "message": "El establecimiento no existe o no podemos encontrarlo."
+    }
   }
 }

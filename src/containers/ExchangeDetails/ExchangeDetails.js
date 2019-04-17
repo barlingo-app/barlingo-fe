@@ -8,6 +8,7 @@ import { auth } from '../../auth';
 import Loading from "../../components/Loading/Loading";
 import image from '../../media/default-exchange-header.jpg';
 import locationIcon from '../../media/imageedit_5_5395394410.png';
+import logo from '../../media/logo.png';
 import timeIcon from '../../media/imageedit_8_4988666292.png';
 import personIcon from '../../media/person.png';
 import { discountCodeService } from '../../services/discountCodeService';
@@ -117,10 +118,15 @@ class ExchangeDetails extends Component {
     }
 
     renderDescription() {
-        let address = this.state.exchange.establishment.establishmentName + ", " + this.state.exchange.establishment.address;
-        let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        console.log(this.state.exchange)
+        const description = this.state.exchange.description
+        const address = this.state.exchange.establishment.establishmentName + ", " + this.state.exchange.establishment.address;
+        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
         return (
             <div className="exchange">
+                <div>
+                    {description}
+                </div>
                 <div>
                     <img className="exchange__icon" src={locationIcon} alt="Location" />
                     {address}
@@ -139,12 +145,13 @@ class ExchangeDetails extends Component {
         return <div style={{ paddingTop: 20 }}>
             <NavLink exact={true} to={"/profile/" + this.state.exchange.creator.id} activeClassName={"none"} >
                 <Badge count={<Icon type="smile" style={{ color: '$mainColor' }} />}>
-                    <Avatar size="large" alt={t('exchange.organizer')} src={this.state.exchange.creator.personalPic} />
+                    <Avatar size="large" alt={t('exchange.organizer')} src={this.state.exchange.creator.personalPic ? this.state.exchange.creator.personalPic : personIcon} onError={(e) => e.target.src = personIcon
+                    } />
                 </Badge>
             </NavLink>
             {this.state.exchange.participants.map((i, index) => (
                 i.id !== this.state.exchange.creator.id && <NavLink exact={true} to={"/profile/" + i.id} activeClassName={"none"} >
-                    <Avatar src={i.personalPic} />
+                    <Avatar src={i.personalPic ? i.personalPic : personIcon} onError={(e) => e.target.src = personIcon} />
                 </NavLink>
             ))}
 
