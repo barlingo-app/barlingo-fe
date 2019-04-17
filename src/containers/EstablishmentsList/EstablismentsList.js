@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
 import { Col, Row } from 'reactstrap';
-import CustomCard from '../../components/CustomCard/CustomCard';
+import CustomCardEstablishment from '../../components/CustomCard/CustomCardEstablishment/CustomCardEstablishment';
 import Loading from '../../components/Loading/Loading';
 import { establishmentService } from '../../services/establishmentService';
 import './EstablishmentsList.scss';
@@ -19,8 +19,8 @@ class EstablismentsList extends Component {
 
     fetchData = () => {
         establishmentService.list()
-        .then((response) => this.setData(response))
-        .catch((error) => this.setError(error));
+            .then((response) => this.setData(response))
+            .catch((error) => this.setError(error));
     };
 
     setData = (response) => {
@@ -42,10 +42,6 @@ class EstablismentsList extends Component {
         this.fetchData();
     }
 
-    handleOnClick(id) {
-        let route = "createExchange";
-        this.props.history.push(`/${route}/${id}`);
-    }
     render() {
         const { t } = this.props;
         const { errorMessage, loaded, items } = this.state;
@@ -55,7 +51,7 @@ class EstablismentsList extends Component {
             return (
                 <Page layout="public">
                     <Section slot="content">
-                        <Loading message={errorMessage}/>
+                        <Loading message={errorMessage} />
                     </Section>
                 </Page>
             );
@@ -66,10 +62,7 @@ class EstablismentsList extends Component {
                     <Row>
                         {items.map((i, index) => (
                             <Col xs="12" md="6" xl="4" key={i.id}>
-                                <CustomCard onClick={() => this.handleOnClick(i.id)} id={i.id} route="establishments"
-                                            buttonMessage={buttonMessage} image={i.imageProfile}
-                                            title={i.establishmentName} address={i.address}
-                                            schedule={i.workingHours}/>
+                                <CustomCardEstablishment establishment={i} showButton={true}/>
                             </Col>
                         ))}
                     </Row>

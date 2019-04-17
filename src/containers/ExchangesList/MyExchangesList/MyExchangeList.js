@@ -4,7 +4,7 @@ import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
 import { Col, Row } from 'reactstrap';
 import { auth } from '../../../auth';
-import CustomCard from '../../../components/CustomCard/CustomCard';
+import CustomCardExchange from '../../../components/CustomCard/CustomCardExchange/CustomCardExchange';
 import Loading from "../../../components/Loading/Loading";
 import defaultImage from '../../../media/default-exchange-logo.png';
 import { exchangesService } from '../../../services/exchangesService';
@@ -185,8 +185,7 @@ class MyExchangesList extends Component {
                         {items.map((i, index) => (
 
                             <Col xs="12" md="6" xl="4" key={i.id}>
-                                <CustomCard onClick={() => this.manageOnClick(i)} route="exchanges" buttonMessage={this.checkIfUserJoined(i)} id={i.id} image={defaultImage}
-                                    title={i.title} address={i.establishment.establishmentName + ", " + i.establishment.address} schedule={new Date(i.moment).toLocaleDateString('es-ES', dateFormat)} max={i.numberOfParticipants} />
+                                <CustomCardExchange exchange = {i} />
                             </Col>
                         ))}
                     </Row>

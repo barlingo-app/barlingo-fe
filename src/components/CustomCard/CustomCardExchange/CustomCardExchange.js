@@ -35,9 +35,9 @@ class CustomCardExchange extends Component {
                 targetLangs.push(idioms[lang]);
         });
 
-        return (<div className="custom-card__language-wrapper">
+        return (<div className="custom-card-exchange__language-wrapper">
             {targetLangs.map((i, index) => (
-                <img key={"mother_tonge_" + index} className="custom-card-user__language-icon" src={i} alt="target tongue" />
+                <img key={"mother_tonge_" + index} className="custom-card-exchange-user__language-icon" src={i} alt="target tongue" />
             ))}
         </div>);
 
@@ -55,7 +55,7 @@ class CustomCardExchange extends Component {
             if (exchange.participants.find(x => x.id === userData.id)) {
                 buttonMessage = t('generic.leave');
             }
-            return <div className="custom-card__button-wrapper"><button className="custom-card__button" onClick={this.manageOnClick}>{buttonMessage}</button></div>
+            return <div className="custom-card-exchange__button-wrapper"><button className="custom-card-exchange__button" onClick={this.manageOnClick}>{buttonMessage}</button></div>
 
         }
 
@@ -102,7 +102,7 @@ class CustomCardExchange extends Component {
         if (auth.isAuthenticated()) {
             exchangesService.join(exchangeId)
                 .then((response) => this.joinProcessResponse(response))
-                .catch((onrejected ) => {
+                .catch((onrejected) => {
                     this.showErrorMessage()
                 });
         } else {
@@ -171,36 +171,38 @@ class CustomCardExchange extends Component {
         <CustomCardExchange  schedule={} max={i.numberOfParticipants} />
                             */
         const { exchange } = this.props;
+        console.log(exchange)
         const title = exchange.title;
         const image = exchange.establishment.imageProfile;
         const address = exchange.establishment.establishmentName + ", " + exchange.establishment.address;
+
+        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
         const schedule = new Date(exchange.moment).toLocaleDateString('es-ES', dateFormat)
-        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
         const numberOfParticipants = exchange.participants.length === 0 ? 1 : exchange.participants.length;
         return (
             <div style={{ "height": "100%", "padding": "15px 0" }}>
-                <div className="custom-card">
-                    
-                    <img className="custom-card__image" src={image} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
+                <div className="custom-card-exchange">
+
+                    <img className="custom-card-exchange__image" src={image} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
                     {this.renderLanguageWrapper()}
-                        <p className="custom-card__title">
-                            <NavLink  className="custom-card__link" exact={true} activeClassName={"active"} to={"exchanges/" + exchange.id}>{title}</NavLink>
-                        </p>
-                        <div className="custom-card__location-wrapper">
-                            <img className="custom-card__location-icon" src={locationIcon} alt="Location" />
-                            <p className="custom-card__text">{address}</p>
-                        </div>
-                        <div className="custom-card__time-wrapper">
-                            <img className="custom-card__time-icon" src={timeIcon} alt="Date and time" />
-                            <p className="custom-card__text">{schedule}</p>
-                        </div>
-                        <div className="custom-card__participants-wrapper">
-                            <img className="custom-card__participants-icon" src={personIcon} alt="Participants" />
-                            <p className="custom-card__text">{numberOfParticipants}</p>
-                        </div>
-                        {this.renderButton()}
+                    <p className="custom-card-exchange__title">
+                        <NavLink className="custom-card-exchange__link" exact={true} activeClassName={"active"} to={"exchanges/" + exchange.id}>{title}</NavLink>
+                    </p>
+                    <div className="custom-card-exchange__location-wrapper">
+                        <img className="custom-card-exchange__location-icon" src={locationIcon} alt="Location" />
+                        <p className="custom-card-exchange__text">{address}</p>
                     </div>
+                    <div className="custom-card-exchange__time-wrapper">
+                        <img className="custom-card-exchange__time-icon" src={timeIcon} alt="Date and time" />
+                        <p className="custom-card-exchange__text">{schedule}</p>
+                    </div>
+                    <div className="custom-card-exchange__participants-wrapper">
+                        <img className="custom-card-exchange__participants-icon" src={personIcon} alt="Participants" />
+                        <p className="custom-card-exchange__text">{numberOfParticipants}</p>
+                    </div>
+                    {this.renderButton()}
                 </div>
+            </div>
         );
     }
 }

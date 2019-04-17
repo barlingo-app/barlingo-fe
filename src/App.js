@@ -27,9 +27,17 @@ const layouts = {
 
 function checkRoles(roles) {
 	if (roles) {
+		const ANONYMOUS_ROLE = "ANONYMOUS";
 		if (roles && typeof roles === 'object' && roles.constructor === Array) {
-			return roles.include(auth.getRole());
+			console.log(auth.isAuthenticated())
+			if (roles.find(x => x === ANONYMOUS_ROLE) && !auth.isAuthenticated()) {
+				console.log("anony")
+
+				return true;
+			}
+			return roles.find(x => x === auth.getRole());
 		} else if (typeof roles === 'string' || roles instanceof String) {
+			if (roles === ANONYMOUS_ROLE) return !auth.isAuthenticated()
 			return roles === auth.getRole();
 		}
 		return false;
@@ -42,7 +50,7 @@ function PrivateRoute({ component: Component, roles: roles, ...rest }) {
 		<Route
 			{...rest}
 			render={props =>
-				auth.isAuthenticated() ? (checkRoles(roles) ? (
+				(checkRoles(roles) ? (
 					<Component {...props} />
 				) : (
 						<Redirect
@@ -51,14 +59,7 @@ function PrivateRoute({ component: Component, roles: roles, ...rest }) {
 								state: { wrongAccess: true }
 							}}
 						/>
-					)) : (
-						<Redirect
-							to={{
-								pathname: "/login",
-								state: { from: props.location }
-							}}
-						/>
-					)
+					))
 			}
 		/>
 	);
@@ -70,6 +71,7 @@ class App extends Component {
 		const USER_ROLE = auth._USER_ROLE;
 		const ESTABLISMENT_ROLE = auth._ESTABLISMENT_ROLE;
 		const ADMIN_ROLE = auth._ADMIN_ROLE;
+		const ANONYMOUS_ROLE = "ANONYMOUS";
 		/* Para el uso de roles, hay que pasarle a PrivateRoute en el atributo roles, o un string con el rol permitido, o un array con los roles permitidos */
 		return (
 
@@ -77,13 +79,13 @@ class App extends Component {
 				<Switch>
 					<Route exact path="/" component={Home} />
 					<Route exact path="/login" component={LoginForm} />
-					<PrivateRoute exact path="/profile" component={ProfileView} />
-					<PrivateRoute exact path="/profile/:userId" component={ProfileView} />
+					<PrivateRoute roles={[USER_ROLE, ADMIN_ROLE, ESTABLISMENT_ROLE]} exact path="/profile" component={ProfileView} />
+					<PrivateRoute roles={[USER_ROLE, ADMIN_ROLE, ESTABLISMENT_ROLE]} exact path="/profile/:userId" component={ProfileView} />
 					<PrivateRoute roles={ADMIN_ROLE} exact path="/users" component={UsersListAdmin} />
-					<Route exact path="/exchanges" component={ExchangesList} />
-					<Route exact path="/establishments" component={EstablismentsList} />
-					<Route exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
-					<Route exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
+					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/exchanges" component={ExchangesList} />
+					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/establishments" component={EstablismentsList} />
+					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
+					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
 					<Route exact path="/registerUser" component={RegisterUserContainer} />
 					<PrivateRoute exact path="/editProfile" component={EditProfileContainer} />
 					<Route exact path="/notFound" component={NotFound} />
