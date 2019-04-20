@@ -57,7 +57,6 @@ class index extends Component {
         workinghours.trim()
 
         workinghours += ", " + values.open.format("HH:mm") + "-" + values.close.format("HH:mm")
-        console.log("Horario", workinghours)
         let dataToSend = {
           id: auth.getUserData().id,
           name: values.name,
