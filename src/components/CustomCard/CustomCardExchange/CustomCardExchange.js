@@ -171,7 +171,6 @@ class CustomCardExchange extends Component {
         <CustomCardExchange  schedule={} max={i.numberOfParticipants} />
                             */
         const { exchange } = this.props;
-        console.log(exchange)
         const title = exchange.title;
         const image = exchange.establishment.imageProfile;
         const address = exchange.establishment.establishmentName + ", " + exchange.establishment.address;

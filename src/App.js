@@ -29,10 +29,7 @@ function checkRoles(roles) {
 	if (roles) {
 		const ANONYMOUS_ROLE = "ANONYMOUS";
 		if (roles && typeof roles === 'object' && roles.constructor === Array) {
-			console.log(auth.isAuthenticated())
 			if (roles.find(x => x === ANONYMOUS_ROLE) && !auth.isAuthenticated()) {
-				console.log("anony")
-
 				return true;
 			}
 			return roles.find(x => x === auth.getRole());
@@ -52,14 +49,21 @@ function PrivateRoute({ component: Component, roles: roles, ...rest }) {
 			render={props =>
 				(checkRoles(roles) ? (
 					<Component {...props} />
+				) : (auth.isAuthenticated() ? (
+					<Redirect
+						to={{
+							pathname: "/",
+							state: { wrongAccess: true }
+						}}
+					/>
 				) : (
 						<Redirect
 							to={{
-								pathname: "/",
-								state: { wrongAccess: true }
+								pathname: "/login",
+								state: { from: props.location }
 							}}
 						/>
-					))
+					)))
 			}
 		/>
 	);

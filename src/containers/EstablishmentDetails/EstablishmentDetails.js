@@ -45,7 +45,6 @@ class EstablishmentDetails extends Component {
     }
 
     renderDescription() {
-        console.log(this.state.establishment)
         const address = this.state.establishment.establishmentName + ", " + this.state.establishment.address;
         const description = this.state.establishment.description;
         return (

@@ -40,7 +40,6 @@ export class index extends Component {
 
     render() {
         const {rol, data} = this.state
-        console.log("este es mi rol", rol)
         if(rol === 'user'){
             return(
             <div className="register-bg">

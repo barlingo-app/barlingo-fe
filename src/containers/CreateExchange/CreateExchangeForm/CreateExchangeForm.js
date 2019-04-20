@@ -136,10 +136,10 @@ class CreateExchangeForm extends Component {
                         ],
                     })(
                         <Select placeholder={t('form.motherTongue')}>
-                            <Option value="es"><img className="custom-card__language-icon" src={spanish} alt="Mother tongue" />{t('language.spanish')}</Option>
-                            <Option value="en"><img className="custom-card__language-icon" src={english} alt="Mother tongue" />{t('language.english')}</Option>
-                            <Option value="fr"><img className="custom-card__language-icon" src={french} alt="Mother tongue" />{t('language.french')}</Option>
-                            <Option value="gr"><img className="custom-card__language-icon" src={german} alt="Mother tongue" />{t('language.german')}</Option>
+                            <Option value="es"><img className="custom-card-exchange__language-icon" src={spanish} alt="Mother tongue" />{t('language.spanish')}</Option>
+                            <Option value="en"><img className="custom-card-exchange__language-icon" src={english} alt="Mother tongue" />{t('language.english')}</Option>
+                            <Option value="fr"><img className="custom-card-exchange__language-icon" src={french} alt="Mother tongue" />{t('language.french')}</Option>
+                            <Option value="gr"><img className="custom-card-exchange__language-icon" src={german} alt="Mother tongue" />{t('language.german')}</Option>
                         </Select>
                     )}
                 </Form.Item>
@@ -152,10 +152,10 @@ class CreateExchangeForm extends Component {
                         ],
                     })(
                         <Select placeholder={t('form.targetLanguage')}>
-                            <Option value="es"><img className="custom-card__language-icon" src={spanish} alt="Mother tongue" />{t('language.spanish')}</Option>
-                            <Option value="en"><img className="custom-card__language-icon" src={english} alt="Mother tongue" />{t('language.english')}</Option>
-                            <Option value="fr"><img className="custom-card__language-icon" src={french} alt="Mother tongue" />{t('language.french')}</Option>
-                            <Option value="gr"><img className="custom-card__language-icon" src={german} alt="Mother tongue" />{t('language.german')}</Option>
+                            <Option value="es"><img className="custom-card-exchange__language-icon" src={spanish} alt="Mother tongue" />{t('language.spanish')}</Option>
+                            <Option value="en"><img className="custom-card-exchange__language-icon" src={english} alt="Mother tongue" />{t('language.english')}</Option>
+                            <Option value="fr"><img className="custom-card-exchange__language-icon" src={french} alt="Mother tongue" />{t('language.french')}</Option>
+                            <Option value="gr"><img className="custom-card-exchange__language-icon" src={german} alt="Mother tongue" />{t('language.german')}</Option>
                         </Select>
                     )}
                 </Form.Item>

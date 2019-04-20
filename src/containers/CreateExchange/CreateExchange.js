@@ -47,7 +47,6 @@ class CreateExchange extends Component {
     }
     render() {
         const { establishment, loaded, error } = this.state;
-        console.log(establishment)
         if (loaded) {
             if (error)
                 return <Redirect to={"/establishments"} />
