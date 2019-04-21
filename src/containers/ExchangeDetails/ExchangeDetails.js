@@ -118,7 +118,6 @@ class ExchangeDetails extends Component {
     }
 
     renderDescription() {
-        console.log(this.state.exchange)
         const description = this.state.exchange.description
         const address = this.state.exchange.establishment.establishmentName + ", " + this.state.exchange.establishment.address;
         const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
