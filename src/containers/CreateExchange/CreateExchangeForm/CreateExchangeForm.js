@@ -42,42 +42,42 @@ class CreateExchangeForm extends Component {
                     "title": values.title,
                     "creatorId": auth.getUserData().id,
                     "establishmentId": this.props.establishmentId,
-                    "numberOfParticipants": values.numberOfParticipants,
+                    "numberOfParticipants": values.participants,
                     "targetLangs": [values.motherTongue, values.targetLanguage]
 
                 });
                 const { t } = this.props;
                 exchangesService.create(data)
-                .then((response) => {
-                    if (response.status === 201) {
-                        this.setState(
-                            { cambiar: "/exchanges/" + response.data.id }
-                        );
-                        notification.success({
-                            placement: 'bottomRight',
-                            bottom: 50,
-                            duration: 10,
-                            message: t('exchange.successful.title'),
-                            description: t('exchange.successful.message'),
-                        });
-                    } else {
-                        this.setState({ formFailed: true });
-                    }
+                    .then((response) => {
+                        if (response.status === 201) {
+                            this.setState(
+                                { cambiar: "/exchanges/" + response.data.id }
+                            );
+                            notification.success({
+                                placement: 'bottomRight',
+                                bottom: 50,
+                                duration: 10,
+                                message: t('exchange.successful.title'),
+                                description: t('exchange.successful.message'),
+                            });
+                        } else {
+                            this.setState({ formFailed: true });
+                        }
 
-                })
-                .catch((error) => {
-                    if (error === 'Event has already taken place') {
-                        notification.error({
-                            placement: 'bottomRight',
-                            bottom: 50,
-                            duration: 10,
-                            message: t('exchange.dateError.title'),
-                            description: t('exchange.dateError.message'),
-                        });
-                    } else {
-                        this.setState({ formFailed: true });
-                    }
-                });
+                    })
+                    .catch((error) => {
+                        if (error === 'Event has already taken place') {
+                            notification.error({
+                                placement: 'bottomRight',
+                                bottom: 50,
+                                duration: 10,
+                                message: t('exchange.dateError.title'),
+                                description: t('exchange.dateError.message'),
+                            });
+                        } else {
+                            this.setState({ formFailed: true });
+                        }
+                    });
             }
         });
     }
@@ -89,7 +89,7 @@ class CreateExchangeForm extends Component {
         let year = today.getFullYear()
         let day = today.getDay()
         let month = today.getMonth()
-        const maxDate =year+"-"+month+"-"+day
+        const maxDate = year + "-" + month + "-" + day
 
 
         const { t } = this.props;
@@ -98,10 +98,9 @@ class CreateExchangeForm extends Component {
         };
         const { getFieldDecorator } = this.props.form;
         const { cambiar, formFailed } = this.state;
-
         if (cambiar !== null) return <Redirect to={cambiar} />;
 
-        
+
         function disabledDate(current) {
             var date = new Date()
             date.setDate(date.getDate() - 1)
@@ -154,10 +153,10 @@ class CreateExchangeForm extends Component {
                 >
                     {getFieldDecorator('participants', { rules: [{ required: true, message: t('form.emptyNumberOfParticipants') }] })(
                         <Radio.Group>
-                            <Radio value="a">2</Radio>
-                            <Radio value="b">3</Radio>
-                            <Radio value="c">4</Radio>
-                            <Radio value="d">5</Radio>
+                            <Radio value="2">2</Radio>
+                            <Radio value="3">3</Radio>
+                            <Radio value="4">4</Radio>
+                            <Radio value="5">5</Radio>
                         </Radio.Group>
                     )}
                 </Form.Item>
@@ -196,7 +195,7 @@ class CreateExchangeForm extends Component {
                 <Form.Item
                 >
                     {getFieldDecorator('date-time-picker', config)(
-                        <DatePicker placeholder={t('form.startDate')} disabledDate={disabledDate} showTime  format="YYYY-MM-DD HH:mm:ss" />
+                        <DatePicker placeholder={t('form.startDate')} disabledDate={disabledDate} showTime format="YYYY-MM-DD HH:mm:ss" />
                     )}
                 </Form.Item>
                 <Form.Item className="create__button">
