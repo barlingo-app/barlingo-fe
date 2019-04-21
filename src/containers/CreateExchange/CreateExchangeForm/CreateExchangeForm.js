@@ -8,6 +8,7 @@ import french from '../../../media/france.svg';
 import german from '../../../media/germany.svg';
 import spanish from '../../../media/spain.svg';
 import english from '../../../media/united-kingdom.svg';
+import moment from 'moment';
 import { exchangesService } from '../../../services/exchangesService';
 import './CreateExchangeForm.scss';
 import './CreateExchangeForm.scss';
@@ -99,6 +100,39 @@ class CreateExchangeForm extends Component {
         const { cambiar, formFailed } = this.state;
 
         if (cambiar !== null) return <Redirect to={cambiar} />;
+
+        
+        function disabledDate(current) {
+            var date = new Date()
+            date.setDate(date.getDate() - 1)
+            return current < date;
+        }
+
+        {/*function disabledDateTime () {
+            var currentDate = new Date()
+            return {
+                disabledHours: () => {
+                    var hours = [];
+                    for(var i =0; i < moment().hour(); i++){
+                        hours.push(i);
+                    }
+                
+                    return hours;
+                
+                },
+                disabledMinutes: (selectedHour) => {
+                    var minutes= [];
+                    if (selectedHour === moment().hour()) {
+                        for(var i = 0; i < moment().minute(); i++){
+                            minutes.push(i);
+                        }
+                    }
+                    return minutes;
+                }
+              };
+        }*/}
+
+
         return (
 
             <Form onSubmit={this.handleSubmit} className="login-form">
@@ -162,7 +196,7 @@ class CreateExchangeForm extends Component {
                 <Form.Item
                 >
                     {getFieldDecorator('date-time-picker', config)(
-                        <DatePicker placeholder={t('form.startDate')} disabledDate={d => !d || d.isBefore(new Date())} showTime  format="YYYY-MM-DD HH:mm:ss" />
+                        <DatePicker placeholder={t('form.startDate')} disabledDate={disabledDate} showTime  format="YYYY-MM-DD HH:mm:ss" />
                     )}
                 </Form.Item>
                 <Form.Item className="create__button">
