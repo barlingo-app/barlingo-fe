@@ -49,9 +49,9 @@ class CreateExchangeForm extends Component {
                 const { t } = this.props;
                 exchangesService.create(data)
                     .then((response) => {
-                        if (response.status === 201) {
+                        if (response.status === 200) {
                             this.setState(
-                                { cambiar: "/exchanges/" + response.data.id }
+                                { cambiar: "/exchanges/" + response.data.content.id }
                             );
                             notification.success({
                                 placement: 'bottomRight',
