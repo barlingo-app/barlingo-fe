@@ -147,7 +147,7 @@ class PaySubscriptionContainer extends React.Component{
                             currency_code: "EUR",
                             value: subscriptionPrice
                           },
-                          referenceId: subscriptionType,
+                          reference_id: subscriptionType,
                           description: "Barlingo - " + subscriptionName
                         }]
                       });
