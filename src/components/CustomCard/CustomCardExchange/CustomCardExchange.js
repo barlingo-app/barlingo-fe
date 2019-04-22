@@ -49,7 +49,7 @@ class CustomCardExchange extends Component {
             const userData = auth.getUserData();
             const { exchange } = this.props;
 
-            if (exchange.creator.id === userData.id || new Date(exchange.moment) < new Date())
+            if (exchange.creator.id === userData.id || new Date(exchange.moment + 'Z') < new Date())
                 return null;
             let buttonMessage = t('generic.join');
             if (exchange.participants.find(x => x.id === userData.id)) {
@@ -176,7 +176,7 @@ class CustomCardExchange extends Component {
         const address = exchange.establishment.establishmentName + ", " + exchange.establishment.address;
 
         const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-        const schedule = new Date(exchange.moment).toLocaleDateString('es-ES', dateFormat)
+        const schedule = new Date(exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)
         const numberOfParticipants = exchange.participants.length === 0 ? 1 : exchange.participants.length;
         return (
             <div style={{ "height": "100%", "padding": "15px 0" }}>

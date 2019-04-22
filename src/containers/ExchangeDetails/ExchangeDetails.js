@@ -131,7 +131,7 @@ class ExchangeDetails extends Component {
                     {address}
                 </div>
                 <div className="exchange__icon-wrapper">
-                    <img className="exchange__icon" src={timeIcon} alt="Date and time" />{new Date(this.state.exchange.moment).toLocaleDateString('es-ES', dateFormat)}
+                    <img className="exchange__icon" src={timeIcon} alt="Date and time" />{new Date(this.state.exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)}
                 </div>
                 <div className="exchange__icon-wrapper">
                     <img className="exchange__icon" src={personIcon} alt="Participants" />{this.state.exchange.participants.length === 0 ? 1 : this.state.exchange.participants.length}
