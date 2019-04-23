@@ -1,5 +1,8 @@
 {
   "error": "Error",
+  "deleteAccount": {
+    "delete": "Borrar datos personales"
+  },
   "warning": "Alerta",
   "welcomeMessage": "Bienvenido a Barlingo!",
   "notfound": "Recurso no encontrado",

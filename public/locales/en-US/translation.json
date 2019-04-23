@@ -1,5 +1,8 @@
 {
   "error": "Error",
+  "deleteAccount": {
+    "delete": "Delete personal data"
+  },
   "warning": "Warning",
   "notfound": "Resource not found",
   "loadErrorMessage": "There was an error loading the data",
