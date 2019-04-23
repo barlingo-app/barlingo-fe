@@ -1,4 +1,5 @@
 {
+  "markAsRead": "Mark as read",
   "error": "Error",
   "warning": "Warning",
   "notfound": "Resource not found",

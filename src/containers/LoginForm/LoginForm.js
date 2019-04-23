@@ -7,7 +7,8 @@ import 'antd/dist/antd.css';
 import { withNamespaces } from "react-i18next";
 import { auth } from "../../auth";
 import { Redirect } from 'react-router-dom';
-import './LoginForm.scss'
+import './LoginForm.scss';
+import { notificationService } from '../../services/notificationService';
 import logo from '../../media/logo.png';
 
 class LoginForm extends Component {
@@ -22,9 +23,36 @@ class LoginForm extends Component {
     }
 
     loginSuccessful = () => {
+        this.notify();
         this.setState({ redirectToReferrer: true });
         this.setState({ loginFailed: false });
     };
+    markAsRead = (key) => {
+        alert('marcado como leído')
+        notification.close(key)
+    }
+    notify() {
+        const { t } = this.props;
+        notificationService.findByUser()
+            .then((response) => {
+                const btn = (
+                    <Button type="primary" size="small" onClick={() => this.markAsRead(key)}>
+                        {t('markAsRead')}
+                    </Button>
+                );
+                const key = `open${Date.now()}`;
+                notification['warning']({
+                    placement: 'bottomRight',
+                    message: 'Notification Title',
+                    description: 'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+                    btn,
+                    key
+                });
+            })
+            .catch((error) => {
+
+            });
+    }
     banned = () => {
         this.setState({ banned: true })
     };
