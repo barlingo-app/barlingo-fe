@@ -1,7 +1,11 @@
 {
   "error": "Error",
   "deleteAccount": {
-    "delete": "Delete personal data"
+    "delete": "Delete personal data",
+    "text1": "This action is not reversible. It will permanently delete your account and personal data from the system.",
+    "text2": "To erase personal data enter your password.",
+    "wrongPassword": "The password is wrong",
+    "deleting": "Your account and personal data are being deleting from the system, wait please."
   },
   "warning": "Warning",
   "notfound": "Resource not found",
@@ -175,8 +179,8 @@
     "join": "Join",
     "loading": "Loading",
     "leave": "Leave",
-    "confirm": "Confirmar",
-    "cancel": "Cancelar"
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
   "language": {
     "spanish": "Spanish",

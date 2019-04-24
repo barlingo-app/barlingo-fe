@@ -14,6 +14,7 @@ class ProfileView extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            password: null,
             editProfile: false,
             user: null,
             loaded: false,
@@ -50,10 +51,8 @@ class ProfileView extends Component {
     };
     consultarUsuario() {
         const userId = this.props.match.params.userId
-        console.log(userId);
         if (userId === undefined || userId === null) {
             const user = auth.getUserData();
-            console.log(user);
             this.setData(user, true)
         } else {
             userService.findById(userId)
@@ -108,24 +107,16 @@ class ProfileView extends Component {
     showModal = () => {
 
         const { t } = this.props
-
-        const { getFieldDecorator } = this.props.form;
         const modalText = (
             <div>
                 <p>
-                    Esta acción no es reversible, y eliminará su cuenta y datos personales de manera definitiva del sistema.
+                    {t('deleteAccount.text1')}
                 </p>
                 <p>
-                    Para borrar los datos personales introduzca su contraseña.
+                    {t('deleteAccount.text2')}
                 </p>
                 <Form>
-                    <Form.Item >
-                        {getFieldDecorator('code', {
-                            rules: [{ required: true, message: t('code.validate.empty') }],
-                        })(
-                            <Input className={"customInput"} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="text" placeholder={t('form.pleaseconfirmpassword')} />
-                        )}
-                    </Form.Item>
+                    <Input onChange={this.handleInput} className={"customInput"} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder={t('form.pleaseconfirmpassword')} />
                 </Form>
             </div>
         );
@@ -135,23 +126,52 @@ class ProfileView extends Component {
         });
     }
     handleInput = (event) => {
-
+        const password = event.target.value;
+        this.setState({
+            password: password
+        });
     }
     handleOk = () => {
-        this.setState({
-            ModalText: 'The modal will be closed after two seconds',
-            confirmLoading: true,
-        });
-        setTimeout(() => {
+        const password = this.state.password;
+        const { t } = this.props;
+        if (password === auth.getCredentials().password) {
             this.setState({
-                visible: false,
-                confirmLoading: false,
+                ModalText: t('deleteAccount.deleting'),
+                confirmLoading: true,
             });
-        }, 2000);
+            //AQUÍ FALTA EL MÉTODO QUE HAGA LA LLAMADA A BACKEND PARA QUE ELIMINE AL USUARIO Y DESPUÉS DESLOGUEARNOS
+            setTimeout(() => {
+                this.setState({
+                    visible: false,
+                    confirmLoading: false,
+                });
+            }, 2000);
+        } else {
+            const { t } = this.props
+            const modalText = (
+                <div>
+                    <p>
+                        {t('deleteAccount.text1')}
+                    </p>
+                    <p>
+                        {t('deleteAccount.text2')}
+                    </p>
+                    <Form>
+                        <Input onChange={this.handleInput} className={"customInput"} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder={t('form.pleaseconfirmpassword')} />
+                    </Form>
+                    <p style={{ color: 'red' }}> {t('deleteAccount.wrongPassword')}</p>
+                </div>
+            );
+            this.setState({
+                ModalText: modalText
+            });
+
+        }
+
+
     }
 
     handleCancel = () => {
-        console.log('Clicked cancel button');
         this.setState({
             visible: false,
         });
@@ -215,6 +235,9 @@ class ProfileView extends Component {
                         onOk={this.handleOk}
                         confirmLoading={confirmLoading}
                         onCancel={this.handleCancel}
+                        okText={t('generic.confirm')}
+                        okType='danger'
+                        cancelText={t('generic.cancel')}
                     >
                         <p>{ModalText}</p>
                     </Modal>
