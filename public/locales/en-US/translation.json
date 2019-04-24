@@ -1,5 +1,8 @@
 {
   "error": "Error",
+  "downloadData": {
+    "button": "Download personal data"
+  },
   "deleteAccount": {
     "delete": "Delete personal data",
     "text1": "This action is not reversible. It will permanently delete your account and personal data from the system.",

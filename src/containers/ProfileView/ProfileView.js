@@ -176,6 +176,10 @@ class ProfileView extends Component {
             visible: false,
         });
     }
+    downloadPersonalData = () => {
+
+    }
+
     render() {
         const { t } = this.props
         const { Meta } = Card;
@@ -214,15 +218,22 @@ class ProfileView extends Component {
                                 />
 
                                 <Row>
-                                    <Col xs="1">
+                                    <Col xs="auto">
                                         {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.setState({ editProfile: true })} htmlType="submit" className="login-form-button primaryButton">
                                             {t('edit')}
                                         </Button>}
                                     </Col>
-                                    <Col xs="1">
+                                    <Col xs="auto">
+                                        {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.downloadPersonalData()} htmlType="submit" className="login-form-button primaryButton">
+                                            {t('downloadData.button')}
+                                        </Button>}
+                                    </Col>
+                                    <Col xs="auto">
                                         {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.borrarCuenta()} htmlType="submit" className="login-form-button primaryButton">
                                             {t('deleteAccount.delete')}
                                         </Button>}
+                                    </Col>
+                                    <Col>
                                     </Col>
                                 </Row>
                             </Card>

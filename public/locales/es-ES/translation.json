@@ -1,5 +1,8 @@
 {
   "error": "Error",
+  "downloadData": {
+    "button": "Descargar datos personales"
+  },
   "deleteAccount": {
     "delete": "Borrar datos personales",
     "text1": "Esta acción no es reversible. Eliminará su cuenta y datos personales de manera definitiva del sistema.",
