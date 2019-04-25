@@ -1,4 +1,16 @@
 {
+  "notification": {
+    "priority": "Priority",
+    "emptyPriority":"Please, mark a priority",
+    "success":{
+      "title":"Notify sent",
+      "message":"The notification has been sent to all the users"
+    },
+    "error":{
+      "title":"Error",
+      "message":"The notification could'nt be sent, try it later"
+    }
+  },
   "markAsRead": "Mark as read",
   "error": "Error",
   "warning": "Warning",
@@ -61,6 +73,7 @@
     "logout": "Logout"
   },
   "links": {
+    "notification": "Send notification",
     "exchanges": "Exchanges",
     "establishments": "Establishments",
     "validateCode": "Validate code",

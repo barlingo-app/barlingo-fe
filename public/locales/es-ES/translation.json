@@ -1,4 +1,16 @@
 {
+  "notification":{
+    "priority":"Prioridad",
+    "emptyPriority":"Por favor, indique una prioridad",
+    "success":{
+      "title":"Notificación enviada",
+      "message":"La notificación se ha enviado a todos los usuarios"
+    },
+    "error":{
+      "title":"Error",
+      "message":"La notificación no se ha podido enviar, inténtelo más tarde"
+    }
+  },
   "markAsRead": "Marcar como leído",
   "error": "Error",
   "warning": "Alerta",
@@ -62,6 +74,7 @@
     "logout": "Cerrar sesión"
   },
   "links": {
+    "notification":"Enviar notificación",
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",
     "validateCode": "Validar código",

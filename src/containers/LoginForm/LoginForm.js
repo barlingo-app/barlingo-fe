@@ -23,31 +23,35 @@ class LoginForm extends Component {
     }
 
     loginSuccessful = () => {
-        this.notify();
+
         this.setState({ redirectToReferrer: true });
         this.setState({ loginFailed: false });
     };
     markAsRead = (key) => {
-        alert('marcado como leído')
+        //alert('marcado como leído')
         notification.close(key)
     }
     notify() {
         const { t } = this.props;
         notificationService.findByUser()
             .then((response) => {
-                const btn = (
-                    <Button type="primary" size="small" onClick={() => this.markAsRead(key)}>
-                        {t('markAsRead')}
-                    </Button>
-                );
-                const key = `open${Date.now()}`;
-                notification['warning']({
-                    placement: 'bottomRight',
-                    message: 'Notification Title',
-                    description: 'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-                    btn,
-                    key
+                response.forEach(notif => {
+                    const key = notif.moment;
+                    const btn = (
+                        <Button type="primary" size="small" onClick={() => this.markAsRead(key)}>
+                            {t('markAsRead')}
+                        </Button>
+                    );
+
+                    notification['warning']({
+                        placement: 'bottomRight',
+                        message: notif.title,
+                        description: notif.description,
+                        btn,
+                        key
+                    });
                 });
+
             })
             .catch((error) => {
 
@@ -117,7 +121,10 @@ class LoginForm extends Component {
         const { t } = this.props;
         const { getFieldDecorator } = this.props.form;
 
-        if (redirectToReferrer) return <Redirect to={from} />;
+        if (redirectToReferrer) {
+            this.notify();
+            return <Redirect to={from} />;
+        }
 
         return (
 

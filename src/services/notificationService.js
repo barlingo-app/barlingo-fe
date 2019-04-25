@@ -3,16 +3,25 @@ import { auth } from '../auth';
 
 export const notificationService = {
     async findByUser() {
-        return axios.get(process.env.REACT_APP_BE_URL + '/exchanges?userId=' + auth.getUserData().id)
-            .then(
-                (response) => {
-                    return {
-                        "title": "A hacker has broken our system",
-                        "message": "Your data could have been in danger, but we killed the hacker.",
-                        "priority": "HIGH"
-                    }
-                })
-            .catch((error) => { return error; });
-
+        return auth.getToken().then((token) => {
+            return axios.get(process.env.REACT_APP_BE_URL + '/notifications', {
+                headers: {
+                    'Authorization': "Bearer " + token
+                }
+            })
+                .then((response) => { return response.data; })
+                .catch((error) => { return error });
+        })
+    },
+    async create(data) {
+        return auth.getToken().then((token) => {
+            return axios.post(process.env.REACT_APP_BE_URL + '/notifications', data, {
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => { return response; })
+                .catch((error) => { return error; });
+        });
     },
 }

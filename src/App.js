@@ -20,6 +20,7 @@ import UsersListAdmin from "./containers/UsersListAdmin/UsersListAdmin";
 import ValidateCodeContainer from './containers/ValidateCodeContainer/ValidateCodeContainer';
 import PublicLayout from './layouts/PublicLayout/PublicLayout';
 import RegisterEstablishmentContainer from './containers/RegisterEstablishmentContainer'
+import CreateNotification from './containers/CreateNotification/CreateNotification'
 
 const layouts = {
 	'public': PublicLayout,
@@ -86,6 +87,7 @@ class App extends Component {
 					<PrivateRoute roles={[USER_ROLE, ADMIN_ROLE, ESTABLISMENT_ROLE]} exact path="/profile" component={ProfileView} />
 					<PrivateRoute roles={[USER_ROLE, ADMIN_ROLE, ESTABLISMENT_ROLE]} exact path="/profile/:userId" component={ProfileView} />
 					<PrivateRoute roles={ADMIN_ROLE} exact path="/users" component={UsersListAdmin} />
+					<PrivateRoute roles={ADMIN_ROLE} exact path="/createNotification" component={CreateNotification} />
 					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/exchanges" component={ExchangesList} />
 					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/establishments" component={EstablismentsList} />
 					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
