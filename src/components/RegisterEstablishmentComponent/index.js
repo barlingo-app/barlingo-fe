@@ -484,13 +484,21 @@ class index extends Component {
           onCancel={this.handleCancel}
         >
           <p>{t('terms-intro')}</p>
-          <p><b>{t('terms-data')}</b></p>
-          <p>{t('terms-data-text')}</p>
+
+          <p><b>{t('terms-protection')}</b></p>
+          <p>{t('terms-protection-text')}</p>
+
+          <p><b>{t('terms-rights')}</b></p>
+          <p>{t('terms-rights-text')}</p>
           <ul>
             <li>{t('terms-right1')}</li>
             <li>{t('terms-right2')}</li>
             <li>{t('terms-right3')}</li>
           </ul>
+          
+          <p><b>{t('terms-intellectual-property')}</b></p>
+          <p>{t('terms-intellectual-property-text')}</p>
+
           <p><b>{t('terms-prices')}</b></p>
           <p>{t('terms-prices-title')}</p>
           <ul>
@@ -498,6 +506,7 @@ class index extends Component {
             <li>{t('terms-price2')}</li>
             <li>{t('terms-price3')}</li>
           </ul>
+
           <p><b>{t('terms-modifications')}</b></p>
           <p>{t('terms-modifications-text')}</p>
         </Modal>
