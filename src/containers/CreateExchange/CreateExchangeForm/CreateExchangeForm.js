@@ -100,7 +100,6 @@ class CreateExchangeForm extends Component {
         const { cambiar, formFailed } = this.state;
         if (cambiar !== null) return <Redirect to={cambiar} />;
 
-
         function disabledDate(current) {
             var date = new Date()
             date.setDate(date.getDate() - 1)
