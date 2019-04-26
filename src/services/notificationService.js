@@ -24,4 +24,14 @@ export const notificationService = {
                 .catch((error) => { return error; });
         });
     },
+    async markAsRead(id) {
+        return auth.getToken().then((token) => {
+            return axios.put(process.env.REACT_APP_BE_URL + '/notifications/' + id, {}, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            }).then(response => { return response; })
+                .catch((error) => { return error; });
+        });
+    },
 }

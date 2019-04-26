@@ -10,6 +10,7 @@ import { Redirect } from 'react-router-dom';
 import './LoginForm.scss';
 import { notificationService } from '../../services/notificationService';
 import logo from '../../media/logo.png';
+import { noConflict } from 'q';
 
 class LoginForm extends Component {
 
@@ -29,14 +30,20 @@ class LoginForm extends Component {
     };
     markAsRead = (key) => {
         //alert('marcado como leído')
-        notification.close(key)
+        notificationService.markAsRead(key)
+            .then((response) => {
+                notification.close(key);
+            })
+            .catch((error) => {
+
+            });
     }
     notify() {
         const { t } = this.props;
         notificationService.findByUser()
             .then((response) => {
                 response.forEach(notif => {
-                    const key = notif.moment;
+                    const key = notif.id;
                     const btn = (
                         <Button type="primary" size="small" onClick={() => this.markAsRead(key)}>
                             {t('markAsRead')}
@@ -46,6 +53,7 @@ class LoginForm extends Component {
                     notification['warning']({
                         placement: 'bottomRight',
                         message: notif.title,
+                        duration: 0,
                         description: notif.description,
                         btn,
                         key
