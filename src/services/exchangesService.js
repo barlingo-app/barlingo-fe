@@ -4,7 +4,7 @@ import { auth } from '../auth';
 export const exchangesService = {
 
     // List of languages exchanges
-    list(estId) {
+    async list(estId) {
         let param = estId ? "?estId=" + estId : "";
         return axios.get(process.env.REACT_APP_BE_URL + '/exchanges/' + param)
             .then(
@@ -13,7 +13,7 @@ export const exchangesService = {
                 })
             .catch((error) => { return error; });
     },
-    findByUser() {
+    async findByUser() {
         return axios.get(process.env.REACT_APP_BE_URL + '/exchanges?userId=' + auth.getUserData().id)
             .then(
                 (response) => {
@@ -21,13 +21,13 @@ export const exchangesService = {
                 })
             .catch((error) => { return error; });
     },
-    findOne(id) {
+    async findOne(id) {
         id = id ? id : 0;
         return axios.get(process.env.REACT_APP_BE_URL + '/exchanges/' + id)
         .then((response) => {return response.data;})
         .catch((error) => { return error; });
     },
-    create(data) {
+    async create(data) {
         return auth.getToken().then((token) => {
             return axios.post(process.env.REACT_APP_BE_URL + '/exchanges', data, {
                 headers: {
@@ -38,7 +38,7 @@ export const exchangesService = {
             .catch((error) => { return error; });
         });
     },
-    join(id) {
+    async join(id) {
         return auth.getToken().then((token) => {
             return axios.post(process.env.REACT_APP_BE_URL + '/exchanges/' + id + '/join', { 'userId': auth.getUserData().id }, {
                 headers: {
@@ -50,7 +50,7 @@ export const exchangesService = {
             .catch((error) => { return error; });
         });
     },
-    leave(id) {
+    async leave(id) {
         return auth.getToken().then((token) => {
             return axios.post(process.env.REACT_APP_BE_URL + '/exchanges/' + id + '/leave', { 'userId': auth.getUserData().id }, 
             {

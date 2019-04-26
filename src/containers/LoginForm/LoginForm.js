@@ -7,8 +7,10 @@ import 'antd/dist/antd.css';
 import { withNamespaces } from "react-i18next";
 import { auth } from "../../auth";
 import { Redirect } from 'react-router-dom';
-import './LoginForm.scss'
+import './LoginForm.scss';
+import { notificationService } from '../../services/notificationService';
 import logo from '../../media/logo.png';
+import { noConflict } from 'q';
 
 class LoginForm extends Component {
 
@@ -22,9 +24,47 @@ class LoginForm extends Component {
     }
 
     loginSuccessful = () => {
+
         this.setState({ redirectToReferrer: true });
         this.setState({ loginFailed: false });
     };
+    markAsRead = (key) => {
+        //alert('marcado como leído')
+        notificationService.markAsRead(key)
+            .then((response) => {
+                notification.close(key);
+            })
+            .catch((error) => {
+
+            });
+    }
+    notify() {
+        const { t } = this.props;
+        notificationService.findByUser()
+            .then((response) => {
+                response.forEach(notif => {
+                    const key = notif.id;
+                    const btn = (
+                        <Button type="primary" size="small" onClick={() => this.markAsRead(key)}>
+                            {t('markAsRead')}
+                        </Button>
+                    );
+
+                    notification['warning']({
+                        placement: 'bottomRight',
+                        message: notif.title,
+                        duration: 0,
+                        description: notif.description,
+                        btn,
+                        key
+                    });
+                });
+
+            })
+            .catch((error) => {
+
+            });
+    }
     banned = () => {
         this.setState({ banned: true })
     };
@@ -89,7 +129,10 @@ class LoginForm extends Component {
         const { t } = this.props;
         const { getFieldDecorator } = this.props.form;
 
-        if (redirectToReferrer) return <Redirect to={from} />;
+        if (redirectToReferrer) {
+            this.notify();
+            return <Redirect to={from} />;
+        }
 
         return (
 
