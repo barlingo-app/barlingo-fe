@@ -9,8 +9,8 @@ export const userService = {
                     'Authorization': "Bearer " + token
                 }
             })
-            .then((response) => { return response; })
-            .catch((error) => { return error });
+                .then((response) => { return response; })
+                .catch((error) => { return error });
         })
     },
 
@@ -21,8 +21,8 @@ export const userService = {
                     'Authorization': "Bearer " + token
                 }
             })
-            .then((response) => { return response; })
-            .catch((error) => { return error });
+                .then((response) => { return response; })
+                .catch((error) => { return error });
         })
     },
 
@@ -50,6 +50,28 @@ export const userService = {
             .catch((error) => { return error });
     },
 
+    async anonymize() {
+        return auth.getToken().then((token) => {
+            return axios.post(process.env.REACT_APP_BE_URL + '/users/' + auth.getUserData().id + '/anonymize', {}, {
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => { return response; })
+                .catch((error) => { return error; });
+        });
+    },
+
+    async getPersonalData() {
+        return auth.getToken().then((token) => {
+            return axios.get(process.env.REACT_APP_BE_URL + '/users/' + auth.getUserData().id + '/download', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            }).then(response => { return response; })
+                .catch((error) => { return error; });
+        });
+    },
     async editUserData(data) {
         return auth.getToken().then((token) => {
             return axios.post(process.env.REACT_APP_BE_URL + '/users/edit', data, {

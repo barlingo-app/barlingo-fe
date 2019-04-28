@@ -9,6 +9,7 @@ import Loading from "../../components/Loading/Loading";
 import defaultImage from '../../media/default-exchange-header.jpg';
 import locationIcon from '../../media/imageedit_5_5395394410.png';
 import { userService } from '../../services/userService';
+import { establishmentService } from '../../services/establishmentService';
 import FileUploadComponent from './../../components/FileUploadComponent/';
 class ProfileView extends Component {
     constructor(props) {
@@ -139,13 +140,31 @@ class ProfileView extends Component {
                 ModalText: t('deleteAccount.deleting'),
                 confirmLoading: true,
             });
-            //AQUÍ FALTA EL MÉTODO QUE HAGA LA LLAMADA A BACKEND PARA QUE ELIMINE AL USUARIO Y DESPUÉS DESLOGUEARNOS
-            setTimeout(() => {
-                this.setState({
-                    visible: false,
-                    confirmLoading: false,
-                });
-            }, 2000);
+            if (auth.isUser()) {
+                userService.anonymize()
+                    .then(response => {
+                        this.setState({
+                            visible: false,
+                            confirmLoading: false,
+                        });
+                        auth.logout();
+                        this.props.history.push("/");
+                    }).catch(error => {
+
+                    });
+            } else if (auth.isEstablishment()) {
+                establishmentService.anonymize()
+                    .then(response => {
+                        this.setState({
+                            visible: false,
+                            confirmLoading: false,
+                        });
+                        auth.logout();
+                        this.props.history.push("/");
+                    }).catch(error => {
+
+                    });
+            }
         } else {
             const { t } = this.props
             const modalText = (
@@ -177,7 +196,37 @@ class ProfileView extends Component {
         });
     }
     downloadPersonalData = () => {
+        if (auth.isUser()) {
+            userService.getPersonalData()
+                .then(response => {
+                    const element = document.createElement("a");
+                    const file = new Blob([JSON.stringify(response.data)], { type: 'text/plain' });
+                    const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+                    const date = new Date().toLocaleDateString('es-ES', dateFormat)
+                    const name = "" + auth.getUserData().userAccount.username + "-" + date + ".txt";
+                    element.href = URL.createObjectURL(file);
+                    element.download = name;
+                    document.body.appendChild(element); // Required for this to work in FireFox
+                    element.click();
+                }).catch(error => {
 
+                });
+        } else if (auth.isEstablishment()) {
+            establishmentService.getPersonalData()
+                .then(response => {
+                    const element = document.createElement("a");
+                    const file = new Blob([JSON.stringify(response.data)], { type: 'text/plain' });
+                    const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+                    const date = new Date().toLocaleDateString('es-ES', dateFormat)
+                    const name = "" + auth.getUserData().userAccount.username + "-" + date + ".txt";
+                    element.href = URL.createObjectURL(file);
+                    element.download = name;
+                    document.body.appendChild(element); // Required for this to work in FireFox
+                    element.click();
+                }).catch(error => {
+
+                });
+        }
     }
 
     render() {
