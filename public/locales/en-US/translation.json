@@ -13,6 +13,16 @@
   },
   "markAsRead": "Mark as read",
   "error": "Error",
+  "downloadData": {
+    "button": "Download personal data"
+  },
+  "deleteAccount": {
+    "delete": "Delete personal data",
+    "text1": "This action is not reversible. It will permanently delete your account and personal data from the system.",
+    "text2": "To erase personal data enter your password.",
+    "wrongPassword": "The password is wrong",
+    "deleting": "Your account and personal data are being deleting from the system, wait please."
+  },
   "warning": "Warning",
   "notfound": "Resource not found",
   "loadErrorMessage": "There was an error loading the data",
@@ -190,8 +200,8 @@
     "join": "Join",
     "loading": "Loading",
     "leave": "Leave",
-    "confirm": "Confirmar",
-    "cancel": "Cancelar"
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
   "language": {
     "spanish": "Spanish",
