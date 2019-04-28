@@ -13,6 +13,16 @@
   },
   "markAsRead": "Marcar como leído",
   "error": "Error",
+  "downloadData": {
+    "button": "Descargar datos personales"
+  },
+  "deleteAccount": {
+    "delete": "Borrar datos personales",
+    "text1": "Esta acción no es reversible. Eliminará su cuenta y datos personales de manera definitiva del sistema.",
+    "text2": "Para borrar los datos personales introduzca su contraseña.",
+    "wrongPassword": "La contraseña no es correcta",
+    "deleting": "Su cuenta y datos personales están siendo eliminados del sistema, en breves momentos se hará efectivo."
+  },
   "warning": "Alerta",
   "welcomeMessage": "Bienvenido a Barlingo!",
   "notfound": "Recurso no encontrado",
