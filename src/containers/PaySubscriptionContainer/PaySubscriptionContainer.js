@@ -93,9 +93,6 @@ class PaySubscriptionContainer extends React.Component{
     establishmentService.savePay(this.props.establishmentId, details.id)
     .then((response) => {
       notification.success({
-        placement: 'bottomRight',
-        bottom: 50,
-        duration: 10,
         message: t('subscription.successMessage.title'),
         description: t('subscription.successMessage.message'),
       });
@@ -158,9 +155,6 @@ class PaySubscriptionContainer extends React.Component{
                     onCancel={(data, actions) => {
                       if (!this.state.errorShown) {
                         notification.error({
-                          placement: 'bottomRight',
-                          bottom: 50,
-                          duration: 10,
                           message: t('subscription.cancelMessage.title'),
                           description: "You must finished the payment in order to appear in the app",
                         });
@@ -169,9 +163,6 @@ class PaySubscriptionContainer extends React.Component{
                     }}
                     catchError={(error) => {                      
                       notification.error({
-                        placement: 'bottomRight',
-                        bottom: 50,
-                        duration: 10,
                         message: t('subscription.failedMessage.title'),
                         description: "Please retry it again",
                       });

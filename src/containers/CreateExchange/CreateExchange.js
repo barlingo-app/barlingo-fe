@@ -32,9 +32,6 @@ class CreateExchange extends Component {
                 } else {
                     const { t } = this.props;
                     notification.error({
-                        placement: 'bottomRight',
-                        bottom: 50,
-                        duration: 10,
                         message: t("establishment.error.title"),
                         description: t("establishment.error.message"),
                     });
@@ -60,7 +57,7 @@ class CreateExchange extends Component {
                                     <CustomCardEstablishment establishment={i} showButton={false} />
                                 </div>
                                 <div>
-                                    <CreateExchangeForm establishmentId={i.id} />
+                                    <CreateExchangeForm establishment={i} />
                                 </div>
                             </Col>
                         </Row>

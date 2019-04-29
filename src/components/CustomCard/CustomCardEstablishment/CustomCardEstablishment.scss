@@ -25,6 +25,8 @@
       font-weight:600;
       margin-left: 10px;
       text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       @media(max-width: 575px) {
         font-size: 23px;
@@ -44,6 +46,8 @@
       position: absolute;
       right: 10px;
       top: 5px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     &__language-icon {
@@ -71,6 +75,8 @@
     &__location-wrapper {
       margin-left: 18px;
       margin-top: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     &__location-icon {
@@ -83,6 +89,8 @@
     &__time-wrapper {
       margin-top: 12px;
       margin-left: 18px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     &__time-icon {
@@ -96,6 +104,8 @@
     &__participants-wrapper {
       margin-left: 18px;
       margin-top: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     &__participants-icon {

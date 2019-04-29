@@ -54,9 +54,6 @@ class ValidateCodeContainer extends React.Component {
       redeemable: false
     })
     notification.success({
-      placement: 'bottomRight',
-      bottom: 50,
-      duration: 10,
       message: t('code.redeem.ok.title'),
       description: t('code.redeem.ok.message'),
     });
@@ -82,9 +79,6 @@ class ValidateCodeContainer extends React.Component {
       redeemable: true
     })
     notification.success({
-      placement: 'bottomRight',
-      bottom: 50,
-      duration: 10,
       message: t('code.validate.validCode.title'),
       description: t('code.validate.validCode.message'),
     });
@@ -92,9 +86,6 @@ class ValidateCodeContainer extends React.Component {
   redeemFail = () => {
     const { t } = this.props;
     notification.error({
-      placement: 'bottomRight',
-      bottom: 50,
-      duration: 10,
       message: t('code.redeem.fail.title'),
       description: t('code.redeem.fail.message'),
     });
@@ -118,9 +109,6 @@ class ValidateCodeContainer extends React.Component {
     }
 
     notification.error({
-      placement: 'bottomRight',
-      bottom: 50,
-      duration: 10,
       message: message,
       description: description,
     });
