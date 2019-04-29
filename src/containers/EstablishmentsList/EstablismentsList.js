@@ -5,6 +5,7 @@ import { Col, Row } from 'reactstrap';
 import CustomCardEstablishment from '../../components/CustomCard/CustomCardEstablishment/CustomCardEstablishment';
 import Loading from '../../components/Loading/Loading';
 import { establishmentService } from '../../services/establishmentService';
+import { auth } from '../../auth';
 import './EstablishmentsList.scss';
 
 class EstablismentsList extends Component {
@@ -62,7 +63,7 @@ class EstablismentsList extends Component {
                     <Row>
                         {items.map((i, index) => (
                             <Col xs="12" md="6" xl="4" key={i.id}>
-                                <CustomCardEstablishment establishment={i} showButton={true}/>
+                                <CustomCardEstablishment establishment={i} showButton={!auth.isAuthenticated() || auth.isUser()}/>
                             </Col>
                         ))}
                     </Row>

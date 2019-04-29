@@ -44,6 +44,19 @@ class EstablishmentDetails extends Component {
         this.fetchData();
     }
 
+    getFormattedWorkingHours = (workingHours) => {
+        const { t } = this.props;
+
+        let formattedWorkingHours = '';
+        let days = workingHours.split(',')[0].trim();
+
+        days.split(' ').forEach(function(value, index,  array) {
+            formattedWorkingHours += t('days.' + value.trim().toLowerCase()) + ' ';
+        });
+
+        return formattedWorkingHours.trim() + ' , ' + workingHours.split(',')[1].trim();
+    }
+
     renderDescription() {
         const address = this.state.establishment.establishmentName + ", " + this.state.establishment.address;
         const description = this.state.establishment.description;
@@ -57,7 +70,7 @@ class EstablishmentDetails extends Component {
                     {address}
                 </div>
                 <div className="establishment__icon-wrapper">
-                    <img className="establishment__icon" src={timeIcon} alt="Date and time" />{this.state.establishment.workingHours}
+                    <img className="establishment__icon" src={timeIcon} alt="Date and time" />{this.getFormattedWorkingHours(this.state.establishment.workingHours)}
                 </div>
             </div>
         );

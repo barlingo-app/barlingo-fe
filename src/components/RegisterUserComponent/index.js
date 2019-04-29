@@ -1,13 +1,13 @@
-import { Button, Modal, notification } from 'antd';
 import axios from 'axios';
 import React, { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import { withNamespaces } from "react-i18next";
 import { Redirect } from 'react-router-dom';
 import { auth } from "../../auth";
 import { userService } from '../../services/userService';
+import moment from 'moment';
+import languages from '../../data/languages';
+import { Button, Checkbox, DatePicker, Form, Input, Modal, notification, Select, TimePicker } from 'antd';
 import './index.scss';
 
 
@@ -32,26 +32,92 @@ export class index extends Component {
             successfulLogin: false,
             validated: false,
             usernameInvalid: false,
-            username: '',
-            password: '',
-            name: '',
-            surname: '',
-            email: '',
-            country: '',
-            city: '',
-            aboutMe: '',
-            motherTongue: '',
-            birthday: '',
-            speakLangs: [],
-            langsToLearn: [],
             visible: false
         }
-        this.handleChange = this.handleChange.bind(this);
+        
+        this.errors = {
+
+        }
+        
+        this.externalErrors = {
+
+        }
     }
 
     componentDidMount() {
 
     }
+
+    getValidationMessage = (fieldName) => {
+        if (this.errors.hasOwnProperty(fieldName)) {
+            return this.errors[fieldName];
+        } else {
+            return false;
+        }
+    
+      }
+    
+    
+      genericValidator = async (rule, value, callback) => {
+        const { t } = this.props;
+    
+        if (this.errors.hasOwnProperty(rule.field)) {
+            delete this.errors[rule.field];
+        }
+    
+        this.errors = Object.assign({}, this.externalErrors);
+        
+        if (this.externalErrors.hasOwnProperty(rule.field)) {
+          delete this.externalErrors[rule.field];
+        }
+    
+        switch(rule.field) {
+            case 'username':
+                let message0 = await this.checkUsername(value);
+                if (message0) {
+                    this.errors[rule.field] = message0;
+                }
+                break;
+            case "learnLanguages":
+                let message3 = this.checkLearnLanguages(value);
+                if (message3) {
+                    this.errors[rule.field] = message3;
+                }
+                break;
+            case 'confirm':
+                let message1 = this.comparePasswords();
+                if (message1) {
+                    this.errors[rule.field] = message1;
+                }
+                break;
+            case 'password':
+                let message2 = this.comparePasswords();
+                if (message2) {
+                    this.errors[rule.field] = message2;
+                }
+                break;
+        }
+    
+        if (this.getValidationMessage(rule.field)) {
+            callback(t('form.validationErrors.' + this.getValidationMessage(rule.field)));
+        } else {
+            callback();
+        }
+      }
+
+      checkLearnLanguages = (value) => {
+          let result = false;
+          const {form} = this.props;
+          if (value && form.getFieldValue('speakLanguages')) {
+              value.forEach(function(value, key, array) {
+                  if (form.getFieldValue('speakLanguages').indexOf(value) >= 0) {
+                      result = 'languagesRepeated';
+                  }
+              });
+              return result;
+          }
+        return false;
+      }
 
     showModal = () => {
         this.setState({
@@ -76,45 +142,51 @@ export class index extends Component {
         this.setState({ usernameInvalid: validity });
     }
 
-    checkUsername = (username) => {
-        if (username !== '') {
-            userService.checkUsername(username)
-                .then((response) => {
-                    if (response.data.success === false) {
-                        this.setUsernameValidity(true);
-                    } else {
-                        this.setUsernameValidity(false);
-                    }
-                }).catch((error) => {
-                    this.setUsernameValidity(false);
-                });
-        }
-    }
-
-    usernameValidity = () => {
-        if (this.state.username === '' || this.state.usernameInvalid) {
-            return 'error';
+    usernameExists = (username) => {
+        if (username !== '' && username !== null && username != undefined) {
+          return userService.checkUsername(username)
+            .then((response) => {
+              if (response.data.success === false) {
+                return true;
+              } else {
+                return false;
+              }
+            }).catch((error) => {
+              return true;
+            });
         } else {
-            return 'success';
+          return false;
         }
+      }
+
+    checkUsername = async (value) => {
+    if (value) {
+        let result = await this.usernameExists(value).then((result) => {return result});
+        return (result) ? 'usernameExists' : false;
+    } else {
+        return false;
+    }
     }
 
-    sendForm = () => {
-        let dataToSend = {
-            username: this.state.username,
-            password: this.state.password,
-            name: this.state.name,
-            surname: this.state.surname,
-            email: this.state.email,
-            country: this.state.country,
-            city: this.state.city,
-            aboutMe: this.state.aboutMe,
-            birthdate: this.state.birthday,
-            motherTongue: this.state.motherTongue,
-            speakLanguages: this.state.speakLangs,
-            learnLanguages: this.state.langsToLearn,
-        }
+    checkBirthday = (date) => {
+        console.log(date);
+        let maximumDate = moment().subtract(18, 'years');
+    
+        console.log(maximumDate);
+    
+        return date >= maximumDate;
+      }
 
+      comparePasswords() {
+        const form = this.props.form;
+        if (form.getFieldValue('password') && form.getFieldValue('confirm') && form.getFieldValue('password') !== form.getFieldValue('confirm')) {
+          return 'inconsistPassword';
+        }
+    
+        return false;
+      }
+
+    sendForm = (dataToSend) => {
         axios.post(process.env.REACT_APP_BE_URL + '/users/register', dataToSend, {
             header: {
                 'Content-Type': 'application/json'
@@ -127,9 +199,6 @@ export class index extends Component {
             } else {
                 this.setState({ successfulLogin: true });
                 notification.success({
-                    placement: 'bottomRight',
-                    bottom: 50,
-                    duration: 10,
                     message: "Successful register",
                     description: "You can log in with your username and password",
                 });
@@ -137,84 +206,53 @@ export class index extends Component {
         }).catch((error) => {
 
             notification.error({
-                placement: 'bottomRight',
-                bottom: 50,
-                duration: 10,
                 message: "Failed register",
                 description: "There was an error saving the data",
             });
         });
     }
 
-    handleSubmit(event) {
-        const form = event.currentTarget;
-        event.preventDefault();
-        event.stopPropagation();
-
-        if (this.state.usernameInvalid) {
-            notification.error({
-                placement: 'bottomRight',
-                bottom: 50,
-                duration: 10,
-                message: "Username error",
-                description: "The username already exists",
-            });
-        }
-        else if (form.checkValidity() === true) {
-            this.sendForm();
-        }
-
-        this.setState({ validated: true });
-    }
-
-    handleChange(event) {
-        const target = event.target
-        const name = target.id
-        let value = ''
-
-        if (target.type === 'select-multiple') {
-            let resul = []
-            const options = target.options
-            for (let opt of options) {
-                if (opt.selected) {
-                    resul.push(opt.value)
+    handleSubmit = (e) => {
+        const { t } = this.props;
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                let dataToSend = {
+                    username: values.username,
+                    password: values.password,
+                    name: values.name,
+                    surname: values.surname,
+                    email: values.email,
+                    country: values.country,
+                    city: values.city,
+                    birthdate: values['birthdate']._d,
+                    aboutMe: values.aboutMe,
+                    motherTongue: 'none',
+                    speakLanguages: values.speakLanguages,
+                    learnLanguages: values.learnLanguages
                 }
+                this.sendForm(dataToSend);
             }
-
-            value = resul
-        }
-
-        else {
-            value = target.value
-        }
-
-        this.setState({
-            [name]: value
         });
-
-
-        if (target.id === 'username') {
-            this.checkUsername(value);
-        }
     }
 
 
     render() {
+        const { getFieldDecorator, getFieldsError } = this.props.form;
         const { successfulLogin, validated, usernameInvalid } = this.state;
         const { t } = this.props;
-        let today = new Date()
-        let year = today.getFullYear() - 16
-        const maxDate = year + "-01-01"
+        const config = {
+          rules: [
+            {
+              type: 'object', required: true, message: t('form.validationErrors.required')
+            },{
+              validator: this.genericValidator
+            }
+          ],
+        };
+
         if (auth.isAuthenticated())
             return (<Redirect to={"/"} />)
-        /**
-         * NUEVO CÓDIGO QUE SEA NECESARIO UTILIZAR --->
-         * 
-         * 
-         * 
-         * 
-         * <---
-         */
 
         if (successfulLogin) {
             return (<Redirect to={"/"} />)
@@ -222,189 +260,271 @@ export class index extends Component {
 
         return (
             <div className="register">
-
-                <Row>
-                    <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
-                        <div className="register__title">{t('create-account')}</div>
-                        <Form
-                            noValidate
-                            validated={validated}
-                            usernameInvalid={usernameInvalid}
-                            onSubmit={e => this.handleSubmit(e)}>
-
-                            {
-                                /**
-                                 * ---->
-                                 * DATOS PARA EL TIPO USER
-                                 * username: string required
-                                 * password: string required
-                                 * <----
-                                 */
+              <Row>
+                  
+              <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
+                        <div className="register__title">{t('edit-account')}</div>
+                        <Form onSubmit={this.handleSubmit}>
+                        <Row>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                  <Form.Item label={t('form.username')}>
+                    {getFieldDecorator('username', {
+                      rules: [{
+                        required: true,
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
+                      <Input />
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                  <Form.Item label={t('form.password')}>
+                    {getFieldDecorator('password', {
+                      rules: [{
+                        required: true,
+                        message: t('form.validationErrors.required')
+                      }, {
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }],
+                    })(
+                      <Input type="password" />
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                  <Form.Item label={t('form.confirmPassword')}>
+                    {getFieldDecorator('confirm', {
+                      rules: [{
+                        required: true, message: t('form.validationErrors.required'),
+                      }, {
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator,
+                      }],
+                    })(
+                      <Input type="password" onBlur={this.handleConfirmBlur} />
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <hr></hr>
+                        <Row>
+                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Form.Item label={t('form.name')}>
+                            {getFieldDecorator('name', {
+                            rules: [{
+                                required: true,
+                                message: t('form.validationErrors.required'),
+                            },{
+                                max: 255, 
+                                message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                            },{
+                                validator: this.genericValidator
                             }
-                            <Form.Row>
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 5, offset: 1 }} controlId="username" >
-                                    <Form.Label>{t('form.username')}*</Form.Label>
-                                    <InputGroup>
-                                        <Form.Control validationstate={this.usernameValidity()} onChange={this.handleChange} required type="text" />
-                                        <Form.Control.Feedback type="invalid">
-                                            {!usernameInvalid && t('form.emptyUsername')}
-                                            {usernameInvalid && t('form.usernamealreadyexist')}
-                                        </Form.Control.Feedback>
-                                    </InputGroup>
-                                </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 5, offset: 1 }} controlId="password">
-                                    <Form.Label>{t('form.password')}*</Form.Label>
-                                    <Form.Control onChange={this.handleChange} required type="password" />
-                                    <Form.Control.Feedback type="invalid">
-                                        {t('form.emptyPassword')}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Form.Row>
-
-
-                            {/**
-                    *------>
-                    *DATOS PARA EL TIPO ACTOR
-                    *name: string required
-                    *surname: string required
-                    *country: string required
-                    *city: string required
-                    *email: string email 
-                    *<------
-                    */}
-                            <Form.Row>
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 5, offset: 1 }} controlId="name">
-                                    <Form.Label>{t('form.name')}*</Form.Label>
-                                    <Form.Control onChange={this.handleChange} type="text" required />
-                                    <Form.Control.Feedback type="invalid">
-                                        {t('form.emptyfield')}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 5, offset: 0 }} controlId="surname">
-                                    <Form.Label>{t('form.surname')}*</Form.Label>
-                                    <Form.Control onChange={this.handleChange} type="text" required />
-                                    <Form.Control.Feedback type="invalid">
-                                        {t('form.emptyfield')}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 5, offset: 1 }} controlId="email">
-                                    <Form.Label>{t('form.email')}*</Form.Label>
-                                    <Form.Control onChange={this.handleChange} required type="email" placeholder="name@example.com" />
-                                    <Form.Text className="text-muted">
-                                        {t('adviseemail')}
-                                    </Form.Text>
-                                    <Form.Control.Feedback type="invalid">
-                                        {t('form.validemail')}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Form.Row>
-
-                            <Form.Row>
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 5, offset: 1 }} controlId="country">
-                                    <Form.Label>{t('form.country')}*</Form.Label>
-                                    <Form.Control onChange={this.handleChange} required type="text" />
-                                    <Form.Control.Feedback type="invalid">
-                                        {t('form.emptyfield')}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 5, offset: 0 }} controlId="city">
-                                    <Form.Label>{t('form.city')}*</Form.Label>
-                                    <Form.Control onChange={this.handleChange} required type="text" />
-                                    <Form.Control.Feedback type="invalid">
-                                        {t('form.emptyfield')}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Form.Row>
-                            {/**
-                    *----->DATOS PARA USER
-                    *personalPick:File required (por hacer)
-                    *profileBackgroundPick: File required (por hacer)
-                    *aboutMe:string
-                    *birthDay:date required
-                    *moherTongue:string required
-                    *speakLangs:String required
-                    *LangsToLearn:String required
-                    *location: Sring (por hacer)
-                    *<-------
-                    */}
-
-                            <Form.Row>
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 5, offset: 1 }} controlId="aboutMe">
-                                    <Form.Label>{t('form.aboutme')}</Form.Label>
-                                    <Form.Control onChange={this.handleChange} as="textarea" rows="3" />
-                                </Form.Group>
-                            </Form.Row>
-
-                            <Form.Row>
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 5, offset: 1 }} controlId="birthday">
-                                    <Form.Label>{t('form.birthday')}*</Form.Label>
-                                    <Form.Control onChange={this.handleChange} required type="date" max={maxDate} />
-                                    <Form.Control.Feedback type="invalid">
-                                        {t('form.emptyDate')}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 5, offset: 1 }} controlId="motherTongue">
-                                    <Form.Label>{t('form.mothertongue')}*</Form.Label>
-                                    <Form.Control onChange={this.handleChange} as="select">
-                                        <option value="es">{t('spanish')}</option>
-                                        <option value="en">{t('english')}</option>
-                                        <option value="fr">{t('french')}</option>
-                                        <option value="de">{t('german')}</option>
-                                    </Form.Control>
-                                </Form.Group>
-                            </Form.Row>
-
-
-                            <Form.Row>
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 5, offset: 1 }} onChange={this.handleChange} controlId="speakLangs">
-                                    <Form.Label>{t('form.speakedlanguages')}*</Form.Label>
-                                    <Form.Control className="register__select" as="select" multiple required>
-                                        <option value="es">{t('spanish')}</option>
-                                        <option value="en">{t('english')}</option>
-                                        <option value="fr">{t('french')}</option>
-                                        <option value="de">{t('german')}</option>
-                                    </Form.Control>
-                                    <Form.Control.Feedback type="invalid">
-                                        {t('form.emptyfield')}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 5, offset: 0 }} controlId="langsToLearn">
-                                    <Form.Label>{t('form.languagesToLearn')}*</Form.Label>
-                                    <Form.Control className="register__select" onChange={this.handleChange} as="select" multiple required>
-                                        <option value="es">{t('spanish')}</option>
-                                        <option value="en">{t('english')}</option>
-                                        <option value="fr">{t('french')}</option>
-                                        <option value="de">{t('german')}</option>
-                                    </Form.Control>
-                                    <Form.Control.Feedback type="invalid">
-                                        {t('form.emptyfield')}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
-                                <Form.Group as={Col} sm={{ span: 10, offset: 1 }} lg={{ span: 11, offset: 1 }}>
-                                    <Form.Check
-                                        required
-                                        label={<div>
-                                            {
-                                                t('ihaveread')
-                                            }
-                                            <Button className="register__terms" onClick={this.showModal}>
-                                                {t('term&cond')}
-                                            </Button>
-                                        </div>} />
-                                </Form.Group>
-                            </Form.Row>
-                            <button className="register__button" as={Col} md={{ span: 2, offset: 4 }} type="submit">{t('register')}</button>
-                        </Form>
-                    </Col>
+                            ]})(
+                            <Input />
+                            )}
+                        </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Form.Item label={t('form.surname')}>
+                            {getFieldDecorator('surname', {
+                            rules: [{
+                                required: true,
+                                message: t('form.validationErrors.required')
+                            },{
+                                max: 255, 
+                                message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                            },{
+                                validator: this.genericValidator
+                            }
+                            ]})(
+                            <Input />
+                            )}
+                        </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Form.Item label={t('form.email')}>
+                            {getFieldDecorator('email', {
+                            rules: [{
+                                required: true,
+                                message: t('form.validationErrors.required')
+                            },{
+                                max: 255, 
+                                message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                            },{
+                                type: 'email', 
+                                message: t('form.validationErrors.emailFormat'),
+                            },{
+                                validator: this.genericValidator
+                            }
+                            ]})(
+                            <Input />
+                            )}
+                        </Form.Item>
+                        </Col>
+                    </Row> 
+                    <Row>
+                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Form.Item label={t('form.city')}>
+                            {getFieldDecorator('city', {
+                            rules: [{
+                                type: "string",
+                                required: true,
+                                whitespace: true,
+                                message: t('form.validationErrors.required')
+                            },{
+                                max: 255, 
+                                message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                            },{
+                                validator: this.genericValidator
+                            }
+                            ]})(
+                            <Input />
+                            )}
+                        </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Form.Item label={t('form.country')}>
+                            {getFieldDecorator('country', {
+                            rules: [{
+                                required: true,
+                                message: t('form.validationErrors.required')
+                            },{
+                                max: 255, 
+                                message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                            },{
+                                validator: this.genericValidator
+                            }
+                            ]})(
+                            <Input />
+                            )}
+                        </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Form.Item label={t('form.aboutme')}>
+                            {getFieldDecorator('aboutMe', {
+                            rules: [
+                                {
+                                    max: 255, 
+                                    message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                                }
+                            ]})(
+                            <Input.TextArea rows={3} />
+                            )}
+                        </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                        <Form.Item label={t('form.birthday')}>
+                            {getFieldDecorator('birthdate', config)(
+                            <DatePicker format="YYYY-MM-DD" disabledDate={this.checkBirthday}/>
+                            )}
+                        </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Form.Item
+                            label={t('form.speakedlanguages')}
+                        >
+                            {getFieldDecorator("speakLanguages", {
+                            rules: [
+                                {
+                                    required: true, 
+                                    message: t('form.validationErrors.required')
+                                },{
+                                validator: this.genericValidator
+                                }
+                            ]})(
+                            <Checkbox.Group style={{ width: "100%" }}>
+                                <Row> 
+                                    {languages.map((key, index) => (
+                                        <Col key={key} xs="6" sm="4" md="6"><Checkbox value={key}>{t('languages.' + key)}</Checkbox></Col>
+                                    ))}
+                                </Row>
+                            </Checkbox.Group>
+                            )}
+                        </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Form.Item
+                            label={t('form.languagesToLearn')}
+                        >
+                            {getFieldDecorator("learnLanguages", {
+                            rules: [
+                                {
+                                    required: true, 
+                                    message: t('form.validationErrors.required')
+                                },{
+                                    validator: this.genericValidator
+                                }
+                            ]})(
+                            <Checkbox.Group style={{ width: "100%" }}>
+                                <Row> 
+                                    {languages.map((key, index) => (
+                                        <Col key={key} xs="6" sm="4" md="6"><Checkbox value={key}>{t('languages.' + key)}</Checkbox></Col>
+                                    ))}
+                                </Row>
+                            </Checkbox.Group>
+                            )}
+                        </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                        <Form.Item>
+                            {getFieldDecorator('agreement',
+                            {
+                                rules: [{
+                                required: true,
+                                message: t('form.emptytem&cond')
+                            }],
+                            }, {
+                                valuePropName: 'checked',
+                            })(
+                                <Checkbox>
+                                {
+                                    t('ihaveread')
+                                }
+                                <Button className="register__terms" onClick={this.showModal}>
+                                    {t('term&cond')}
+                                </Button>
+                                </Checkbox>
+                            )}
+                        </Form.Item>
+                        </Col>
+                    </Row>
+                    <Form.Item>
+                        <button  className="register__button" type="submit">{t('register')}</button>
+                    </Form.Item>
+                    </Form>
+                </Col>  
                 </Row>
                 <Modal
                     title={t('term&cond')}
@@ -442,6 +562,8 @@ export class index extends Component {
         )
     }
 }
+
+index = Form.create({ name: 'registerUser' })(index);
 
 export default withNamespaces('translation')(index)
 
