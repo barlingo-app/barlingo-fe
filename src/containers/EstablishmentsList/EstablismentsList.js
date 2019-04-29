@@ -1,3 +1,4 @@
+import { Input } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
@@ -12,11 +13,29 @@ class EstablismentsList extends Component {
         super(props);
         this.state = {
             items: [],
+            itemsCopy: [],
             loaded: false,
             errorMessage: null
         }
     }
 
+    handleInput = (event) => {
+        const value = event.target.value;
+        let items = this.state.itemsCopy;
+        console.log(items)
+        const res = items.filter(x => {
+            //const titleMatch = x.title.toLowerCase().includes(value.toLowerCase());
+            //const descriptionMatch = x.description.toLowerCase().includes(value.toLowerCase());
+            //const descriptionEstablishmentMatch = x.description.toLowerCase().includes(value.toLowerCase());
+
+            const establishmentNameMatch = x.establishmentName ? x.establishmentName.toLowerCase().includes(value.toLowerCase()) : false;
+            const addressMatch = x.address ? x.address.toLowerCase().includes(value.toLowerCase()) : false;
+            return establishmentNameMatch || addressMatch;
+        });
+        this.setState({
+            items: res
+        })
+    }
     fetchData = () => {
         establishmentService.list()
             .then((response) => this.setData(response))
@@ -26,6 +45,7 @@ class EstablismentsList extends Component {
     setData = (response) => {
         this.setState({
             items: response.data,
+            itemsCopy: response.data,
             loaded: true
         })
     };
@@ -59,10 +79,11 @@ class EstablismentsList extends Component {
         return (
             <Page layout="public">
                 <Section slot="content">
+                    <Input placeholder={t("establishment.search")} onChange={this.handleInput} className={"customInput"} />
                     <Row>
                         {items.map((i, index) => (
                             <Col xs="12" md="6" xl="4" key={i.id}>
-                                <CustomCardEstablishment establishment={i} showButton={true}/>
+                                <CustomCardEstablishment establishment={i} showButton={true} />
                             </Col>
                         ))}
                     </Row>
