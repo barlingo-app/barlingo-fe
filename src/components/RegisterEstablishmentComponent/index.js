@@ -95,7 +95,7 @@ class index extends Component {
               this.errors[rule.field] = message2;
           }
           break;
-        case 'close':
+        case 'close-disabledValidation':
           let message3 = this.checkCloseTime(value);
           if (message3) {
               this.errors[rule.field] = message3;

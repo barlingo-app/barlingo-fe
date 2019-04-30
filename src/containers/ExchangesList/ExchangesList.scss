@@ -1,1 +1,14 @@
 @import "../../styles/defaultStyles";
+
+
+
+.selectContainer {
+    text-align: center;
+    padding: 10px 20px;
+
+    .container {
+        padding: 5px 10px;
+        color: $mainColor;
+        font-weight: bold;
+    }
+}

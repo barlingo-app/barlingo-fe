@@ -40,7 +40,9 @@
     "register": {
       "asUser": "Registrarse como usuario",
       "asEstablishment": "Registrarse como establecimiento"
-    }
+    },
+    "showAll": "Todos",
+    "showActive": "Solo activos"
   },
   "languages": {
     "es": "Español",
