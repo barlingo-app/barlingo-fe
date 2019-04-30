@@ -92,15 +92,32 @@ class CreateExchangeForm extends Component {
         let openingDays = [];
 
         this.props.establishment.workingHours.split(',')[0].trim().split(' ').forEach(function(value, index, array) {
-            openingDays.push(value.trim());
+            openingDays.push(value.trim().toLowerCase());
         });
 
-        if (openingDays.indexOf(dayArrays[date.isoWeekday() - 1]) >= 0) {
-            let startTime = moment(this.props.establishment.workingHours.split(',')[1].trim().split('-')[0].trim() + ':00', 'HH:mm:ss');
-            let endTime = moment(this.props.establishment.workingHours.split(',')[1].trim().split('-')[1].trim() + ':00', 'HH:mm:ss');
-            let selectedTime = moment(date.format('HH:mm:ss'), 'HH:mm:ss');
+        let basicOpeningTime = moment(this.props.establishment.workingHours.split(',')[1].trim().split('-')[0].trim() + ':00', 'HH:mm:ss');
+        let basicClosingTime = moment(this.props.establishment.workingHours.split(',')[1].trim().split('-')[1].trim() + ':00', 'HH:mm:ss');
+        let selectedTime = moment(date.format('YYYY-MM-DD HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
 
-            if (startTime.isBefore(selectedTime) && endTime.isAfter(selectedTime)) {
+        if (basicClosingTime.isBefore(basicOpeningTime)) {
+            let openingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicOpeningTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
+            let closingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicClosingTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
+            closingTime.add(1, 'days');
+            if ((openingTime.isBefore(selectedTime) && closingTime.isAfter(selectedTime)) && (openingDays.indexOf(dayArrays[openingTime.isoWeekday() - 1]) >= 0)) {
+                return false;
+            } else {
+                let openingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicOpeningTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
+                let closingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicClosingTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
+                openingTime.subtract(1, 'days');
+                if ((openingTime.isBefore(selectedTime) && closingTime.isAfter(selectedTime)) && (openingDays.indexOf(dayArrays[openingTime.isoWeekday() - 1]) >= 0)) {
+                    return false;
+                }
+            }
+        } else {
+            //(openingDays.indexOf(dayArrays[date.isoWeekday() - 1]) >= 0
+            let openingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicOpeningTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
+            let closingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicClosingTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
+            if ((openingTime.isBefore(selectedTime) && closingTime.isAfter(selectedTime)) && (openingDays.indexOf(dayArrays[openingTime.isoWeekday() - 1]) >= 0)) {
                 return false;
             }
         }

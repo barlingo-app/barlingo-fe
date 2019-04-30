@@ -39,7 +39,9 @@
     "register": {
       "asUser": "Sign in as user",
       "asEstablishment": "Sign in as establishment"
-    }
+    },
+    "showAll": "All",
+    "showActive": "Only active"
   },
   "languages": {
     "es": "Spanish",

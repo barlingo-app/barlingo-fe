@@ -1,4 +1,4 @@
-import { notification } from 'antd';
+import { notification, Switch } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
@@ -8,6 +8,8 @@ import CustomCardExchange from '../../../components/CustomCard/CustomCardExchang
 import Loading from "../../../components/Loading/Loading";
 import defaultImage from '../../../media/default-exchange-logo.png';
 import { exchangesService } from '../../../services/exchangesService';
+import '../ExchangesList.scss';
+import moment from 'moment';
 
 
 class MyExchangesList extends Component {
@@ -17,7 +19,8 @@ class MyExchangesList extends Component {
         this.state = {
             items: [],
             loaded: false,
-            errorMessage: null
+            errorMessage: null,
+            all: false
         };
     }
 
@@ -39,7 +42,7 @@ class MyExchangesList extends Component {
     };
 
     componentDidMount() {
-        document.title = "Barlingo - Exchanges";
+        document.title = "Barlingo - My exchanges";
         this.fetchData();
     }
     leaveProcessResponse = (response) => {
@@ -158,8 +161,32 @@ class MyExchangesList extends Component {
         }
     }
 
+    changeFilter = (checked) => {
+        this.setState({all: checked});
+    }
+
+    getItems = () => {
+        let activeItems = [];
+        if (this.state.all) {
+            return this.state.items;
+        }
+
+        let current = moment();
+        this.state.items.forEach(function (value, key, array) {
+            let exchangeMoment = moment(value.moment + 'Z');
+            exchangeMoment.add(48, 'hours');
+            if (exchangeMoment.isAfter(current)) {
+                console.log('wtf')
+                activeItems.push(value);
+            }
+        });
+
+        return activeItems;
+    }
+
     render() {
         const { errorMessage, loaded, items } = this.state;
+        const { t } = this.props;
         let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
 
         if (!loaded) {
@@ -175,8 +202,13 @@ class MyExchangesList extends Component {
         return (
             <Page layout="public">
                 <Section slot="content">
+                    <div className="selectContainer">
+                        <span className="container">{t('action.showActive')}</span> 
+                        <span className="container"><Switch onChange={this.changeFilter}/></span> 
+                        <span className="container">{t('action.showAll')}</span>
+                    </div>
                     <Row>
-                        {items.map((i, index) => (
+                        {this.getItems().map((i, index) => (
 
                             <Col xs="12" md="6" xl="4" key={i.id}>
                                 <CustomCardExchange exchange = {i} />
