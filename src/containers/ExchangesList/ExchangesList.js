@@ -31,10 +31,8 @@ class ExchangesList extends Component {
     }
 
     fetchData = () => {
-        exchangesService.findByUser()
+        exchangesService.list()
             .then((response) => this.setData(response)).catch((error) => this.setError(error));
-        /*exchangesService.list()
-            .then((response) => this.setData(response)).catch((error) => this.setError(error));*/
     };
 
     setData = (response) => {
@@ -211,13 +209,13 @@ class ExchangesList extends Component {
                         </Col>
                     </Row>
 
-                <Row>
-                    {items.map((i, index) => (
-                        <Col xs="12" md="6" xl="4" key={i.id}>
-                            <CustomCardExchange fetchData={this.fetchData} exchange={i} />
-                        </Col>
-                    ))}
-                </Row>
+                    <Row>
+                        {items.map((i, index) => (
+                            <Col xs="12" md="6" xl="4" key={i.id}>
+                                <CustomCardExchange fetchData={this.fetchData} exchange={i} />
+                            </Col>
+                        ))}
+                    </Row>
                 </Section>
             </Page >
         );
