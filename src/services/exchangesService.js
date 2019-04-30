@@ -13,8 +13,8 @@ export const exchangesService = {
                 })
             .catch((error) => { return error; });
     },
-    async findByUser() {
-        return axios.get(process.env.REACT_APP_BE_URL + '/exchanges?userId=' + auth.getUserData().id)
+    findByUser() {
+        return axios.get(process.env.REACT_APP_BE_URL + '/exchanges?userId=' + auth.getUserData().id + '&date=false')
             .then(
                 (response) => {
                     return response.data;

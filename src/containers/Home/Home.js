@@ -7,21 +7,31 @@ import { notification } from 'antd';
 import { NavLink } from "react-router-dom";
 
 class Home extends Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentWrongAccessToken: null,
+            currentAlreadyAuthenticatedToken: null
+        }
+    }
 
     componentDidMount() {
 
         document.title = "Barlingo - Home";
-        if (this.props.location.state)
-            if (this.props.location.state.wrongAccess) {
+        if (this.props.location.state) {
+            console.log(this.props.location.state);
+            if (this.props.location.state.wrongAccess)  {
                 const { t } = this.props;
                 notification.error({
-                    placement: 'bottomRight',
-                    bottom: 50,
-                    duration: 10,
                     message: t('access.error.title'),
                     description: t("access.error.message"),
                 })
+                this.setState({currentWrongAccessToken: this.props.location.state.wrongAccess});
+            } else if (this.props.location.state.alreadyAuthenticated) {
+
             }
+        }
     }
 
     render() {

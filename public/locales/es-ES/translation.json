@@ -34,6 +34,30 @@
       "seeEstablishments": "Ver establecimientos"
     }
   },
+  "select-register": "Elija un tipo de registro",
+  "action": {
+    "back": "Volver",
+    "register": {
+      "asUser": "Registrarse como usuario",
+      "asEstablishment": "Registrarse como establecimiento"
+    }
+  },
+  "languages": {
+    "es": "Español",
+    "en": "Inglés",
+    "fr": "Francés",
+    "de": "Alemán",
+    "ja": "Japonés"
+  },
+  "days": { 
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miércoles",
+    "thursday": "Jueves",
+    "friday": "Viernes",
+    "saturday": "Sábado",
+    "sunday": "Domingo"
+  },
   "details": " Detalles",
   "term&cond": "Términos y Condiciones",
   "terms-intro": "En el presente documento se detallan los términos y condiciones de www.barlingo.es.",
@@ -56,17 +80,6 @@
   "ihaveread": "He leído y acepto los ",
   "userword": "Usuario",
   "establishmentword": "Establecimiento",
-  "monday": "Lunes",
-  "thuesday": "Martes",
-  "wednesday": "Miércoles",
-  "thursday": "Jueves",
-  "friday": "Viernes",
-  "saturday": "Sábado",
-  "sunday": "Domingo",
-  "spanish": "Español",
-  "english": "Inglés",
-  "french": "Francés",
-  "german": "Alemán",
   "submit": "Enviar",
   "register": "Registrarse",
   "create-account": "Crea tu cuenta",
@@ -136,6 +149,17 @@
     }
   },
   "form": {
+    "validationErrors": {
+      "usernameExists": "El nombre de usuario ya existe.",
+      "dateOutOfWorkingHours": "No puede seleccionar un momento fuera del horario del establecimiento.",
+      "required": "Este campo es obligatorio.",
+      "emailFormat": "El correo no tiene el formato correcto.",
+      "inconsistPassword": "Las contraseñas no coinciden.",
+      "closeAfterOpen": "La hora de cierre debe ser posterior a la hora de apertura.",
+      "languagesRepeated": "No puede repetir los mismos idiomas que en los idiomas que habla.",
+      "exchangeLanguagesRepeated": "No puede repetir los idiomas.",
+      "safeHtml": "No puede insertar etiquetas de script"
+    },
     "emptyUsername": "Por favor, introduzca su nombre de usuario.",
     "emptyPassword": "Por favor, introduzca su contraseña.",
     "validemail": "Por favor, introduzca un email válido",
@@ -171,8 +195,8 @@
     "address": "Dirección",
     "weekscheadule": "Horario semanal",
     "workingHours": "Horario de apertura",
-    "open": "Abierto",
-    "closed": "Cierre",
+    "open": "Hora de apertura",
+    "closed": "Hora de cierre",
     "offer": "Oferta",
     "aboutme": "Algo sobre tí",
     "birthday": "Fecha de nacimiento",
@@ -320,6 +344,14 @@
     "error": {
       "title": "Ha ocurrido un error",
       "message": "El establecimiento no existe o no podemos encontrarlo."
+    }
+  },
+  "errors": {
+    "titles": {
+
+    },
+    "messages": {
+
     }
   }
 }

@@ -12,13 +12,13 @@ const CREDENTIALS_KEY = "credentials";
 const ROLE_KEY = "role";
 
 const USER_ROLE = "ROLE_USER";
-const ESTABLISMENT_ROLE = "ROLE_ESTABLISHMENT";
+const ESTABLISHMENT_ROLE = "ROLE_ESTABLISHMENT";
 const ADMIN_ROLE = "ROLE_ADMIN";
 
 export const auth = {
 
   _USER_ROLE: USER_ROLE,
-  _ESTABLISMENT_ROLE: ESTABLISMENT_ROLE,
+  _ESTABLISHMENT_ROLE: ESTABLISHMENT_ROLE,
   _ADMIN_ROLE: ADMIN_ROLE,
 
   async login(username, password) {
@@ -48,7 +48,7 @@ export const auth = {
   },
 
   isEstablishment() {
-    return this.getRole() === ESTABLISMENT_ROLE;
+    return this.getRole() === ESTABLISHMENT_ROLE;
   },
 
   isAdmin() {

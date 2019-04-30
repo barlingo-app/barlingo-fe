@@ -44,12 +44,20 @@ class ProfileView extends Component {
     }
 
     setData = (user, loggedUser) => {
+        console.log(user);
         this.setState({
             user: user,
             loaded: true,
             isLoggedUser: loggedUser
         })
     };
+
+    setError = (error) => {
+        this.setState({
+            errorMessage: "loadErrorMessage"
+        })
+    };
+
     consultarUsuario() {
         const userId = this.props.match.params.userId
         if (userId === undefined || userId === null) {
@@ -61,6 +69,19 @@ class ProfileView extends Component {
                 .catch((error) => this.setError(error));
 
         }
+    }
+
+    getFormattedWorkingHours = (workingHours) => {
+        const { t } = this.props;
+
+        let formattedWorkingHours = '';
+        let days = workingHours.split(',')[0].trim();
+
+        days.split(' ').forEach(function(value, index,  array) {
+            formattedWorkingHours += t('days.' + value.trim().toLowerCase()) + ' ';
+        });
+
+        return formattedWorkingHours.trim() + ' , ' + workingHours.split(',')[1].trim();
     }
 
     renderDescription() {
@@ -81,10 +102,9 @@ class ProfileView extends Component {
                     <img className="exchange__icon" src={locationIcon} alt="Location" />
                     {address1}
                 </div>
-                <div>
-                    {workingHours}
-                </div>
-
+                {auth.isEstablishment() && <div>
+                    {this.getFormattedWorkingHours(workingHours)}
+                </div>}
                 <div>
                     {description}
                 </div>
@@ -254,11 +274,12 @@ class ProfileView extends Component {
                         <Col col-sm="12" offset-md="4" col-md="4">
                             <Card
                                 cover={
-                                    <FileUploadComponent allowUpload={auth.isUser()} imageType={"profileBackPic"} full={true} width={"auto"} height={300} endpoint={"/users/" + auth.getUserData().id + "/upload?imageType=backPic"} imageUrl={auth.isUser() ? user.profileBackPic : user.images[0]} defaultImage={defaultImage} />
-                                }>
+                                    <FileUploadComponent allowUpload={auth.isUser()} imageType={"profileBackPic"} full={true} width={"auto"} height={300} endpoint={"/users/" + auth.getUserData().id + "/upload?imageType=backPic"} imageUrl = { auth.isUser() ? user.profileBackPic: (auth.isAdmin() ? user.profileBackPic : user.images[0]) } defaultImage={defaultImage} />
+                                    }>
                                 <Meta
                                     avatar={
-                                        <FileUploadComponent allowUpload={auth.isUser()} imageType={"personalPic"} width={40} height={"auto"} endpoint={"/users/" + auth.getUserData().id + "/upload?imageType=personal"} imageUrl={auth.isUser() ? user.personalPic : user.imageProfile} defaultImage={defaultImage} />
+                                        <FileUploadComponent allowUpload={auth.isUser()} imageType={"personalPic"} width={40} height={"auto"} endpoint={"/users/" + auth.getUserData().id + "/upload?imageType=personal"} imageUrl = { auth.isUser() ? user.personalPic: (auth.isAdmin() ? user.personalPic : user.imageProfile)} defaultImage={defaultImage} />
+
 
                                     }
                                     title={auth.isUser() ? user.name : user.establishmentName}

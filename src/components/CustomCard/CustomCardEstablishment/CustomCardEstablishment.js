@@ -26,6 +26,23 @@ class CustomCardEstablishment extends Component {
         /*let route = "createExchange";
         this.props.history.push(`/${route}/${id}`);*/
     }
+    
+    getFormattedWorkingHours = (workingHours) => {
+        const { t } = this.props;
+
+        let formattedWorkingHours = '';
+        let days = workingHours.split(',')[0].trim();
+
+        days.split(' ').forEach(function(value, index,  array) {
+            formattedWorkingHours += t('days.' + value.trim().toLowerCase()) + ' ';
+        });
+
+        return formattedWorkingHours.trim() + ' , ' + workingHours.split(',')[1].trim();
+    }
+
+    getImage = (image) => {
+        return (image) ? image : defaultImage;
+    }
 
     render() {
         const { t, establishment, showButton } = this.props;
@@ -46,7 +63,7 @@ class CustomCardEstablishment extends Component {
         return (
             <div style={{ "height": "100%", "padding": "15px 0" }}>
                 <div className="custom-card-establishment">
-                    <img className="custom-card-establishment__image" src={imageProfile} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
+                    <img className="custom-card-establishment__image" src={this.getImage(imageProfile)} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
                     <p className="custom-card-establishment__title">
                         <NavLink className="custom-card-establishment__link" exact={true} activeClassName={"active"} to={`/${route}/${id}`}>{establishmentName}</NavLink>
                     </p>
@@ -56,7 +73,7 @@ class CustomCardEstablishment extends Component {
                     </div>
                     <div className="custom-card-establishment__time-wrapper">
                         <img className="custom-card-establishment__time-icon" src={timeIcon} alt="Date and time" />
-                        <p className="custom-card-establishment__text">{workingHours}</p>
+                        <p className="custom-card-establishment__text">{this.getFormattedWorkingHours(workingHours)}</p>
                     </div>
                     {showButton && <div className="custom-card-establishment__button-wrapper">
                         <button className="custom-card-establishment__button" onClick={() => this.handleOnClick()}>{buttonMessage}</button>

@@ -79,9 +79,6 @@ class ExchangeDetails extends Component {
                 .catch(() => this.readCodeFail());
         } else {
             notification.error({
-                placement: 'bottomRight',
-                bottom: 50,
-                duration: 10,
                 message: t('warning'),
                 description: t('code.outDate'),
             });

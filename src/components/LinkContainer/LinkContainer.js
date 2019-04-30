@@ -22,7 +22,7 @@ class LinkContainer extends Component {
                     {!auth.isAuthenticated() && <NavLink activeClassName={"active"} exact={true} to={"/exchanges"}><li>{t('links.exchanges')}</li></NavLink>}
                     {auth.isAuthenticated() && auth.isUser() && <NavLink activeClassName={"active"} exact={true} to={"/exchanges"}><li>{t('links.exchanges')}</li></NavLink>}
                     {!auth.isAuthenticated() && <NavLink activeClassName={"active"} exact={true} to={"/establishments"}><li>{t('links.establishments')}</li></NavLink>}
-                    {auth.isAuthenticated() && auth.isUser() && <NavLink activeClassName={"active"} exact={true} to={"/establishments"}><li>{t('links.establishments')}</li></NavLink>}
+                    {auth.isAuthenticated() && (auth.isUser() || auth.isEstablishment()) && <NavLink activeClassName={"active"} exact={true} to={"/establishments"}><li>{t('links.establishments')}</li></NavLink>}
                     {auth.isAuthenticated() && auth.isAdmin() && <NavLink activeClassName={"active"} exact={true} to={"/users"}><li>{t('user.list')}</li></NavLink>}
                     {auth.isAuthenticated() && auth.isAdmin() && <NavLink activeClassName={"active"} exact={true} to={"/createNotification"}><li>{t('links.notification')}</li></NavLink>}
                     {auth.isAuthenticated() && auth.isEstablishment() && <NavLink activeClassName={"active"} exact={true} to={"/validateCode"}><li>{t('links.validateCode')}</li></NavLink>}
