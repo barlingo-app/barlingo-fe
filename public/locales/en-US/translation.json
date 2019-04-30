@@ -48,7 +48,7 @@
     "de": "German",
     "ja": "Japanese"
   },
-  "days": { 
+  "days": {
     "monday": "Monday",
     "tuesday": "Tuesday",
     "wednesday": "Wednesday",
@@ -206,7 +206,15 @@
     }
   },
   "exchange": {
-    "search": "Search exchange",
+    "search": {
+      "textarea": "Search exchange",
+      "date":"Date",
+      "startTime": "Start time",
+      "endTime": "End time",
+      "motherTongue":"Mother tongue",
+      "targetTongue":"Target tongue",
+      "language":"Select the languages that interest you"
+    },
     "error": {
       "title": "Failed creation",
       "message": "There was an error creating a new exchange, try later."
