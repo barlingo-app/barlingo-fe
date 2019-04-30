@@ -1,14 +1,14 @@
 {
-  "notification":{
-    "priority":"Prioridad",
-    "emptyPriority":"Por favor, indique una prioridad",
-    "success":{
-      "title":"Notificación enviada",
-      "message":"La notificación se ha enviado a todos los usuarios"
+  "notification": {
+    "priority": "Prioridad",
+    "emptyPriority": "Por favor, indique una prioridad",
+    "success": {
+      "title": "Notificación enviada",
+      "message": "La notificación se ha enviado a todos los usuarios"
     },
-    "error":{
-      "title":"Error",
-      "message":"La notificación no se ha podido enviar, inténtelo más tarde"
+    "error": {
+      "title": "Error",
+      "message": "La notificación no se ha podido enviar, inténtelo más tarde"
     }
   },
   "markAsRead": "Marcar como leído",
@@ -49,7 +49,7 @@
     "de": "Alemán",
     "ja": "Japonés"
   },
-  "days": { 
+  "days": {
     "monday": "Lunes",
     "tuesday": "Martes",
     "wednesday": "Miércoles",
@@ -101,7 +101,7 @@
     "logout": "Cerrar sesión"
   },
   "links": {
-    "notification":"Enviar notificación",
+    "notification": "Enviar notificación",
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",
     "validateCode": "Validar código",
@@ -206,6 +206,15 @@
     "submit": "Enviar"
   },
   "exchange": {
+    "search": {
+      "textarea": "Buscar intercambio",
+      "date":"Fecha",
+      "startTime": "Hora inicio",
+      "endTime": "Hora fin",
+      "motherTongue":"Lengua materna",
+      "targetTongue":"Lengua objetivo",
+      "language":"Selecciona los idiomas que te interesen"
+    },
     "error": {
       "title": "Creación fallida",
       "message": "Se ha producido un error al crear un nuevo intercambio, inténtelo más tarde."
@@ -339,17 +348,14 @@
     }
   },
   "establishment": {
+    "search": "Buscar establecimiento",
     "error": {
       "title": "Ha ocurrido un error",
       "message": "El establecimiento no existe o no podemos encontrarlo."
     }
   },
   "errors": {
-    "titles": {
-
-    },
-    "messages": {
-
-    }
+    "titles": {},
+    "messages": {}
   }
 }
