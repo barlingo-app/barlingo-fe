@@ -3,11 +3,15 @@
 .footer {
     background: $mainColor;
     position: fixed;
+<<<<<<< HEAD
     height: $footerHeight;
+=======
+    height: 30px;
+>>>>>>> DE7
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 10px;
+    padding-left: 10px;
     z-index: 10000;
 
     &__terms {
@@ -16,6 +20,7 @@
         border:none!important; 
         padding:0!important;
         font: inherit;
+        font-size: 12px;
         /*border is optional*/
         border-bottom:1px solid #444; 
         cursor: pointer;
@@ -25,6 +30,7 @@
             border:none!important; 
             padding:0!important;
             font: inherit;
+            font-size: 12px;
             /*border is optional*/
             border-bottom:1px solid #444; 
             cursor: pointer;
