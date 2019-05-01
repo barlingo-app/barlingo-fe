@@ -1,14 +1,14 @@
 {
   "notification": {
     "priority": "Priority",
-    "emptyPriority":"Please, mark a priority",
-    "success":{
-      "title":"Notify sent",
-      "message":"The notification has been sent to all the users"
+    "emptyPriority": "Please, mark a priority",
+    "success": {
+      "title": "Notify sent",
+      "message": "The notification has been sent to all the users"
     },
-    "error":{
-      "title":"Error",
-      "message":"The notification could'nt be sent, try it later"
+    "error": {
+      "title": "Error",
+      "message": "The notification could'nt be sent, try it later"
     }
   },
   "markAsRead": "Mark as read",
@@ -33,6 +33,32 @@
       "seeEstablishments": "See establishments"
     }
   },
+  "select-register": "Choose a type of registration",
+  "action": {
+    "back": "Back",
+    "register": {
+      "asUser": "Sign in as user",
+      "asEstablishment": "Sign in as establishment"
+    },
+    "showAll": "All",
+    "showActive": "Only active"
+  },
+  "languages": {
+    "es": "Spanish",
+    "en": "English",
+    "fr": "French",
+    "de": "German",
+    "ja": "Japanese"
+  },
+  "days": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
   "details": " Details",
   "ihaveread": "I have read and I accept the ",
   "term&cond": "Terms and conditions",
@@ -55,17 +81,6 @@
   "terms-modifications-text": "Barlingo reserves the right to modify at any time the terms and conditions of use of the portal.",
   "userword": "User",
   "establishmentword": "Establishment",
-  "monday": "Monday",
-  "thuesday": "Thuesday",
-  "wednesday": "Wednesday",
-  "thursday": "Thursday",
-  "friday": "Friday",
-  "saturday": "Saturday",
-  "sunday": "Sunday",
-  "spanish": "Spanish",
-  "english": "English",
-  "french": "French",
-  "german": "German",
   "submit": "Send",
   "register": "Register",
   "create-account": "Create your account",
@@ -99,6 +114,18 @@
     "joined": "Joined"
   },
   "form": {
+    "validationErrors": {
+      "usernameExists": "The username already exists.",
+      "dateOutOfWorkingHours": "You can not select a time outside of the working hours.",
+      "required": "This field is required.",
+      "email": "the mail does not have the correct format.",
+      "inconsistPassword": "Passwords do not match.",
+      "closeAfterOpen": "The closing time must be after the opening time.",
+      "languagesRepeated": "You can not repeat the same languages ​​as in the languages ​​you speak.",
+      "exchangeLanguagesRepeated": "You can not repeat the languages.",
+      "safeHtml": "You can not insert script tags",
+      "maxLength": "The maximum length of the field is NUMBER_OF_CHARACTERS characters."
+    },
     "emptyUsername": "Please input your username!",
     "validemail": "Please, provide a valid email",
     "emptyPassword": "Please input your Password!",
@@ -134,8 +161,8 @@
     "address": "Address",
     "weekscheadule": "Week scheadule",
     "workingHours": "Opening hours",
-    "open": "Open",
-    "closed": "Closed",
+    "open": "Opening time",
+    "closed": "Closing time",
     "offer": "Offer",
     "aboutme": "Something about you",
     "birthday": "Birthday",
@@ -181,6 +208,15 @@
     }
   },
   "exchange": {
+    "search": {
+      "textarea": "Search exchange",
+      "date":"Date",
+      "startTime": "Start time",
+      "endTime": "End time",
+      "motherTongue":"Mother tongue",
+      "targetTongue":"Target tongue",
+      "language":"Select the languages that interest you"
+    },
     "error": {
       "title": "Failed creation",
       "message": "There was an error creating a new exchange, try later."
@@ -314,6 +350,7 @@
     }
   },
   "establishment": {
+    "search": "Search establishment",
     "error": {
       "title": "An error has ocurred",
       "message": "The establishment doesnt exist or cant be founded"

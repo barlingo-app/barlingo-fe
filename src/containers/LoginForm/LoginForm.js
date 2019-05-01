@@ -24,9 +24,7 @@ class LoginForm extends Component {
     }
 
     loginSuccessful = () => {
-
-        this.setState({ redirectToReferrer: true });
-        this.setState({ loginFailed: false });
+        this.setState({ redirectToReferrer: true, loginFailed: false });
     };
     markAsRead = (key) => {
         //alert('marcado como leído')
@@ -76,35 +74,35 @@ class LoginForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
 
-            auth.login(values.userName, values.password).then((loginResult) => {
-                if (loginResult.result) {
-                    auth.authenticate(values.userName, values.password, loginResult.data, values.remember).then(
-                        () => {
-                            auth.loadUserData().then((result) => {
-                                if (result) {
-                                    if (!auth.getUserData().userAccount.active) {
-                                        auth.logout();
-                                        this.banned();
-                                    } else
-                                        this.loginSuccessful();
-                                } else {
-                                    this.loginFailed();
-                                }
-                            })
-                        }
-                    );
-                } else {
-                    this.loginFailed();
-                }
-            });
+            if (!err) {
+                auth.login(values.userName, values.password).then((loginResult) => {
+                    if (loginResult.result) {
+                        auth.authenticate(values.userName, values.password, loginResult.data, values.remember).then(
+                            () => {
+                                auth.loadUserData().then((result) => {
+                                    if (result) {
+                                        if (!auth.getUserData().userAccount.active) {
+                                            auth.logout();
+                                            this.banned();
+                                        } else {
+                                            this.loginSuccessful();
+                                        }
+                                    } else {
+                                        this.loginFailed();
+                                    }
+                                })
+                            }
+                        );
+                    } else {
+                        this.loginFailed();
+                    }
+                });
+            }
         });
     };
     showBanMessage = () => {
         const { t } = this.props;
         notification.error({
-            placement: 'bottomRight',
-            bottom: 50,
-            duration: 10,
             message: t('login.ban.title'),
             description: t('login.ban.message'),
         });
@@ -114,9 +112,6 @@ class LoginForm extends Component {
     showErrorMessage = () => {
         const { t } = this.props;
         notification.error({
-            placement: 'bottomRight',
-            bottom: 50,
-            duration: 10,
             message: t('login.failed.title'),
             description: t('login.failed.message'),
         });
@@ -133,6 +128,13 @@ class LoginForm extends Component {
             this.notify();
             return <Redirect to={from} />;
         }
+
+        if (auth.isAuthenticated()) return <Redirect
+        to={{
+            pathname: "/",
+            state: { wrongAccess: true }
+        }}
+        />;
 
         return (
 

@@ -7,6 +7,7 @@ import { auth } from "../../auth";
 import PaySubscriptionContainer from '../../containers/PaySubscriptionContainer/PaySubscriptionContainer';
 import { establishmentService } from '../../services/establishmentService';
 import { userService } from '../../services/userService';
+import moment from 'moment';
 import './index.scss';
 
 
@@ -35,13 +36,78 @@ class index extends Component {
       successfulLogin: false,
       validated: false,
       usernameInvalid: false,
-      confirmDirty: false,
+      confirmDirty: true,
       visible: false
     }
+
+    this.errors = {
+
+    }
+
+    this.externalErrors = {
+
+    }
+
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.compareToFirstPassword = this.compareToFirstPassword.bind(this)
-    this.validateToNextPassword = this.validateToNextPassword.bind(this)
     this.handleConfirmBlur = this.handleConfirmBlur.bind(this)
+  }
+
+  getValidationMessage = (fieldName) => {
+    if (this.errors.hasOwnProperty(fieldName)) {
+        return this.errors[fieldName];
+    } else {
+        return false;
+    }
+
+  }
+
+
+  genericValidator = async (rule, value, callback) => {
+    const { t } = this.props;
+
+    if (this.errors.hasOwnProperty(rule.field)) {
+        delete this.errors[rule.field];
+    }
+
+    this.errors = Object.assign({}, this.externalErrors);
+    
+    if (this.externalErrors.hasOwnProperty(rule.field)) {
+      delete this.externalErrors[rule.field];
+    }
+
+    switch(rule.field) {
+        case 'username':
+          let message0 = await this.checkUsername(value);
+          console.log(message0);
+          if (message0) {
+            this.errors[rule.field] = message0;
+          }
+          break;
+        case 'confirm':
+          let message1 = this.comparePasswords();
+          if (message1) {
+              this.errors[rule.field] = message1;
+          }
+          break;
+        case 'password':
+          let message2 = this.comparePasswords();
+          if (message2) {
+              this.errors[rule.field] = message2;
+          }
+          break;
+        case 'close-disabledValidation':
+          let message3 = this.checkCloseTime(value);
+          if (message3) {
+              this.errors[rule.field] = message3;
+          }
+          break;
+    }
+
+    if (this.getValidationMessage(rule.field)) {
+        callback(t('form.validationErrors.' + this.getValidationMessage(rule.field)));
+    } else {
+        callback();
+    }
   }
 
   showModal = () => {
@@ -63,22 +129,40 @@ class index extends Component {
     });
   }
 
-  compareToFirstPassword(rule, value, callback) {
+  comparePasswords() {
     const form = this.props.form;
-    const { t } = this.props
-    if (value && value !== form.getFieldValue('password')) {
-      callback(t('form.inconsistpassword'));
+    if (form.getFieldValue('password') && form.getFieldValue('confirm') && form.getFieldValue('password') !== form.getFieldValue('confirm')) {
+      return 'inconsistPassword';
+    }
+
+    return false;
+  }
+
+  checkCloseTime(value) {
+    if (value && value.isBefore(moment(this.props.form.getFieldValue('open')).add(1, 'minutes'))) {
+      return 'closeAfterOpen';
+    }
+
+    return false;
+  }
+
+  checkUsername = async (value) => {
+    if (value) {
+      let result = await this.usernameExists(value).then((result) => {return result});
+      return (result) ? 'usernameExists' : false;
     } else {
-      callback();
+      return false;
     }
   }
 
-  validateToNextPassword(rule, value, callback) {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-    }
-    callback();
+
+  checkBirthday = (date) => {
+    console.log(date);
+    let maximumDate = moment().subtract(18, 'years');
+
+    console.log(maximumDate);
+
+    return date >= maximumDate;
   }
 
   handleConfirmBlur(e) {
@@ -86,12 +170,11 @@ class index extends Component {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   }
 
-  usernameExists = async (username) => {
+  usernameExists = (username) => {
     if (username !== '' && username !== null && username != undefined) {
       return userService.checkUsername(username)
         .then((response) => {
           if (response.data.success === false) {
-            console.log(true);
             return true;
           } else {
             return false;
@@ -109,16 +192,7 @@ class index extends Component {
     const { t } = this.props
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      this.usernameExists(values.username).then((result) => {
-        if (result) {
-          notification.error({
-            placement: 'bottomRight',
-            bottom: 50,
-            duration: 10,
-            message: "Username error",
-            description: "The username already exists",
-          });
-        } else if (!err) {
+        if (!err) {
 
           const { address, city, country,
             description = '', email,
@@ -145,7 +219,7 @@ class index extends Component {
             birthdate: values['date-picker']._d,
             country: values.country,
             city: values.city,
-            establishmentName: values.establishmentname,
+            establishmentName: values.establishmentName,
             description: values.description,
             address: values.address,
             workingHours: workinghours,
@@ -154,8 +228,7 @@ class index extends Component {
 
           this.sendForm(dataToSend);
         }
-      })
-    });
+      });
   }
 
   sendForm = (data) => {
@@ -164,14 +237,19 @@ class index extends Component {
     establishmentService.create(data)
       .then((response) => {
         if (response.data.success !== true) {
-          if (response.data.message === 'The username already exists.') {
+          if (response.data.code === 400) {
+            this.externalErrors = response.data.validationErrors;
+            let fieldNames = [];
+            for (var fieldName in this.externalErrors)  {
+              fieldNames.push(fieldName);
+            }
+            this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
+            this.setState({validated: true});
+          }else if (response.data.message === 'The username already exists.') {
             this.setState({ usernameInvalid: true, validated: true })
           }
         } else {
           notification.success({
-            placement: 'bottomRight',
-            bottom: 50,
-            duration: 10,
             message: t('establishmentRegister.successfulMessage.title'),
             description: t('establishmentRegister.successfulMessage.message'),
           });
@@ -180,11 +258,8 @@ class index extends Component {
       }).catch((error) => {
 
         notification.error({
-          placement: 'bottomRight',
-          bottom: 50,
-          duration: 10,
           message: t('establishmentRegister.failedMessage.title'),
-          description: t('establishmentRegister.failedfulMessage.message'),
+          description: t('establishmentRegister.failedMessage.message'),
         });
       });
   }
@@ -194,7 +269,13 @@ class index extends Component {
     const { autoCompleteResult, establishmentId, successfulLogin } = this.state;
     const { t } = this.props;
     const config = {
-      rules: [{ type: 'object', required: true, message: t('form.emptyDate') }],
+      rules: [
+        {
+          type: 'object', required: true, message: t('form.validationErrors.required')
+        },{
+          validator: this.genericValidator
+        }
+      ],
     };
     if (auth.isAuthenticated())
       return (<Redirect to={"/"} />)
@@ -214,9 +295,14 @@ class index extends Component {
                     {getFieldDecorator('username', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyUsername')
-                      }],
-                    })(
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
                       <Input />
                     )}
                   </Form.Item>
@@ -228,9 +314,12 @@ class index extends Component {
                     {getFieldDecorator('password', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyPassword')
-                      }, {
-                        validator: this.validateToNextPassword,
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
                       }],
                     })(
                       <Input type="password" />
@@ -243,9 +332,12 @@ class index extends Component {
                   <Form.Item label={t('form.confirmPassword')}>
                     {getFieldDecorator('confirm', {
                       rules: [{
-                        required: true, message: t('form.pleaseconfirmpassword'),
-                      }, {
-                        validator: this.compareToFirstPassword,
+                        required: true, message: t('form.validationErrors.required'),
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator,
                       }],
                     })(
                       <Input type="password" onBlur={this.handleConfirmBlur} />
@@ -260,9 +352,14 @@ class index extends Component {
                     {getFieldDecorator('name', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
-                      }],
-                    })(
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
                       <Input />
                     )}
                   </Form.Item>
@@ -274,23 +371,14 @@ class index extends Component {
                     {getFieldDecorator('surname', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
-                      }],
-                    })(
-                      <Input />
-                    )}
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
-                  <Form.Item label={t('form.country')}>
-                    {getFieldDecorator('country', {
-                      rules: [{
-                        required: true,
-                        message: t('form.emptyfield')
-                      }],
-                    })(
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
                       <Input />
                     )}
                   </Form.Item>
@@ -302,9 +390,33 @@ class index extends Component {
                     {getFieldDecorator('city', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
-                      }],
-                    })(
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
+                      <Input />
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                  <Form.Item label={t('form.country')}>
+                    {getFieldDecorator('country', {
+                      rules: [{
+                        required: true,
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
                       <Input />
                     )}
                   </Form.Item>
@@ -316,9 +428,15 @@ class index extends Component {
                     {getFieldDecorator('email', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
-                      }, {
-                        type: 'email', message: 'The input is not valid E-mail!',
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        type: 'email', 
+                        message: t('form.validationErrors.emailFormat'),
+                      },{
+                        validator: this.genericValidator
                       }],
                     })(
                       <Input />
@@ -330,7 +448,7 @@ class index extends Component {
                 <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
                   <Form.Item label={t('form.birthday')}>
                     {getFieldDecorator('date-picker', config)(
-                      <DatePicker showTime format="YYYY-MM-DD" />
+                      <DatePicker format="YYYY-MM-DD" disabledDate={this.checkBirthday}/>
                     )}
                   </Form.Item>
                 </Col>
@@ -339,13 +457,17 @@ class index extends Component {
               <Row>
                 <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
                   <Form.Item label={t('form.establishmentname')}>
-                    {getFieldDecorator('establishmentname', {
+                    {getFieldDecorator('establishmentName', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
                       }
-                      ]
-                    })(
+                    ]})(
                       <Input />
                     )}
                   </Form.Item>
@@ -355,7 +477,12 @@ class index extends Component {
                 <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
                   <Form.Item label={t('form.description')}>
                     {getFieldDecorator('description', {
-                      rules: [{}],
+                      rules: [{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }],
                     })(
                       <Input.TextArea rows={3} />
                     )}
@@ -368,9 +495,14 @@ class index extends Component {
                     {getFieldDecorator('address', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
-                      }],
-                    })(
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
                       <Input />
                     )}
                   </Form.Item>
@@ -383,18 +515,21 @@ class index extends Component {
                   >
                     {getFieldDecorator("weekscheadule", {
                       rules: [
-                        { required: true, message: t('form.emptyfield') },
-                      ],
-                    })(
+                        {
+                          required: true, message: t('form.validationErrors.required') 
+                        },{
+                          validator: this.genericValidator
+                        }
+                      ]})(
                       <Checkbox.Group style={{ width: "100%" }}>
                         <Row>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="0">{t('monday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="1">{t('thuesday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="2">{t('wednesday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="3">{t('thursday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="4">{t('friday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="5">{t('saturday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="6">{t('sunday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="monday">{t('days.monday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="tuesday">{t('days.tuesday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="wednesday">{t('days.wednesday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="thursday">{t('days.thursday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="friday">{t('days.friday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="saturday">{t('days.saturday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="sunday">{t('days.sunday')}</Checkbox></Col>
                         </Row>
                       </Checkbox.Group>
                     )}
@@ -408,10 +543,11 @@ class index extends Component {
                       rules: [
                         {
                           required: true,
-                          message: t('form.emptyfield'),
-                        },
-                      ],
-                    })(
+                          message: t('form.validationErrors.required'),
+                        },{
+                          validator: this.genericValidator
+                        }
+                      ]})(
                       <TimePicker format="HH:mm" />
                     )}
                   </Form.Item>
@@ -424,10 +560,11 @@ class index extends Component {
                       rules: [
                         {
                           required: true,
-                          message: t('form.emptyfield'),
-                        },
-                      ],
-                    })(
+                          message: t('form.validationErrors.required'),
+                        },{
+                          validator: this.genericValidator
+                        }
+                      ]})(
                       <TimePicker format="HH:mm" />
                     )}
                   </Form.Item>
@@ -439,9 +576,14 @@ class index extends Component {
                     {getFieldDecorator('offer', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
-                      }],
-                    })(
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
                       <Input.TextArea rows={3} />
                     )}
                   </Form.Item>
@@ -472,7 +614,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Form.Item>
-                <button className="register__button" htmlType="submit">{t('register')}</button>
+                <button className="register__button" type="submit">{t('register')}</button>
               </Form.Item>
             </Form>
           </Col>

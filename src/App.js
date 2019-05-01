@@ -3,6 +3,7 @@ import { withNamespaces } from "react-i18next";
 import { LayoutProvider } from 'react-page-layout';
 import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import { auth } from "./auth";
+import { notification } from 'antd';
 import RegisterUserContainer from './containers/RegisterUserContainer'
 import EditProfileContainer from './containers/EditProfileContainer'
 import CreateExchangeForm from "./containers/CreateExchange/CreateExchange";
@@ -21,6 +22,7 @@ import ValidateCodeContainer from './containers/ValidateCodeContainer/ValidateCo
 import PublicLayout from './layouts/PublicLayout/PublicLayout';
 import RegisterEstablishmentContainer from './containers/RegisterEstablishmentContainer'
 import CreateNotification from './containers/CreateNotification/CreateNotification'
+import RegisterContainer from './containers/RegisterContainer/RegisterContainer';
 
 const layouts = {
 	'public': PublicLayout,
@@ -29,15 +31,13 @@ const layouts = {
 function checkRoles(roles) {
 	if (roles) {
 		const ANONYMOUS_ROLE = "ANONYMOUS";
+		console.log(roles);
 		if (roles && typeof roles === 'object' && roles.constructor === Array) {
 			if (roles.find(x => x === ANONYMOUS_ROLE) && !auth.isAuthenticated()) {
 				return true;
 			}
 			return roles.find(x => x === auth.getRole());
-		} else if (typeof roles === 'string' || roles instanceof String) {
-			if (roles === ANONYMOUS_ROLE) return !auth.isAuthenticated()
-			return roles === auth.getRole();
-		}
+		} 
 		return false;
 	}
 	return true;
@@ -54,7 +54,7 @@ function PrivateRoute({ component: Component, roles: roles, ...rest }) {
 					<Redirect
 						to={{
 							pathname: "/",
-							state: { wrongAccess: true }
+							state: { wrongAccess: Date.now() }
 						}}
 					/>
 				) : (
@@ -74,9 +74,16 @@ class App extends Component {
 
 	render() {
 		const USER_ROLE = auth._USER_ROLE;
-		const ESTABLISMENT_ROLE = auth._ESTABLISMENT_ROLE;
+		const ESTABLISHMENT_ROLE = auth._ESTABLISHMENT_ROLE;
 		const ADMIN_ROLE = auth._ADMIN_ROLE;
 		const ANONYMOUS_ROLE = "ANONYMOUS";
+
+		notification.config({
+			placement: 'bottomRight',
+			bottom: 60,
+			duration: 5,
+		  });
+
 		/* Para el uso de roles, hay que pasarle a PrivateRoute en el atributo roles, o un string con el rol permitido, o un array con los roles permitidos */
 		return (
 
@@ -84,22 +91,21 @@ class App extends Component {
 				<Switch>
 					<Route exact path="/" component={Home} />
 					<Route exact path="/login" component={LoginForm} />
-					<PrivateRoute roles={[USER_ROLE, ADMIN_ROLE, ESTABLISMENT_ROLE]} exact path="/profile" component={ProfileView} />
-					<PrivateRoute roles={[USER_ROLE, ADMIN_ROLE, ESTABLISMENT_ROLE]} exact path="/profile/:userId" component={ProfileView} />
-					<PrivateRoute roles={ADMIN_ROLE} exact path="/users" component={UsersListAdmin} />
-					<PrivateRoute roles={ADMIN_ROLE} exact path="/createNotification" component={CreateNotification} />
+					<PrivateRoute roles={[ADMIN_ROLE]} exact path="/createNotification" component={CreateNotification} />
+					<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE]} exact path="/profile" component={ProfileView} />
+					<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE, ADMIN_ROLE]} exact path="/profile/:userId" component={ProfileView} />
+					<PrivateRoute roles={[ADMIN_ROLE]} exact path="/users" component={UsersListAdmin} />
 					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/exchanges" component={ExchangesList} />
-					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/establishments" component={EstablismentsList} />
-					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
+					<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE, ANONYMOUS_ROLE]} exact path="/establishments" component={EstablismentsList} />
+					<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE, ANONYMOUS_ROLE]} exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
 					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
-					<Route exact path="/registerUser" component={RegisterUserContainer} />
-					<PrivateRoute exact path="/editProfile" component={EditProfileContainer} />
+					<PrivateRoute roles={[ANONYMOUS_ROLE]} exact path="/register" component={RegisterContainer} />
+					<PrivateRoute roles={[ANONYMOUS_ROLE]} exact path="/register/:registerType" component={RegisterContainer} />
+					<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE]} exact path="/editProfile" component={EditProfileContainer} />
 					<Route exact path="/notFound" component={NotFound} />
-					<Route exact path="/registerEstablishment" component={RegisterEstablishmentContainer} />
-					<PrivateRoute roles={USER_ROLE} exact path="/myExchanges" component={MyExchangesList} />
-					<PrivateRoute roles={USER_ROLE} exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
-					<PrivateRoute exact path="/displayCode/:codeId" component={DisplayCodeContainer} />
-					<PrivateRoute roles={ESTABLISMENT_ROLE} exact path="/validateCode" component={ValidateCodeContainer} />
+					<PrivateRoute roles={[USER_ROLE]} exact path="/myExchanges" component={MyExchangesList} />
+					<PrivateRoute roles={[USER_ROLE]} exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
+					<PrivateRoute roles={[ESTABLISHMENT_ROLE]} exact path="/validateCode" component={ValidateCodeContainer} />
 					<Route component={NotFound} />
 				</Switch>
 			</LayoutProvider>

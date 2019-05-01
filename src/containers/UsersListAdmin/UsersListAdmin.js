@@ -45,27 +45,18 @@ class UsersListAdmin extends Component {
             console.log(response)
             if (response.status === 200) {
                 notification.success({
-                    placement: 'bottomRight',
-                    bottom: 50,
-                    duration: 10,
                     message: successfulTitle,
                     description: succesfulMessage,
                 });
                 this.consultaUsuarios();
             } else {
                 notification.error({
-                    placement: 'bottomRight',
-                    bottom: 50,
-                    duration: 10,
                     message: errorTitle,
                     description: errorMessage,
                 });
             }
         }).catch((error) => {
             notification.error({
-                placement: 'bottomRight',
-                bottom: 50,
-                duration: 10,
                 message: errorTitle,
                 description: errorMessage,
             });

@@ -135,9 +135,6 @@ class CustomCardExchange extends Component {
             description = t('leave.successful.message');
         }
         notification.success({
-            placement: 'bottomRight',
-            bottom: 50,
-            duration: 10,
             message: message,
             description: description,
         });
@@ -155,9 +152,6 @@ class CustomCardExchange extends Component {
             description = t('leave.failed.message');
         }
         notification.error({
-            placement: 'bottomRight',
-            bottom: 50,
-            duration: 10,
             message: message,
             description: description,
         });
