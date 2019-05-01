@@ -10,6 +10,7 @@ import defaultImage from '../../../media/default-exchange-logo.png';
 import { exchangesService } from '../../../services/exchangesService';
 import '../ExchangesList.scss';
 import moment from 'moment';
+import { NavLink } from "react-router-dom";
 
 
 class MyExchangesList extends Component {
@@ -214,6 +215,11 @@ class MyExchangesList extends Component {
                                 <CustomCardExchange exchange = {i} />
                             </Col>
                         ))}
+                        <div className={"navContainer"}>
+                            <NavLink exact={true} to={"/establishments"}>
+                                <div className={"navOption"}>{t('landing.navOptions.createExchanges')}</div>
+                            </NavLink>
+                        </div>
                     </Row>
                 </Section>
             </Page>

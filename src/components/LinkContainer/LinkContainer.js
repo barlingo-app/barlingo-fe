@@ -26,7 +26,6 @@ class LinkContainer extends Component {
                     {auth.isAuthenticated() && auth.isAdmin() && <NavLink activeClassName={"active"} exact={true} to={"/users"}><li>{t('user.list')}</li></NavLink>}
                     {auth.isAuthenticated() && auth.isAdmin() && <NavLink activeClassName={"active"} exact={true} to={"/createNotification"}><li>{t('links.notification')}</li></NavLink>}
                     {auth.isAuthenticated() && auth.isEstablishment() && <NavLink activeClassName={"active"} exact={true} to={"/validateCode"}><li>{t('links.validateCode')}</li></NavLink>}
-                    {auth.isAuthenticated() && auth.isUser() && <NavLink activeClassName={"active"} exact={true} to={"/myExchanges"}><li>{t('links.myExchanges')}</li></NavLink>}
                 </ul>
             </div>
         );

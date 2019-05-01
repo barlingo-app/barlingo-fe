@@ -1,4 +1,7 @@
 {
+  "completed": "Completed",
+  "participants": "participants",
+  "ourExchanges": "Our establishments",
   "notification": {
     "priority": "Priority",
     "emptyPriority": "Please, mark a priority",
@@ -29,8 +32,9 @@
   "landing": {
     "message": "Welcome to Barlingo!",
     "navOptions": {
-      "findExchanges": "Find exchanges",
-      "seeEstablishments": "See establishments"
+      "findExchanges": "Find a exchange for you",
+      "seeEstablishments": "See establishments",
+      "createExchanges": "Create your exchange"
     }
   },
   "select-register": "Choose a type of registration",
@@ -108,6 +112,7 @@
     "validateCode": "Validate code",
     "login": "Log In",
     "register": "Sign in",
+    "registerUser": "Join to Barlingo zone",
     "logout": "Logout",
     "myExchanges": "My exchanges",
     "created": "Created",
@@ -237,7 +242,8 @@
     "loading": "Loading",
     "leave": "Leave",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "createExchange": "Create exchange"
   },
   "language": {
     "spanish": "Spanish",

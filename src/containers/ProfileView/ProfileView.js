@@ -11,10 +11,13 @@ import locationIcon from '../../media/imageedit_5_5395394410.png';
 import { userService } from '../../services/userService';
 import { establishmentService } from '../../services/establishmentService';
 import FileUploadComponent from './../../components/FileUploadComponent/';
+import { NavLink } from "react-router-dom";
+
 class ProfileView extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            myExchange: false,
             password: null,
             editProfile: false,
             user: null,
@@ -252,11 +255,15 @@ class ProfileView extends Component {
     render() {
         const { t } = this.props
         const { Meta } = Card;
-        const { errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText } = this.state;
+        const { myExchange, errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText } = this.state;
 
         if (editProfile) {
             return (<Redirect to={"/editProfile"} />);
         }
+       else if(myExchange){
+        return (<Redirect to={"/myExchanges"} />);
+        
+       }
 
         if (!loaded) {
             return (
@@ -288,6 +295,11 @@ class ProfileView extends Component {
                                 />
 
                                 <Row>
+                                <Col xs="auto">
+                                        {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.setState({ myExchange: true })} htmlType="submit" className="login-form-button primaryButton">
+                                            {t('links.myExchanges')}
+                                        </Button>}
+                                    </Col>
                                     <Col xs="auto">
                                         {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.setState({ editProfile: true })} htmlType="submit" className="login-form-button primaryButton">
                                             {t('edit')}

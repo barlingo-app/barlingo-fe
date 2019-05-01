@@ -81,6 +81,7 @@ class EstablismentsList extends Component {
             <Page layout="public">
                 <Section slot="content">
                     <Input placeholder={t("establishment.search")} onChange={this.handleInput} className={"customInput"} />
+                    {t("ourExchanges")}
                     <Row>
                         {items.map((i, index) => (
                             <Col xs="12" md="6" xl="4" key={i.id}>
