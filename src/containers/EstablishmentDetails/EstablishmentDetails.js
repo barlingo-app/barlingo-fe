@@ -2,7 +2,7 @@ import { Avatar, Card } from 'antd';
 import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
-import { Col, Row } from 'reactstrap';
+import { Col, Row } from 'react-bootstrap';
 import defaultImage from '../../media/default-exchange-header.jpg';
 import './EstablishmentDetails.scss';
 import locationIcon from '../../media/imageedit_5_5395394410.png';
@@ -81,9 +81,8 @@ class EstablishmentDetails extends Component {
     };
 
     render() {
-        const { Meta } = Card;
         const { errorMessage, loaded, establishment } = this.state;
-
+        const { t } = this.props;
         if (!loaded) {
             return (
                 <Page layout="public">
@@ -95,23 +94,26 @@ class EstablishmentDetails extends Component {
         }
 
         return (
-            <Page layout="public">
-                <Section slot="content">
-
-                    <Row>
-                        <Col col-sm="12" offset-md="4" col-md="4">
-                            <Card
-                                cover={<img className="header-img" alt="example" src={this.getImage(establishment.imageProfile)} onError={(e) => { e.target.src = defaultImage }} />}>
-                                <Meta
-                                    avatar={<Avatar src={establishment.imageProfile} />}
-                                    title={establishment.establishmentName}
-                                    description={this.renderDescription()}
-                                />
-                            </Card>
-                        </Col>
-                    </Row>
-                </Section>
-            </Page>
+            <div className="establishment-details">
+                <Page layout="public">
+                    <Section slot="content">
+                        <Row>
+                            <Col className="establishment-details__content" sm="12" md={{span: 6, offset: 3}}>
+                                <div className="establishment-details__top">
+                                    <img  className="establishment-details__image" alt="some" src={establishment.imageProfile}/>
+                                </div>
+                                <div className="establishment-details__name">{establishment.establishmentName}</div>
+                                <div className="establishment-details__address">{establishment.address}</div>
+                                <div className="establishment-details__description">{establishment.description}</div>
+                                <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
+                                <div className="establishment-details__workingHours">{establishment.workingHours}</div>
+                                <div className="establishment-details__offer-title">{t('form.offer')}</div>
+                                <div className="establishment-details__offer">{establishment.offer}</div>
+                            </Col>
+                        </Row>
+                    </Section>
+                </Page>
+            </div>
         );
     }
 }
