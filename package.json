@@ -17,6 +17,7 @@
     "react-bootstrap": "^1.0.0-beta.6",
     "react-bootstrap-validation": "^0.1.11",
     "react-dom": "^16.8.5",
+    "react-geocode": "^0.1.2",
     "react-i18next": "^9.0.10",
     "react-infinite-scroll-component": "^4.5.1",
     "react-page-layout": "^0.9.8",

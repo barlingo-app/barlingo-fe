@@ -1,17 +1,24 @@
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import React, { Component } from 'react';
+import Geocode from "react-geocode";
+import Loading from '../../components/Loading/Loading';
 
 const mapStyles = {
-    width: '100%',
-    height: '100%'
+  width: '300px',
+  height: '500px'
 };
 export class MapContainer extends Component {
-    state = {
-        showingInfoWindow: false,  //Hides or the shows the infoWindow
-        activeMarker: {},          //Shows the active marker upon click
-        selectedPlace: {}          //Shows the infoWindow to the selected place upon a marker
-    };
-    onMarkerClick = (props, marker, e) =>
+  state = {
+    showingInfoWindow: false,  //Hides or the shows the infoWindow
+    activeMarker: {},          //Shows the active marker upon click
+    selectedPlace: {},          //Shows the infoWindow to the selected place upon a marker
+    lat: null,
+    lng: null
+  };
+  componentDidMount() {
+    this.getLocation();
+  }
+  onMarkerClick = (props, marker, e) =>
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
@@ -26,23 +33,48 @@ export class MapContainer extends Component {
       });
     }
   };
+  getLocation() {
+    Geocode.setApiKey('AIzaSyCtXovrlAq5but4UH_mqmq9SVUsF53bGSc');
+    Geocode.fromAddress(this.props.address).then(
+      response => {
+        const { lat, lng } = response.results[0].geometry.location;
+        this.setState({
+          lat: lat,
+          lng: lng
+        })
+      },
+      error => {
+      }
+    );
+  }
 
-    render() {
-        return (
-            <Map
-                google={this.props.google}
-                zoom={14}
+  render() {
+    const { lat, lng } = this.state;
+    if (lat && lng)
+      return (
+        <Map
+          google={this.props.google}
+          zoom={14}
 
-                style={mapStyles}
-                initialCenter={{
-                    lat: -1.2884,
-                    lng: 36.8233
-                }}
-            />
-        );
-    }
+          style={mapStyles}
+          initialCenter={{
+            lat: lat,
+            lng: lng
+          }}
+        >
+          <Marker
+            title={this.props.name}
+            name={this.props.name}
+            position={{
+              lat: lat,
+              lng: lng
+            }} />
+        </Map>
+      );
+    return "Loading...";
+  }
 }
 
 export default GoogleApiWrapper({
-    apiKey: 'AIzaSyBGK0OEIYkPt3xBiMXmOvSn7LtK7zegk2U'
+  apiKey: 'AIzaSyCtXovrlAq5but4UH_mqmq9SVUsF53bGSc'
 })(MapContainer)    
