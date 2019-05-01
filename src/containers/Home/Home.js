@@ -5,6 +5,7 @@ import { Page, Section } from 'react-page-layout';
 import './Home.scss';
 import { notification } from 'antd';
 import { NavLink } from "react-router-dom";
+import {auth} from './../../auth'
 
 class Home extends Component {
     
@@ -36,6 +37,13 @@ class Home extends Component {
 
     render() {
         const { t } = this.props;
+        
+        const label1 = !auth.isAuthenticated() ? 'links.login':'landing.navOptions.createExchanges'
+        const label2 = !auth.isAuthenticated() ? 'links.registerUser':'landing.navOptions.findExchanges'
+
+        const path1 = !auth.isAuthenticated() ? '/login':'/establishments'
+        const path2 = !auth.isAuthenticated() ? '/register':'/exchanges'
+
         return (
             <Page layout="public">
                 <Section slot="fullContent">
@@ -47,11 +55,12 @@ class Home extends Component {
                         </p>
                         </div>
                         <div className={"navContainer"}>
-                            <NavLink exact={true} to={"/exchanges"}>
-                                <div className={"navOption"}>{t('landing.navOptions.findExchanges')}</div>
+
+                            <NavLink exact={true} to={path1}>
+                                <div className={"navOption"}>{t(label1)}</div>
                             </NavLink>
-                            <NavLink exact={true} to={"/establishments"}>
-                                <div className={"navOption"}>{t('landing.navOptions.seeEstablishments')}</div>
+                            <NavLink exact={true} to={path2}>
+                                <div className={"navOption"}>{t(label2)}</div>
                             </NavLink>
                         </div>
                     </div>

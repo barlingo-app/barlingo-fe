@@ -48,15 +48,20 @@ class CustomCardExchange extends Component {
             const { t } = this.props;
             const userData = auth.getUserData();
             const { exchange } = this.props;
-
-            if (exchange.creator.id === userData.id || new Date(exchange.moment + 'Z') < new Date())
+            
+            if(exchange.participants.length >= exchange.numberMaxParticipants){ 
+                return <div className="custom-card-exchange__button-wrapper"><button className="custom-card-exchange__button" >{t('completed')}</button></div>               
+            }
+            else{
+                if (exchange.creator.id === userData.id || new Date(exchange.moment + 'Z') < new Date())
                 return null;
-            let buttonMessage = t('generic.join');
-            if (exchange.participants.find(x => x.id === userData.id)) {
+                let buttonMessage = t('generic.join');
+                if (exchange.participants.find(x => x.id === userData.id)) {
                 buttonMessage = t('generic.leave');
             }
-            return <div className="custom-card-exchange__button-wrapper"><button className="custom-card-exchange__button" onClick={this.manageOnClick}>{buttonMessage}</button></div>
+                return <div className="custom-card-exchange__button-wrapper"><button className="custom-card-exchange__button" onClick={this.manageOnClick}>{buttonMessage}</button></div>
 
+            }
         }
 
         return null;
@@ -164,14 +169,15 @@ class CustomCardExchange extends Component {
         /*
         <CustomCardExchange  schedule={} max={i.numberOfParticipants} />
                             */
+        const { t } = this.props;
         const { exchange } = this.props;
         const title = exchange.title;
         const image = exchange.establishment.imageProfile;
         const address = exchange.establishment.establishmentName + ", " + exchange.establishment.address;
-
         const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
         const schedule = new Date(exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)
         const numberOfParticipants = exchange.participants.length === 0 ? 1 : exchange.participants.length;
+        const numberMaxParticipants = exchange.numberMaxParticipants === null ? 1 : exchange.numberMaxParticipants;
         return (
             <div style={{ "height": "100%", "padding": "15px 0" }}>
                 <div className="custom-card-exchange">
@@ -191,7 +197,7 @@ class CustomCardExchange extends Component {
                     </div>
                     <div className="custom-card-exchange__participants-wrapper">
                         <img className="custom-card-exchange__participants-icon" src={personIcon} alt="Participants" />
-                        <p className="custom-card-exchange__text">{numberOfParticipants}</p>
+                        <p className="custom-card-exchange__text">{numberOfParticipants}/{numberMaxParticipants+" "+ t('participants')}</p>
                     </div>
                     {this.renderButton()}
                 </div>

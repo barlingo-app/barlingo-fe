@@ -47,7 +47,7 @@ class CustomCardEstablishment extends Component {
     render() {
         const { t, establishment, showButton } = this.props;
         const { create } = this.state;
-        const buttonMessage = t('generic.create');
+        const buttonMessage = t('generic.createExchange');
         const { id, imageProfile, address, establishmentName, workingHours } = establishment;
         const route = "establishments";
         /*

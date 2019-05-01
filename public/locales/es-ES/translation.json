@@ -1,4 +1,7 @@
 {
+  "completed": "Completo",
+  "participants": "participantes",
+  "ourExchanges": "Nuestros establecimientos",
   "notification": {
     "priority": "Prioridad",
     "emptyPriority": "Por favor, indique una prioridad",
@@ -30,8 +33,9 @@
   "landing": {
     "message": "Bienvenido a Barlingo!",
     "navOptions": {
-      "findExchanges": "Encontrar intercambios",
-      "seeEstablishments": "Ver establecimientos"
+      "findExchanges": "Encuentra tu intercambio",
+      "seeEstablishments": "Ver establecimientos",
+      "createExchanges": "Crear tu intercambio"
     }
   },
   "select-register": "Elija un tipo de registro",
@@ -109,6 +113,7 @@
     "validateCode": "Validar código",
     "login": "Iniciar sesión",
     "register": "Registrarse",
+    "registerUser": "Unirse a la zona Barlingo",
     "logout": "Cerrar sesión",
     "myExchanges": "Mis intercambios",
     "created": "Creados",
@@ -220,7 +225,7 @@
     "error": {
       "title": "Creación fallida",
       "message": "Se ha producido un error al crear un nuevo intercambio, inténtelo más tarde."
-    },
+    },"participants": "participants",
     "dateError": {
       "title": "Creación fallida",
       "message": "El momento del intercambio debe ser futuro."
@@ -237,7 +242,8 @@
     "loading": "Cargando",
     "leave": "Abandonar",
     "confirm": "Confirmar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "createExchange": "Crear intercambio"
   },
   "language": {
     "spanish": "Español",

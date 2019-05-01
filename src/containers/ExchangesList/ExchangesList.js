@@ -210,7 +210,7 @@ class ExchangesList extends Component {
                     </Row>
 
                     <Row>
-                        {items.map((i, index) => (
+                        {items.map((i, index) =>(
                             <Col xs="12" md="6" xl="4" key={i.id}>
                                 <CustomCardExchange fetchData={this.fetchData} exchange={i} />
                             </Col>
