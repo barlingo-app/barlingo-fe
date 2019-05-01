@@ -15,6 +15,7 @@ import { discountCodeService } from '../../services/discountCodeService';
 import { exchangesService } from '../../services/exchangesService';
 import { notification } from 'antd';
 import './ExchangeDetails.scss';
+import MapContainer from '../MapContainer/MapContainer';
 
 
 class ExchangeDetails extends Component {
@@ -117,7 +118,7 @@ class ExchangeDetails extends Component {
     renderDescription() {
         const description = this.state.exchange.description
         const address = this.state.exchange.establishment.establishmentName + ", " + this.state.exchange.establishment.address;
-        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
+        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
         return (
             <div className="exchange">
                 <div>
@@ -157,7 +158,6 @@ class ExchangeDetails extends Component {
         const { Meta } = Card;
         const { errorMessage, loaded, exchange, codeShown } = this.state;
         const { t } = this.props;
-
         if (!loaded) {
             return (
                 <Page layout="public">
@@ -167,6 +167,8 @@ class ExchangeDetails extends Component {
                 </Page>
             );
         }
+        const address = exchange.establishment.address + ", " + exchange.establishment.city + ", " + exchange.establishment.country;
+        const name = exchange.establishment.establishmentName;
         return (
             <Page layout="public">
                 <Section slot="content">
@@ -181,6 +183,9 @@ class ExchangeDetails extends Component {
                                 />
                                 {this.renderParticipants()}
                             </Card>
+                        </Col>
+                        <Col>
+                            <MapContainer address={address} name={name} />
                         </Col>
                     </Row>
                     {auth.isAuthenticated() && this.isJoined() &&
