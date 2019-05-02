@@ -10,7 +10,6 @@ import { Redirect } from 'react-router-dom';
 import './LoginForm.scss';
 import { notificationService } from '../../services/notificationService';
 import logo from '../../media/logo.png';
-import { noConflict } from 'q';
 
 class LoginForm extends Component {
 

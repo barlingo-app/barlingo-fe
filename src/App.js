@@ -42,7 +42,7 @@ function checkRoles(roles) {
 	return true;
 }
 
-function PrivateRoute({ component: Component, roles: roles, ...rest }) {
+function PrivateRoute({ component: Component, roles, ...rest }) {
 	return (
 		<Route
 			{...rest}

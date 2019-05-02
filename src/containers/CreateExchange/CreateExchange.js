@@ -23,24 +23,28 @@ class CreateExchange extends Component {
         const id = this.props.match.params.establishmentId;
         establishmentService.findOne(id).then(
             response => {
-                if (response.data) {
+                if (response.data.code === 200 && response.data.success && response.data.content) {
                     this.setState({
-                        establishment: response.data,
+                        establishment: response.data.content,
                         loaded: true,
                         error: false
                     });
-                } else {
-                    const { t } = this.props;
+                } else if (response.data.code === 500) {
                     notification.error({
-                        message: t("establishment.error.title"),
-                        description: t("establishment.error.message"),
-                    });
+                        message: this.props.t('apiErrors.defaultErrorTitle'),
+                        description: this.props.t('apiErrors.' + response.data.message),
+                      });
                     this.setState({
                         error: true,
                         loaded: true
                     });
                 }
-            }).catch(onrejected => (console.log(onrejected)))
+            }).catch(onrejected => {
+                notification.error({
+                    message: this.props.t('apiErrors.defaultErrorTitle'),
+                    description: this.props.t('apiErrors.defaultErrorMessage')
+                });
+            });
     }
     render() {
         const { establishment, loaded, error } = this.state;

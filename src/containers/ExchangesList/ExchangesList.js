@@ -35,11 +35,15 @@ class ExchangesList extends Component {
     };
 
     setData = (response) => {
-        this.setState({
-            items: response,
-            itemsCopy: response,
-            loaded: true
-        })
+        if (response.data.success && response.data.code === 200) {
+            this.setState({
+                items: response.data.content,
+                itemsCopy: response.data.content,
+                loaded: true
+            });
+        } else {
+            this.setError(null);
+        }
     };
 
     setError = (error) => {

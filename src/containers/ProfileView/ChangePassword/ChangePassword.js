@@ -7,10 +7,7 @@ import { securityService } from '../../../services/securityService';
 
 class ChangePassword extends Component {
 
-    static propTypes = {
-        visible: PropTypes.bool.isRequired = false,
-        handleCancel: PropTypes.func.isRequired
-    }
+
     constructor(props) {
         super(props)
         this.state = {
@@ -36,68 +33,7 @@ class ChangePassword extends Component {
             this.setState({ visible: nextProps.visible }, this.renderModalText());
         }
     }
-    renderModalText = () => {
-        const { t } = this.props;
-        const { getFieldDecorator } = this.props.form;
-        /*let ModalText = (<div>
-            <p>
-                {t('changePassword.text1')}
-            </p>
-            <Form layout="vertical">
-                <Form.Item label={t('changePassword.actualPassword')}>
-                    {getFieldDecorator('actualPassword', {
-                        rules: [{
-                            required: true,
-                            message: t('form.validationErrors.required')
-                        }, {
-                            max: 255,
-                            message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                        }, {
-                            validator: this.genericValidator
-                        }
-                        ]
-                    })(
-                        <Input type="password" />
-                    )}
-                </Form.Item>
-                <Form.Item label={t('changePassword.newPassword')}>
-                    {getFieldDecorator('newPassword', {
-                        rules: [{
-                            required: true,
-                            message: t('form.validationErrors.required')
-                        }, {
-                            max: 255,
-                            message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                        }, {
-                            validator: this.genericValidator
-                        }
-                        ]
-                    })(
-                        <Input type="password" />
-                    )}
-                </Form.Item>
-                <Form.Item label={t('changePassword.newPasswordCopy')}>
-                    {getFieldDecorator('newPasswordCopy', {
-                        rules: [{
-                            required: true,
-                            message: t('form.validationErrors.required')
-                        }, {
-                            max: 255,
-                            message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                        }, {
-                            validator: this.genericValidator
-                        }
-                        ]
-                    })(
-                        <Input type="password" />
-                    )}
-                </Form.Item>
-            </Form>
-        </div>)*/
-        /* this.setState({
-             ModalText: ModalText
-         })*/
-    }
+
     handleOk = () => {
         const { t } = this.props;
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -108,18 +44,33 @@ class ChangePassword extends Component {
                     confirmLoading: true,
                 });
                 securityService.changePassword({ "secret": newPasswordBase64 }).then(response => {
-                    auth.setCredentials(auth.getCredentials().username, newPassword);
-                    auth.getToken();
-                    this.setState({
-                        visible: false,
-                        confirmLoading: false,
-                    });
-                    notification.success({
-                        message: t('changePassword.success.title'),
-                        description: t('changePassword.success.message'),
-                    });
+                    if (response.data.code === 200 && response.data.success) {
+                        auth.setCredentials(auth.getCredentials().username, newPassword);
+                        auth.getToken();
+                        this.setState({
+                            visible: false,
+                            confirmLoading: false,
+                        });
+                        notification.success({
+                            message: t('changePassword.success.title'),
+                            description: t('changePassword.success.message'),
+                        });
+                    } else if (response.data.code === 500) {
+                        notification.error({
+                            message: this.props.t('apiErrors.defaultErrorTitle'),
+                            description: this.props.t('apiErrors.' + response.data.message),
+                          });
+                    } else {
+                        notification.error({
+                            message: this.props.t('apiErrors.defaultErrorTitle'),
+                            description: this.props.t('apiErrors.defaultErrorMessage')
+                        });
+                    }
                 }).catch(error => {
-
+                    notification.error({
+                        message: this.props.t('apiErrors.defaultErrorTitle'),
+                        description: this.props.t('apiErrors.defaultErrorMessage')
+                    });
                 });
             }
         });
@@ -164,6 +115,8 @@ class ChangePassword extends Component {
                     this.errors[rule.field] = message2;
                 }
                 break;
+            default:
+                break;
         }
 
         if (this.getValidationMessage(rule.field)) {
@@ -189,7 +142,7 @@ class ChangePassword extends Component {
     }
     render() {
         const { t, handleCancel } = this.props;
-        const { confirmLoading, ModalText, visible } = this.state;
+        const { confirmLoading, visible } = this.state;
 
         const { getFieldDecorator } = this.props.form;
 
@@ -267,6 +220,15 @@ class ChangePassword extends Component {
         );
     }
 }
+
+ChangePassword.propTypes = {
+    visible: PropTypes.bool.isRequired,
+    handleCancel: PropTypes.func.isRequired
+}
+
+ChangePassword.defaultProps = {
+    visible: false
+  };
 
 ChangePassword = Form.create({ name: "ChangePassword_Form" })(ChangePassword);
 export default withNamespaces('translation')(ChangePassword);

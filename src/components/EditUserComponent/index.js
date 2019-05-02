@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import {Col, Row} from 'react-bootstrap';
-import { Page, Section } from "react-page-layout";
 import { Redirect } from 'react-router-dom';
 import { auth } from '../../auth';
-import Loading from "../../components/Loading/Loading";
 import { userService } from '../../services/userService';
 import { withNamespaces } from "react-i18next";
 import languages from '../../data/languages';
 import moment from 'moment';
-import { Button, Checkbox, DatePicker, Form, Input, Modal, notification, Select, TimePicker } from 'antd';
+import { Checkbox, DatePicker, Form, Input, notification } from 'antd';
+
 export class index extends Component {
     constructor(props){
         super(props)
@@ -53,11 +52,13 @@ export class index extends Component {
     
         switch(rule.field) {
             case "learnLanguages":
-                let message1 = this.checkLearnLanguages(value);
-                if (message1) {
-                    this.errors[rule.field] = message1;
-                }
-                break;
+              let message1 = this.checkLearnLanguages(value);
+              if (message1) {
+                  this.errors[rule.field] = message1;
+              }
+              break;
+            default:
+              break;
         }
     
         if (this.getValidationMessage(rule.field)) {
@@ -101,8 +102,17 @@ export class index extends Component {
                     }
                     this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
                     this.setState({validated: true});
-                } else if (response.data.message === 'The username already exists.') {
-                    this.setState({usernameInvalid: true, validated: true})
+                } else if (response.data.code === 500) {
+                    notification.error({
+                      message: this.props.t('apiErrors.defaultErrorTitle'),
+                      description: this.props.t('apiErrors.' + response.data.message),
+                    });                  
+                    this.setState({validated: true})
+                } else {
+                  notification.error({
+                    message: this.props.t('apiErrors.defaultErrorTitle'),
+                    description: this.props.t('apiErrors.defaultErrorMessage')
+                  });
                 }
             } else {  
                 auth.loadUserData().then(() => {
@@ -114,11 +124,10 @@ export class index extends Component {
                 });
             }
         }).catch((error) => {
-
-            notification.error({
-                message: "Failed edition",
-                description: "There was an error editing the data",
-            }); 
+          notification.error({
+            message: this.props.t('apiErrors.defaultErrorTitle'),
+            description: this.props.t('apiErrors.defaultErrorMessage')
+          });
         });
     }
 
@@ -133,7 +142,6 @@ export class index extends Component {
 
 
     handleSubmit = (e) => {
-        const {t} = this.props
         e.preventDefault();
         e.stopPropagation();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -157,8 +165,8 @@ export class index extends Component {
       }
 
       render() {
-        const { getFieldDecorator, getFieldsError } = this.props.form;
-        const { successfulLogin, validated, usernameInvalid, loaded, errorMessage} = this.state;
+        const { getFieldDecorator } = this.props.form;
+        const { successfulLogin } = this.state;
         const { t } = this.props;
         const config = {
           rules: [
@@ -286,6 +294,8 @@ export class index extends Component {
                       rules: [{
                         max: 255, 
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                      validator: this.genericValidator
                     }
                     ]})(
                       <Input.TextArea rows={3} />

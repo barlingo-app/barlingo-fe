@@ -5,8 +5,6 @@ import {
   Form, Icon, Input, Button, notification
 } from 'antd';
 import './ValidateCodeContainer.scss';
-import axios from "axios";
-import { auth } from "../../auth";
 import { discountCodeService } from '../../services/discountCodeService';
 import { exchangesService } from '../../services/exchangesService';
 
@@ -61,13 +59,17 @@ class ValidateCodeContainer extends React.Component {
   checkExchange(code) {
     exchangesService.findOne(code.langExchangeId)
       .then((response) => {
-        if (new Date(response.moment) < new Date()) {
-          this.codeOk();
+        if (response.data.code === 200 && response.data.success && response.data.content) {
+          if (new Date(response.data.content.moment) < new Date()) {
+            this.codeOk();
+          } else {
+            if (!new Date(response.data.content.moment) < new Date())
+              this.codeFail("undone")
+            if (response.data.content.exchanged)
+              this.codeFail("exchanged")
+          }
         } else {
-          if (!new Date(response.moment) < new Date())
-            this.codeFail("undone")
-          if (response.exchanged)
-            this.codeFail("exchanged")
+          this.codeFail();
         }
       })
       .catch((error) => { this.codeFail() });
@@ -117,11 +119,20 @@ class ValidateCodeContainer extends React.Component {
   checkCode = (code) => {
     discountCodeService.validateCode(code)
       .then((response) => {
-        const code = response.data[0]
-        if (!code.exchanged)
-          this.checkExchange(code)
-        else
-          this.codeFail("exchanged")
+        if (response.data.code === 200 && response.data.success && response.data.content) {
+          const code = response.data.content[0]
+          if (!code.exchanged)
+            this.checkExchange(code)
+          else
+            this.codeFail("exchanged")
+        } else if (response.data.code === 500) {
+          notification.error({
+            message: this.props.t('apiErrors.defaultErrorTitle'),
+            description: this.props.t('apiErrors.' + response.data.message),
+          });
+        } else {
+          this.codeFail();
+        }
       })
       .catch((onrejected) => {
         this.codeFail()
@@ -131,10 +142,11 @@ class ValidateCodeContainer extends React.Component {
 
     discountCodeService.redeem(this.state.code.code)
       .then((response) => {
-        if (response.status === 200)
+        if (response.code.code === 200 && response.data.success) {
           this.redeemOk(response)
-        else
+        } else {
           this.redeemFail()
+        }
       })
       .catch((onrejected) => {
         this.redeemFail()

@@ -1,10 +1,9 @@
-import { Button, Checkbox, DatePicker, Form, Input, Modal, notification, Select, TimePicker } from 'antd';
+import { Button, Checkbox, DatePicker, Form, Input, Modal, notification, TimePicker } from 'antd';
 import React, { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { withNamespaces } from "react-i18next";
 import { Redirect } from 'react-router-dom';
 import { auth } from "../../auth";
-import PaySubscriptionContainer from '../../containers/PaySubscriptionContainer/PaySubscriptionContainer';
 import { establishmentService } from '../../services/establishmentService';
 import { userService } from '../../services/userService';
 import moment from 'moment';
@@ -92,6 +91,8 @@ class index extends Component {
               this.errors[rule.field] = message3;
           }
           break;
+        default:
+          break;
     }
 
     if (this.getValidationMessage(rule.field)) {
@@ -158,7 +159,7 @@ class index extends Component {
   }
 
   usernameExists = (username) => {
-    if (username !== '' && username !== null && username != undefined) {
+    if (username !== '' && username !== null && username !== undefined) {
       return userService.checkUsername(username)
         .then((response) => {
           if (response.data.success === false) {
@@ -176,7 +177,6 @@ class index extends Component {
 
 
   handleSubmit(e) {
-    const { t } = this.props
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
@@ -230,8 +230,12 @@ class index extends Component {
             }
             this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
             this.setState({validated: true, submittedForm: false });
-          }else if (response.data.message === 'The username already exists.') {
-            this.setState({ usernameInvalid: true, validated: true, submittedForm: false })
+          }else if (response.data.code === 500) {
+            notification.error({
+              message: this.props.t('apiErrors.defaultErrorTitle'),
+              description: this.props.t('apiErrors.' + response.data.message),
+            });
+            this.setState({ validated: true, submittedForm: false });
           }
         } else {
           notification.success({
@@ -242,12 +246,10 @@ class index extends Component {
           this.setState({ successfulLogin: true, establishmentId: response.data.content.id, submittedForm: false });
         }
       }).catch((error) => {
-
         notification.error({
-          message: t('establishmentRegister.failedMessage.title'),
-          description: t('establishmentRegister.failedMessage.message'),
+          message: this.props.t('apiErrors.defaultErrorTitle'),
+          description: this.props.t('apiErrors.defaultErrorMessage')
         });
-
         this.setState({ submittedForm: false });
       });
   }

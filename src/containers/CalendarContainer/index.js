@@ -24,10 +24,14 @@ export class index extends Component {
         this.setData(response)).catch((error) => this.setError(error));
   };
   setData = (response) => {
-    this.setState({
-        items: response,
-        loaded: true
-    })
+    if (response.data.success && response.data.code === 200) {
+      this.setState({
+          items: response,
+          loaded: true
+      });
+    } else {
+      this.setError(null);
+    }
   };
 
   setError = (error) => {
@@ -51,7 +55,6 @@ export class index extends Component {
         break;
       }
     }
-    console.log(isOwner)
     return isOwner
   }
 

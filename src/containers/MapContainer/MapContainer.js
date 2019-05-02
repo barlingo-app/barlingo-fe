@@ -1,7 +1,6 @@
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import React, { Component } from 'react';
 import Geocode from "react-geocode";
-import Loading from '../../components/Loading/Loading';
 
 const mapStyles = {
   width: '300px',

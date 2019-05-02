@@ -7,23 +7,8 @@ import { auth } from "../../auth";
 import { userService } from '../../services/userService';
 import moment from 'moment';
 import languages from '../../data/languages';
-import { Button, Checkbox, DatePicker, Form, Input, Modal, notification, Select, TimePicker } from 'antd';
+import { Button, Checkbox, DatePicker, Form, Input, Modal, notification } from 'antd';
 import './index.scss';
-
-
-const tailFormItemLayout = {
-    wrapperCol: {
-        xs: {
-            span: 24,
-            offset: 0,
-        },
-        sm: {
-            span: 16,
-            offset: 8,
-        },
-    },
-};
-
 
 export class index extends Component {
     constructor(props) {
@@ -96,6 +81,8 @@ export class index extends Component {
                     this.errors[rule.field] = message2;
                 }
                 break;
+            default:
+                break;
         }
     
         if (this.getValidationMessage(rule.field)) {
@@ -141,7 +128,7 @@ export class index extends Component {
     }
 
     usernameExists = (username) => {
-        if (username !== '' && username !== null && username != undefined) {
+        if (username !== '' && username !== null && username !== undefined) {
           return userService.checkUsername(username)
             .then((response) => {
               if (response.data.success === false) {
@@ -209,7 +196,6 @@ export class index extends Component {
     }
 
     handleSubmit = (e) => {
-        const { t } = this.props;
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
@@ -234,8 +220,8 @@ export class index extends Component {
 
 
     render() {
-        const { getFieldDecorator, getFieldsError } = this.props.form;
-        const { successfulLogin, validated, usernameInvalid } = this.state;
+        const { getFieldDecorator } = this.props.form;
+        const { successfulLogin } = this.state;
         const { t } = this.props;
         const config = {
           rules: [

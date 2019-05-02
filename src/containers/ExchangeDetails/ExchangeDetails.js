@@ -41,9 +41,9 @@ class ExchangeDetails extends Component {
     };
 
     setData = (response) => {
-        if (response) {
+        if (response.data.success && response.data.code === 200 && response.data.content) {
             this.setState({
-                exchange: response,
+                exchange: response.data.content,
                 loaded: true
             });
         } else {
@@ -58,11 +58,20 @@ class ExchangeDetails extends Component {
     };
 
     readCodeOk = (response) => {
-        if (response.data.exchanged) {
-            this.readCodeFail('code.used');
-        }
-        if (response.data.visible === true) {
-            this.setState({ codeShown: response.data.code })
+        if (response.data.code === 200 && response.data.success && response.data.content) {
+            if (response.data.exchanged) {
+                this.readCodeFail('code.used');
+            }
+            if (response.data.visible === true) {
+                this.setState({ codeShown: response.data.code })
+            } else {
+                this.readCodeFail();
+            }
+        } else if (response.data.code === 500) {
+            notification.error({
+                message: this.props.t('apiErrors.defaultErrorTitle'),
+                description: this.props.t('apiErrors.' + response.data.message),
+            });
         } else {
             this.readCodeFail();
         }
@@ -154,7 +163,7 @@ class ExchangeDetails extends Component {
         return <div style={{ paddingTop: 20 }}>
             <NavLink exact={true} to={"/profile/" + this.state.exchange.creator.id} activeClassName={"none"} >
                 <Badge count={<Icon type="smile" style={{ color: '$mainColor' }} />}>
-                    <Avatar size="large" alt={t('exchange.organizer')} src={this.state.exchange.creator.personalPic ? this.state.exchange.creator.personalPic : personIcon} onError={(e) =>{ console.log(e); return personIcon }
+                    <Avatar size="large" alt={t('exchange.organizer')} src={this.state.exchange.creator.personalPic ? this.state.exchange.creator.personalPic : personIcon} onError={(e) =>{ return personIcon }
                     } />
                 </Badge>
             </NavLink>

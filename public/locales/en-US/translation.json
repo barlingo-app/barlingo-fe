@@ -395,5 +395,9 @@
       "title": "An error has ocurred",
       "message": "The establishment doesnt exist or cant be founded"
     }
+  },
+  "apiErrors": {
+    "defaultErrorTitle": "There was an error",
+    "defaultErrorMessage": "There was an unknown error"
   }
 }
