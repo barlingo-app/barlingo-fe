@@ -126,13 +126,11 @@ export class index extends Component {
     }
 
     handleOk = (e) => {
-        console.log(e);
         this.setState({
             visible: false,
         });
     }
     handleCancel = (e) => {
-        console.log(e);
         this.setState({
             visible: false,
         });
@@ -169,10 +167,8 @@ export class index extends Component {
     }
 
     checkBirthday = (date) => {
-        console.log(date);
         let maximumDate = moment().subtract(18, 'years');
     
-        console.log(maximumDate);
     
         return date >= maximumDate;
       }

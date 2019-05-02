@@ -42,7 +42,6 @@ class UsersListAdmin extends Component {
         const errorMessage = user.userAccount.active ? t('admin.ban.error.message') : t('admin.ban.error.message');
 
         userService.banUser(user.id).then((response) => {
-            console.log(response)
             if (response.status === 200) {
                 notification.success({
                     message: successfulTitle,

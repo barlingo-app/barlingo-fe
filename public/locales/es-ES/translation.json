@@ -1,4 +1,5 @@
 {
+  "intercambiosconcertadosensulocal": "Intercambios concertados en su local",
   "completed": "Completo",
   "participants": "participantes",
   "ourExchanges": "Nuestros establecimientos",
@@ -117,7 +118,8 @@
     "logout": "Cerrar sesión",
     "myExchanges": "Mis intercambios",
     "created": "Creados",
-    "joined": "Unidos"
+    "joined": "Unidos",
+    "calendar": "Calendario de empresa"
   },
   "access": {
     "error": {

@@ -61,8 +61,7 @@ function beforeUpload(file) {
         </div>
       );
       const imageUrl = this.state.imageUrl;
-      console.log("STATE fileUpload, ", this.state)
-      console.log(process.env.REACT_APP_BE_URL + this.props.endpoint);
+
 
       if (this.props.allowUpload !== true) {
         return (

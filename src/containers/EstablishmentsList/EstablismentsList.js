@@ -23,7 +23,6 @@ class EstablismentsList extends Component {
     handleInput = (event) => {
         const value = event.target.value;
         let items = this.state.itemsCopy;
-        console.log(items)
         const res = items.filter(x => {
             //const titleMatch = x.title.toLowerCase().includes(value.toLowerCase());
             //const descriptionMatch = x.description.toLowerCase().includes(value.toLowerCase());

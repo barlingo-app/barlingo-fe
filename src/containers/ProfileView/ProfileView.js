@@ -17,6 +17,7 @@ class ProfileView extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            calendar: false,
             myExchange: false,
             password: null,
             editProfile: false,
@@ -278,7 +279,7 @@ class ProfileView extends Component {
     render() {
         const { t } = this.props
         const { Meta } = Card;
-        const { myExchange, errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText, paySubscription, redirectToNotFound } = this.state;
+        const {calendar, myExchange, errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText, paySubscription, redirectToNotFound } = this.state;
 
         if (editProfile) {
             return (<Redirect to={"/editProfile"} />);
@@ -286,6 +287,9 @@ class ProfileView extends Component {
        else if(myExchange){
         return (<Redirect to={"/myExchanges"} />);
         
+       }
+       else if(calendar){
+        return (<Redirect to={"/calendar"} />);
        }
 
        if (redirectToNotFound) {
@@ -328,8 +332,11 @@ class ProfileView extends Component {
 
                                 <Row style={{paddingTop: "10px"}}>
                                     <Col xs="auto">
-                                        {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.setState({ myExchange: true })} htmlType="submit" className="login-form-button primaryButton">
+                                        {user.id === auth.getUserData().id && auth.isUser() && <Button type="primary" onClick={() => this.setState({ myExchange: true })} htmlType="submit" className="login-form-button primaryButton">
                                             {t('links.myExchanges')}
+                                        </Button>}
+                                        {user.id === auth.getUserData().id && auth.isEstablishment() && <Button type="primary" onClick={() => this.setState({ calendar: true })} htmlType="submit" className="login-form-button primaryButton">
+                                            {t('links.calendar')}
                                         </Button>}
                                     </Col>
                                     <Col xs="1">

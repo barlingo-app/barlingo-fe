@@ -70,7 +70,6 @@ class index extends Component {
     switch(rule.field) {
         case 'username':
           let message0 = await this.checkUsername(value);
-          console.log(message0);
           if (message0) {
             this.errors[rule.field] = message0;
           }
@@ -109,13 +108,11 @@ class index extends Component {
   }
 
   handleOk = (e) => {
-    console.log(e);
     this.setState({
       visible: false,
     });
   }
   handleCancel = (e) => {
-    console.log(e);
     this.setState({
       visible: false,
     });
@@ -149,10 +146,8 @@ class index extends Component {
 
 
   checkBirthday = (date) => {
-    console.log(date);
     let maximumDate = moment().subtract(18, 'years');
 
-    console.log(maximumDate);
 
     return date >= maximumDate;
   }

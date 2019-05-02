@@ -170,10 +170,9 @@ class index extends Component {
     return daysArray;
   }
   checkBirthday = (date) => {
-    console.log(date);
+
     let maximumDate = moment().subtract(18, 'years');
 
-    console.log(maximumDate);
 
     return date >= maximumDate;
   }

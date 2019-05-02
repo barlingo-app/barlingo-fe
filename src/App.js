@@ -21,6 +21,7 @@ import PublicLayout from './layouts/PublicLayout/PublicLayout';
 import CreateNotification from './containers/CreateNotification/CreateNotification'
 import RegisterContainer from './containers/RegisterContainer/RegisterContainer';
 import PaySubscriptionContainer from './containers/PaySubscriptionContainer/PaySubscriptionContainer';
+import CalendarContainer from './containers/CalendarContainer'
 
 const layouts = {
 	'public': PublicLayout,
@@ -29,7 +30,7 @@ const layouts = {
 function checkRoles(roles) {
 	if (roles) {
 		const ANONYMOUS_ROLE = "ANONYMOUS";
-		console.log(roles);
+
 		if (roles && typeof roles === 'object' && roles.constructor === Array) {
 			if (roles.find(x => x === ANONYMOUS_ROLE) && !auth.isAuthenticated()) {
 				return true;
@@ -105,6 +106,7 @@ class App extends Component {
 					<PrivateRoute roles={[USER_ROLE]} exact path="/myExchanges" component={MyExchangesList} />
 					<PrivateRoute roles={[USER_ROLE]} exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
 					<PrivateRoute roles={[ESTABLISHMENT_ROLE]} exact path="/validateCode" component={ValidateCodeContainer} />
+					<PrivateRoute roles={[ESTABLISHMENT_ROLE]} exact path="/calendar" component={CalendarContainer} />
 					<Route component={NotFound} />
 				</Switch>
 			</LayoutProvider>
