@@ -187,6 +187,7 @@ class CreateExchangeForm extends Component {
         let day = today.getDay()
         let month = today.getMonth()
         const maxDate = year + "-" + month + "-" + day
+        const { establishment } = this.props;
 
         const { TextArea } = Input;
 
@@ -204,9 +205,10 @@ class CreateExchangeForm extends Component {
         function disabledDate(current) {
             var startDate = moment().subtract(1, 'minutes');
             var endDate = moment().add(1, 'months');
-            return current.isBefore(startDate) || current.isAfter(endDate);
+            var subscriptionFinishMoment = moment(establishment.subscription.finishMoment + 'Z');
+            return current.isBefore(startDate) || current.isAfter((subscriptionFinishMoment.isBefore(endDate) ? subscriptionFinishMoment : endDate));
         }
-
+        
         return (
 
             <Form onSubmit={this.handleSubmit} className="login-form">

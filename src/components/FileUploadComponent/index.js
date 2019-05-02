@@ -39,7 +39,13 @@ function beforeUpload(file) {
       }
       if (info.file.status === 'done') {
         auth.setUserData(info.file.response.content);
-        this.setState({imageUrl: info.file.response.content[this.props.imageType]})
+
+        let imageUrl = info.file.response.content[this.props.imageType];
+        if (imageUrl.constructor === Array) {
+          imageUrl = imageUrl[0];
+        }
+
+        this.setState({imageUrl: imageUrl});
       }
     }
 
@@ -61,7 +67,6 @@ function beforeUpload(file) {
         </div>
       );
       const imageUrl = this.state.imageUrl;
-
 
       if (this.props.allowUpload !== true) {
         return (
