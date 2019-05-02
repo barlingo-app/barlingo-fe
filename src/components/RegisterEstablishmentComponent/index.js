@@ -205,7 +205,7 @@ class index extends Component {
             description: values.description,
             address: values.address,
             workingHours: workinghours,
-            offer: values.speakLangs
+            offer: values.offer
           }
 
           if (!this.state.submittedForm) {
