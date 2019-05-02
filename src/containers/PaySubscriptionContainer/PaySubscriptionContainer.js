@@ -120,7 +120,11 @@ class PaySubscriptionContainer extends React.Component{
 
         sessionStorage.removeItem("establishmentIdToPayment");
 
-        this.setState({successfullPayment: true});
+        if (auth.isAuthenticated()) {
+          auth.loadUserData().then(() => this.setState({successfullPayment: true}));
+        } else {
+          this.setState({successfullPayment: true});
+        }
       } else if (response.data.code === 500) {
         notification.error({
           message: this.props.t('apiErrors.defaultErrorTitle'),
