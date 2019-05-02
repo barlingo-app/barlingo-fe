@@ -165,7 +165,9 @@
       "closeAfterOpen": "La hora de cierre debe ser posterior a la hora de apertura.",
       "languagesRepeated": "No puede repetir los mismos idiomas que en los idiomas que habla.",
       "exchangeLanguagesRepeated": "No puede repetir los idiomas.",
-      "safeHtml": "No puede insertar etiquetas de script"
+      "safeHtml": "No puede insertar etiquetas de script",
+      "maxLength": "La longitud máxima del campo es de NUMBER_OF_CHARACTERS caracteres.",
+      "wrongPassword": "La contraseña no es correcta"
     },
     "emptyUsername": "Por favor, introduzca su nombre de usuario.",
     "emptyPassword": "Por favor, introduzca su contraseña.",
@@ -212,20 +214,34 @@
     "languagesToLearn": "Lenguas para aprender",
     "submit": "Enviar"
   },
+  "changePassword": {
+    "title": "Cambiar mi contraseña",
+    "button": "Cambiar mi contraseña",
+    "actualPassword": "Contraseña actual",
+    "newPassword": "Nueva contraseña",
+    "changing": "En unos segundos la contraseña se habrá cambiado.",
+    "newPasswordCopy": "Nueva contraseña (de nuevo)",
+    "text1": "Para cambiar su contraseña, introduzca la contraseña actual, y la nueva contraseña dos veces.",
+    "success": {
+      "title": "Todo bien",
+      "message": "La contraseña se ha cambiado correctamente"
+    }
+  },
   "exchange": {
     "search": {
       "textarea": "Buscar intercambio",
-      "date":"Fecha",
+      "date": "Fecha",
       "startTime": "Hora inicio",
       "endTime": "Hora fin",
-      "motherTongue":"Lengua materna",
-      "targetTongue":"Lengua objetivo",
-      "language":"Selecciona los idiomas que te interesen"
+      "motherTongue": "Lengua materna",
+      "targetTongue": "Lengua objetivo",
+      "language": "Selecciona los idiomas que te interesen"
     },
     "error": {
       "title": "Creación fallida",
       "message": "Se ha producido un error al crear un nuevo intercambio, inténtelo más tarde."
-    },"participants": "participants",
+    },
+    "participants": "participants",
     "dateError": {
       "title": "Creación fallida",
       "message": "El momento del intercambio debe ser futuro."

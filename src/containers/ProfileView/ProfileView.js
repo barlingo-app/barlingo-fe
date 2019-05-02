@@ -12,6 +12,7 @@ import { userService } from '../../services/userService';
 import { establishmentService } from '../../services/establishmentService';
 import FileUploadComponent from './../../components/FileUploadComponent/';
 import { NavLink } from "react-router-dom";
+import ChangePassword from './ChangePassword/ChangePassword';
 
 class ProfileView extends Component {
     constructor(props) {
@@ -28,7 +29,8 @@ class ProfileView extends Component {
             visible: false,
             confirmLoading: false,
             paySubscription: false,
-            redirectToNotFound: false
+            redirectToNotFound: false,
+            visibleChangePassword: false
         }
     }
 
@@ -56,12 +58,12 @@ class ProfileView extends Component {
                 isLoggedUser: loggedUser
             });
         } else {
-            this.setState({redirectToNotFound: true});
+            this.setState({ redirectToNotFound: true });
         }
     };
 
     paySubscription = () => {
-        this.setState({paySubscription: true});
+        this.setState({ paySubscription: true });
     }
 
     setError = (error) => {
@@ -77,11 +79,11 @@ class ProfileView extends Component {
             this.setData(user, true)
         } else {
             if (isNaN(userId)) {
-                this.setState({redirectToNotFound: true});
+                this.setState({ redirectToNotFound: true });
             } else {
-            userService.findById(userId)
-                .then((response) => this.setData(response.data, false))
-                .catch((error) => this.setError(error));
+                userService.findById(userId)
+                    .then((response) => this.setData(response.data, false))
+                    .catch((error) => this.setError(error));
             }
 
         }
@@ -93,7 +95,7 @@ class ProfileView extends Component {
         let formattedWorkingHours = '';
         let days = workingHours.split(',')[0].trim();
 
-        days.split(' ').forEach(function(value, index,  array) {
+        days.split(' ').forEach(function (value, index, array) {
             formattedWorkingHours += t('days.' + value.trim().toLowerCase()) + ' ';
         });
 
@@ -231,6 +233,11 @@ class ProfileView extends Component {
             visible: false,
         });
     }
+    handleCancelChangePassword = () => {
+        this.setState({
+            visibleChangePassword: false,
+        });
+    }
     downloadPersonalData = () => {
         if (auth.isUser()) {
             userService.getPersonalData()
@@ -268,33 +275,38 @@ class ProfileView extends Component {
     getSubcriptionWarning = () => (
         <Alert
             message={this.props.t('subscription.warningMessage.title')}
-            description={ this.props.t('subscription.warningMessage.message2') }
+            description={this.props.t('subscription.warningMessage.message2')}
             type="warning"
             showIcon
             banner
         />
     )
+    visibleChangePassword = () => {
+        this.setState({
+            visibleChangePassword: true
+        })
+    }
 
     render() {
         const { t } = this.props
         const { Meta } = Card;
-        const { myExchange, errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText, paySubscription, redirectToNotFound } = this.state;
+        const { myExchange, errorMessage, loaded, user, editProfile, visible, visibleChangePassword, confirmLoading, ModalText, paySubscription, redirectToNotFound } = this.state;
 
         if (editProfile) {
             return (<Redirect to={"/editProfile"} />);
         }
-       else if(myExchange){
-        return (<Redirect to={"/myExchanges"} />);
-        
-       }
+        else if (myExchange) {
+            return (<Redirect to={"/myExchanges"} />);
 
-       if (redirectToNotFound) {
-           return(<Redirect to={"/notFound"} />);
-       }
+        }
 
-       if (paySubscription) {
-        return(<Redirect to={"/payment"} />);
-       }
+        if (redirectToNotFound) {
+            return (<Redirect to={"/notFound"} />);
+        }
+
+        if (paySubscription) {
+            return (<Redirect to={"/payment"} />);
+        }
 
         if (!loaded) {
             return (
@@ -308,16 +320,16 @@ class ProfileView extends Component {
         return (
             <Page layout="public">
                 <Section slot="content">
-                    { auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && this.getSubcriptionWarning() }
+                    {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && this.getSubcriptionWarning()}
                     <Row>
                         <Col col-sm="12" offset-md="4" col-md="4">
                             <Card
                                 cover={
-                                    <FileUploadComponent allowUpload={auth.isAuthenticated() && auth.isUser() && (user.id === auth.getUserData().id)} imageType={"profileBackPic"} full={true} width={"auto"} height={300} endpoint={"/users/" + auth.getUserData().id + "/upload?imageType=backPic"} imageUrl = { auth.isEstablishment() ? user.images[0] : user.profileBackPic } defaultImage={defaultImage} />
-                                    }>
+                                    <FileUploadComponent allowUpload={auth.isAuthenticated() && auth.isUser() && (user.id === auth.getUserData().id)} imageType={"profileBackPic"} full={true} width={"auto"} height={300} endpoint={"/users/" + auth.getUserData().id + "/upload?imageType=backPic"} imageUrl={auth.isEstablishment() ? user.images[0] : user.profileBackPic} defaultImage={defaultImage} />
+                                }>
                                 <Meta
                                     avatar={
-                                        <FileUploadComponent allowUpload={auth.isAuthenticated() && (auth.isUser() ||auth.isEstablishment()) && (user.id === auth.getUserData().id)} imageType={auth.isEstablishment() ? "imageProfile" : "personalPic"} width={40} height={"auto"} endpoint={auth.isEstablishment() ? "/establishments/" + auth.getUserData().id + "/upload" : "/users/" + auth.getUserData().id + "/upload?imageType=personal"} imageUrl = {auth.isEstablishment() ? user.imageProfile : user.personalPic} defaultImage={defaultImage} />
+                                        <FileUploadComponent allowUpload={auth.isAuthenticated() && (auth.isUser() || auth.isEstablishment()) && (user.id === auth.getUserData().id)} imageType={auth.isEstablishment() ? "imageProfile" : "personalPic"} width={40} height={"auto"} endpoint={auth.isEstablishment() ? "/establishments/" + auth.getUserData().id + "/upload" : "/users/" + auth.getUserData().id + "/upload?imageType=personal"} imageUrl={auth.isEstablishment() ? user.imageProfile : user.personalPic} defaultImage={defaultImage} />
 
 
                                     }
@@ -326,7 +338,7 @@ class ProfileView extends Component {
 
                                 />
 
-                                <Row style={{paddingTop: "10px"}}>
+                                <Row style={{ paddingTop: "10px" }}>
                                     <Col xs="auto">
                                         {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.setState({ myExchange: true })} htmlType="submit" className="login-form-button primaryButton">
                                             {t('links.myExchanges')}
@@ -347,9 +359,13 @@ class ProfileView extends Component {
                                             {t('deleteAccount.delete')}
                                         </Button>}
                                     </Col>
+                                    <Col xs="auto">
+                                        {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.visibleChangePassword()} htmlType="submit" className="login-form-button primaryButton">
+                                            {t('changePassword.button')}
+                                        </Button>}
+                                    </Col>
                                     <Col>
-                                        
-                                        {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null)  && (user.id === auth.getUserData().id) && <Button type="primary" onClick={() => this.paySubscription()} htmlType="submit" className="login-form-button primaryButton">
+                                        {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && <Button type="primary" onClick={() => this.paySubscription()} htmlType="submit" className="login-form-button primaryButton">
                                             {t('subscription.payButton')}
                                         </Button>}
                                     </Col>
@@ -370,9 +386,11 @@ class ProfileView extends Component {
                     >
                         <p>{ModalText}</p>
                     </Modal>
+                    <ChangePassword visible={visibleChangePassword} handleCancel = {this.handleCancelChangePassword} />
                 </Section>
             </Page >
         );
+
     }
 }
 

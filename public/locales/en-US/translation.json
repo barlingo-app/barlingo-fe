@@ -129,7 +129,8 @@
       "languagesRepeated": "You can not repeat the same languages ​​as in the languages ​​you speak.",
       "exchangeLanguagesRepeated": "You can not repeat the languages.",
       "safeHtml": "You can not insert script tags",
-      "maxLength": "The maximum length of the field is NUMBER_OF_CHARACTERS characters."
+      "maxLength": "The maximum length of the field is NUMBER_OF_CHARACTERS characters.",
+      "wrongPassword": "The password is wrong"
     },
     "emptyUsername": "Please input your username!",
     "validemail": "Please, provide a valid email",
@@ -176,6 +177,19 @@
     "languagesToLearn": "Languages you want to learn",
     "submit": "Submit"
   },
+  "changePassword": {
+    "title": "Change my password",
+    "button": "Change my password",
+    "text1": "To change the password, write the actual password, and the new password twice.",
+    "actualPassword": "Actual password",
+    "newPassword": "New password",
+    "changing": "In a few seconds the password will have been changed.",
+    "newPasswordCopy": "New password (again)",
+    "success": {
+      "title": "All rigth",
+      "message": "The password has been changed successfully"
+    }
+  },
   "access": {
     "error": {
       "title": "Access not allowed",
@@ -215,12 +229,12 @@
   "exchange": {
     "search": {
       "textarea": "Search exchange",
-      "date":"Date",
+      "date": "Date",
       "startTime": "Start time",
       "endTime": "End time",
-      "motherTongue":"Mother tongue",
-      "targetTongue":"Target tongue",
-      "language":"Select the languages that interest you"
+      "motherTongue": "Mother tongue",
+      "targetTongue": "Target tongue",
+      "language": "Select the languages that interest you"
     },
     "error": {
       "title": "Failed creation",
