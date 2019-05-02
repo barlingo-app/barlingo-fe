@@ -1,7 +1,7 @@
 
 import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
-import { Button, DatePicker, Form, Icon, Input, notification, Radio, Select } from 'antd';
+import { Button, Form, Input, notification, Radio } from 'antd';
 import { notificationService } from '../../services/notificationService';
 
 import { Page, Section } from "react-page-layout";

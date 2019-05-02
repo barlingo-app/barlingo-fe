@@ -1,5 +1,5 @@
 import  React, { Component } from 'react'
-import { Calendar, Badge, Empty } from 'antd';
+import { Calendar, Badge } from 'antd';
 import { withNamespaces } from "react-i18next";
 import "antd/dist/antd.css";
 import './index.scss'
@@ -39,8 +39,7 @@ export class index extends Component {
 
   getMonthData(value) {
     let calendatDate = new Date(value)
-    const {items} = this.state
-    let months = []
+    const {items} = this.state;
     let count = 0
     for (let i in items){
       let item = items[i]

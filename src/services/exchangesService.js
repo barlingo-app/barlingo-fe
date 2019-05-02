@@ -9,7 +9,7 @@ export const exchangesService = {
         return axios.get(process.env.REACT_APP_BE_URL + '/exchanges/' + param)
             .then(
                 (response) => {
-                    return response.data;
+                    return response;
                 })
             .catch((error) => { return error; });
     },
@@ -17,7 +17,7 @@ export const exchangesService = {
         return axios.get(process.env.REACT_APP_BE_URL + '/exchanges?estId=' + auth.getUserData().id+ '&date=false')
             .then(
                 (response) => {
-                    return response.data;
+                    return response;
                 })
             .catch((error) => { return error; });
     },
@@ -25,14 +25,14 @@ export const exchangesService = {
         return axios.get(process.env.REACT_APP_BE_URL + '/exchanges?userId=' + auth.getUserData().id + '&date=false')
             .then(
                 (response) => {
-                    return response.data;
+                    return response;
                 })
             .catch((error) => { return error; });
     },
     async findOne(id) {
         id = id ? id : 0;
         return axios.get(process.env.REACT_APP_BE_URL + '/exchanges/' + id)
-        .then((response) => {return response.data;})
+        .then((response) => {return response;})
         .catch((error) => { return error; });
     },
     async create(data) {

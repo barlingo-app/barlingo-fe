@@ -4,7 +4,6 @@ import "./UserMenuInfo.scss";
 import defaultImage from "../../media/person.png"
 import { NavLink } from "react-router-dom";
 import { auth } from '../../auth';
-import { Menu, Dropdown, Icon } from 'antd';
 import { withRouter } from 'react-router-dom';
 
 
@@ -17,7 +16,8 @@ class UserMenuInfo extends Component {
         };
     }
 
-    logoutHandler = (previous) => {
+    logoutHandler = (e, previous) => {
+        e.preventDefault();
         auth.logout();
         this.props.history.push("/");
     };
@@ -29,20 +29,6 @@ class UserMenuInfo extends Component {
     render() {
         const { t } = this.props;
         const userData = auth.getUserData();
-        const menu = (
-            <Menu style={{zIndex: 10000000}}>
-              <Menu.Item>
-                <NavLink exact={true} to={"/registerUser"} >
-                            <div>{t('as-user')}</div>
-                </NavLink>
-              </Menu.Item>
-              <Menu.Item>
-              <NavLink exact={true} to={"/registerEstablishment"} >
-                            <div>{t('as-establishment')}</div>
-                </NavLink>
-              </Menu.Item>
-            </Menu>
-          );
         let fullName = "";
         let location = "";
 
@@ -55,15 +41,15 @@ class UserMenuInfo extends Component {
             <div className="userMenuInfo">
                 <div className={"userImageContainer"}>
                     <div className={"userImage"}>
-                        {!auth.isAuthenticated() && < img src={defaultImage} alt={"user photo"} />}
-                        {auth.isAuthenticated() && <NavLink exact={true} to={"/profile"} activeClassName={"none"} ><img src={ this.getImage(auth.isEstablishment() ? userData.imageProfile : userData.personalPic) } alt={"user photo"} onError={(e) => { e.target.src = defaultImage }}/></NavLink>}
+                        {!auth.isAuthenticated() && < img src={defaultImage} alt={"user"} />}
+                        {auth.isAuthenticated() && <NavLink exact={true} to={"/profile"} activeClassName={"none"} ><img src={ this.getImage(auth.isEstablishment() ? userData.imageProfile : userData.personalPic) } alt={"user"} onError={(e) => { e.target.src = defaultImage }}/></NavLink>}
                     </div>
                 </div>
                 <div className={"userInfoContainer"}>
                     {auth.isAuthenticated() && !auth.isAdmin() && <div className={"mainInfo"} title={fullName}><NavLink exact={true} to={"/profile"} activeClassName={"none"} >{fullName}</NavLink></div>}
                     {auth.isAuthenticated() && auth.isAdmin() && <div className={"mainInfo"} title={fullName}>{fullName}</div>}
                     {auth.isAuthenticated() && <div className={"secondaryInfo"} title={location}>{location} </div>}
-                    {auth.isAuthenticated() && <div className={"secondaryInfo"}><a onClick={() => this.logoutHandler(window.location.pathname)}>{t('links.logout')}</a></div>}
+                    {auth.isAuthenticated() && <div className={"secondaryInfo"}><a href={"/logout"} onClick={(e) => this.logoutHandler(e, window.location.pathname)}>{t('links.logout')}</a></div>}
                     {!auth.isAuthenticated() && <NavLink exact={true} to={"/login"} activeClassName={"none"} >
                         <div>{t('links.login')}</div></NavLink>}
                     {!auth.isAuthenticated() && <NavLink exact={true} to={"/register"} activeClassName={"none"} >{t('links.register')}</NavLink>}

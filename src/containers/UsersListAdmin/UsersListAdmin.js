@@ -23,10 +23,17 @@ class UsersListAdmin extends Component {
     }
     consultaUsuarios = () => {
         userService.findAll().then(response => {
-            this.setState({
-                users: response.data,
+            if (response.data.code === 200 && response.data.success) {
+                this.setState({
+                users: response.data.content,
                 loaded: true
-            });
+                });
+            } else {
+                const { t } = this.props;
+                this.setState({
+                    errorMessage: t('loadErrorMessage')
+                });
+            }
         }).catch(((error) => {
             const { t } = this.props;
             this.setState({
@@ -42,12 +49,17 @@ class UsersListAdmin extends Component {
         const errorMessage = user.userAccount.active ? t('admin.ban.error.message') : t('admin.ban.error.message');
 
         userService.banUser(user.id).then((response) => {
-            if (response.status === 200) {
+            if (response.data.code === 200 && response.data.success) {
                 notification.success({
                     message: successfulTitle,
                     description: succesfulMessage,
                 });
                 this.consultaUsuarios();
+            } else if (response.data.code === 500) {
+                notification.error({
+                    message: this.props.t('apiErrors.defaultErrorTitle'),
+                    description: this.props.t('apiErrors.' + response.data.message),
+                });
             } else {
                 notification.error({
                     message: errorTitle,

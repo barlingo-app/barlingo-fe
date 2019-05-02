@@ -14,8 +14,6 @@ export class index extends Component {
 
    componentDidMount(){
        if(auth.isAuthenticated() && auth.isUser()){
-           // lamada a la api de mi perfil usuario y actualizo el estado
-           const rol = "user"
            const data = auth.getUserData()
            
            this.setState({
@@ -24,8 +22,6 @@ export class index extends Component {
            })
        }
        else if(auth.isAuthenticated() && auth.isEstablishment()){
-           // llamada a la api de mi perfil stablishment y actualizdo el estado
-           const rol = "establishment"
            const data = auth.getUserData()
            
            this.setState({
@@ -33,13 +29,10 @@ export class index extends Component {
                data: data
            })
        }
-       else{
-           alert("fallo! no se qué hacer, mirame en componentDidMount")
-       }
    }
 
     render() {
-        const {rol, data} = this.state
+        const { rol, data} = this.state
         if(rol === 'user'){
             return(
             <div className="register-bg">

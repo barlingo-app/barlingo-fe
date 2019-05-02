@@ -6,7 +6,6 @@ import { Redirect } from 'react-router-dom';
 import { auth } from '../../../auth';
 import moment from 'moment';
 import { exchangesService } from '../../../services/exchangesService';
-import languages from '../../../data/languages';
 import './CreateExchangeForm.scss';
 import './CreateExchangeForm.scss';
 const { Option } = Select;
@@ -67,6 +66,8 @@ class CreateExchangeForm extends Component {
                     this.errors[rule.field] = message2;
                 }
                 break;
+            default:
+                break;
         }
 
         if (this.getValidationMessage(rule.field)) {
@@ -77,7 +78,7 @@ class CreateExchangeForm extends Component {
     }
 
     checkLanguages = (value) => {
-        if (value && this.props.form.getFieldValue('motherTongue') == value) {
+        if (value && this.props.form.getFieldValue('motherTongue') === value) {
             return 'exchangeLanguagesRepeated';
         }
 
@@ -152,7 +153,7 @@ class CreateExchangeForm extends Component {
                 const { t } = this.props;
                 exchangesService.create(data)
                     .then((response) => {
-                        if (response.status === 200) {
+                        if (response.data.success && response.data.code === 200 && response.data.content) {
                             this.setState(
                                 { cambiar: "/exchanges/" + response.data.content.id }
                             );
@@ -160,20 +161,33 @@ class CreateExchangeForm extends Component {
                                 message: t('exchange.successful.title'),
                                 description: t('exchange.successful.message'),
                             });
+                        } else if (response.data.code === 400) {
+                            this.externalErrors = response.data.validationErrors;
+                            let fieldNames = [];
+                            for (var fieldName in this.externalErrors)  {
+                              fieldNames.push(fieldName);
+                            }
+                            this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
+                        } else if (response.data.code === 500) {
+                            notification.error({
+                                message: this.props.t('apiErrors.defaultErrorTitle'),
+                                description: this.props.t('apiErrors.' + response.data.message),
+                              });
                         } else {
+                            notification.error({
+                                message: this.props.t('apiErrors.defaultErrorTitle'),
+                                description: this.props.t('apiErrors.defaultErrorMessage')
+                            });
                             this.setState({ formFailed: true });
                         }
 
                     })
                     .catch((error) => {
-                        if (error === 'Event has already taken place') {
-                            notification.error({
-                                message: t('exchange.dateError.title'),
-                                description: t('exchange.dateError.message'),
-                            });
-                        } else {
-                            this.setState({ formFailed: true });
-                        }
+                        notification.error({
+                            message: this.props.t('apiErrors.defaultErrorTitle'),
+                            description: this.props.t('apiErrors.defaultErrorMessage')
+                        });
+                        this.setState({ formFailed: true });
                     });
             }
         });
@@ -181,12 +195,6 @@ class CreateExchangeForm extends Component {
     componentDidMount() {
     }
     render() {
-
-        let today = new Date()
-        let year = today.getFullYear()
-        let day = today.getDay()
-        let month = today.getMonth()
-        const maxDate = year + "-" + month + "-" + day
         const { establishment } = this.props;
 
         const { TextArea } = Input;
@@ -296,7 +304,7 @@ class CreateExchangeForm extends Component {
                     })(
                         <Select>
                             {auth.getUserData().langsToLearn.map((key, index) => (
-                                <Option value={key}>{t('languages.' + key)}</Option>
+                                <Option key={key} value={key}>{t('languages.' + key)}</Option>
                             ))}
                         </Select>
                     )}

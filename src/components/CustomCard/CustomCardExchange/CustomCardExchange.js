@@ -40,8 +40,6 @@ class CustomCardExchange extends Component {
                 <img key={"mother_tonge_" + index} className="custom-card-exchange-user__language-icon" src={i} alt="target tongue" />
             ))}
         </div>);
-
-        return null;
     }
     renderButton() {
         if (auth.isAuthenticated()) {
@@ -116,14 +114,14 @@ class CustomCardExchange extends Component {
     };
 
     leaveProcessResponse = (response) => {
-        if (response.status === 200) {
+        if (response.data.code === 200 && response.data.success) {
             this.showSuccessfulMessage("leave");
         } else {
             this.showErrorMessage("leave");
         }
     };
     joinProcessResponse = (response) => {
-        if (response.status === 200) {
+        if (response.data.code === 200 && response.data.success) {
             this.showSuccessfulMessage();
         } else {
             this.showErrorMessage();

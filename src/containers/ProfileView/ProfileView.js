@@ -1,4 +1,4 @@
-import { Button, Card, Form, Icon, Input, Modal, Alert } from 'antd';
+import { Button, Card, Form, Icon, Input, Modal, Alert, notification } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
@@ -50,10 +50,16 @@ class ProfileView extends Component {
         document.title = "Barlingo - Profile";
     }
 
-    setData = (user, loggedUser) => {
-        if (user) {
+    setData = (response, loggedUser) => {
+        if (loggedUser) {
             this.setState({
-                user: user,
+                user: response,
+                loaded: true,
+                isLoggedUser: loggedUser
+            });
+        }else if (response.data.code === 200 && response.data.success && response.data.content) {
+            this.setState({
+                user: response.data.content,
                 loaded: true,
                 isLoggedUser: loggedUser
             });
@@ -82,7 +88,7 @@ class ProfileView extends Component {
                 this.setState({ redirectToNotFound: true });
             } else {
                 userService.findById(userId)
-                    .then((response) => this.setData(response.data, false))
+                    .then((response) => this.setData(response, false))
                     .catch((error) => this.setError(error));
             }
 
@@ -103,7 +109,6 @@ class ProfileView extends Component {
     }
 
     renderDescription() {
-        const { t } = this.props
         let user = this.state.user
         const { city, country, address = "", workingHours = "", birthday = "", email = "", description = "", offer = "" } = user
         const address1 = city + ", " + country + ", " + address;
@@ -181,26 +186,56 @@ class ProfileView extends Component {
             if (auth.isUser()) {
                 userService.anonymize()
                     .then(response => {
-                        this.setState({
-                            visible: false,
-                            confirmLoading: false,
-                        });
-                        auth.logout();
-                        this.props.history.push("/");
+                        if (response.data.code === 200 && response.data.success) {
+                            this.setState({
+                                visible: false,
+                                confirmLoading: false,
+                            });
+                            auth.logout();
+                            this.props.history.push("/");
+                        } else if (response.data.code === 500) {
+                            notification.error({
+                                message: this.props.t('apiErrors.defaultErrorTitle'),
+                                description: this.props.t('apiErrors.' + response.data.message),
+                              });
+                        } else {
+                            notification.error({
+                                message: this.props.t('apiErrors.defaultErrorTitle'),
+                                description: this.props.t('apiErrors.defaultErrorMessage')
+                            });
+                        }
                     }).catch(error => {
-
+                        notification.error({
+                            message: this.props.t('apiErrors.defaultErrorTitle'),
+                            description: this.props.t('apiErrors.defaultErrorMessage')
+                        });
                     });
             } else if (auth.isEstablishment()) {
                 establishmentService.anonymize()
                     .then(response => {
+                        if (response.data.success && response.data.code === 200) {
                         this.setState({
                             visible: false,
                             confirmLoading: false,
                         });
                         auth.logout();
                         this.props.history.push("/");
+                        } else if (response.data.code === 500) {
+                            notification.error({
+                                message: this.props.t('apiErrors.defaultErrorTitle'),
+                                description: this.props.t('apiErrors.' + response.data.message),
+                              });
+                        } else {
+                            notification.error({
+                                message: this.props.t('apiErrors.defaultErrorTitle'),
+                                description: this.props.t('apiErrors.defaultErrorMessage')
+                            });
+                        }
                     }).catch(error => {
-
+                        notification.error({
+                            message: this.props.t('apiErrors.defaultErrorTitle'),
+                            description: this.props.t('apiErrors.defaultErrorMessage')
+                        });
                     });
             }
         } else {
@@ -242,17 +277,32 @@ class ProfileView extends Component {
         if (auth.isUser()) {
             userService.getPersonalData()
                 .then(response => {
-                    const element = document.createElement("a");
-                    const file = new Blob([JSON.stringify(response.data)], { type: 'text/plain' });
-                    const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-                    const date = new Date().toLocaleDateString('es-ES', dateFormat)
-                    const name = "" + auth.getUserData().userAccount.username + "-" + date + ".txt";
-                    element.href = URL.createObjectURL(file);
-                    element.download = name;
-                    document.body.appendChild(element); // Required for this to work in FireFox
-                    element.click();
+                    if (response.data.code === 200 && response.data.success && response.data.content) {
+                        const element = document.createElement("a");
+                        const file = new Blob([JSON.stringify(response.data.content)], { type: 'text/plain' });
+                        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+                        const date = new Date().toLocaleDateString('es-ES', dateFormat)
+                        const name = "" + auth.getUserData().userAccount.username + "-" + date + ".txt";
+                        element.href = URL.createObjectURL(file);
+                        element.download = name;
+                        document.body.appendChild(element); // Required for this to work in FireFox
+                        element.click();
+                    } else if (response.data.code === 500) {
+                        notification.error({
+                            message: this.props.t('apiErrors.defaultErrorTitle'),
+                            description: this.props.t('apiErrors.' + response.data.message),
+                          });
+                    } else {
+                        notification.error({
+                            message: this.props.t('apiErrors.defaultErrorTitle'),
+                            description: this.props.t('apiErrors.defaultErrorMessage')
+                        });
+                    }
                 }).catch(error => {
-
+                    notification.error({
+                        message: this.props.t('apiErrors.defaultErrorTitle'),
+                        description: this.props.t('apiErrors.defaultErrorMessage')
+                    });
                 });
         } else if (auth.isEstablishment()) {
             establishmentService.getPersonalData()

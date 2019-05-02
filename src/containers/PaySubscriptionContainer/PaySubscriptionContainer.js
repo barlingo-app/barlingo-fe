@@ -78,6 +78,8 @@ class PaySubscriptionContainer extends React.Component{
           subscriptionType: ANNUAL_SUBSCRIPTION_ID
         });
         break;
+      default:
+        break;
     }
   }
 
@@ -94,6 +96,8 @@ class PaySubscriptionContainer extends React.Component{
       case ANNUAL_SUBSCRIPTION_ID: 
       classes += ' annual';
         break;
+      default:
+        break;
     }
 
     if (subscriptionId === this.state.subscriptionType) {
@@ -108,14 +112,24 @@ class PaySubscriptionContainer extends React.Component{
     
     establishmentService.savePay(this.state.establishmentId, details.id)
     .then((response) => {
-      notification.success({
-        message: t('subscription.successMessage.title'),
-        description: t('subscription.successMessage.message'),
-      });
+      if (response.data.code === 200 && response.data.success && response.data.content) {
+        notification.success({
+          message: t('subscription.successMessage.title'),
+          description: t('subscription.successMessage.message'),
+        });
 
-      sessionStorage.removeItem("establishmentIdToPayment");
+        sessionStorage.removeItem("establishmentIdToPayment");
 
-      this.setState({successfullPayment: true});
+        this.setState({successfullPayment: true});
+      } else if (response.data.code === 500) {
+        notification.error({
+          message: this.props.t('apiErrors.defaultErrorTitle'),
+          description: this.props.t('apiErrors.' + response.data.message),
+        });
+        this.setState({errorMessage: true, orderId: details.orderID})
+      } else {
+        this.setState({errorMessage: true, orderId: details.orderID})
+      }
     })
     .catch((error) => {
       this.setState({errorMessage: true, orderId: details.orderID})

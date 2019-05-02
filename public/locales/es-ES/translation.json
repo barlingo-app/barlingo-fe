@@ -401,5 +401,9 @@
   "errors": {
     "titles": {},
     "messages": {}
+  },
+  "apiErrors": {
+    "defaultErrorTitle": "Hubo un error",
+    "defaultErrorMessage": "Hubo un error desconocido"
   }
 }

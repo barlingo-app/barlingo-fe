@@ -6,7 +6,6 @@ import { Col, Row } from 'reactstrap';
 import { auth } from '../../../auth';
 import CustomCardExchange from '../../../components/CustomCard/CustomCardExchange/CustomCardExchange';
 import Loading from "../../../components/Loading/Loading";
-import defaultImage from '../../../media/default-exchange-logo.png';
 import { exchangesService } from '../../../services/exchangesService';
 import '../ExchangesList.scss';
 import moment from 'moment';
@@ -30,10 +29,14 @@ class MyExchangesList extends Component {
             .then((response) => this.setData(response)).catch((error) => this.setError(error));
     };
     setData = (response) => {
-        this.setState({
-            items: response,
-            loaded: true
-        })
+        if (response.data.code === 200 && response.data.success) {
+            this.setState({
+                items: response.data.content,
+                loaded: true
+            });
+        } else {
+            this.setError(null);
+        }
     };
 
     setError = (error) => {
@@ -47,14 +50,14 @@ class MyExchangesList extends Component {
         this.fetchData();
     }
     leaveProcessResponse = (response) => {
-        if (response.status === 200) {
+        if (response.data.code === 200 && response.data.success) {
             this.showSuccessfulMessage("leave");
         } else {
             this.showErrorMessage("leave");
         }
     };
     joinProcessResponse = (response) => {
-        if (response.status === 200) {
+        if (response.data.code === 200 && response.data.success) {
             this.showSuccessfulMessage();
         } else {
             this.showErrorMessage();
@@ -185,9 +188,8 @@ class MyExchangesList extends Component {
     }
 
     render() {
-        const { errorMessage, loaded, items } = this.state;
+        const { errorMessage, loaded } = this.state;
         const { t } = this.props;
-        let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
 
         if (!loaded) {
             return (

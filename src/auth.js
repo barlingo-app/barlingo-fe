@@ -28,7 +28,7 @@ export const auth = {
 
     return await axios.post(process.env.REACT_APP_BE_URL + '/users/signin', data,
       { headers: { 'Content-Type': 'multipart/form-data' } })
-      .then((response) => { return { result: response.status === 200, data: response.data } })
+      .then((response) => { return { result: response.data.code === 200 && response.data.success, data: response.data.content } })
       .catch(() => { return { result: false } });
   },
 
@@ -236,35 +236,35 @@ export const auth = {
   async loadUserData() {
     if (this.isUser()) {
       return await userService.findById(this.getUserId()).then((response) => {
-        if (response.data === null || response.data === "") {
-          this.logout();
-          return false;
-        } else {
-          this.setUserData(response.data);
+        if (response.data.success && response.data.content !== null && response.data.content !== "") {
+          this.setUserData(response.data.content);
           this.setAuthenticationFlag("true");
           return true;
+        } else {          
+          this.logout();
+          return false;
         }
       }).catch((error) => {this.logout();return false;});
     } else if (this.isEstablishment()) {
       return await establishmentService.findOne(this.getUserId()).then((response) => {
-        if (response.data === null || response.data === "") {
-          this.logout();
-          return false;
-        } else {
-          this.setUserData(response.data);
+        if (response.data.success && response.data.content !== null && response.data.content !== "") {
+          this.setUserData(response.data.content);
           this.setAuthenticationFlag("true");
           return true;
+        } else {
+          this.logout();
+          return false;
         }
       }).catch((error) => {this.logout();return false;});
     } else if (this.isAdmin()) {
       return await adminService.findById(this.getUserId()).then((response) => {
-        if (response.data === null || response.data === "") {
-          this.logout();
-          return false;
-        } else {
+        if (response.data.success && response.data.content !== null && response.data.content !== "") {
           this.setUserData(response.data);
           this.setAuthenticationFlag("true");
           return true;
+        } else {
+          this.logout();
+          return false;
         }
       }).catch((error) => {this.logout();return false;});
     } else {

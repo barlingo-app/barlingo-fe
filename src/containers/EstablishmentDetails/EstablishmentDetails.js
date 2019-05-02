@@ -32,10 +32,10 @@ class EstablishmentDetails extends Component {
     };
 
     setData = (response) => {
-        if (response.data) {
+        if (response.data.code === 200 && response.data.success && response.data.content) {
             document.title = "Barlingo - " + response.data.establishmentName;
             this.setState({
-                establishment: response.data,
+                establishment: response.data.content,
                 loaded: true
             });
         } else {

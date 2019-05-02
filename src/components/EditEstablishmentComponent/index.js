@@ -1,4 +1,4 @@
-import { Checkbox, Form, Input, notification, Select, TimePicker } from 'antd';
+import { Checkbox, Form, Input, notification, TimePicker } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { establishmentService } from '../../services/establishmentService';
@@ -7,12 +7,6 @@ import {Row, Col} from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 import { auth } from '../../auth';
-
-const { Option } = Select;
-
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
 
 const week = ["monday",
             "tuesday",
@@ -76,6 +70,8 @@ class index extends Component {
                 this.errors[rule.field] = message3;
             }
             break;
+        default:
+            break;
     }
 
     if (this.getValidationMessage(rule.field)) {
@@ -94,7 +90,6 @@ class index extends Component {
   }
 
   handleSubmit(e) {
-    const {t} = this.props
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -140,8 +135,11 @@ class index extends Component {
             }
             this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
             this.setState({validated: true});
-          } else if (response.data.message === 'The username already exists.') {
-            this.setState({ usernameInvalid: true, validated: true })
+          } else if (response.data.code === 500) {        
+            notification.error({
+              message: this.props.t('apiErrors.defaultErrorTitle'),
+              description: this.props.t('apiErrors.' + response.data.message),
+            });
           }
         } else {
           auth.loadUserData().then(() => {
@@ -153,10 +151,9 @@ class index extends Component {
           });
         }
       }).catch((error) => {
-
         notification.error({
-          message: "Failed register",
-          description: "There was an error saving the data",
+          message: this.props.t('apiErrors.defaultErrorTitle'),
+          description: this.props.t('apiErrors.defaultErrorMessage'),
         });
       });
   }
@@ -189,8 +186,8 @@ class index extends Component {
   }
 
   render() {
-    const { getFieldDecorator, getFieldsError } = this.props.form;
-    const { autoCompleteResult, successfulLogin } = this.state;
+    const { getFieldDecorator } = this.props.form;
+    const { successfulLogin } = this.state;
     const { t } = this.props;
 
     if (successfulLogin) {

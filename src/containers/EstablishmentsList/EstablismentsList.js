@@ -43,11 +43,15 @@ class EstablismentsList extends Component {
     };
 
     setData = (response) => {
-        this.setState({
-            items: response.data,
-            itemsCopy: response.data,
-            loaded: true
-        })
+        if (response.data.success && response.data.code === 200 && response.data.content) {
+            this.setState({
+                items: response.data.content,
+                itemsCopy: response.data.content,
+                loaded: true
+            });
+        } else {
+            this.setError(null);
+        }
     };
 
     setError = (error) => {
@@ -65,7 +69,6 @@ class EstablismentsList extends Component {
     render() {
         const { t } = this.props;
         const { errorMessage, loaded, items } = this.state;
-        let buttonMessage = t('generic.create');
 
         if (!loaded) {
             return (
