@@ -42,13 +42,26 @@ export class index extends Component {
     
   }
 
+  isOwner(items){
+    let isOwner = true
+    for (let i in items){
+      const item = items[i]
+      if(item.establishment.id !== auth.getUserData().id){
+        isOwner = false;
+        break;
+      }
+    }
+    console.log(isOwner)
+    return isOwner
+  }
+
   render() {
     let {items, loaded} = this.state
     return (
       <div>
         <Page layout="public">
         <Section slot="content">
-            {auth.isEstablishment && loaded ? <Calendar items={items} />:<Loading />}
+            {auth.isEstablishment && loaded && this.isOwner(items) ? <Calendar items={items} />:<Loading />}
         </Section>
       </Page>
       </div>
