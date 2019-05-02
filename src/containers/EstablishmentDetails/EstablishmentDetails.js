@@ -1,4 +1,3 @@
-import { Avatar, Card } from 'antd';
 import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
@@ -9,6 +8,7 @@ import locationIcon from '../../media/imageedit_5_5395394410.png';
 import timeIcon from '../../media/imageedit_8_4988666292.png';
 import { establishmentService } from '../../services/establishmentService';
 import Loading from "../../components/Loading/Loading";
+import { Redirect } from 'react-router-dom';
 
 class EstablishmentDetails extends Component {
     constructor(props) {
@@ -16,21 +16,31 @@ class EstablishmentDetails extends Component {
         this.state = {
             establishment: {},
             loaded: false,
-            errorMessage: null
+            errorMessage: null,
+            redirectToNotFound: false
         }
     }
 
     fetchData = () => {
-        establishmentService.findOne(this.props.match.params.establishmentName)
+        if (isNaN(this.props.match.params.establishmentName)) {
+            this.setState({redirectToNotFound: true});
+        } else {
+            establishmentService.findOne(this.props.match.params.establishmentName)
             .then((response) => this.setData(response))
             .catch((error) => this.setError(error));
+        }
     };
 
     setData = (response) => {
-        this.setState({
-            establishment: response.data,
-            loaded: true
-        })
+        if (response.data) {
+            document.title = "Barlingo - " + response.data.establishmentName;
+            this.setState({
+                establishment: response.data,
+                loaded: true
+            });
+        } else {
+            this.setState({redirectToNotFound: true});
+        }
     };
 
     setError = (error) => {
@@ -40,8 +50,13 @@ class EstablishmentDetails extends Component {
     };
 
     componentDidMount() {
-        document.title = "Barlingo - " + this.state.establishment.establishmentName;
         this.fetchData();
+    }
+
+    componentDidUpdate() {
+        if (this.state.establishment) {
+            document.title = "Barlingo - " + this.state.establishment.establishmentName;
+        }
     }
 
     getFormattedWorkingHours = (workingHours) => {
@@ -81,8 +96,13 @@ class EstablishmentDetails extends Component {
     };
 
     render() {
-        const { errorMessage, loaded, establishment } = this.state;
+        const { errorMessage, loaded, establishment, redirectToNotFound } = this.state;
         const { t } = this.props;
+
+        if (redirectToNotFound) {
+            return(<Redirect to={"/notFound"} />);
+        }
+
         if (!loaded) {
             return (
                 <Page layout="public">
@@ -106,7 +126,7 @@ class EstablishmentDetails extends Component {
                                 <div className="establishment-details__address">{establishment.address}</div>
                                 <div className="establishment-details__description">{establishment.description}</div>
                                 <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
-                                <div className="establishment-details__workingHours">{establishment.workingHours}</div>
+                                <div className="establishment-details__workingHours">{this.getFormattedWorkingHours(establishment.workingHours)}</div>
                                 <div className="establishment-details__offer-title">{t('form.offer')}</div>
                                 <div className="establishment-details__offer">{establishment.offer}</div>
                             </Col>

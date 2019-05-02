@@ -44,7 +44,7 @@ function beforeUpload(file) {
     }
 
     getImage = (image) => {
-      return (image === '' || image === null) ? this.props.defaultImage : (auth.isUser() ? process.env.REACT_APP_BE_URL + '/users/uploads/' + image : image);
+      return (image === '' || image === null) ? this.props.defaultImage : image;
     };
 
     componentDidMount() {

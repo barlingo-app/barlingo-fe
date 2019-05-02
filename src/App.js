@@ -4,10 +4,8 @@ import { LayoutProvider } from 'react-page-layout';
 import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import { auth } from "./auth";
 import { notification } from 'antd';
-import RegisterUserContainer from './containers/RegisterUserContainer'
 import EditProfileContainer from './containers/EditProfileContainer'
 import CreateExchangeForm from "./containers/CreateExchange/CreateExchange";
-import DisplayCodeContainer from './containers/DisplayCodeContainer/DisplayCodeContainer';
 import EstablishmentDetails from "./containers/EstablishmentDetails/EstablishmentDetails";
 import EstablismentsList from "./containers/EstablishmentsList/EstablismentsList";
 import ExchangeDetails from "./containers/ExchangeDetails/ExchangeDetails";
@@ -20,9 +18,9 @@ import ProfileView from "./containers/ProfileView/ProfileView";
 import UsersListAdmin from "./containers/UsersListAdmin/UsersListAdmin";
 import ValidateCodeContainer from './containers/ValidateCodeContainer/ValidateCodeContainer';
 import PublicLayout from './layouts/PublicLayout/PublicLayout';
-import RegisterEstablishmentContainer from './containers/RegisterEstablishmentContainer'
 import CreateNotification from './containers/CreateNotification/CreateNotification'
 import RegisterContainer from './containers/RegisterContainer/RegisterContainer';
+import PaySubscriptionContainer from './containers/PaySubscriptionContainer/PaySubscriptionContainer';
 
 const layouts = {
 	'public': PublicLayout,
@@ -101,6 +99,7 @@ class App extends Component {
 					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
 					<PrivateRoute roles={[ANONYMOUS_ROLE]} exact path="/register" component={RegisterContainer} />
 					<PrivateRoute roles={[ANONYMOUS_ROLE]} exact path="/register/:registerType" component={RegisterContainer} />
+					<PrivateRoute roles={[ANONYMOUS_ROLE, ESTABLISHMENT_ROLE]} exact path="/payment" component={PaySubscriptionContainer} />
 					<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE]} exact path="/editProfile" component={EditProfileContainer} />
 					<Route exact path="/notFound" component={NotFound} />
 					<PrivateRoute roles={[USER_ROLE]} exact path="/myExchanges" component={MyExchangesList} />

@@ -23,6 +23,7 @@ class UserMenuInfo extends Component {
     };
 
     getImage = (image) => {
+        console.log(image);
         return (image === '' || image === null || image === undefined) ? defaultImage : image;
     };
 
@@ -56,7 +57,7 @@ class UserMenuInfo extends Component {
                 <div className={"userImageContainer"}>
                     <div className={"userImage"}>
                         {!auth.isAuthenticated() && < img src={defaultImage} alt={"user photo"} />}
-                        {auth.isAuthenticated() && <NavLink exact={true} to={"/profile"} activeClassName={"none"} ><img src={ this.getImage(userData.personalPic) } alt={"user photo"} onError={(e) => { e.target.src = defaultImage }}/></NavLink>}
+                        {auth.isAuthenticated() && <NavLink exact={true} to={"/profile"} activeClassName={"none"} ><img src={ this.getImage(auth.isEstablishment() ? userData.imageProfile : userData.personalPic) } alt={"user photo"} onError={(e) => { e.target.src = defaultImage }}/></NavLink>}
                     </div>
                 </div>
                 <div className={"userInfoContainer"}>

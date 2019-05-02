@@ -10,22 +10,13 @@ import { userService } from '../../services/userService';
 import moment from 'moment';
 import './index.scss';
 
-
-
-
-const { Option } = Select;
-
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
-
 const week = ["monday",
-  "thuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
-  "sunday"]
+            "tuesday",
+            "wednesday", 
+            "thursday", 
+            "friday", 
+            "saturday", 
+            "sunday"]
 
 class index extends Component {
 
@@ -37,7 +28,8 @@ class index extends Component {
       validated: false,
       usernameInvalid: false,
       confirmDirty: true,
-      visible: false
+      visible: false,
+      submittedForm: false
     }
 
     this.errors = {
@@ -194,21 +186,16 @@ class index extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
 
-          const { address, city, country,
-            description = '', email,
-            name, offer, password,
-            username, weekscheadule, establishmentname } = values
           let workinghours = ''
 
-          weekscheadule.sort();
-
-
-          for (let i of weekscheadule) {
-            workinghours += t(week[i]) + " "
+          for(let i of week){
+            if (values.weekscheadule.indexOf(i) >= 0) {
+              workinghours += i+" "
+            }
           }
-          workinghours.trim()
-
-          workinghours += ", " + values.open.format("HH:mm") + "-" + values.close.format("HH:mm")
+  
+          workinghours = workinghours.trim()
+          workinghours += "," + values.open.format("HH:mm") + "-" + values.close.format("HH:mm")
 
           let dataToSend = {
             username: values.username,
@@ -226,13 +213,16 @@ class index extends Component {
             offer: values.speakLangs
           }
 
-          this.sendForm(dataToSend);
+          if (!this.state.submittedForm) {
+            this.sendForm(dataToSend);
+          }
         }
       });
   }
 
   sendForm = (data) => {
     const { t } = this.props;
+    this.setState({submittedForm: true});
 
     establishmentService.create(data)
       .then((response) => {
@@ -244,16 +234,17 @@ class index extends Component {
               fieldNames.push(fieldName);
             }
             this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
-            this.setState({validated: true});
+            this.setState({validated: true, submittedForm: false });
           }else if (response.data.message === 'The username already exists.') {
-            this.setState({ usernameInvalid: true, validated: true })
+            this.setState({ usernameInvalid: true, validated: true, submittedForm: false })
           }
         } else {
           notification.success({
             message: t('establishmentRegister.successfulMessage.title'),
             description: t('establishmentRegister.successfulMessage.message'),
           });
-          this.setState({ successfulLogin: true, establishmentId: response.data.content.id });
+          sessionStorage.setItem("establishmentIdToPayment", response.data.content.id);
+          this.setState({ successfulLogin: true, establishmentId: response.data.content.id, submittedForm: false });
         }
       }).catch((error) => {
 
@@ -261,12 +252,14 @@ class index extends Component {
           message: t('establishmentRegister.failedMessage.title'),
           description: t('establishmentRegister.failedMessage.message'),
         });
+
+        this.setState({ submittedForm: false });
       });
   }
 
   render() {
-    const { getFieldDecorator, getFieldsError } = this.props.form;
-    const { autoCompleteResult, establishmentId, successfulLogin } = this.state;
+    const { getFieldDecorator } = this.props.form;
+    const { successfulLogin } = this.state;
     const { t } = this.props;
     const config = {
       rules: [
@@ -281,7 +274,7 @@ class index extends Component {
       return (<Redirect to={"/"} />)
 
     if (successfulLogin) {
-      return (<PaySubscriptionContainer establishmentId={establishmentId} />)
+      return (<Redirect to={"/payment"} />)
     }
     return (
       <div className="register">

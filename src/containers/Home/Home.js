@@ -3,7 +3,7 @@ import logo from '../../media/logo.png';
 import { withNamespaces } from 'react-i18next';
 import { Page, Section } from 'react-page-layout';
 import './Home.scss';
-import { notification } from 'antd';
+import { notification, Alert } from 'antd';
 import { NavLink } from "react-router-dom";
 import {auth} from './../../auth'
 
@@ -12,28 +12,43 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentWrongAccessToken: null,
-            currentAlreadyAuthenticatedToken: null
+            errorAlreadyDisplayed: false
         }
     }
 
     componentDidMount() {
 
         document.title = "Barlingo - Home";
-        if (this.props.location.state) {
-            console.log(this.props.location.state);
-            if (this.props.location.state.wrongAccess)  {
+        if (!this.state.errorAlreadyDisplayed) {
+            if (this.props.location.state) {
                 const { t } = this.props;
-                notification.error({
-                    message: t('access.error.title'),
-                    description: t("access.error.message"),
-                })
-                this.setState({currentWrongAccessToken: this.props.location.state.wrongAccess});
-            } else if (this.props.location.state.alreadyAuthenticated) {
+                if (this.props.location.state.wrongAccess)  {
+                    notification.error({
+                        message: t('access.error.title'),
+                        description: t("access.error.message"),
+                    })
+                    this.setState({currentWrongAccessToken: this.props.location.state.wrongAccess});
+                } else if (this.props.location.state.errorTitle && this.props.location.state.errorMessage) {
+                    notification.error({
+                        message: t(this.props.location.state.errorTitle),
+                        description: t(this.props.location.state.errorMessage),
+                    });
+                }
 
+                this.setState({errorAlreadyDisplayed: true});
             }
         }
     }
+
+    getSubcriptionWarning = () => (
+        <Alert
+            message={this.props.t('subscription.warningMessage.title')}
+            description={ this.props.t('subscription.warningMessage.message1') }
+            type="warning"
+            showIcon
+            banner
+        />
+    )
 
     render() {
         const { t } = this.props;
@@ -47,6 +62,7 @@ class Home extends Component {
         return (
             <Page layout="public">
                 <Section slot="fullContent">
+                    {  auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) &&  this.getSubcriptionWarning() }
                     <div className="landingContainer">
                         <img src={logo} className="logo" alt="logo" />
                         <div className={"message"}>

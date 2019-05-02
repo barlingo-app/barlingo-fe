@@ -293,6 +293,10 @@
   },
   "subscription": {
     "title": "Choose a subscription",
+    "errorSavingData": {
+      "title": "Error saving payment data",
+      "message": "There was an error saving the payment information. Contact us through the email barlingoapp@gmail.com and indicate the payment with the order id: "
+    },
     "discounts": {
       "10%": "Get 10% discount!",
       "25%": "Get 25% discount!"
@@ -302,18 +306,32 @@
       "trimestral": "Trimestral subscription",
       "annual": "Annual subscription"
     },
+    "unknownEstablishment": {
+      "title": "We can not detect who you are",
+      "message": "Please login in the application."
+    },
+    "paidSubscription": {
+      "title": "Paid subscription",
+      "message": "You already have a paid subscription."
+    },
     "successMessage": {
       "title": "Successful payment",
       "message": "Now you can see your establishment in the application."
     },
     "cancelMessage": {
       "title": "Payment cancelled",
-      "message": ""
+      "message": "You must finished the payment in order to appear in the app."
     },
     "errorMessage": {
       "title": "Failed payment",
-      "message": ""
-    }
+      "message": "Please retry it again."
+    },
+    "warningMessage": {
+      "title": "Unpaid subscription",
+      "message1": "Go to your profile and click on the option \"Pay subscription\" to appear in the application.",
+      "message2": "Click on the option \"Pay subscription\" to appear in the application."
+    },
+    "payButton": "Pay subscription"
   },
   "code": {
     "redeem": {
