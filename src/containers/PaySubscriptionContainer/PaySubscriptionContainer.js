@@ -2,11 +2,13 @@ import React from 'react'
 import { withNamespaces } from "react-i18next"
 import { PayPalButton } from "react-paypal-button-v2";
 import { Page, Section } from "react-page-layout";
-import { notification } from "antd";
+import { notification, Alert } from "antd";
 import { Redirect } from 'react-router-dom';
 import './PaySubscriptionContainer.scss';
 import { establishmentService } from '../../services/establishmentService';
+import Loading from "../../components/Loading/Loading";
 import {Col, Row} from 'react-bootstrap';
+import { auth } from '../../auth';
 
 const MONTHLY_SUBSCRIPTION_ID = 1;
 const TRIMESTRAL_SUBSCRIPTION_ID = 2;
@@ -24,17 +26,31 @@ class PaySubscriptionContainer extends React.Component{
   constructor(props){
     super(props)
     this.state = {
+      loaded: false,
       subscriptionType: null,
       subscriptionPrice: null,
       subscriptionName: null,
       errorShown: false,
       errorMessage: false,
-      successfullPayment: false
+      successfullPayment: false,
+      establishmentId: null,
+      unknownEstablishment: false,
+      paidSubscription: false,
+      orderId: null
     }
   }
   
   componentDidMount(){
-    
+      let establishmentId = (auth.isAuthenticated() && auth.isEstablishment()) ? 
+      auth.getUserData().id : sessionStorage.getItem("establishmentIdToPayment");
+
+      if (auth.isAuthenticated() && auth.isEstablishment() && auth.getUserData().subscription != null) {
+        this.setState({paidSubscription: true});
+      } else if (establishmentId) {
+        this.setState({establishmentId: establishmentId, loaded: true});
+      } else {
+        this.setState({unknownEstablishment: true});
+      }
   }
 
   selectSubscriptionType = (subscriptionId) => {
@@ -90,29 +106,71 @@ class PaySubscriptionContainer extends React.Component{
   processPayment = (details) => {
     const { t } = this.props;
     
-    establishmentService.savePay(this.props.establishmentId, details.id)
+    establishmentService.savePay(this.state.establishmentId, details.id)
     .then((response) => {
       notification.success({
         message: t('subscription.successMessage.title'),
         description: t('subscription.successMessage.message'),
       });
 
+      sessionStorage.removeItem("establishmentIdToPayment");
+
       this.setState({successfullPayment: true});
     })
     .catch((error) => {
       this.setState({errorMessage: true, orderId: details.orderID})
-    })
+    });
   }
 
   render(){
-    const {subscriptionType, subscriptionPrice, subscriptionName, errorMessage,  orderId, successfullPayment } = this.state
+    const {subscriptionType, subscriptionPrice, subscriptionName, errorMessage, unknownEstablishment, paidSubscription, loaded, orderId, successfullPayment } = this.state
     const { t } = this.props;
+
+    if (unknownEstablishment) {
+      return (<Redirect to={{
+        pathname: "/",
+        state: { 
+          errorTitle: "subscription.unknownEstablishment.title",
+          errorMessage: "subscription.unknownEstablishment.message"
+        }
+      }} />);
+    }
+
+    if (paidSubscription) {
+      return (<Redirect to={{
+        pathname: "/",
+        state: { 
+          errorTitle: "subscription.paidSubscription.title",
+          errorMessage: "subscription.paidSubscription.message"
+        }
+      }} />);
+    }
 
     if (successfullPayment) {
       return (<Redirect to={"/"} />)
     }
 
-    return(         
+    if (!loaded) {
+      return (
+          <Page layout="public">
+              <Section slot="content">
+                  <Loading message={errorMessage} />
+              </Section>
+          </Page>
+      );
+  }
+
+    return(        
+        
+      <div className="register-bg">
+      <Page layout="public">
+        <Section slot="content"> 
+        {errorMessage && <Alert 
+            message={t('subscription.errorSavingData.title')}
+            description={t('subscription.errorSavingData.message') + orderId} 
+            type="error" 
+            showIcon
+          />}
         <div className={"payment"}>   
         <Row>
           <Col className="payment__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
@@ -153,18 +211,15 @@ class PaySubscriptionContainer extends React.Component{
                       return actions.order.capture().then((details) => this.processPayment(details));
                     }}
                     onCancel={(data, actions) => {
-                      if (!this.state.errorShown) {
                         notification.error({
                           message: t('subscription.cancelMessage.title'),
-                          description: "You must finished the payment in order to appear in the app",
+                          description: t('subscription.cancelMessage.message'),
                         });
-                        this.setState({errorShown: true});
-                      }
                     }}
                     catchError={(error) => {                      
                       notification.error({
                         message: t('subscription.failedMessage.title'),
-                        description: "Please retry it again",
+                        description: t('subscription.failedMessage.message'),
                       });
                     }}
                     options={{
@@ -173,11 +228,12 @@ class PaySubscriptionContainer extends React.Component{
                   }}
                 />}
 
-                {errorMessage && <div>There was an error registering the data of the payment. Please contact us using the email barlingoapp@gmail.com and indicate us the payment with order id: {orderId}</div>}
-
               </Col>
             </Row>
           </div>       
+          </Section>
+          </Page>
+          </div>
     )
     
   }

@@ -101,15 +101,15 @@ class index extends Component {
 
         let workinghours = ''
 
-
         for(let i of week){
           if (values.weekscheadule.indexOf(i) >= 0) {
             workinghours += i+" "
           }
         }
-        workinghours.trim()
 
+        workinghours = workinghours.trim()
         workinghours += "," + values.open.format("HH:mm") + "-" + values.close.format("HH:mm")
+
         let dataToSend = {
           id: auth.getUserData().id,
           name: values.name,

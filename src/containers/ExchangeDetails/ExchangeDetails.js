@@ -8,7 +8,7 @@ import { auth } from '../../auth';
 import Loading from "../../components/Loading/Loading";
 import image from '../../media/default-exchange-header.jpg';
 import locationIcon from '../../media/imageedit_5_5395394410.png';
-import logo from '../../media/logo.png';
+import { Redirect } from 'react-router-dom';
 import timeIcon from '../../media/imageedit_8_4988666292.png';
 import personIcon from '../../media/person.png';
 import { discountCodeService } from '../../services/discountCodeService';
@@ -25,21 +25,30 @@ class ExchangeDetails extends Component {
             exchange: null,
             loaded: false,
             errorMessage: null,
-            codeShown: null
+            codeShown: null,
+            redirectToNotFound: false
         }
     }
 
     fetchData = () => {
-        exchangesService.findOne(this.props.match.params.exchangeTitle)
+        if (isNaN(this.props.match.params.exchangeTitle)) {
+            this.setState({redirectToNotFound: true});
+        } else {
+            exchangesService.findOne(this.props.match.params.exchangeTitle)
             .then((response) => this.setData(response))
             .catch((error) => this.setError(error));
+        }
     };
 
     setData = (response) => {
-        this.setState({
-            exchange: response,
-            loaded: true
-        })
+        if (response) {
+            this.setState({
+                exchange: response,
+                loaded: true
+            });
+        } else {
+            this.setState({redirectToNotFound: true});
+        }
     };
 
     setError = (error) => {
@@ -110,6 +119,9 @@ class ExchangeDetails extends Component {
 
     componentDidMount() {
         this.fetchData();
+    }
+
+    componentDidUpdate() {
         if (this.state.exchange) {
             document.title = "Barlingo - " + this.state.exchange.title;
         }
@@ -142,13 +154,13 @@ class ExchangeDetails extends Component {
         return <div style={{ paddingTop: 20 }}>
             <NavLink exact={true} to={"/profile/" + this.state.exchange.creator.id} activeClassName={"none"} >
                 <Badge count={<Icon type="smile" style={{ color: '$mainColor' }} />}>
-                    <Avatar size="large" alt={t('exchange.organizer')} src={this.state.exchange.creator.personalPic ? this.state.exchange.creator.personalPic : personIcon} onError={(e) => e.target.src = personIcon
+                    <Avatar size="large" alt={t('exchange.organizer')} src={this.state.exchange.creator.personalPic ? this.state.exchange.creator.personalPic : personIcon} onError={(e) =>{ console.log(e); return personIcon }
                     } />
                 </Badge>
             </NavLink>
             {this.state.exchange.participants.map((i, index) => (
                 i.id !== this.state.exchange.creator.id && <NavLink exact={true} to={"/profile/" + i.id} activeClassName={"none"} >
-                    <Avatar src={i.personalPic ? i.personalPic : personIcon} onError={(e) => e.target.src = personIcon} />
+                    <Avatar src={i.personalPic ? i.personalPic : personIcon} onError={(e) => {return personIcon}} />
                 </NavLink>
             ))}
 
@@ -156,8 +168,15 @@ class ExchangeDetails extends Component {
     }
     render() {
         const { Meta } = Card;
-        const { errorMessage, loaded, exchange, codeShown } = this.state;
+        const { errorMessage, loaded, exchange, codeShown, redirectToNotFound } = this.state;
         const { t } = this.props;
+
+        
+
+        if (redirectToNotFound) {
+            return(<Redirect to={"/notFound"} />);
+        }
+
         if (!loaded) {
             return (
                 <Page layout="public">

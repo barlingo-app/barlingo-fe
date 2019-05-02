@@ -293,6 +293,10 @@
   },
   "subscription": {
     "title": "Elige una suscripción",
+    "errorSavingData": {
+      "title": "Error guardando datos del pago",
+      "message": "Se produjo un error al guardar la información de pago. Contáctenos a través del correo electrónico barlingoapp@gmail.com e indique el pago con el id de pedido: "
+    },
     "discounts": {
       "10%": "¡Obten un 10% de descuento!",
       "25%": "¡Obten un 25% de descuento!"
@@ -302,18 +306,32 @@
       "trimestral": "Suscripción trimestral",
       "annual": "Suscripción anual"
     },
+    "unknownEstablishment": {
+      "title": "No podemos detectar quien eres",
+      "message": "Por favor, inicia sesión en la aplicación."
+    },
+    "paidSubscription": {
+      "title": "Suscripción pagada",
+      "message": "Ya tiene una suscripción pagada."
+    },
     "successMessage": {
       "title": "Pago exitoso",
       "message": "Ahora puedes ver tu establecimiento en la aplicación."
     },
     "cancelMessage": {
       "title": "Pago cancelado",
-      "message": ""
+      "message": "Debe finalizar el pago para aparecer en la app."
     },
     "errorMessage": {
       "title": "Pago fallido",
-      "message": ""
-    }
+      "message": "Por favor, reintentelo de nuevo."
+    },
+    "warningMessage": {
+      "title": "Suscripción sin pagar",
+      "message1": "Vaya a su perfil y haga click en la opción \"Pagar suscripción\" para aparecer en la aplicación.",
+      "message2": "Haga click en la opción \"Pagar suscripción\" para aparecer en la aplicación."
+    },
+    "payButton": "Pagar suscripción"
   },
   "code": {
     "redeem": {

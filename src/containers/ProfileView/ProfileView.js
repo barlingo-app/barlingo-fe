@@ -1,4 +1,4 @@
-import { Button, Card, Form, Icon, Input, Modal } from 'antd';
+import { Button, Card, Form, Icon, Input, Modal, Alert } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
@@ -27,6 +27,8 @@ class ProfileView extends Component {
             ModalText: null,
             visible: false,
             confirmLoading: false,
+            paySubscription: false,
+            redirectToNotFound: false
         }
     }
 
@@ -47,13 +49,20 @@ class ProfileView extends Component {
     }
 
     setData = (user, loggedUser) => {
-        console.log(user);
-        this.setState({
-            user: user,
-            loaded: true,
-            isLoggedUser: loggedUser
-        })
+        if (user) {
+            this.setState({
+                user: user,
+                loaded: true,
+                isLoggedUser: loggedUser
+            });
+        } else {
+            this.setState({redirectToNotFound: true});
+        }
     };
+
+    paySubscription = () => {
+        this.setState({paySubscription: true});
+    }
 
     setError = (error) => {
         this.setState({
@@ -67,9 +76,13 @@ class ProfileView extends Component {
             const user = auth.getUserData();
             this.setData(user, true)
         } else {
+            if (isNaN(userId)) {
+                this.setState({redirectToNotFound: true});
+            } else {
             userService.findById(userId)
                 .then((response) => this.setData(response.data, false))
                 .catch((error) => this.setError(error));
+            }
 
         }
     }
@@ -252,10 +265,20 @@ class ProfileView extends Component {
         }
     }
 
+    getSubcriptionWarning = () => (
+        <Alert
+            message={this.props.t('subscription.warningMessage.title')}
+            description={ this.props.t('subscription.warningMessage.message2') }
+            type="warning"
+            showIcon
+            banner
+        />
+    )
+
     render() {
         const { t } = this.props
         const { Meta } = Card;
-        const { myExchange, errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText } = this.state;
+        const { myExchange, errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText, paySubscription, redirectToNotFound } = this.state;
 
         if (editProfile) {
             return (<Redirect to={"/editProfile"} />);
@@ -263,6 +286,14 @@ class ProfileView extends Component {
        else if(myExchange){
         return (<Redirect to={"/myExchanges"} />);
         
+       }
+
+       if (redirectToNotFound) {
+           return(<Redirect to={"/notFound"} />);
+       }
+
+       if (paySubscription) {
+        return(<Redirect to={"/payment"} />);
        }
 
         if (!loaded) {
@@ -277,15 +308,16 @@ class ProfileView extends Component {
         return (
             <Page layout="public">
                 <Section slot="content">
+                    { auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && this.getSubcriptionWarning() }
                     <Row>
                         <Col col-sm="12" offset-md="4" col-md="4">
                             <Card
                                 cover={
-                                    <FileUploadComponent allowUpload={auth.isUser()} imageType={"profileBackPic"} full={true} width={"auto"} height={300} endpoint={"/users/" + auth.getUserData().id + "/upload?imageType=backPic"} imageUrl = { auth.isUser() ? user.profileBackPic: (auth.isAdmin() ? user.profileBackPic : user.images[0]) } defaultImage={defaultImage} />
+                                    <FileUploadComponent allowUpload={auth.isAuthenticated() && auth.isUser() && (user.id === auth.getUserData().id)} imageType={"profileBackPic"} full={true} width={"auto"} height={300} endpoint={"/users/" + auth.getUserData().id + "/upload?imageType=backPic"} imageUrl = { auth.isEstablishment() ? user.images[0] : user.profileBackPic } defaultImage={defaultImage} />
                                     }>
                                 <Meta
                                     avatar={
-                                        <FileUploadComponent allowUpload={auth.isUser()} imageType={"personalPic"} width={40} height={"auto"} endpoint={"/users/" + auth.getUserData().id + "/upload?imageType=personal"} imageUrl = { auth.isUser() ? user.personalPic: (auth.isAdmin() ? user.personalPic : user.imageProfile)} defaultImage={defaultImage} />
+                                        <FileUploadComponent allowUpload={auth.isAuthenticated() && (auth.isUser() ||auth.isEstablishment()) && (user.id === auth.getUserData().id)} imageType={auth.isEstablishment() ? "imageProfile" : "personalPic"} width={40} height={"auto"} endpoint={auth.isEstablishment() ? "/establishments/" + auth.getUserData().id + "/upload" : "/users/" + auth.getUserData().id + "/upload?imageType=personal"} imageUrl = {auth.isEstablishment() ? user.imageProfile : user.personalPic} defaultImage={defaultImage} />
 
 
                                     }
@@ -294,13 +326,13 @@ class ProfileView extends Component {
 
                                 />
 
-                                <Row>
-                                <Col xs="auto">
+                                <Row style={{paddingTop: "10px"}}>
+                                    <Col xs="auto">
                                         {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.setState({ myExchange: true })} htmlType="submit" className="login-form-button primaryButton">
                                             {t('links.myExchanges')}
                                         </Button>}
                                     </Col>
-                                    <Col xs="auto">
+                                    <Col xs="1">
                                         {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.setState({ editProfile: true })} htmlType="submit" className="login-form-button primaryButton">
                                             {t('edit')}
                                         </Button>}
@@ -316,6 +348,10 @@ class ProfileView extends Component {
                                         </Button>}
                                     </Col>
                                     <Col>
+                                        
+                                        {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null)  && (user.id === auth.getUserData().id) && <Button type="primary" onClick={() => this.paySubscription()} htmlType="submit" className="login-form-button primaryButton">
+                                            {t('subscription.payButton')}
+                                        </Button>}
                                     </Col>
                                 </Row>
                             </Card>

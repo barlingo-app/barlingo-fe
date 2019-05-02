@@ -25,7 +25,6 @@ class ExchangesList extends Component {
             date: null,
             startTime: null,
             endTime: null,
-
             errorMessage: null
         };
     }
