@@ -177,7 +177,6 @@ class MyExchangesList extends Component {
             let exchangeMoment = moment(value.moment + 'Z');
             exchangeMoment.add(48, 'hours');
             if (exchangeMoment.isAfter(current)) {
-                console.log('wtf')
                 activeItems.push(value);
             }
         });
