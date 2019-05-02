@@ -291,7 +291,7 @@ class ProfileView extends Component {
     render() {
         const { t } = this.props
         const { Meta } = Card;
-        const {calendar, myExchange, errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText, paySubscription, redirectToNotFound } = this.state;
+        const {calendar, visibleChangePassword, myExchange, errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText, paySubscription, redirectToNotFound } = this.state;
 
         if (editProfile) {
             return (<Redirect to={"/editProfile"} />);
