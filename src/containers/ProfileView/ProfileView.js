@@ -11,7 +11,6 @@ import locationIcon from '../../media/imageedit_5_5395394410.png';
 import { userService } from '../../services/userService';
 import { establishmentService } from '../../services/establishmentService';
 import FileUploadComponent from './../../components/FileUploadComponent/';
-import { NavLink } from "react-router-dom";
 import ChangePassword from './ChangePassword/ChangePassword';
 
 class ProfileView extends Component {
@@ -329,7 +328,7 @@ class ProfileView extends Component {
                         <Col col-sm="12" offset-md="4" col-md="4">
                             <Card
                                 cover={
-                                    <FileUploadComponent allowUpload={auth.isAuthenticated() && auth.isUser() && (user.id === auth.getUserData().id)} imageType={"profileBackPic"} full={true} width={"auto"} height={300} endpoint={"/users/" + auth.getUserData().id + "/upload?imageType=backPic"} imageUrl={auth.isEstablishment() ? user.images[0] : user.profileBackPic} defaultImage={defaultImage} />
+                                    <FileUploadComponent allowUpload={auth.isAuthenticated() && (auth.isUser() || auth.isEstablishment()) && (user.id === auth.getUserData().id)} imageType={auth.isEstablishment() ? "images" : "profileBackPic"} full={true} width={"auto"} height={300} endpoint={auth.isEstablishment() ? "/establishments/" + auth.getUserData().id + "/upload?imageType=background" : "/users/" + auth.getUserData().id + "/upload?imageType=backPic"} imageUrl={auth.isEstablishment() ? user.images[0] : user.profileBackPic} defaultImage={defaultImage} />
                                 }>
                                 <Meta
                                     avatar={
