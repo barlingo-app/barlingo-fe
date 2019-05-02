@@ -1,4 +1,5 @@
 {
+  "intercambiosconcertadosensulocal": "Exchanges created in your establishment",
   "completed": "Completed",
   "participants": "participants",
   "ourExchanges": "Our establishments",
@@ -116,7 +117,8 @@
     "logout": "Logout",
     "myExchanges": "My exchanges",
     "created": "Created",
-    "joined": "Joined"
+    "joined": "Joined",
+    "calendar": "Business calendar"
   },
   "form": {
     "validationErrors": {

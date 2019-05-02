@@ -23,7 +23,6 @@ class UserMenuInfo extends Component {
     };
 
     getImage = (image) => {
-        console.log(image);
         return (image === '' || image === null || image === undefined) ? defaultImage : image;
     };
 
