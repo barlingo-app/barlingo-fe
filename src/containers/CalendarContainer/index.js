@@ -26,7 +26,7 @@ export class index extends Component {
   setData = (response) => {
     if (response.data.success && response.data.code === 200) {
       this.setState({
-          items: response,
+          items: response.data.content,
           loaded: true
       });
     } else {
