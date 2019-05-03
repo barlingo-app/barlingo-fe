@@ -229,6 +229,8 @@
     }
   },
   "exchange": {
+    "creator": " (creator)",
+    "participants": "Participants",
     "search": {
       "textarea": "Search exchange",
       "date": "Date",

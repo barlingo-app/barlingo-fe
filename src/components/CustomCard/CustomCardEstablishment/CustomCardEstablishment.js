@@ -40,10 +40,6 @@ class CustomCardEstablishment extends Component {
         return formattedWorkingHours.trim() + ' , ' + workingHours.split(',')[1].trim();
     }
 
-    getImage = (image) => {
-        return (image) ? image : defaultImage;
-    }
-
     render() {
         const { t, establishment, showButton } = this.props;
         const { create } = this.state;

@@ -180,7 +180,7 @@ class CustomCardExchange extends Component {
             <div style={{ "height": "100%", "padding": "15px 0" }}>
                 <div className="custom-card-exchange">
 
-                    <img className="custom-card-exchange__image" src={image} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
+                    <img className="custom-card-exchange__image" src={this.getImage(image)} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
                     {this.renderLanguageWrapper()}
                     <p className="custom-card-exchange__title">
                         <NavLink className="custom-card-exchange__link" exact={true} activeClassName={"active"} to={"exchanges/" + exchange.id}>{title}</NavLink>
