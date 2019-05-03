@@ -1,12 +1,148 @@
 @import "../../styles/defaultStyles";
 
-.exchange {
-    &__icon {
-        margin-right: 10px;
-        width: 30px;
+
+
+.exchange-details {
+    background: linear-gradient(to top, #ffffff, #D7DDE8);
+    &__content {
+        background: white;
+        box-shadow: 0px 2px 3px rgba(0,0,0,.13) ,1px 2px 2px rgba(0,0,0,.1) , -1px -2px 2px rgba(0,0,0,.05) ;
+        border-radius: 5px;
+        padding-bottom: 30px;
+    }
+    &__top {
+        //background: linear-gradient(to right, #ffffff, #44CFCB);
+        background: #44cfcb; /* Old browsers */
+        background: -moz-linear-gradient(-45deg, #44cfcb 1%, #4ea5d9 47%, #4357ad 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(-45deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(135deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%);
+        //background-color: #44CFCB;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        height: 100px;
+        margin-left: -15px;
+        margin-right: -15px;
+        margin-bottom: 100px;
+        padding-top: 20px;
+        //lighten(#70C1B3, 20%);
+    }
+    &__image {
+        background-color: white;
+        border: 4px solid $mainColor;
+        border-radius: 50%;
+        display: block;
+        height: 180px;
+        margin: auto;
+        width: 180px;
+    }
+    &__title {
+        font-family: $font-primary;
+        font-size: 22px;
+        font-weight: 600;
+        text-align: center;
+    }
+    &__address {
+        color: $fontColor-secondary;
+        font-family: $font-primary;
+        margin-top: 15px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    &__map > div > div {
+        position: relative!important;
+    }
+    &__map > div > div > div {
+        border: 2px solid #4357ad;
+        box-shadow: 0px 2px 3px rgba(0,0,0,.13), 1px 2px 2px rgba(0,0,0,.1), -1px -2px 2px rgba(0,0,0,.05);
+        border-radius: 5px;
+        height: 250px!important;
+        position: relative!important;
+        width: 100%!important;
+        @media(max-width: 350px) {
+            margin-left: -8px;
+            width: 107%!important;
+        }
+        @media(min-width: 992px) {
+            display: block!important;
+            margin-left: auto!important;
+            margin-right: auto!important;
+            width: 70%!important;
+        }
+    }
+    
+    &__location-icon {
+        margin-right: 5px;
+    }
+    &__languages {
+        color: $fontColor-secondary;
+        font-family: $font-primary;
+        text-align: center;
+    }
+    &__languages-icon {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    &__description {
+        border-bottom: 0.5px solid $color-primary;
+        font-family: $font-primary;
+        font-size: 18px;
+        margin-top: 15px;
+        padding-bottom: 15px;
+        text-align: center;
+        width: 100%;
+    }
+    
+    &__date {
+        color: $fontColor-secondary;
+        font-family: $font-primary;
+        text-align: center;
+    }
+    
+    &__participants-title {
+        font-family: $font-primary;
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    &__participant-image {
+        border: 2px solid $mainColor;
+        border-radius: 50%;
+        display: block;
+        height: 100px;
+        margin: auto;
+        width: 100px;
+    }
+    &__participant-name {
+        font-family: $font-primary;
+        text-align: center;
+        color: black;
+        text-decoration: none;
+
+    }
+    &__participant-name:hover {
+        text-decoration: none;
+
+    }
+    &__link {
+        text-decoration: none;
+    }
+    &__code-wrapper {
+        border: 4px solid $color-secondary;
+        border-radius: 10px;
+        box-shadow: 0px 2px 3px rgba(0,0,0,.13), 1px 2px 2px rgba(0,0,0,.1), -1px -2px 2px rgba(0,0,0,.05);
+        padding: 15px;
+    }
+    &__code-title {
+        font-family: $font-primary;
+        font-size: 18px;
+        font-weight: 700;
+    }
+    &__code {
+        font-family: $font-primary;
+        font-size: 18px;
+        font-weight: 700;
     }
 
-    &__icon-wrapper {
-        margin-top: 12px;
-    }
 }

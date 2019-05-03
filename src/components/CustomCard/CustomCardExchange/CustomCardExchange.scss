@@ -1,7 +1,7 @@
 @import "../../../styles/variables";
-
 .custom-card-exchange {
   border: 2px solid $mainColor;
+  border-radius: 10px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
   //margin-top: 30px;
   padding: 10px 20px 20px 20px;
@@ -21,11 +21,21 @@
 
     &__title {
       font-size: 22px;
+      font-weight:600;
       margin-left: 10px;
       text-align: center;
 
       @media(max-width: 575px) {
         font-size: 23px;
+      }
+    }
+
+    &__link {
+      color: $mainColor;
+      text-decoration: none!important;
+      &:hover {
+        color: black;
+        text-decoration: none!important;
       }
     }
 
@@ -41,11 +51,9 @@
     }
     &__text {
       display: table-cell;
-      margin-left: 5px;
-      font-size: 14px;
 
       @media (max-width: 575px) {
-        font-size: 12px;
+        font-size: 14px;
       }
       &__red{
         color:red;
@@ -67,7 +75,8 @@
     &__location-icon {
       display: table-cell;
       float: left;
-      width: 10px;
+      margin-right: 5px;
+      width: 18px;
     }
 
     &__time-wrapper {
@@ -76,8 +85,11 @@
     }
 
     &__time-icon {
+        display: table-cell;
+        float: left;
         margin-top: 5px;
-        width: 30px;
+        margin-right: 5px;
+        width: 18px;
     }
 
     &__participants-wrapper {
@@ -86,7 +98,10 @@
     }
 
     &__participants-icon {
-      width: 30px;
+      display: table-cell;
+      float: left;
+      margin-right: 5px;
+      width: 18px;
     }
 
     &__button-wrapper {
@@ -110,6 +125,23 @@
             outline: none;
         } 
     }
+
+    &__button-completed {
+      border: 2px solid #7DBA84;
+      border-radius: 25px;
+      padding: 5px 20px;
+      color: white;
+      background: #7DBA84;
+      font-weight: bold;
+
+      &:hover {
+          background: #7DBA84;
+          border: 2px solid #7DBA84;
+          color: white;
+          outline: none;
+          cursor: default;
+      } 
+  }
 
     &__code-icon {
       width: 30px;

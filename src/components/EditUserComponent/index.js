@@ -1,13 +1,13 @@
-import { notification } from 'antd';
 import React, { Component } from 'react';
 import {Col, Row} from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
-import { Page, Section } from "react-page-layout";
 import { Redirect } from 'react-router-dom';
 import { auth } from '../../auth';
-import Loading from "../../components/Loading/Loading";
 import { userService } from '../../services/userService';
 import { withNamespaces } from "react-i18next";
+import languages from '../../data/languages';
+import moment from 'moment';
+import { Checkbox, DatePicker, Form, Input, notification } from 'antd';
+
 export class index extends Component {
     constructor(props){
         super(props)
@@ -16,152 +16,177 @@ export class index extends Component {
             loaded: false,
             successfulLogin: false,
             validated: false,
-            id: '',
-            name:'',
-            surname:'',
-            email: '',
-            country: '',
-            city: '',
-            aboutMe: '',
-            birthday: '',
-            motherTongue: 'es',
-            speakLangs: [],
-            langsToLearn: []
-            }
-        this.handleChange = this.handleChange.bind(this);
+            userData: null,
+        }
+
+        this.errors = {
+
+        }
+
+        this.externalErrors = {
+
+        }
     }
+    getValidationMessage = (fieldName) => {
+        if (this.errors.hasOwnProperty(fieldName)) {
+            return this.errors[fieldName];
+        } else {
+            return false;
+        }
+    
+      }
+    
+    
+      genericValidator = (rule, value, callback) => {
+        const { t } = this.props;
+    
+        if (this.errors.hasOwnProperty(rule.field)) {
+            delete this.errors[rule.field];
+        }
+    
+        this.errors = Object.assign({}, this.externalErrors);
+        
+        if (this.externalErrors.hasOwnProperty(rule.field)) {
+          delete this.externalErrors[rule.field];
+        }
+    
+        switch(rule.field) {
+            case "learnLanguages":
+              let message1 = this.checkLearnLanguages(value);
+              if (message1) {
+                  this.errors[rule.field] = message1;
+              }
+              break;
+            default:
+              break;
+        }
+    
+        if (this.getValidationMessage(rule.field)) {
+            callback(t('form.validationErrors.' + this.getValidationMessage(rule.field)));
+        } else {
+            callback();
+        }
+      }
+
+      checkLearnLanguages = (value) => {
+          let result = false;
+          const {form} = this.props;
+          if (value && form.getFieldValue('speakLanguages')) {
+              value.forEach(function(value, key, array) {
+                  if (form.getFieldValue('speakLanguages').indexOf(value) >= 0) {
+                      result = 'languagesRepeated';
+                  }
+              });
+              return result;
+          }
+        return false;
+      }
 
     componentDidMount(){
         let userData = auth.getUserData();
-        userData.loaded = true;
-        this.setState(userData);
+        userData.birthdate = moment(userData.birthday, 'YYYY-MM-DD');
+        userData.speakLanguages = userData.speakLangs;
+        userData.learnLanguages = userData.langsToLearn;
+        this.props.form.setFieldsValue(userData);
     }
 
-     sendForm = () => {
-        let dataToSend = {
-            id: this.state.id,
-            name: this.state.name,
-            surname: this.state.surname,
-            email: this.state.email,
-            country: this.state.country,
-            city: this.state.city,
-            aboutMe: this.state.aboutMe,
-            birthdate: this.state.birthday,
-            motherTongue: this.state.motherTongue,
-            speakLanguages: this.state.speakLangs,
-            learnLanguages: this.state.langsToLearn
-        }
+     sendForm = (dataToSend) => {
 
         userService.editUserData(dataToSend).then((response) => {
             if (response.data.success !== true) {
-                if (response.data.message === 'The username already exists.') {
-                    this.setState({usernameInvalid: true, validated: true})
+                if (response.data.code === 400) {
+                    this.externalErrors = response.data.validationErrors;
+                    let fieldNames = [];
+                    for (var fieldName in this.externalErrors)  {
+                    fieldNames.push(fieldName);
+                    }
+                    this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
+
+                    notification.warning({
+                      message: this.props.t('form.validationNotification.title'),
+                      description: this.props.t('form.validationNotification.message'),
+                    });
+
+                    this.setState({validated: true});
+                } else if (response.data.code === 500) {
+                    notification.error({
+                      message: this.props.t('apiErrors.defaultErrorTitle'),
+                      description: this.props.t('apiErrors.' + response.data.message),
+                    });                  
+                    this.setState({validated: true})
+                } else {
+                  notification.error({
+                    message: this.props.t('apiErrors.defaultErrorTitle'),
+                    description: this.props.t('apiErrors.defaultErrorMessage')
+                  });
                 }
             } else {  
                 auth.loadUserData().then(() => {
                     this.setState({successfulLogin: true});     
                     notification.success({
-                        placement: 'bottomRight',
-                        bottom: 50,
-                        duration: 10,
-                        message: "Successful edition",
-                        description: "Data updated properly",
+                      message: this.props.t('editProfile.successfullMessage.title'),
+                      description: this.props.t('editProfile.successfullMessage.message'),
                     });     
                 });
             }
         }).catch((error) => {
-
-            notification.error({
-                placement: 'bottomRight',
-                bottom: 50,
-                duration: 10,
-                message: "Failed edition",
-                description: "There was an error editing the data",
-            }); 
+          notification.error({
+            message: this.props.t('apiErrors.defaultErrorTitle'),
+            description: this.props.t('apiErrors.defaultErrorMessage')
+          });
         });
     }
 
-    handleSubmit(event) {
-        const form = event.currentTarget;
-        event.preventDefault();
-        event.stopPropagation();
+    checkBirthday = (date) => {
 
-        if (this.state.usernameInvalid) {
-            notification.error({
-                placement: 'bottomRight',
-                bottom: 50,
-                duration: 10,
-                message: "Username error",
-                description: "The username already exists",
-            });
-        }
-        else if (form.checkValidity() === true) {
-            this.sendForm();
-        }
-
-        this.setState({ validated: true });
-      }
+      let maximumDate = moment().subtract(18, 'years');
     
-      handleChange(event){
-          const target = event.target
-          const name = target.id
-          let value = ''
-          
-          if(target.type === 'select-multiple'){
-              let resul = []
-              const options = target.options
-              for(let opt of options) {
-                  if(opt.selected){
-                      resul.push(opt.value)
-                  }
-              }
 
-              value = resul
-          }
-          else{
-              value = target.value
-          }
-
-          this.setState({
-              [name]: value
-          });
-          
-      }
       
-      renderOption = (value, label, selectedValues = []) => (
-            <option value={value} selected={selectedValues.indexOf(value) > -1 ? "selected" : ""}>
-            {label}
-            </option>
-      )
+        return date >= maximumDate;
+      }
+
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+          if (!err) {
+            let dataToSend = {
+              id: auth.getUserData().id,
+              name: values.name,
+              surname: values.surname,
+              email: values.email,
+              country: values.country,
+              city: values.city,
+              birthdate: values['birthdate'].format('YYYY-MM-DD'),
+              aboutMe: values.aboutMe,
+              motherTongue: 'none',
+              speakLanguages: values.speakLanguages,
+              learnLanguages: values.learnLanguages
+            }
+            this.sendForm(dataToSend);
+          }
+        });
+      }
 
       render() {
-    const { successfulLogin, validated, usernameInvalid, loaded, errorMessage} = this.state;
-    const { t } = this.props;
-    let today = new Date()
-    let year = today.getFullYear() - 16
-    const maxDate =year+"-01-01"
+        const { getFieldDecorator } = this.props.form;
+        const { successfulLogin } = this.state;
+        const { t } = this.props;
+        const config = {
+          rules: [
+            {
+              type: 'object', required: true, message: t('form.validationErrors.required')
+            },{
+              validator: this.genericValidator
+            }
+          ],
+        };
 
-    /**
-     * NUEVO CÓDIGO QUE SEA NECESARIO UTILIZAR --->
-     * 
-     * 
-     * 
-     * 
-     * <---
-     */
 
     if (successfulLogin) {
      return (<Redirect to={"/profile"} />)
-    }
-
-    if (!loaded) {
-        return (
-            <Page layout="public">
-                <Section slot="content">
-                    <Loading message={errorMessage} />
-                </Section>
-            </Page>
-        );
     }
     
     return (
@@ -169,144 +194,189 @@ export class index extends Component {
           <Row>
             <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
                 <div className="register__title">{t('edit-account')}</div>
-                <Form
-                noValidate
-                validated={validated}
-                usernameInvalid={usernameInvalid}
-                onSubmit={e => this.handleSubmit(e)}>
-                    {/**
-                    *------>
-                    *DATOS PARA EL TIPO ACTOR
-                    *name: string required
-                    *surname: string required
-                    *country: string required
-                    *city: string required
-                    *email: string email 
-                    *<------
-                    */}
-
-                    <Form.Row>
-                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="name">
-                            <Form.Label>{t('form.name')}*</Form.Label>
-                            <Form.Control onChange={this.handleChange} type="text" value={this.state.name} placeholder="Name" required />
-                            <Form.Control.Feedback type="invalid">
-                            {t('form.emptyfield')}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                
-                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:0}} controlId="surname">
-                            <Form.Label>{t('form.surname')}*</Form.Label>
-                            <Form.Control onChange={this.handleChange} type="text" placeholder="Surname" value={this.state.surname} required />
-                            <Form.Control.Feedback type="invalid">
-                            {t('form.emptyfield')}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
-                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="email">
-                            <Form.Label>{t('form.email')}*</Form.Label>
-                            <Form.Control onChange={this.handleChange} value={this.state.email} required type="email" placeholder="name@example.com" />
-                            <Form.Text className="text-muted">
-                                {t('adviseemail')}
-                            </Form.Text>
-                            <Form.Control.Feedback type="invalid">
-                            {t('form.validemail')}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Form.Row>
-
-                    <Form.Row>
-                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="country">
-                            <Form.Label>{t('form.country')}*</Form.Label>
-                            <Form.Control onChange={this.handleChange} value={this.state.country} required type="text" placeholder="Country" />
-                            <Form.Control.Feedback type="invalid">
-                            {t('form.emptyfield')}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:0}} controlId="city">
-                            <Form.Label>{t('form.city')}*</Form.Label>
-                            <Form.Control onChange={this.handleChange} value={this.state.city} required type="text" placeholder="City" />
-                            <Form.Control.Feedback type="invalid">
-                            {t('form.emptyfield')}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Form.Row>
-                    {/**
-                    *----->DATOS PARA USER
-                    *personalPick:File required (por hacer)
-                    *profileBackgroundPick: File required (por hacer)
-                    *aboutMe:string
-                    *birthDay:date required
-                    *moherTongue:string required
-                    *speakLangs:String required
-                    *LangsToLearn:String required
-                    *location: Sring (por hacer)
-                    *<-------
-                    */}
-
-                    <Form.Row>
-                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="aboutMe">
-                        <Form.Label>{t('form.aboutme')}</Form.Label>
-                        <Form.Control onChange={this.handleChange} value={this.state.aboutMe} as="textarea" rows="3" />
-                    </Form.Group>
-                    </Form.Row>
-
-                    <Form.Row>
-                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="birthday">
-                            <Form.Label>{t('form.birthday')}*</Form.Label>
-                            <Form.Control onChange={this.handleChange} value = {this.state.birthday} required type="date" max={maxDate} placeholder="Date" />
-                            <Form.Control.Feedback type="invalid">
-                            {t('form.emptyDate')}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
-                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:1}} controlId="motherTongue">
-                            <Form.Label>{t('form.mothertongue')}*</Form.Label>
-                            <Form.Control onChange={this.handleChange} as="select">
-                            <option value="es">{t('spanish')}</option>
-                            <option value="en">{t('english')}</option>
-                            <option value="fr">{t('french')}</option>
-                            <option value="de">{t('german')}</option>
-                            </Form.Control>
-                        </Form.Group>
-                    </Form.Row>
-
-                    <Form.Row>
-                        <Form.Group as={Col}  sm={{span:10, offset:1}} lg={{span:5, offset:1}} onChange={this.handleChange} controlId="speakLangs">
-                            <Form.Label>{t('form.speakedlanguages')}*</Form.Label>
-                            <Form.Control as="select" multiple value={this.state.speakLangs} required>
-                            <option value="es">{t('spanish')}</option>
-                            <option value="en">{t('english')}</option>
-                            <option value="fr">{t('french')}</option>
-                            <option value="de">{t('german')}</option>
-                            </Form.Control>
-                            <Form.Control.Feedback type="invalid">
-                            {t('form.emptyfield')}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group as={Col} sm={{span:10, offset:1}} lg={{span:5, offset:0}} controlId="langsToLearn">
-                            <Form.Label>{t('form.languagesToLearn')}*</Form.Label>
-                            <Form.Control onChange={this.handleChange} value={this.state.langsToLearn} as="select" multiple required>
-                            <option value="es">{t('spanish')}</option>
-                            <option value="en">{t('english')}</option>
-                            <option value="fr">{t('french')}</option>
-                            <option value="de">{t('german')}</option>
-                            </Form.Control>
-                            <Form.Control.Feedback type="invalid">
-                            {t('form.emptyfield')}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-
-                    </Form.Row>
-
-                        <button  className="register__button"  md={{span: 2, offset: 4}} type="submit">{t('edit')}</button>
-                    </Form>
+                <Form onSubmit={this.handleSubmit}>
+                <Row>
+                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                  <Form.Item label={t('form.name')}>
+                    {getFieldDecorator('name', {
+                    rules: [{
+                        required: true,
+                        message: t('form.validationErrors.required'),
+                    },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                    }
+                    ]})(
+                      <Input />
+                    )}
+                  </Form.Item>
                 </Col>
-            </Row>
+              </Row>
+              <Row>
+                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                  <Form.Item label={t('form.surname')}>
+                    {getFieldDecorator('surname', {
+                      rules: [{
+                        required: true,
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
+                      <Input />
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                  <Form.Item label={t('form.email')}>
+                    {getFieldDecorator('email', {
+                      rules: [{
+                        required: true,
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        type: 'email', 
+                        message: t('form.validationErrors.emailFormat'),
+                      },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
+                      <Input />
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row> 
+              <Row>
+                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                  <Form.Item label={t('form.city')}>
+                    {getFieldDecorator('city', {
+                      rules: [{
+                        required: true,
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
+                      <Input />
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                  <Form.Item label={t('form.country')}>
+                    {getFieldDecorator('country', {
+                      rules: [{
+                        required: true,
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
+                      <Input />
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                  <Form.Item label={t('form.aboutme')}>
+                    {getFieldDecorator('aboutMe', {
+                      rules: [{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                      validator: this.genericValidator
+                    }
+                    ]})(
+                      <Input.TextArea rows={3} />
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                  <Form.Item label={t('form.birthday')}>
+                    {getFieldDecorator('birthdate', config)(
+                      <DatePicker format="YYYY-MM-DD" disabledDate={this.checkBirthday}/>
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                  <Form.Item
+                    label={t('form.speakedlanguages')}
+                  >
+                    {getFieldDecorator("speakLanguages", {
+                      rules: [
+                        {
+                          required: true, message: t('form.validationErrors.required')
+                        },{
+                          validator: this.genericValidator
+                        }
+                      ]})(
+                      <Checkbox.Group style={{ width: "100%" }}>
+                        <Row> 
+                            {languages.map((key, index) => (
+                                <Col key={key} xs="6" sm="4" md="6"><Checkbox value={key}>{t('languages.' + key)}</Checkbox></Col>
+                            ))}
+                        </Row>
+                      </Checkbox.Group>
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                  <Form.Item
+                    label={t('form.languagesToLearn')}
+                  >
+                    {getFieldDecorator("learnLanguages", {
+                      rules: [
+                        {
+                          required: true, message: t('form.validationErrors.required')
+                        },{
+                          validator: this.genericValidator
+                        }
+                      ]})(
+                      <Checkbox.Group style={{ width: "100%" }}>
+                        <Row> 
+                            {languages.map((key, index) => (
+                                <Col key={key} xs="6" sm="4" md="6"><Checkbox value={key}>{t('languages.' + key)}</Checkbox></Col>
+                            ))}
+                        </Row>
+                      </Checkbox.Group>
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Form.Item>
+                <button  className="register__button" type="submit">{t('edit')}</button>
+              </Form.Item>
+            </Form>
+        </Col>  
+        </Row>
       </div>
     )
   }
 }
+
+index = Form.create({ name: 'registerUser' })(index);
 
 export default withNamespaces('translation')(index)

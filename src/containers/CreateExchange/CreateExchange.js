@@ -1,16 +1,21 @@
+import { notification } from 'antd';
 import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
-import CustomCard from '../../components/CustomCard/CustomCard';
-import CreateExchangeForm from './CreateExchangeForm/CreateExchangeForm';
-import { Row, Col } from 'reactstrap';
-import { establishmentService } from '../../services/establishmentService';
+import { Redirect } from 'react-router-dom';
+import { Col, Row } from 'reactstrap';
+import CustomCardEstablishment from '../../components/CustomCard/CustomCardEstablishment/CustomCardEstablishment';
 import Loading from "../../components/Loading/Loading";
+import { establishmentService } from '../../services/establishmentService';
+import CreateExchangeForm from './CreateExchangeForm/CreateExchangeForm';
+
 
 class CreateExchange extends Component {
     state = {
         establishment: null,
-        loaded: false
+        loaded: false,
+        error: true,
+        redirectToNotFound: false
     }
     componentDidMount() {
         this.consultaEstablecimiento();
@@ -19,16 +24,41 @@ class CreateExchange extends Component {
         const id = this.props.match.params.establishmentId;
         establishmentService.findOne(id).then(
             response => {
-                this.setState({
-                    establishment: response.data,
-                    loaded: true
+                if (response.data.code === 200 && response.data.success && response.data.content) {
+                    if (response.data.content.userAccount.active) {
+                    this.setState({
+                        establishment: response.data.content,
+                        loaded: true,
+                        error: false
+                    });
+                    } else {
+                        this.setState({loaded: true, redirectToNotFound: true});
+                    }
+                } else if (response.data.code === 500) {
+                    notification.error({
+                        message: this.props.t('apiErrors.defaultErrorTitle'),
+                        description: this.props.t('apiErrors.' + response.data.message),
+                      });
+                    this.setState({
+                        error: true,
+                        loaded: true
+                    });
+                }
+            }).catch(onrejected => {
+                notification.error({
+                    message: this.props.t('apiErrors.defaultErrorTitle'),
+                    description: this.props.t('apiErrors.defaultErrorMessage')
                 });
-            }).catch(onrejected => (console.log(onrejected)))
+            });
     }
     render() {
-        const { establishment, loaded } = this.state;
-        console.log(establishment)
+        const { establishment, loaded, error, redirectToNotFound } = this.state;
         if (loaded) {
+            if (redirectToNotFound) {
+                return <Redirect to={"/notFound"} />
+            }
+            if (error)
+                return <Redirect to={"/establishments"} />
             let i = establishment;
             return (
                 <Page layout="public">
@@ -36,10 +66,10 @@ class CreateExchange extends Component {
                         <Row>
                             <Col md={{ size: 6, offset: 3 }}>
                                 <div>
-                                    <CustomCard image={i.imageProfile} title={i.establishmentName} address={i.address} schedule="Lunes-Viernes: 8:00-21:00" />
+                                    <CustomCardEstablishment establishment={i} showButton={false} />
                                 </div>
                                 <div>
-                                    <CreateExchangeForm establishmentId={i.id} />
+                                    <CreateExchangeForm establishment={i} />
                                 </div>
                             </Col>
                         </Row>

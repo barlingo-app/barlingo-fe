@@ -1,44 +1,99 @@
 {
+  "profileview" : {
+    "age": "years old",
+    "speak": "I speak",
+    "tolearn": "I want to learn",
+    "editprofile": "Edit profile"
+  },
+  "subcripcionEnd": "Subscription expires on",
+
+  "intercambiosconcertadosensulocal": "Exchanges created in your establishment",
+  "completed": "Completed",
+  "participants": "participants",
+  "ourExchanges": "Our establishments",
+  "notification": {
+    "priority": "Priority",
+    "emptyPriority": "Please, mark a priority",
+    "success": {
+      "title": "Notify sent",
+      "message": "The notification has been sent to all the users"
+    },
+    "error": {
+      "title": "Error",
+      "message": "The notification could'nt be sent, try it later"
+    }
+  },
+  "markAsRead": "Mark as read",
   "error": "Error",
+  "downloadData": {
+    "button": "Download personal data"
+  },
+  "deleteAccount": {
+    "delete": "Delete personal data",
+    "text1": "This action is not reversible. It will permanently delete your account and personal data from the system.",
+    "text2": "To erase personal data enter your password.",
+    "wrongPassword": "The password is wrong",
+    "deleting": "Your account and personal data are being deleting from the system, wait please."
+  },
   "warning": "Warning",
   "notfound": "Resource not found",
   "loadErrorMessage": "There was an error loading the data",
   "landing": {
     "message": "Welcome to Barlingo!",
     "navOptions": {
-      "findExchanges": "Find exchanges",
-      "seeEstablishments": "See establishments"
+      "findExchanges": "Find a exchange for you",
+      "seeEstablishments": "See establishments",
+      "createExchanges": "Create your exchange"
     }
+  },
+  "select-register": "Choose a type of registration",
+  "action": {
+    "back": "Back",
+    "register": {
+      "asUser": "Sign in as user",
+      "asEstablishment": "Sign in as establishment"
+    },
+    "showAll": "All",
+    "showActive": "Only active"
+  },
+  "languages": {
+    "es": "Spanish",
+    "en": "English",
+    "fr": "French",
+    "de": "German",
+    "ja": "Japanese"
+  },
+  "days": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
   },
   "details": " Details",
   "ihaveread": "I have read and I accept the ",
   "term&cond": "Terms and conditions",
   "terms-intro": "The terms and conditions of www.barlingo.es are detailed in this document.",
-  "terms-data": "1. Data protection",
-  "terms-data-text": "Barlingo is committed to comply with the General Data Protection Regulation (GDPR). According to this law, we assure the user the following rights:",
+  "terms-protection": "1. Data protection",
+  "terms-protection-text": "Barlingo is committed to the security of its users' data. When we request personal information with which you can be identified, we do so by ensuring that it will only be used in accordance with the terms of this document. Our website uses the information in order to provide the best possible service, particularly to maintain a user registry.",
+  "terms-rights": "2. Rights that Barlingo provides",
+  "terms-rights-text": "Barlingo is committed to comply with the General Data Protection Regulation (GDPR). According to this law, we assure the user the following rights:",
   "terms-right1": "Users have the right to be notified of all breaches that result in a risk to their individual rights and freedoms. This will be done within a maximum period of 72 hours from the moment it occurs.",
   "terms-right2": "Users have the right to request that their data be deleted and that third parties stop processing it.",
   "terms-right3": "Users have the right to request their data in electronic format, so that they can carry this data to other companies.",
-  "terms-prices": "2. Prices and payments",
+  "terms-intellectual-property": "3. Intellectual property",
+  "terms-intellectual-property-text": "The page and its original content, features and functionality are the property of Barlingo and are protected by international copyright, trademarks, patents, trade secrets and other laws of intellectual property or property rights.",
+  "terms-prices": "4. Prices and payments",
   "terms-prices-title": "Barlingo has three types of subscription to the service:",
   "terms-price1": "Monthly subscription: the price of the monthly subscription is € 6.99.",
   "terms-price2": "Quarterly subscription: the price of the quarterly subscription is 18.99 €. A discount of 10% is applied with respect to the monthly subscription.",
   "terms-price3": "Annual subscription: the price of the annual subscription is € 62.99. A discount of 25% is applied with respect to the monthly subscription.",
-  "terms-modifications": "3. Modifications",
+  "terms-modifications": "5. Modifications",
   "terms-modifications-text": "Barlingo reserves the right to modify at any time the terms and conditions of use of the portal.",
   "userword": "User",
   "establishmentword": "Establishment",
-  "monday": "Monday",
-  "thuesday": "Thuesday",
-  "wednesday": "Wednesday",
-  "thursday": "Thursday",
-  "friday": "Friday",
-  "saturday": "Saturday",
-  "sunday": "Sunday",
-  "spanish": "Spanish",
-  "english": "English",
-  "french": "French",
-  "german": "German",
   "submit": "Send",
   "register": "Register",
   "create-account": "Create your account",
@@ -60,17 +115,38 @@
     "logout": "Logout"
   },
   "links": {
+    "manageaccounts": "Manage accounts",
+    "notification": "Send broadcast message",
     "exchanges": "Exchanges",
     "establishments": "Establishments",
     "validateCode": "Validate code",
     "login": "Log In",
     "register": "Sign in",
+    "registerUser": "Join to Barlingo zone",
     "logout": "Logout",
     "myExchanges": "My exchanges",
     "created": "Created",
-    "joined": "Joined"
+    "joined": "Joined",
+    "calendar": "Exchanges created"
   },
   "form": {
+    "validationNotification": {
+      "title": "Failed validation",
+      "message": "Please, check the form."
+    },
+    "validationErrors": {
+      "usernameExists": "The username already exists.",
+      "dateOutOfWorkingHours": "You can not select a time outside of the working hours.",
+      "required": "This field is required.",
+      "email": "the mail does not have the correct format.",
+      "inconsistPassword": "Passwords do not match.",
+      "closeAfterOpen": "The closing time must be after the opening time.",
+      "languagesRepeated": "You can not repeat the same languages ​​as in the languages ​​you speak.",
+      "exchangeLanguagesRepeated": "You can not repeat the languages.",
+      "safeHtml": "You can not insert script tags",
+      "maxLength": "The maximum length of the field is NUMBER_OF_CHARACTERS characters.",
+      "wrongPassword": "The password is wrong"
+    },
     "emptyUsername": "Please input your username!",
     "validemail": "Please, provide a valid email",
     "emptyPassword": "Please input your Password!",
@@ -106,8 +182,8 @@
     "address": "Address",
     "weekscheadule": "Week scheadule",
     "workingHours": "Opening hours",
-    "open": "Open",
-    "closed": "Closed",
+    "open": "Opening time",
+    "closed": "Closing time",
     "offer": "Offer",
     "aboutme": "Something about you",
     "birthday": "Birthday",
@@ -115,6 +191,19 @@
     "speakedlanguages": "Languages you speak",
     "languagesToLearn": "Languages you want to learn",
     "submit": "Submit"
+  },
+  "changePassword": {
+    "title": "Change my password",
+    "button": "Change my password",
+    "text1": "To change the password, write the actual password, and the new password twice.",
+    "actualPassword": "Actual password",
+    "newPassword": "New password",
+    "changing": "In a few seconds the password will have been changed.",
+    "newPasswordCopy": "New password (again)",
+    "success": {
+      "title": "All rigth",
+      "message": "The password has been changed successfully"
+    }
   },
   "access": {
     "error": {
@@ -153,6 +242,17 @@
     }
   },
   "exchange": {
+    "creator": " (creator)",
+    "participantss": "Participants",
+    "search": {
+      "textarea": "Search exchange",
+      "date": "Date",
+      "startTime": "Start time",
+      "endTime": "End time",
+      "motherTongue": "Mother tongue",
+      "targetTongue": "Target tongue",
+      "language": "Select the languages that interest you"
+    },
     "error": {
       "title": "Failed creation",
       "message": "There was an error creating a new exchange, try later."
@@ -172,8 +272,9 @@
     "join": "Join",
     "loading": "Loading",
     "leave": "Leave",
-    "confirm": "Confirmar",
-    "cancel": "Cancelar"
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "createExchange": "Create exchange"
   },
   "language": {
     "spanish": "Spanish",
@@ -221,8 +322,22 @@
       "message": "There was an error saving the data."
     }
   },
+  "userRegister": {
+    "successfulMessage": {
+      "title": "Successful register",
+      "message": "Now you can log in to the application."
+    },
+    "failedMessage": {
+      "title": "Failed register",
+      "message": "Se produjo un error al guardar los datos."
+    }
+  },
   "subscription": {
     "title": "Choose a subscription",
+    "errorSavingData": {
+      "title": "Error saving payment data",
+      "message": "There was an error saving the payment information. Contact us through the email barlingoapp@gmail.com and indicate the payment with the order id: "
+    },
     "discounts": {
       "10%": "Get 10% discount!",
       "25%": "Get 25% discount!"
@@ -232,18 +347,32 @@
       "trimestral": "Trimestral subscription",
       "annual": "Annual subscription"
     },
+    "unknownEstablishment": {
+      "title": "We can not detect who you are",
+      "message": "Please login in the application."
+    },
+    "paidSubscription": {
+      "title": "Paid subscription",
+      "message": "You already have a paid subscription."
+    },
     "successMessage": {
       "title": "Successful payment",
       "message": "Now you can see your establishment in the application."
     },
     "cancelMessage": {
       "title": "Payment cancelled",
-      "message": ""
+      "message": "You must finished the payment in order to appear in the app."
     },
     "errorMessage": {
       "title": "Failed payment",
-      "message": ""
-    }
+      "message": "Please retry it again."
+    },
+    "warningMessage": {
+      "title": "Unpaid subscription",
+      "message1": "Go to your profile and click on the option \"Pay subscription\" to appear in the application.",
+      "message2": "Click on the option \"Pay subscription\" to appear in the application."
+    },
+    "payButton": "Pay subscription"
   },
   "code": {
     "redeem": {
@@ -283,6 +412,122 @@
         "title": "Invalid code",
         "message": "The code is invalid."
       }
+    }
+  },
+  "establishment": {
+    "search": "Search establishment",
+    "error": {
+      "title": "An error has ocurred",
+      "message": "The establishment doesnt exist or cant be founded"
+    }
+  },
+  "apiErrors": {
+    "defaultErrorTitle": "There was an error",
+    "defaultErrorMessage": "There was an unknown error",
+    "All": {
+      "Establishment": {
+        "UsernameExists": "The name of the establishment is already being used."
+      },
+      "User": {
+        "UsernameEmpty": "The username or the password are incorrects",
+        "UsernameExists": "The username is already being used"
+      },
+      "LanguageExchange": {
+        "NotNull": "The indicated establishment does not exist."
+      }
+    },
+    "Unsigned": {
+      "Establishment": {
+        "ValidationErrors": "The establishment is not correct."
+      },
+      "User": {
+        "WrongUsernameOrPass": "The username or the password are incorrects."
+      }
+    },
+    "Signed": {
+      "Establishment": {
+        "ErrorLoadingImage": "There was an error loading the image."
+      },
+      "LanguageExchange": {
+        "UserNotExists": "The indicated user does not exist.",
+        "EstablishmentNotExists": "The indicated establishment does not exist.",
+        "NotFound": "The indicated establishment does not exist."
+      },
+      "UserDiscount": {
+        "UserNotNull": "An error occurred while creating the exchange.",
+        "ErrorSavingDiscount": "An error occurred while creating the exchange.",
+        "CodeBelongOtherExchange": "An error occurred while creating the exchange.",
+        "CodeNotValid": "The code is not valid.",
+        "CodeNotExists": "The code is not valid.",
+        "NotVisible": "The code is not valid.",
+        "LanguageExchangeNotStartedYet": "The exchange has not started yet.",
+        "LanguajeExchangeNotNull": "The exchange parameter sended is not valid",
+        "UserDiscountNotNull": "There is no discount for the user in the exchange",
+        "AccessForbidden": "The user/establishment does not have access to the discount"
+      },
+      "UserAccount": {
+        "NotNull": "The account of the indicated user is not found.",
+        "SecretEmpty": "La contraseña no puede estar vacía",
+        "NotExists": "The account of the indicated user is not found.",
+        "CannotModifyOtherUsers": "This action is not allowed, be careful.",
+        "ErrorDecoding": "The password could not be decoded.",
+        "ErrorSavingAccount": "Unable to save the account."
+      }
+    },
+    "Establishment": {
+      "Establishment": {
+        "ErrorSavingEstablishment": "Error saving the establishment.",
+        "CannotModifyOtherUser": "This action is not allowed, be careful.",
+        "NotFound": "The establishment you are trying to edit does not exist.",
+        "EstablishmentDataNotNull": "The establishment's data is not correct.",
+        "NotNull": "The indicated establishment does not exist.",
+        "UnknownFileType": "The file does not have the proper format.",
+        "SecretNotEmpty": "The password can not be an empty text."
+      },
+      "UserDiscount": {
+        "UserDiscountCannotBeExchanged": {
+          "NotVisible": "The code is not valid."
+        }
+      },
+      "Payment": {
+        "IO": "The transaction could not be completed, please try later.",
+        "EstablishmentNotExists": "The indicated establishment does not exist.",
+        "EstablishmentAlreadyHavesSubscription": "The subscription has already been paid.",
+        "ErrorProcesingOrder": "The transaction could not be completed, please try later.",
+        "ErrorProcesingSubscription": "The transaction could not be completed, please try later.",
+        "OrderIsNotValid": "The indicated order does not exist.",
+        "OrderBelongsToAnotherSubscription": "This action is not allowed, be careful.",
+        "ErrorSavingPaydata": "The transaction could not be completed, please try later.",
+        "OrderIdNotNull": "The indicated order does not exist.",
+        "ErrorSavingEstablishment": "The transaction could not be completed, please try later."
+      }
+    },
+    "User": {
+      "User": {
+        "ErrorSavingUser": "An error occurred while saving the user.",
+        "UploadFileIO": "An error occurred while uploading the file.",
+        "NotFound": "The indicated user is not found",
+        "CannotModifyOtherUsers": "This action is not allowed, be careful.",
+        "UnknownFileType": "The file extension is not recognized."
+      },
+      "LanguageExchange": {
+        "UserNotFound": "The indicated user is not found.",
+        "UserNotNull": "The indicated user is not found.",
+        "EstablishmentNotNull": "The indicated establishment is not found.",
+        "CannotModifyOtherUsers": "This action is not allowed, be careful.",
+        "IsFull": "Can not join more participants to this exchange.",
+        "AlreadyRegistered": "The user is already registered in the event.",
+        "EventFinalized": "This action is not allowed, be careful.",
+        "UserNotRegistered": "This action is not allowed, be careful.",
+        "ErrorSavingExchange": "An error occurred while saving the exchange.",
+        "CannotSavePastExchange": "You can not create an exchange in the past."
+      }
+    }
+  },
+  "editProfile": {
+    "successfullMessage": {
+      "title": "Successfull edition",
+      "message": "Data updated properly."
     }
   }
 }

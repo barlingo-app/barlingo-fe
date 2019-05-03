@@ -1,14 +1,13 @@
-import { Avatar, Card } from 'antd';
 import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
-import { Col, Row } from 'reactstrap';
+import { Col, Row } from 'react-bootstrap';
 import defaultImage from '../../media/default-exchange-header.jpg';
-import './EstablishmentDetails.scss';
-import locationIcon from '../../media/imageedit_5_5395394410.png';
-import timeIcon from '../../media/imageedit_8_4988666292.png';
+import MapContainer from '../MapContainer/MapContainer';
 import { establishmentService } from '../../services/establishmentService';
 import Loading from "../../components/Loading/Loading";
+import './EstablishmentDetails.scss';
+
 
 class EstablishmentDetails extends Component {
     constructor(props) {
@@ -22,15 +21,20 @@ class EstablishmentDetails extends Component {
 
     fetchData = () => {
         establishmentService.findOne(this.props.match.params.establishmentName)
-        .then((response) => this.setData(response))
-        .catch((error) => this.setError(error));
+            .then((response) => this.setData(response))
+            .catch((error) => this.setError(error));
     };
 
     setData = (response) => {
-        this.setState({
-            establishment: response.data,
-            loaded: true
-        })
+        if (response.data.code === 200 && response.data.success && response.data.content) {
+            document.title = "Barlingo - " + response.data.establishmentName;
+            this.setState({
+                establishment: response.data.content,
+                loaded: true
+            });
+        } else {
+            this.setState({redirectToNotFound: true});
+        }
     };
 
     setError = (error) => {
@@ -44,19 +48,17 @@ class EstablishmentDetails extends Component {
         this.fetchData();
     }
 
-    renderDescription() {
-        let address = this.state.establishment.establishmentName + ", " + this.state.establishment.address;
-        return (
-        <div className="establishment">
-            <div>
-                <img className="establishment__icon" src={locationIcon} alt="Location" />
-                {address}
-            </div>
-            <div className="establishment__icon-wrapper">
-                <img className="establishment__icon" src={timeIcon} alt="Date and time" />{this.state.establishment.workingHours}
-            </div>
-        </div>
-        );
+    getFormattedWorkingHours = (workingHours) => {
+        const { t } = this.props;
+
+        let formattedWorkingHours = '';
+        let days = workingHours.split(',')[0].trim();
+
+        days.split(' ').forEach(function(value, index,  array) {
+            formattedWorkingHours += t('days.' + value.trim().toLowerCase()) + ' ';
+        });
+
+        return formattedWorkingHours.trim() + ' , ' + workingHours.split(',')[1].trim();
     }
 
     getImage = (image) => {
@@ -64,37 +66,50 @@ class EstablishmentDetails extends Component {
     };
 
     render() {
-        const { Meta } = Card;
         const { errorMessage, loaded, establishment } = this.state;
-
+        const { t } = this.props;
         if (!loaded) {
             return (
                 <Page layout="public">
                     <Section slot="content">
-                        <Loading message={errorMessage}/>
+                        <Loading message={errorMessage} />
                     </Section>
                 </Page>
             );
         }
 
-        return (
-            <Page layout="public">
-                <Section slot="content">
+        const mapAddress = establishment.address + ", " + establishment.city + ", " + establishment.country;
+        const name = establishment.establishmentName;
 
+        return (
+            <div className="establishment-details">
+                <Page layout="public">
+                    <Section slot="content">
                         <Row>
-                            <Col col-sm="12" offset-md="4" col-md="4">
-                                <Card
-                                cover={<img className="header-img" alt="example" src={this.getImage(establishment.imageProfile)} onError={(e) => {e.target.src = defaultImage}} />}>
-                                    <Meta
-                                        avatar={<Avatar src={establishment.imageProfile} />}
-                                        title={establishment.establishmentName}
-                                        description={this.renderDescription()}
-                                    />
-                                </Card>
+                            <Col className="establishment-details__content" sm="12" md={{span: 6, offset: 3}}>
+                                <div className="establishment-details__top"> 
+                                    <img  className="establishment-details__image" alt="Establishment" src={this.getImage(establishment.imageProfile)} onError={(e) => e.target.src = defaultImage}/>
+                                </div>
+                                <div className="establishment-details__name">{establishment.establishmentName}</div>
+                                <div className="establishment-details__description">{establishment.description}</div>
+
+                                <div className="establishment-details__address">
+                                    <i className="fas fa-map-marker-alt fa-lg establishment-details__location-icon"></i>
+                                    {establishment.address}
+                                </div>
+                                <div className="establishment-details__map">
+                                    <MapContainer address={mapAddress} name={name} />
+                                </div>
+
+                                <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
+                                <div className="establishment-details__workingHours">{establishment.workingHours}</div>
+                                <div className="establishment-details__offer-title">{t('form.offer')}</div>
+                                <div className="establishment-details__offer">{establishment.offer}</div>
                             </Col>
                         </Row>
-                </Section>
-            </Page>
+                    </Section>
+                </Page>
+            </div>
         );
     }
 }

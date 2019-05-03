@@ -1,5 +1,40 @@
 {
+  "profileview" : {
+    "age": "años",
+    "speak": "Hablo",
+    "tolearn": "Quiero aprender",
+    "editprofile": "Editar perfil"
+  },
+
+  "subcripcionEnd": "Subscripción caduca en",
+  "intercambiosconcertadosensulocal": "Intercambios concertados en su local",
+  "completed": "Completo",
+  "participants": "participantes",
+  "ourExchanges": "Nuestros establecimientos",
+  "notification": {
+    "priority": "Prioridad",
+    "emptyPriority": "Por favor, indique una prioridad",
+    "success": {
+      "title": "Notificación enviada",
+      "message": "La notificación se ha enviado a todos los usuarios"
+    },
+    "error": {
+      "title": "Error",
+      "message": "La notificación no se ha podido enviar, inténtelo más tarde"
+    }
+  },
+  "markAsRead": "Marcar como leído",
   "error": "Error",
+  "downloadData": {
+    "button": "Descargar datos personales"
+  },
+  "deleteAccount": {
+    "delete": "Borrar datos personales",
+    "text1": "Esta acción no es reversible. Eliminará su cuenta y datos personales de manera definitiva del sistema.",
+    "text2": "Para borrar los datos personales introduzca su contraseña.",
+    "wrongPassword": "La contraseña no es correcta",
+    "deleting": "Su cuenta y datos personales están siendo eliminados del sistema, en breves momentos se hará efectivo."
+  },
   "warning": "Alerta",
   "welcomeMessage": "Bienvenido a Barlingo!",
   "notfound": "Recurso no encontrado",
@@ -7,39 +42,59 @@
   "landing": {
     "message": "Bienvenido a Barlingo!",
     "navOptions": {
-      "findExchanges": "Encontrar intercambios",
-      "seeEstablishments": "Ver establecimientos"
+      "findExchanges": "Encuentra tu intercambio",
+      "seeEstablishments": "Ver establecimientos",
+      "createExchanges": "Crear tu intercambio"
     }
+  },
+  "select-register": "Elija un tipo de registro",
+  "action": {
+    "back": "Volver",
+    "register": {
+      "asUser": "Registrarse como usuario",
+      "asEstablishment": "Registrarse como establecimiento"
+    },
+    "showAll": "Todos",
+    "showActive": "Solo activos"
+  },
+  "languages": {
+    "es": "Español",
+    "en": "Inglés",
+    "fr": "Francés",
+    "de": "Alemán",
+    "ja": "Japonés"
+  },
+  "days": {
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miércoles",
+    "thursday": "Jueves",
+    "friday": "Viernes",
+    "saturday": "Sábado",
+    "sunday": "Domingo"
   },
   "details": " Detalles",
   "term&cond": "Términos y Condiciones",
   "terms-intro": "En el presente documento se detallan los términos y condiciones de www.barlingo.es.",
-  "terms-data": "1. Protección de datos",
-  "terms-data-text": "Barlingo se compromete a cumplir con el Reglamento General de Protección de Datos (RGPD). De acuerdo con esta ley, aseguramos al usuario los siguientes derechos:",
+  "terms-protection": "1. Protección de datos",
+  "terms-protection-text": "Barlingo está comprometido con la seguridad de los datos de sus usuarios. Cuando te solicitamos información personal con la cual puedas ser identificado, lo hacemos asegurando que sólo se empleará de acuerdo con los términos de este documento. Nuestro sitio web emplea la información con el fin de proporcionar el mejor servicio posible, particularmente para mantener un registro de usuarios.",
+  "terms-rights": "2. Derechos que proporciona Barlingo",
+  "terms-rights-text": "Barlingo se compromete a cumplir con el Reglamento General de Protección de Datos (RGPD). De acuerdo con esta ley, aseguramos al usuario los siguientes derechos:",
   "terms-right1": "Los usuarios tienen derecho a ser notificados de todas las brechas que resulten un riesgo para sus derechos y libertades individuales. Esto se hará en un plazo máximo de 72 horas desde el momento en el que se produzca.",
   "terms-right2": "Los usuarios tienen derecho a solicitar que se borren sus datos y que terceros detengan su procesamiento.",
   "terms-right3": "Los usuarios tienen derecho a solicitar sus datos en formato electrónico, de manera que puedan portar esos datos a otras compañías.",
-  "terms-prices": "2. Precios y pagos",
+  "terms-intellectual-property": "3. Propiedad intelectual",
+  "terms-intellectual-property-text": "La página y su contenido original, las características y la funcionalidad son propiedad de Barlingo y están protegidos por derechos de autor internacionales, marcas registradas, patentes, secretos comerciales y demás leyes de propiedad intelectual o de derechos de propiedad",
+  "terms-prices": "4. Precios y pagos",
   "terms-prices-title": "Barlingo cuenta con tres tipos de suscripción al servicio:",
   "terms-price1": "Suscripción mensual: el precio de la suscripción mensual es de 6.99€.",
   "terms-price2": "Suscripción trimestral: el precio de la suscripción trimestral es de 18.99€.  Se aplica un descuento del 10% con respecto a la suscripción mensual.",
   "terms-price3": "Suscripción anual: el precio de la suscripción anual es de 62.99€. Se aplica un descuento del 25% con respecto a la suscripción mensual.",
-  "terms-modifications": "3. Modificaciones",
+  "terms-modifications": "5. Modificaciones",
   "terms-modifications-text": "Barlingo se reserva el derecho a modificar en cualquier momento los términos y condiciones de uso del portal.",
   "ihaveread": "He leído y acepto los ",
   "userword": "Usuario",
   "establishmentword": "Establecimiento",
-  "monday": "Lunes",
-  "thuesday": "Martes",
-  "wednesday": "Miércoles",
-  "thursday": "Jueves",
-  "friday": "Viernes",
-  "saturday": "Sábado",
-  "sunday": "Domingo",
-  "spanish": "Español",
-  "english": "Inglés",
-  "french": "Francés",
-  "german": "Alemán",
   "submit": "Enviar",
   "register": "Registrarse",
   "create-account": "Crea tu cuenta",
@@ -61,15 +116,19 @@
     "logout": "Cerrar sesión"
   },
   "links": {
+    "manageaccounts": "Gestionar cuentas",
+    "notification": "Enviar un mensaje de difusión",
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",
     "validateCode": "Validar código",
     "login": "Iniciar sesión",
     "register": "Registrarse",
+    "registerUser": "Unirse a la zona Barlingo",
     "logout": "Cerrar sesión",
     "myExchanges": "Mis intercambios",
     "created": "Creados",
-    "joined": "Unidos"
+    "joined": "Unidos",
+    "calendar": "Calendario de la empresa"
   },
   "access": {
     "error": {
@@ -108,6 +167,23 @@
     }
   },
   "form": {
+    "validationNotification": {
+      "title": "Failed validation",
+      "message": "Please, check the form."
+    },
+    "validationErrors": {
+      "usernameExists": "El nombre de usuario ya existe.",
+      "dateOutOfWorkingHours": "No puede seleccionar un momento fuera del horario del establecimiento.",
+      "required": "Este campo es obligatorio.",
+      "emailFormat": "El correo no tiene el formato correcto.",
+      "inconsistPassword": "Las contraseñas no coinciden.",
+      "closeAfterOpen": "La hora de cierre debe ser posterior a la hora de apertura.",
+      "languagesRepeated": "No puede repetir los mismos idiomas que en los idiomas que habla.",
+      "exchangeLanguagesRepeated": "No puede repetir los idiomas.",
+      "safeHtml": "No puede insertar etiquetas de script",
+      "maxLength": "La longitud máxima del campo es de NUMBER_OF_CHARACTERS caracteres.",
+      "wrongPassword": "La contraseña no es correcta"
+    },
     "emptyUsername": "Por favor, introduzca su nombre de usuario.",
     "emptyPassword": "Por favor, introduzca su contraseña.",
     "validemail": "Por favor, introduzca un email válido",
@@ -143,8 +219,8 @@
     "address": "Dirección",
     "weekscheadule": "Horario semanal",
     "workingHours": "Horario de apertura",
-    "open": "Abierto",
-    "closed": "Cierre",
+    "open": "Hora de apertura",
+    "closed": "Hora de cierre",
     "offer": "Oferta",
     "aboutme": "Algo sobre tí",
     "birthday": "Fecha de nacimiento",
@@ -153,7 +229,31 @@
     "languagesToLearn": "Lenguas para aprender",
     "submit": "Enviar"
   },
+  "changePassword": {
+    "title": "Cambiar mi contraseña",
+    "button": "Cambiar mi contraseña",
+    "actualPassword": "Contraseña actual",
+    "newPassword": "Nueva contraseña",
+    "changing": "En unos segundos la contraseña se habrá cambiado.",
+    "newPasswordCopy": "Nueva contraseña (de nuevo)",
+    "text1": "Para cambiar su contraseña, introduzca la contraseña actual, y la nueva contraseña dos veces.",
+    "success": {
+      "title": "Todo bien",
+      "message": "La contraseña se ha cambiado correctamente"
+    }
+  },
   "exchange": {
+    "creator": " (creador)",
+    "participantss": "Participantes",
+    "search": {
+      "textarea": "Buscar intercambio",
+      "date": "Fecha",
+      "startTime": "Hora inicio",
+      "endTime": "Hora fin",
+      "motherTongue": "Lengua materna",
+      "targetTongue": "Lengua objetivo",
+      "language": "Selecciona los idiomas que te interesen"
+    },
     "error": {
       "title": "Creación fallida",
       "message": "Se ha producido un error al crear un nuevo intercambio, inténtelo más tarde."
@@ -174,7 +274,8 @@
     "loading": "Cargando",
     "leave": "Abandonar",
     "confirm": "Confirmar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "createExchange": "Crear intercambio"
   },
   "language": {
     "spanish": "Español",
@@ -222,8 +323,22 @@
       "message": "Se produjo un error al guardar los datos."
     }
   },
+  "userRegister": {
+    "successfulMessage": {
+      "title": "Registro exitoso",
+      "message": "Ahora puedes iniciar sesión en la aplicación."
+    },
+    "failedMessage": {
+      "title": "Registro fallido",
+      "message": "Se produjo un error al guardar los datos."
+    }
+  },
   "subscription": {
     "title": "Elige una suscripción",
+    "errorSavingData": {
+      "title": "Error guardando datos del pago",
+      "message": "Se produjo un error al guardar la información de pago. Contáctenos a través del correo electrónico barlingoapp@gmail.com e indique el pago con el id de pedido: "
+    },
     "discounts": {
       "10%": "¡Obten un 10% de descuento!",
       "25%": "¡Obten un 25% de descuento!"
@@ -233,18 +348,32 @@
       "trimestral": "Suscripción trimestral",
       "annual": "Suscripción anual"
     },
+    "unknownEstablishment": {
+      "title": "No podemos detectar quien eres",
+      "message": "Por favor, inicia sesión en la aplicación."
+    },
+    "paidSubscription": {
+      "title": "Suscripción pagada",
+      "message": "Ya tiene una suscripción pagada."
+    },
     "successMessage": {
       "title": "Pago exitoso",
       "message": "Ahora puedes ver tu establecimiento en la aplicación."
     },
     "cancelMessage": {
       "title": "Pago cancelado",
-      "message": ""
+      "message": "Debe finalizar el pago para aparecer en la app."
     },
     "errorMessage": {
       "title": "Pago fallido",
-      "message": ""
-    }
+      "message": "Por favor, reintentelo de nuevo."
+    },
+    "warningMessage": {
+      "title": "Suscripción sin pagar",
+      "message1": "Vaya a su perfil y haga click en la opción \"Pagar suscripción\" para aparecer en la aplicación.",
+      "message2": "Haga click en la opción \"Pagar suscripción\" para aparecer en la aplicación."
+    },
+    "payButton": "Pagar suscripción"
   },
   "code": {
     "redeem": {
@@ -284,6 +413,122 @@
         "title": "Código inválido",
         "message": "El código no es válido"
       }
+    }
+  },
+  "establishment": {
+    "search": "Buscar establecimiento",
+    "error": {
+      "title": "Ha ocurrido un error",
+      "message": "El establecimiento no existe o no podemos encontrarlo."
+    }
+  },
+  "errors": {
+    "titles": {},
+    "messages": {}
+  },
+  "apiErrors": {
+    "defaultErrorTitle": "Hubo un error",
+    "defaultErrorMessage": "Hubo un error desconocido",
+    "All": {
+      "Establishment": {
+        "UsernameExists": "El nombre del establecimiento que se quiere registrar ya existe."
+      },
+      "User": {
+        "UsernameEmpty": "El nombre de usuario o la contraseña son incorrectos.",
+        "UsernameExists": "El nombre de usuario ya está siendo utilizado."
+      },
+      "LanguageExchange": {
+        "NotNull": "El establecimiento indicado no existe."
+      }
+    },
+    "Unsigned": {
+      "Establishment": {
+        "ValidationErrors": "El establecimiento no es correcto."
+      }
+    },
+    "Signed": {
+      "Establishment": {
+        "ErrorLoadingImage": "Se ha producido un error al cargar la imagen."
+      },
+      "LanguageExchange": {
+        "UserNotExists": "El usuario indicado no existe.",
+        "UserNotNull": "El usuario indicado no existe.",
+        "EstablishmentNotExists": "El establecimiento indicado no existe.",
+        "NotFound": "El establecimiento indicado no existe."
+      },
+      "UserDiscount": {
+        "UserNotNull": "Se ha producido un error al crear el intercambio.",
+        "ErrorSavingDiscount": "Se ha producido un error al crear el intercambio.",
+        "CodeBelongOtherExchange": "Se ha producido un error al crear el intercambio.",
+        "CodeNotValid": "El código no es válido.",
+        "CodeNotExists": "El código no es válido.",
+        "NotVisible": "El código no es válido.",
+        "LanguageExchangeNotStartedYet": "El intercambio aún no ha comenzado.",
+        "LanguageExchangeNotNull": "No se ha pasado como intercambio un parámetro válido",
+        "UserDiscountNotNull": "No existe ningún descuento para el usuario en el intercambio suministrado",
+        "AccessForbidden": "El usuario/establecimiento está intentando acceder a un descuento que no le pertenece"
+      },
+      "UserAccount": {
+        "NotNull": "No se encuentra la cuenta del usuario indicada.",
+        "SecretEmpty": "La contraseña no puede estar vacía",
+        "NotExists": "No se encuentra la cuenta del usuario indicada.",
+        "CannotModifyOtherUsers": "Esta acción no esta permitida, tenga cuidado.",
+        "ErrorDecoding": "No se ha podido decodificar la contraseña.",
+        "ErrorSavingAccount": "No se ha podido guardar la cuenta."
+      }
+    },
+    "Establishment": {
+      "Establishment": {
+        "ErrorSavingEstablishment": "Error al guardar el establecimiento.",
+        "CannotModifyOtherUser": "Esta acción no esta permitida, tenga cuidado.",
+        "NotFound": "El establecimiento que intenta editar no existe.",
+        "EstablishmentDataNotNull": "Los datos del establecimiento no son correctos.",
+        "NotNull": "El establecimiento indicado no existe.",
+        "UnknownFileType": "El archivo no tiene el formato adecuado.",
+        "SecretNotEmpty": "La contraseña no puede ser un texto vacío."
+      },
+      "UserDiscount": {
+        "UserDiscountCannotBeExchanged": "El código no es válido."
+      },
+      "Payment": {
+        "IO": "No se ha podido realizar la transacción, inténtelo más tarde.",
+        "EstablishmentNotExists": "El establecimiento indicado no existe.",
+        "EstablishmentAlreadyHavesSubscription": "La subscripción ya ha sido abonada.",
+        "ErrorProcesingOrder": "No se ha podido realizar la transacción, inténtelo más tarde.",
+        "ErrorProcesingSubscription": "No se ha podido realizar la transacción, inténtelo más tarde.",
+        "OrderIsNotValid": "El pedido indicado no existe.",
+        "OrderBelongsToAnotherSubscription": "Esta acción no esta permitida, tenga cuidado.",
+        "ErrorSavingPaydata": "No se ha podido realizar la transacción, inténtelo más tarde.",
+        "OrderIdNotNull": "El pedido indicado no existe.",
+        "ErrorSavingEstablishment": "No se ha podido realizar la transacción, inténtelo más tarde."
+      }
+    },
+    "User": {
+      "User": {
+        "ErrorSavingUser": "Se ha producido un error al guardar el usuario.",
+        "UploadFileIO": "Se ha producido un error al subir el archivo.",
+        "NotFound": "No se encuentra el usuario indicado",
+        "CannotModifyOtherUsers": "Esta acción no esta permitida, tenga cuidado",
+        "MalformedURL": "No se puede mostrar la imagen",
+        "UnknownFileType": "No se reconoce la extensión del archivo subido"
+      },
+      "LanguageExchange": {
+        "UserNotFound": "El usuario indicado no existe",
+        "UserNotNull": "El usuario indicado no existe",
+        "CannotModifyOtherUsers": "Esta acción no esta permitida, tenga cuidado",
+        "IsFull": "No se pueden unir más participantes a este intercambio.",
+        "AlreadyRegistered": "El usuario ya está registrado en el evento.",
+        "EventFinalized": "Esta acción no esta permitida, tenga cuidado.",
+        "UserNotRegistered": "Esta acción no esta permitida, tenga cuidado.",
+        "ErrorSavingExchange": "Se ha producido un error al guardar el intercambio.",
+        "CannotSavePastExchange": "No se puede crear un intercambio en pasado."
+      }
+    }
+  },
+  "editProfile": {
+    "successfullMessage": {
+      "title": "Edición exitosa",
+      "message": "Datos actualizados correctamente."
     }
   }
 }

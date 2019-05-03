@@ -13,7 +13,7 @@ i18n
             'en-GB': ['en-US'],
             'default': ['es-ES']
         },
-        debug: true,
+        debug: false,
 
         interpolation: {
             escapeValue: false, // not needed for react as it escapes by default
