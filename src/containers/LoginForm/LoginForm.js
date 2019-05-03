@@ -39,7 +39,7 @@ class LoginForm extends Component {
         const { t } = this.props;
         notificationService.findByUser()
             .then((response) => {
-                response.forEach(notif => {
+                response.data.content.forEach(notif => {
                     const key = notif.id;
                     const btn = (
                         <Button type="primary" size="small" onClick={() => this.markAsRead(key)}>
