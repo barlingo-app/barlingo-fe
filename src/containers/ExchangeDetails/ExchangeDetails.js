@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import {Button} from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
@@ -136,6 +137,16 @@ class ExchangeDetails extends Component {
         }
     }
 
+    orderParticipants = (participants) => {
+        const {exchange} = this.state
+        var orderedParticipants = participants.sort (
+        function(x,y) {
+           
+        return x.id === exchange.creator.id ? -1 : y.id === exchange.creator.id ? 1 : 0
+    })
+        return orderedParticipants
+    }
+
     render() {
 
         const { errorMessage, loaded, exchange, codeShown, redirectToNotFound } = this.state;
@@ -160,9 +171,10 @@ class ExchangeDetails extends Component {
         const image = exchange.establishment.imageProfile;
         const address = exchange.establishment.establishmentName + ", " + exchange.establishment.address;
         const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
-        const participants = exchange.participants;
         const mapAddress = exchange.establishment.address + ", " + exchange.establishment.city + ", " + exchange.establishment.country;
         const name = exchange.establishment.establishmentName;
+        const orderedParticipants = this.orderParticipants(exchange.participants)
+        const route = "profile";
 
         return (
             <div className="exchange-details">
@@ -175,7 +187,6 @@ class ExchangeDetails extends Component {
                                 </div>
 
                                 <div className="exchange-details__title">{exchange.title}</div>
-
                                 <div className="exchange-details__date">{new Date(exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)}</div>
                                 <div className="exchange-details__languages">
                                     {t(`languages.${exchange.targetLangs[0]}`)}
@@ -193,17 +204,19 @@ class ExchangeDetails extends Component {
                                     <MapContainer address={mapAddress} name={name} />
                                 </div>
 
-                                <div className="exchange-details__participants-title">{t('exchange.participants')}</div>
+                                <div className="exchange-details__participants-title">{t('exchange.participantss')}</div>
                                 <Row>
-                                    {participants.map(function (i) {
+                                    {   orderedParticipants.map(function (i) {
                                         var creator = "";
                                         if (exchange.creator.id === i.id) {
                                             creator = t('exchange.creator')
                                         }
                                         return (
                                             <Col xs="12" md="4" lg="3" key={i.id}>
-                                                <img  className="exchange-details__participant-image" alt="Participant" src={i.personalPic}/>
-                                                <div className="exchange-details__participant-name">{i.name + " " + i.surname + creator}</div>
+                                                <NavLink exact={true} activeClassName={"active"} to={`/${route}/${i.id}`} className="exchange-details__link">
+                                                    <img  className="exchange-details__participant-image" alt="Participant" src={i.personalPic}/>
+                                                    <div className="exchange-details__participant-name">{i.name + " " + i.surname + creator}</div>
+                                                </NavLink>
                                             </Col>
                                         )
                                         
