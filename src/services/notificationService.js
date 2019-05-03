@@ -9,7 +9,7 @@ export const notificationService = {
                     'Authorization': "Bearer " + token
                 }
             })
-                .then((response) => { return response.data; })
+                .then((response) => { return response; })
                 .catch((error) => { return error });
         })
     },

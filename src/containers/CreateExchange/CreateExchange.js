@@ -14,7 +14,8 @@ class CreateExchange extends Component {
     state = {
         establishment: null,
         loaded: false,
-        error: true
+        error: true,
+        redirectToNotFound: false
     }
     componentDidMount() {
         this.consultaEstablecimiento();
@@ -24,11 +25,15 @@ class CreateExchange extends Component {
         establishmentService.findOne(id).then(
             response => {
                 if (response.data.code === 200 && response.data.success && response.data.content) {
+                    if (response.data.content.userAccount.active) {
                     this.setState({
                         establishment: response.data.content,
                         loaded: true,
                         error: false
                     });
+                    } else {
+                        this.setState({loaded: true, redirectToNotFound: true});
+                    }
                 } else if (response.data.code === 500) {
                     notification.error({
                         message: this.props.t('apiErrors.defaultErrorTitle'),
@@ -47,8 +52,11 @@ class CreateExchange extends Component {
             });
     }
     render() {
-        const { establishment, loaded, error } = this.state;
+        const { establishment, loaded, error, redirectToNotFound } = this.state;
         if (loaded) {
+            if (redirectToNotFound) {
+                return <Redirect to={"/notFound"} />
+            }
             if (error)
                 return <Redirect to={"/establishments"} />
             let i = establishment;
