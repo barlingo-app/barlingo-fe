@@ -400,6 +400,102 @@
   },
   "apiErrors": {
     "defaultErrorTitle": "There was an error",
-    "defaultErrorMessage": "There was an unknown error"
+    "defaultErrorMessage": "There was an unknown error",
+    "All": {
+      "Establishment": {
+        "UsernameExists": "The name of the establishment is already being used."
+      },
+      "User": {
+        "UsernameEmpty": "The username or the password are incorrects",
+        "UsernameExists": "The username is already being used"
+      },
+      "LanguageExchange": {
+        "NotNull": "The indicated establishment does not exist."
+      }
+    },
+    "Unsigned": {
+      "Establishment": {
+        "ValidationErrors": "The establishment is not correct."
+      },
+      "User": {
+        "WrongUsernameOrPass": "The username or the password are incorrects."
+      }
+    },
+    "Signed": {
+      "Establishment": {
+        "ErrorLoadingImage": "There was an error loading the image."
+      },
+      "LanguageExchange": {
+        "UserNotExists": "The indicated user does not exist.",
+        "EstablishmentNotExists": "The indicated establishment does not exist.",
+        "NotFound": "The indicated establishment does not exist."
+      },
+      "UserDiscount": {
+        "UserNotNull": "An error occurred while creating the exchange.",
+        "ErrorSavingDiscount": "An error occurred while creating the exchange.",
+        "CodeBelongOtherExchange": "An error occurred while creating the exchange.",
+        "CodeNotValid": "The code is not valid.",
+        "CodeNotExists": "The code is not valid.",
+        "NotVisible": "The code is not valid.",
+        "LanguageExchangeNotStartedYet": "The exchange has not started yet."
+      },
+      "UserAccount": {
+        "NotNull": "The account of the indicated user is not found.",
+        "SecretEmpty": "La contraseña no puede estar vacía",
+        "NotExists": "The account of the indicated user is not found.",
+        "CannotModifyOtherUsers": "This action is not allowed, be careful.",
+        "ErrorDecoding": "The password could not be decoded.",
+        "ErrorSavingAccount": "Unable to save the account."
+      }
+    }
+  },
+  "Establishment": {
+    "Establishment": {
+      "ErrorSavingEstablishment": "Error saving the establishment.",
+      "CannotModifyOtherUser": "This action is not allowed, be careful.",
+      "NotFound": "The establishment you are trying to edit does not exist.",
+      "EstablishmentDataNotNull": "The establishment's data is not correct.",
+      "NotNull": "The indicated establishment does not exist.",
+      "UnknownFileType": "The file does not have the proper format.",
+      "SecretNotEmpty": "The password can not be an empty text."
+    },
+    "UserDiscount": {
+      "UserDiscountCannotBeExchanged": {
+        "NotVisible": "The code is not valid."
+      }
+    },
+    "Payment": {
+      "IO": "The transaction could not be completed, please try later.",
+      "EstablishmentNotExists": "The indicated establishment does not exist.",
+      "EstablishmentAlreadyHavesSubscription": "The subscription has already been paid.",
+      "ErrorProcesingOrder": "The transaction could not be completed, please try later.",
+      "ErrorProcesingSubscription": "The transaction could not be completed, please try later.",
+      "OrderIsNotValid": "The indicated order does not exist.",
+      "OrderBelongsToAnotherSubscription": "This action is not allowed, be careful.",
+      "ErrorSavingPaydata": "The transaction could not be completed, please try later.",
+      "OrderIdNotNull": "The indicated order does not exist.",
+      "ErrorSavingEstablishment": "The transaction could not be completed, please try later."
+    }
+  },
+  "User": {
+    "User": {
+      "ErrorSavingUser": "An error occurred while saving the user.",
+      "UploadFileIO": "An error occurred while uploading the file.",
+      "NotFound": "The indicated user is not found",
+      "CannotModifyOtherUsers": "This action is not allowed, be careful.",
+      "UnknownFileType": "The file extension is not recognized."
+    },
+    "LanguageExchange": {
+      "UserNotFound": "The indicated user is not found.",
+      "UserNotNull": "The indicated user is not found.",
+      "EstablishmentNotNull": "The indicated establishment is not found.",
+      "CannotModifyOtherUsers": "This action is not allowed, be careful.",
+      "IsFull": "Can not join more participants to this exchange.",
+      "AlreadyRegistered": "The user is already registered in the event.",
+      "EventFinalized": "This action is not allowed, be careful.",
+      "UserNotRegistered": "This action is not allowed, be careful.",
+      "ErrorSavingExchange": "An error occurred while saving the exchange.",
+      "CannotSavePastExchange": "You can not create an exchange in the past."
+    }
   }
 }
