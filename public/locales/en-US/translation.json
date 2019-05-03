@@ -1,4 +1,5 @@
 {
+  "subcripcionEnd": "Subscription expires on",
   "intercambiosconcertadosensulocal": "Exchanges created in your establishment",
   "completed": "Completed",
   "participants": "participants",
@@ -452,7 +453,10 @@
         "CodeNotValid": "The code is not valid.",
         "CodeNotExists": "The code is not valid.",
         "NotVisible": "The code is not valid.",
-        "LanguageExchangeNotStartedYet": "The exchange has not started yet."
+        "LanguageExchangeNotStartedYet": "The exchange has not started yet.",
+        "LanguajeExchangeNotNull": "The exchange parameter sended is not valid",
+        "UserDiscountNotNull": "There is no discount for the user in the exchange",
+        "AccessForbidden": "The user/establishment does not have access to the discount"
       },
       "UserAccount": {
         "NotNull": "The account of the indicated user is not found.",

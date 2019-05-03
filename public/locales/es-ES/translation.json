@@ -1,4 +1,5 @@
 {
+  "subcripcionEnd": "Subscripción caduca en",
   "intercambiosconcertadosensulocal": "Intercambios concertados en su local",
   "completed": "Completo",
   "participants": "participantes",
@@ -250,7 +251,6 @@
       "title": "Creación fallida",
       "message": "Se ha producido un error al crear un nuevo intercambio, inténtelo más tarde."
     },
-    "participants": "participants",
     "dateError": {
       "title": "Creación fallida",
       "message": "El momento del intercambio debe ser futuro."
@@ -456,7 +456,10 @@
         "CodeNotValid": "El código no es válido.",
         "CodeNotExists": "El código no es válido.",
         "NotVisible": "El código no es válido.",
-        "LanguageExchangeNotStartedYet": "El intercambio aún no ha comenzado."
+        "LanguageExchangeNotStartedYet": "El intercambio aún no ha comenzado.",
+        "LanguageExchangeNotNull": "No se ha pasado como intercambio un parámetro válido",
+        "UserDiscountNotNull": "No existe ningún descuento para el usuario en el intercambio suministrado",
+        "AccessForbidden": "El usuario/establecimiento está intentando acceder a un descuento que no le pertenece"
       },
       "UserAccount": {
         "NotNull": "No se encuentra la cuenta del usuario indicada.",
