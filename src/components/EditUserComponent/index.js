@@ -159,7 +159,7 @@ export class index extends Component {
               email: values.email,
               country: values.country,
               city: values.city,
-              birthdate: values['birthdate']._d,
+              birthdate: values['birthdate'].format('YYYY-MM-DD'),
               aboutMe: values.aboutMe,
               motherTongue: 'none',
               speakLanguages: values.speakLanguages,

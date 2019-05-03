@@ -142,7 +142,7 @@ class ValidateCodeContainer extends React.Component {
 
     discountCodeService.redeem(this.state.code.code)
       .then((response) => {
-        if (response.code.code === 200 && response.data.success) {
+        if (response.data.code === 200 && response.data.success) {
           this.redeemOk(response)
         } else {
           this.redeemFail()

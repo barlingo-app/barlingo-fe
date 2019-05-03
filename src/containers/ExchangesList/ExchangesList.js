@@ -3,11 +3,13 @@ import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
 import { Col, Row } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
 import CustomCardExchange from '../../components/CustomCard/CustomCardExchange/CustomCardExchange';
 import Loading from "../../components/Loading/Loading";
 import { exchangesService } from '../../services/exchangesService';
 import './ExchangesList.scss';
 import languages from '../../data/languages';
+import { auth } from '../../auth';
 const { Option } = Select;
 
 
@@ -25,7 +27,8 @@ class ExchangesList extends Component {
             date: null,
             startTime: null,
             endTime: null,
-            errorMessage: null
+            errorMessage: null,
+            redirectToCreate: false
         };
     }
 
@@ -161,14 +164,23 @@ class ExchangesList extends Component {
         });
     }
 
+    redirectToCreate = () => {
+        this.setState({redirectToCreate: true});
+    }
+
     componentDidMount() {
         const { t } = this.props;
         document.title = "Barlingo - " + t('links.exchanges');
         this.fetchData();
     }
     render() {
-        const { errorMessage, loaded, items } = this.state;
+        const { errorMessage, loaded, items, redirectToCreate } = this.state;
         const { t } = this.props;
+
+        if (redirectToCreate) {
+            return (<Redirect to={"/establishments"} />)
+        }
+
         if (!loaded) {
             return (
                 <Page layout="public">
@@ -183,6 +195,10 @@ class ExchangesList extends Component {
         return (
             <Page layout="public">
                 <Section slot="content">
+                    {auth.isAuthenticated() && auth.isUser() && 
+                    <div className="createContainer">   
+                        <button type="button" onClick={() => this.redirectToCreate()}>{t('landing.navOptions.createExchanges')}</button>
+                    </div>}
                     <Row>
                         <Col xs="12" md="6" xl="4">
                             <Input placeholder={t("exchange.search.textarea")} onChange={this.handleInputText} className={"customInput"} />
