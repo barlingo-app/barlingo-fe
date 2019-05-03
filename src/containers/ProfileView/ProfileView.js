@@ -1,9 +1,9 @@
-import { Button, Card, Form, Icon, Input, Modal, Alert, notification } from 'antd';
+import { Menu, Button, Dropdown, Form, Icon, Input, Modal, Alert, notification } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
 import { Redirect } from 'react-router-dom';
-import { Col, Row } from 'reactstrap';
+import { Col, Row } from 'react-bootstrap';
 import { auth } from '../../auth';
 import Loading from "../../components/Loading/Loading";
 import defaultImage from '../../media/default-exchange-header.jpg';
@@ -12,6 +12,8 @@ import { userService } from '../../services/userService';
 import { establishmentService } from '../../services/establishmentService';
 import FileUploadComponent from './../../components/FileUploadComponent/';
 import ChangePassword from './ChangePassword/ChangePassword';
+import './ProfileView.scss';
+
 
 class ProfileView extends Component {
     constructor(props) {
@@ -107,37 +109,6 @@ class ProfileView extends Component {
         return formattedWorkingHours.trim() + ' , ' + workingHours.split(',')[1].trim();
     }
 
-    renderDescription() {
-        let user = this.state.user
-        const { city, country, address = "", workingHours = "", birthday = "", email = "", description = "", offer = "" } = user
-        const address1 = city + ", " + country + ", " + address;
-
-        return (
-            <div className="exchange">
-                <div>
-                    {birthday}
-                </div>
-                <div>
-                    {email}
-                </div>
-                <div>
-                    <img className="exchange__icon" src={locationIcon} alt="Location" />
-                    {address1}
-                </div>
-                {auth.isEstablishment() && <div>
-                    {this.getFormattedWorkingHours(workingHours)}
-                </div>}
-                <div>
-                    {description}
-                </div>
-                <div>
-                    {offer}
-                </div>
-
-
-            </div>
-        );
-    }
 
     getImage = (image) => {
         return (image === '' || image === null) ? defaultImage : image;
@@ -331,11 +302,40 @@ class ProfileView extends Component {
         })
     }
 
+    getAge = (finalBirthDate) => {
+        var splitedDate = finalBirthDate.split('/')
+        var today = new Date()
+        var age = today.getFullYear() - splitedDate[2]
+        var month = today.getMonth - splitedDate[1]
+        if(month < 0 || (month === 0 && today.getDay < splitedDate[0])) {
+            age--
+        }
+        return age
+
+    }
+    printAge = () => {
+        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit'};
+        var birthDate = this.state.user.birthday.split('T')[0]
+        var finalBirthDate =  new Date(birthDate + 'Z').toLocaleDateString('es-ES', dateFormat)
+        return this.getAge(finalBirthDate);
+    }
+
+    printAddress = () => {
+        return auth.isAuthenticated() && auth.isEstablishment() ? this.state.user.address : this.state.user.city + ", " + this.state.user.country
+    }
+
+    printDescription = () => {
+        return auth.isAuthenticated() && auth.isEstablishment() ? this.state.user.description : this.state.user.aboutMe
+    }
+
+    
+
+    
+    
     render() {
         const { t } = this.props
-        const { Meta } = Card;
-        const {visibleChangePassword, myExchange, errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText, paySubscription, redirectToNotFound } = this.state;
-
+        const {calendar, visibleChangePassword, myExchange, errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText, paySubscription, redirectToNotFound } = this.state;
+        
         if (editProfile) {
             return (<Redirect to={"/editProfile"} />);
         }
@@ -351,6 +351,9 @@ class ProfileView extends Component {
         if (paySubscription) {
             return (<Redirect to={"/payment"} />);
         }
+        if(calendar) {
+            return (<Redirect to={"/calendar"}/>);
+        }
 
         if (!loaded) {
             return (
@@ -361,80 +364,150 @@ class ProfileView extends Component {
                 </Page>
             );
         }
+        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
+        const menu = (
+            <Menu>
+              <Menu.Item key="0">
+                {user.id === auth.getUserData().id && auth.isUser() && <Button onClick={() => this.setState({ myExchange: true })} htmlType="submit" className="profileview__button">
+                    {t('links.myExchanges')}
+                </Button>}
+                {user.id === auth.getUserData().id && auth.isEstablishment() && <Button  onClick={() => this.setState({ calendar: true })} htmlType="submit" className="profileview__button">
+                    {t('links.calendar')}
+                </Button>}
+              </Menu.Item>
+
+              <Menu.Item key="1">
+                {user.id === auth.getUserData().id && <Button  onClick={() => this.setState({ editProfile: true })} htmlType="submit" className="profileview__button">
+                    {t('profileview.editprofile')}
+                </Button>}
+              </Menu.Item>
+
+              <Menu.Item key="2">
+                {user.id === auth.getUserData().id && <Button  onClick={() => this.downloadPersonalData()} htmlType="submit" className="profileview__button">
+                    {t('downloadData.button')}
+                </Button>}
+              </Menu.Item>
+
+              <Menu.Item key="3">
+                {user.id === auth.getUserData().id && <Button  onClick={() => this.borrarCuenta()} htmlType="submit" className="profileview__button">
+                    {t('deleteAccount.delete')}
+                </Button>}
+              </Menu.Item>
+
+              <Menu.Item key="4">
+                {user.id === auth.getUserData().id && <Button  onClick={() => this.visibleChangePassword()} htmlType="submit" className="profileview__button">
+                    {t('changePassword.button')}
+                </Button>}
+              </Menu.Item>
+              
+              <Menu.Item key="5">
+                {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && <Button  onClick={() => this.paySubscription()} htmlType="submit" className="profileview__button">
+                    {t('subscription.payButton')}
+                </Button>}
+              </Menu.Item>
+            </Menu>
+          );
+        
         return (
-            <Page layout="public">
-                <Section slot="content">
-                    {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && this.getSubcriptionWarning()}
-                    <Row>
-                        <Col col-sm="12" offset-md="4" col-md="4">
-                            <Card
-                                cover={
-                                    <FileUploadComponent allowUpload={auth.isAuthenticated() && (auth.isUser() || auth.isEstablishment()) && (user.id === auth.getUserData().id)} imageType={auth.isEstablishment() ? "images" : "profileBackPic"} full={true} width={"auto"} height={300} endpoint={auth.isEstablishment() ? "/establishments/" + auth.getUserData().id + "/upload?imageType=background" : "/users/" + auth.getUserData().id + "/upload?imageType=backPic"} imageUrl={auth.isEstablishment() ? user.images[0] : user.profileBackPic} defaultImage={defaultImage} />
-                                }>
-                                <Meta
-                                    avatar={
-                                        <FileUploadComponent allowUpload={auth.isAuthenticated() && (auth.isUser() || auth.isEstablishment()) && (user.id === auth.getUserData().id)} imageType={auth.isEstablishment() ? "imageProfile" : "personalPic"} width={40} height={"auto"} endpoint={auth.isEstablishment() ? "/establishments/" + auth.getUserData().id + "/upload" : "/users/" + auth.getUserData().id + "/upload?imageType=personal"} imageUrl={auth.isEstablishment() ? user.imageProfile : user.personalPic} defaultImage={defaultImage} />
-
-
-                                    }
-                                    title={auth.isUser() ? user.name : user.establishmentName}
-                                    description={<div>{this.renderDescription()}</div>}
-
-                                />
-
-                                <Row style={{ paddingTop: "10px" }}>
-                                    <Col xs="auto">
-                                        {user.id === auth.getUserData().id && auth.isUser() && <Button type="primary" onClick={() => this.setState({ myExchange: true })} htmlType="submit" className="login-form-button primaryButton">
-                                            {t('links.myExchanges')}
-                                        </Button>}
+            <div className="profileview">
+                <Page layout="public">
+                    <Section slot="content">
+                        {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && this.getSubcriptionWarning()}
+                        <Row>
+                            <Col className="profileview__content" sm="12" md={{span: 6, offset: 3}}>
+                                <div className="profileview__top">
+                                {auth.isAuthenticated() && (auth.isEstablishment() || user.id === auth.getUserData().id) && 
+                                <Row>
+                                    <Col xs={{span: 3, offset: 9}} lg={{span: 1, offset: 10}}>
+                                        <Dropdown overlay={menu} trigger={['click']}>
+                                        <a className="ant-dropdown-link profileview__settings-icon" href="#">
+                                            <i className = "fas fa-cog fa-lg "></i>
+                                        </a>
+                                        </Dropdown>
                                     </Col>
-                                    <Col xs="1">
-                                        {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.setState({ editProfile: true })} htmlType="submit" className="login-form-button primaryButton">
-                                            {t('edit')}
-                                        </Button>}
-                                    </Col>
-                                    <Col xs="auto">
-                                        {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.downloadPersonalData()} htmlType="submit" className="login-form-button primaryButton">
-                                            {t('downloadData.button')}
-                                        </Button>}
-                                    </Col>
-                                    <Col xs="auto">
-                                        {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.borrarCuenta()} htmlType="submit" className="login-form-button primaryButton">
-                                            {t('deleteAccount.delete')}
-                                        </Button>}
-                                    </Col>
-                                    <Col xs="auto">
-                                        {user.id === auth.getUserData().id && <Button type="primary" onClick={() => this.visibleChangePassword()} htmlType="submit" className="login-form-button primaryButton">
-                                            {t('changePassword.button')}
-                                        </Button>}
-                                    </Col>
-                                    <Col>
-                                        {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription === null) && (user.id === auth.getUserData().id) && <Button type="primary" onClick={() => this.paySubscription()} htmlType="submit" className="login-form-button primaryButton">
-                                            {t('subscription.payButton')}
-                                        </Button>}
-                                        {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription !== null) && (user.id === auth.getUserData().id) && <div>{t('subcripcionEnd')+": "+auth.getUserData().subscription.finishMoment.split('T')[0] }</div>}
-                                    </Col>
-                                </Row>
                                 
-                            </Card>
+                                </Row>
+                            }
+                                    
+                                    {auth.isAuthenticated() && (auth.isAdmin() || user.id !== auth.getUserData().id) ? 
+                                    
+                                    <img  className="profileview__image" alt="Profile" src={this.getImage(user.personalPic)} onError={(e) => e.target.src = defaultImage}/>
+                                    
+                                    : <FileUploadComponent allowUpload={auth.isAuthenticated() && (auth.isUser() || auth.isEstablishment()) 
+                                        && (user.id === auth.getUserData().id)} imageType={auth.isEstablishment() ? "imageProfile" : "personalPic"} 
+                                        width={40} height={"auto"} endpoint={auth.isEstablishment() ? "/establishments/" + auth.getUserData().id + "/upload" : "/users/" + 
+                                        auth.getUserData().id + "/upload?imageType=personal"} imageUrl={auth.isEstablishment() ? user.imageProfile : user.personalPic} 
+                                        defaultImage={defaultImage} /> }
+                                </div>
+                                <div className="profileview__name">{auth.isUser() || auth.isAdmin() ? user.name + " " + user.surname : user.establishmentName}</div>
 
-                        </Col>
-                    </Row>
-                    <Modal
-                        title={t('deleteAccount.delete')}
-                        visible={visible}
-                        onOk={this.handleOk}
-                        confirmLoading={confirmLoading}
-                        onCancel={this.handleCancel}
-                        okText={t('generic.confirm')}
-                        okType='danger'
-                        cancelText={t('generic.cancel')}
-                    >
-                        <p>{ModalText}</p>
-                    </Modal>
-                    <ChangePassword visible={visibleChangePassword} handleCancel = {this.handleCancelChangePassword} />
-                </Section>
-            </Page >
+                                {auth.isAuthenticated() && (auth.isUser()|| auth.isAdmin()) && <div className="profileview__age">{this.printAge() + " " + t('profileview.age')}</div>}
+                                
+                                <div className="profileview__address">
+                                    <i className="fas fa-map-marker-alt fa-lg exchange-details__location-icon"></i>
+                                    {this.printAddress()}
+                                </div>
+
+                                <div className="profileview__description">{this.printDescription()}</div>
+
+                                {auth.isAuthenticated() && auth.isEstablishment() ?
+                                <div>
+                                    <div className="profileview__workingHours-title">{t('form.workingHours')}</div>
+                                    <div className="profileview__workingHours">{user.workingHours}</div>
+                                    <div className="profileview__offer-title">{t('form.offer')}</div>
+                                    <div className="profileview__offer">{user.offer}</div>
+                                </div> : 
+                                <div>
+                                    <Row>
+                                        <Col>
+                                            <div className="profileview__speaked-languages-title">
+                                                {t('profileview.speak')}
+                                            </div>
+                                            <div className="profileview__speaked-languages">
+                                                {user.speakLangs.map(function(i) {
+                                                    return (
+                                                    <div key={i.id}>
+                                                        {t(`languages.${i}`)}
+                                                    </div>
+                                                    )
+                                                })}
+                                            </div>
+                                        </Col>
+                                        
+                                        <Col>
+                                            <div className="profileview__languages-to-learn-title">
+                                                {t('profileview.tolearn')}
+                                            </div>
+                                            <div className="profileview__languages-to-learn">
+                                                {user.langsToLearn.map(function(i) {
+                                                    return (
+                                                    <div key={i.id}>
+                                                        {t(`languages.${i}`)}
+                                                    </div>)
+                                                })}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </div>
+                                }
+                            </Col>
+                        </Row>
+                        <Modal
+                            title={t('deleteAccount.delete')}
+                            visible={visible}
+                            onOk={this.handleOk}
+                            confirmLoading={confirmLoading}
+                            onCancel={this.handleCancel}
+                            okText={t('generic.confirm')}
+                            okType='danger'
+                            cancelText={t('generic.cancel')}
+                        >
+                            <p>{ModalText}</p>
+                        </Modal>
+                        <ChangePassword visible={visibleChangePassword} handleCancel = {this.handleCancelChangePassword} />
+                    </Section>
+                </Page >
+            </div>
         );
 
     }

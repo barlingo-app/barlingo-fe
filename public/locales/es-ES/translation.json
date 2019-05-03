@@ -1,4 +1,11 @@
 {
+  "profileview" : {
+    "age": "años",
+    "speak": "Hablo",
+    "tolearn": "Quiero aprender",
+    "editprofile": "Editar perfil"
+  },
+
   "subcripcionEnd": "Subscripción caduca en",
   "intercambiosconcertadosensulocal": "Intercambios concertados en su local",
   "completed": "Completo",
@@ -237,7 +244,7 @@
   },
   "exchange": {
     "creator": " (creador)",
-    "participants": "Participantes",
+    "participantss": "Participantes",
     "search": {
       "textarea": "Buscar intercambio",
       "date": "Fecha",

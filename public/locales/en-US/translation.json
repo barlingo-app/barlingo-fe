@@ -1,5 +1,12 @@
 {
+  "profileview" : {
+    "age": "years old",
+    "speak": "I speak",
+    "tolearn": "I want to learn",
+    "editprofile": "Edit profile"
+  },
   "subcripcionEnd": "Subscription expires on",
+
   "intercambiosconcertadosensulocal": "Exchanges created in your establishment",
   "completed": "Completed",
   "participants": "participants",
@@ -236,7 +243,7 @@
   },
   "exchange": {
     "creator": " (creator)",
-    "participants": "Participants",
+    "participantss": "Participants",
     "search": {
       "textarea": "Search exchange",
       "date": "Date",
