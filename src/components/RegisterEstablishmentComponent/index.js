@@ -228,6 +228,12 @@ class index extends Component {
             for (var fieldName in this.externalErrors)  {
               fieldNames.push(fieldName);
             }
+                            
+            notification.warning({
+              message: this.props.t('form.validationNotification.title'),
+              description: this.props.t('form.validationNotification.message'),
+            });
+
             this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
             this.setState({validated: true, submittedForm: false });
           }else if (response.data.code === 500) {

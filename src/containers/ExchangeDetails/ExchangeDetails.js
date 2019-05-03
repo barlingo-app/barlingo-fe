@@ -58,12 +58,12 @@ class ExchangeDetails extends Component {
     };
 
     readCodeOk = (response) => {
-        if (response.data.code === 200 && response.data.success && response.data.content) {
-            if (response.data.exchanged) {
+        if (response.data.code === 200 && response.data.success && response.data.content && response.data.content[0]) {
+            if (response.data.content[0].exchanged) {
                 this.readCodeFail('code.used');
             }
-            if (response.data.visible === true) {
-                this.setState({ codeShown: response.data.code })
+            if (response.data.content[0].visible) {
+                this.setState({ codeShown: response.data.content[0].code })
             } else {
                 this.readCodeFail();
             }

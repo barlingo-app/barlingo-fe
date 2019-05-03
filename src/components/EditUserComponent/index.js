@@ -101,6 +101,12 @@ export class index extends Component {
                     fieldNames.push(fieldName);
                     }
                     this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
+
+                    notification.warning({
+                      message: this.props.t('form.validationNotification.title'),
+                      description: this.props.t('form.validationNotification.message'),
+                    });
+
                     this.setState({validated: true});
                 } else if (response.data.code === 500) {
                     notification.error({
@@ -118,8 +124,8 @@ export class index extends Component {
                 auth.loadUserData().then(() => {
                     this.setState({successfulLogin: true});     
                     notification.success({
-                        message: "Successful edition",
-                        description: "Data updated properly",
+                      message: this.props.t('editProfile.successfullMessage.title'),
+                      description: this.props.t('editProfile.successfullMessage.message'),
                     });     
                 });
             }

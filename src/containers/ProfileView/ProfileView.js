@@ -276,9 +276,9 @@ class ProfileView extends Component {
         if (auth.isUser()) {
             userService.getPersonalData()
                 .then(response => {
-                    if (response.data.code === 200 && response.data.success && response.data.content) {
+                    if (response.status === 200 && response.data) {
                         const element = document.createElement("a");
-                        const file = new Blob([JSON.stringify(response.data.content)], { type: 'text/plain' });
+                        const file = new Blob([JSON.stringify(response.data)], { type: 'text/plain' });
                         const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
                         const date = new Date().toLocaleDateString('es-ES', dateFormat)
                         const name = "" + auth.getUserData().userAccount.username + "-" + date + ".txt";
@@ -286,11 +286,6 @@ class ProfileView extends Component {
                         element.download = name;
                         document.body.appendChild(element); // Required for this to work in FireFox
                         element.click();
-                    } else if (response.data.code === 500) {
-                        notification.error({
-                            message: this.props.t('apiErrors.defaultErrorTitle'),
-                            description: this.props.t('apiErrors.' + response.data.message),
-                          });
                     } else {
                         notification.error({
                             message: this.props.t('apiErrors.defaultErrorTitle'),

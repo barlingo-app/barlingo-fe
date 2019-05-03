@@ -159,6 +159,10 @@
     }
   },
   "form": {
+    "validationNotification": {
+      "title": "Failed validation",
+      "message": "Please, check the form."
+    },
     "validationErrors": {
       "usernameExists": "El nombre de usuario ya existe.",
       "dateOutOfWorkingHours": "No puede seleccionar un momento fuera del horario del establecimiento.",
@@ -306,6 +310,16 @@
     "successfulMessage": {
       "title": "Registro exitoso",
       "message": "Ahora puedes elegir y pagar tu suscripción."
+    },
+    "failedMessage": {
+      "title": "Registro fallido",
+      "message": "Se produjo un error al guardar los datos."
+    }
+  },
+  "userRegister": {
+    "successfulMessage": {
+      "title": "Registro exitoso",
+      "message": "Ahora puedes iniciar sesión en la aplicación."
     },
     "failedMessage": {
       "title": "Registro fallido",
@@ -499,6 +513,12 @@
         "ErrorSavingExchange": "Se ha producido un error al guardar el intercambio.",
         "CannotSavePastExchange": "No se puede crear un intercambio en pasado."
       }
+    }
+  },
+  "editProfile": {
+    "successfullMessage": {
+      "title": "Edición exitosa",
+      "message": "Datos actualizados correctamente."
     }
   }
 }

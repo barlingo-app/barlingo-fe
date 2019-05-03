@@ -3,7 +3,7 @@ import { withNamespaces } from "react-i18next";
 import { LayoutProvider } from 'react-page-layout';
 import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 import { auth } from "./auth";
-import { notification } from 'antd';
+import { notification, LocaleProvider } from 'antd';
 import EditProfileContainer from './containers/EditProfileContainer'
 import CreateExchangeForm from "./containers/CreateExchange/CreateExchange";
 import EstablishmentDetails from "./containers/EstablishmentDetails/EstablishmentDetails";
@@ -22,6 +22,10 @@ import CreateNotification from './containers/CreateNotification/CreateNotificati
 import RegisterContainer from './containers/RegisterContainer/RegisterContainer';
 import PaySubscriptionContainer from './containers/PaySubscriptionContainer/PaySubscriptionContainer';
 import CalendarContainer from './containers/CalendarContainer'
+import en_US from 'antd/lib/locale-provider/en_US';
+import es_ES from 'antd/lib/locale-provider/es_ES';
+import moment from 'moment';
+import 'moment/locale/es';
 
 const layouts = {
 	'public': PublicLayout,
@@ -69,6 +73,28 @@ function PrivateRoute({ component: Component, roles, ...rest }) {
 	);
 }
 
+const getLocale = () => {
+    let locale = es_ES;
+    if (localStorage.getItem('i18nextLng')) {
+        switch (localStorage.getItem('i18nextLng')) {
+            case 'es-ES':
+                moment.locale('es');
+                locale = es_ES;
+                break;
+            case 'en-US':
+                moment.locale('en');
+                locale = en_US;
+                break;
+            default:
+                break;
+        }
+    } else {
+        moment.locale('es');
+    }
+    return locale;
+}
+
+
 class App extends Component {
 
 	render() {
@@ -86,30 +112,32 @@ class App extends Component {
 		/* Para el uso de roles, hay que pasarle a PrivateRoute en el atributo roles, o un string con el rol permitido, o un array con los roles permitidos */
 		return (
 
-			<LayoutProvider layouts={layouts}>
-				<Switch>
-					<Route exact path="/" component={Home} />
-					<Route exact path="/login" component={LoginForm} />
-					<PrivateRoute roles={[ADMIN_ROLE]} exact path="/createNotification" component={CreateNotification} />
-					<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE]} exact path="/profile" component={ProfileView} />
-					<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE, ADMIN_ROLE]} exact path="/profile/:userId" component={ProfileView} />
-					<PrivateRoute roles={[ADMIN_ROLE]} exact path="/users" component={UsersListAdmin} />
-					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/exchanges" component={ExchangesList} />
-					<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE, ANONYMOUS_ROLE]} exact path="/establishments" component={EstablismentsList} />
-					<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE, ANONYMOUS_ROLE]} exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
-					<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
-					<PrivateRoute roles={[ANONYMOUS_ROLE]} exact path="/register" component={RegisterContainer} />
-					<PrivateRoute roles={[ANONYMOUS_ROLE]} exact path="/register/:registerType" component={RegisterContainer} />
-					<PrivateRoute roles={[ANONYMOUS_ROLE, ESTABLISHMENT_ROLE]} exact path="/payment" component={PaySubscriptionContainer} />
-					<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE]} exact path="/editProfile" component={EditProfileContainer} />
-					<Route exact path="/notFound" component={NotFound} />
-					<PrivateRoute roles={[USER_ROLE]} exact path="/myExchanges" component={MyExchangesList} />
-					<PrivateRoute roles={[USER_ROLE]} exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
-					<PrivateRoute roles={[ESTABLISHMENT_ROLE]} exact path="/validateCode" component={ValidateCodeContainer} />
-					<PrivateRoute roles={[ESTABLISHMENT_ROLE]} exact path="/calendar" component={CalendarContainer} />
-					<Route component={NotFound} />
-				</Switch>
-			</LayoutProvider>
+			<LocaleProvider locale={getLocale()}>
+				<LayoutProvider layouts={layouts}>
+					<Switch>
+						<Route exact path="/" component={Home} />
+						<Route exact path="/login" component={LoginForm} />
+						<PrivateRoute roles={[ADMIN_ROLE]} exact path="/createNotification" component={CreateNotification} />
+						<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE]} exact path="/profile" component={ProfileView} />
+						<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE, ADMIN_ROLE]} exact path="/profile/:userId" component={ProfileView} />
+						<PrivateRoute roles={[ADMIN_ROLE]} exact path="/users" component={UsersListAdmin} />
+						<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/exchanges" component={ExchangesList} />
+						<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE, ANONYMOUS_ROLE]} exact path="/establishments" component={EstablismentsList} />
+						<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE, ANONYMOUS_ROLE]} exact path="/establishments/:establishmentName" component={EstablishmentDetails} />
+						<PrivateRoute roles={[USER_ROLE, ANONYMOUS_ROLE]} exact path="/exchanges/:exchangeTitle" component={ExchangeDetails} />
+						<PrivateRoute roles={[ANONYMOUS_ROLE]} exact path="/register" component={RegisterContainer} />
+						<PrivateRoute roles={[ANONYMOUS_ROLE]} exact path="/register/:registerType" component={RegisterContainer} />
+						<PrivateRoute roles={[ANONYMOUS_ROLE, ESTABLISHMENT_ROLE]} exact path="/payment" component={PaySubscriptionContainer} />
+						<PrivateRoute roles={[USER_ROLE, ESTABLISHMENT_ROLE]} exact path="/editProfile" component={EditProfileContainer} />
+						<Route exact path="/notFound" component={NotFound} />
+						<PrivateRoute roles={[USER_ROLE]} exact path="/myExchanges" component={MyExchangesList} />
+						<PrivateRoute roles={[USER_ROLE]} exact path="/createExchange/:establishmentId" component={CreateExchangeForm} />
+						<PrivateRoute roles={[ESTABLISHMENT_ROLE]} exact path="/validateCode" component={ValidateCodeContainer} />
+						<PrivateRoute roles={[ESTABLISHMENT_ROLE]} exact path="/calendar" component={CalendarContainer} />
+						<Route component={NotFound} />
+					</Switch>
+				</LayoutProvider>
+			</LocaleProvider>
 		);
 	}
 

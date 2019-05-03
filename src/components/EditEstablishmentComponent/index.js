@@ -133,6 +133,12 @@ class index extends Component {
             for (var fieldName in this.externalErrors)  {
               fieldNames.push(fieldName);
             }
+
+            notification.warning({
+              message: this.props.t('form.validationNotification.title'),
+              description: this.props.t('form.validationNotification.message'),
+            });
+
             this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
             this.setState({validated: true});
           } else if (response.data.code === 500) {        
@@ -140,12 +146,17 @@ class index extends Component {
               message: this.props.t('apiErrors.defaultErrorTitle'),
               description: this.props.t('apiErrors.' + response.data.message),
             });
+          } else {
+            notification.error({
+              message: this.props.t('apiErrors.defaultErrorTitle'),
+              description: this.props.t('apiErrors.defaultErrorMessage'),
+            });
           }
         } else {
           auth.loadUserData().then(() => {
             notification.success({
-              message: "Successful register",
-              description: "You can choose and pay your subscription",
+              message: this.props.t('editProfile.successfullMessage.title'),
+              description: this.props.t('editProfile.successfullMessage.message'),
             });
             this.setState({ successfulLogin: true, establishmentId: response.data.content.id });
           });
