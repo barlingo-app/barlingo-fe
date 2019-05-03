@@ -401,5 +401,63 @@
   "errors": {
     "titles": {},
     "messages": {}
+  },
+  "apiErrors": {
+    "All": {
+      "Establishment": {
+        "UsernameExists": "El nombre del establecimiento que se quiere registrar ya existe."
+      },
+      "User": {
+        "UsernameEmpty": "El nombre de usuario o la contraseña son incorrectos.",
+        "UsernameExists": "El nombre de usuario ya está siendo utilizado."
+      }
+    },
+    "Unsigned": {
+      "Establishment": {
+        "ValidationErrors": "El establecimiento no es correcto"
+      }
+    },
+    "Signed": {
+      "Establishment": {
+        "ErrorLoadingImage": "Se ha producido un error al cargar la imagen"
+      },
+      "LanguageExchange": {
+        "UserNotExists": "El usuario indicado no existe",
+        "EstablishmentNotExists": "El establecimiento indicado no existe",
+        "NotFound": "El establecimiento indicado no existe"
+      },
+      "UserDiscount": {
+        "UserNotNull": "Se ha producido un error al crear el intercambio.",
+        "ErrorSavingDiscount": "Se ha producido un error al crear el intercambio.",
+        "CodeBelongOtherExchange":"Se ha producido un error al crear el intercambio."
+      }
+    },
+    "Establishment": {
+      "Establishment": {
+        "ErrorSavingEstablishment": "Error al guardar el establecimiento.",
+        "CannotModifyOtherUser": "Esta acción no esta permitida, tenga cuidado",
+        "NotFound": "El establecimiento que intenta editar no existe",
+        "EstablishmentDataNotNull": "Los datos del establecimiento no son correctos",
+        "NotNull": "El establecimiento indicado no existe",
+        "UnknownFileType": "El archivo no tiene el formato adecuado",
+        "SecretNotEmpty": "La contraseña no puede ser un texto vacío"
+      }
+    },
+    "User": {
+      "User": {
+        "ErrorSavingUser": "Se ha producido un error al guardar el usuario.",
+        "UploadFileIO": "Se ha producido un error al subir el archivo.",
+        "NotFound": "No se encuentra el usuario indicado",
+        "CannotModifyOtherUsers": "Esta acción no esta permitida, tenga cuidado",
+        "MalformedURL": "No se puede mostrar la imagen",
+        "UnknownFileType": "No se reconoce la extensión del archivo subido"
+      },
+      "LanguageExchange": {
+        "UserNotFound": "El usuario indicado no existe",
+        "CannotModifyOtherUsers": "Esta acción no esta permitida, tenga cuidado",
+        "IsFull": "No se pueden unir más participantes a este intercambio.",
+        "AlreadyRegistered": "El usuario ya está registrado en el evento."
+      }
+    }
   }
 }

@@ -395,5 +395,65 @@
       "title": "An error has ocurred",
       "message": "The establishment doesnt exist or cant be founded"
     }
+  },
+  "apiErrors": {
+    "All": {
+      "Establishment": {
+        "UsernameExists": "The name of the establishment is already being used."
+      },
+      "User": {
+        "UsernameEmpty": "The username or the password are incorrects",
+        "UsernameExists": "The username is already being used"
+      }
+    },
+    "Unsigned": {
+      "Establishment": {
+        "ValidationErrors": "The establishment is not correct"
+      },
+      "User": {
+        "WrongUsernameOrPass": "The username or the password are incorrects"
+      }
+    },
+    "Signed": {
+      "Establishment": {
+        "ErrorLoadingImage": "There was an error loading the image"
+      },
+      "LanguageExchange": {
+        "UserNotExists": "The indicated user does not exist",
+        "EstablishmentNotExists": "The indicated establishment does not exist",
+        "NotFound": "The indicated establishment does not exist"
+      },
+      "UserDiscount": {
+        "UserNotNull": "An error occurred while creating the exchange.",
+        "ErrorSavingDiscount": "An error occurred while creating the exchange.",
+        "CodeBelongOtherExchange": "An error occurred while creating the exchange."
+      }
+    }
+  },
+  "Establishment": {
+    "Establishment": {
+      "ErrorSavingEstablishment": "Error saving the establishment.",
+      "CannotModifyOtherUser": "This action is not allowed, be careful.",
+      "NotFound": "The establishment you are trying to edit does not exist.",
+      "EstablishmentDataNotNull": "The establishment's data is not correct.",
+      "NotNull": "The indicated establishment does not exist",
+      "UnknownFileType": "The file does not have the proper format",
+      "SecretNotEmpty": "The password can not be an empty text"
+    }
+  },
+  "User": {
+    "User": {
+      "ErrorSavingUser": "An error occurred while saving the user.",
+      "UploadFileIO": "An error occurred while uploading the file.",
+      "NotFound": "The indicated user is not found",
+      "CannotModifyOtherUsers": "This action is not allowed, be careful.",
+      "UnknownFileType": "The file extension is not recognized"
+    },
+    "LanguageExchange": {
+      "UserNotFound": "The indicated user is not found",
+      "CannotModifyOtherUsers": "This action is not allowed, be careful.",
+      "IsFull": "Can not join more participants to this exchange.",
+      "AlreadyRegistered": "The user is already registered in the event."
+    }
   }
 }
