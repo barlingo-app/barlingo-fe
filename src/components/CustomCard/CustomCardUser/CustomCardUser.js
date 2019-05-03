@@ -55,7 +55,7 @@ class CustomCardUser extends Component {
 
     render() {
 
-        const { t, user } = this.props;
+        const { user } = this.props;
         const image = user.personalPic ? user.personalPic : personIcon;
         const address = user.city + ", " + user.country;
         const age = this.calculate_age(new Date(user.birthday));

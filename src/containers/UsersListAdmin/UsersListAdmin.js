@@ -23,10 +23,17 @@ class UsersListAdmin extends Component {
     }
     consultaUsuarios = () => {
         userService.findAll().then(response => {
-            this.setState({
-                users: response.data,
+            if (response.data.code === 200 && response.data.success) {
+                this.setState({
+                users: response.data.content,
                 loaded: true
-            });
+                });
+            } else {
+                const { t } = this.props;
+                this.setState({
+                    errorMessage: t('loadErrorMessage')
+                });
+            }
         }).catch(((error) => {
             const { t } = this.props;
             this.setState({
@@ -42,30 +49,25 @@ class UsersListAdmin extends Component {
         const errorMessage = user.userAccount.active ? t('admin.ban.error.message') : t('admin.ban.error.message');
 
         userService.banUser(user.id).then((response) => {
-            console.log(response)
-            if (response.status === 200) {
+            if (response.data.code === 200 && response.data.success) {
                 notification.success({
-                    placement: 'bottomRight',
-                    bottom: 50,
-                    duration: 10,
                     message: successfulTitle,
                     description: succesfulMessage,
                 });
                 this.consultaUsuarios();
+            } else if (response.data.code === 500) {
+                notification.error({
+                    message: this.props.t('apiErrors.defaultErrorTitle'),
+                    description: this.props.t('apiErrors.' + response.data.message),
+                });
             } else {
                 notification.error({
-                    placement: 'bottomRight',
-                    bottom: 50,
-                    duration: 10,
                     message: errorTitle,
                     description: errorMessage,
                 });
             }
         }).catch((error) => {
             notification.error({
-                placement: 'bottomRight',
-                bottom: 50,
-                duration: 10,
                 message: errorTitle,
                 description: errorMessage,
             });

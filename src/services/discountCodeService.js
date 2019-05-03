@@ -4,7 +4,7 @@ import { auth } from '../auth';
 export const discountCodeService = {
     async getDiscountCode(exchangeId) {
         return auth.getToken().then((token) => {
-            return axios.get(process.env.REACT_APP_BE_URL + '/userDiscount/user/show/' + exchangeId + "?userId=" + auth.getUserData().id, {
+            return axios.get(process.env.REACT_APP_BE_URL + "/discounts?userId=" + auth.getUserData().id + "&langExchangeId=" + exchangeId, {
                 headers: {
                     'Authorization': "Bearer " + token
                 }

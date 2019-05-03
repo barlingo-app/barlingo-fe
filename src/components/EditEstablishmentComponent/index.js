@@ -1,4 +1,4 @@
-import { Checkbox, Form, Input, notification, Select, TimePicker } from 'antd';
+import { Checkbox, Form, Input, notification, TimePicker } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { establishmentService } from '../../services/establishmentService';
@@ -8,14 +8,8 @@ import { Redirect } from 'react-router-dom';
 
 import { auth } from '../../auth';
 
-const { Option } = Select;
-
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
-
 const week = ["monday",
-            "thuesday",
+            "tuesday",
             "wednesday", 
             "thursday", 
             "friday", 
@@ -32,32 +26,85 @@ class index extends Component {
       confirmDirty: false,
       id: auth.getUserData().id
     }
+
+    this.errors = {
+
+    }
+
+    this.externalErrors = {
+
+    }
+
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
 
+
+  getValidationMessage = (fieldName) => {
+    if (this.errors.hasOwnProperty(fieldName)) {
+        return this.errors[fieldName];
+    } else {
+        return false;
+    }
+
+  }
+
+
+  genericValidator = (rule, value, callback) => {
+    const { t } = this.props;
+
+    if (this.errors.hasOwnProperty(rule.field)) {
+        delete this.errors[rule.field];
+    }
+
+    this.errors = Object.assign({}, this.externalErrors);
+    
+    if (this.externalErrors.hasOwnProperty(rule.field)) {
+      delete this.externalErrors[rule.field];
+    }
+
+    switch(rule.field) {
+        case 'close-disabledValidation':
+            let message3 = this.checkCloseTime(value);
+            if (message3) {
+                this.errors[rule.field] = message3;
+            }
+            break;
+        default:
+            break;
+    }
+
+    if (this.getValidationMessage(rule.field)) {
+        callback(t('form.validationErrors.' + this.getValidationMessage(rule.field)));
+    } else {
+        callback();
+    }
+  }
+
+  checkCloseTime(value) {
+    if (value && value.isBefore(moment(this.props.form.getFieldValue('open')).add(1, 'minutes'))) {
+      return 'closeAfterOpen';
+    }
+
+    return false;
+  }
+
   handleSubmit(e) {
-    const {t} = this.props
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
 
-        const { address, city, country,
-          description = '', email,
-          name, offer, password,
-          username, weekscheadule, establishmentname } = values
         let workinghours = ''
 
-        weekscheadule.sort();
-
-
-        for(let i of weekscheadule){
-          workinghours += t(week[i])+" "
+        for(let i of week){
+          if (values.weekscheadule.indexOf(i) >= 0) {
+            workinghours += i+" "
+          }
         }
-        workinghours.trim()
 
-        workinghours += ", " + values.open.format("HH:mm") + "-" + values.close.format("HH:mm")
-        console.log("Horario", workinghours)
+        workinghours = workinghours.trim()
+        workinghours += "," + values.open.format("HH:mm") + "-" + values.close.format("HH:mm")
+
         let dataToSend = {
           id: auth.getUserData().id,
           name: values.name,
@@ -65,7 +112,7 @@ class index extends Component {
           email: values.email,
           country: values.country,
           city: values.city,
-          establishmentName: values.establishmentname,
+          establishmentName: values.establishmentName,
           description: values.description,
           address: values.address,
           workingHours: workinghours,
@@ -80,64 +127,79 @@ class index extends Component {
     establishmentService.edit(data)
       .then((response) => {
         if (response.data.success !== true) {
-          if (response.data.message === 'The username already exists.') {
-            this.setState({ usernameInvalid: true, validated: true })
+          if (response.data.code === 400) {
+            this.externalErrors = response.data.validationErrors;
+            let fieldNames = [];
+            for (var fieldName in this.externalErrors)  {
+              fieldNames.push(fieldName);
+            }
+
+            notification.warning({
+              message: this.props.t('form.validationNotification.title'),
+              description: this.props.t('form.validationNotification.message'),
+            });
+
+            this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
+            this.setState({validated: true});
+          } else if (response.data.code === 500) {        
+            notification.error({
+              message: this.props.t('apiErrors.defaultErrorTitle'),
+              description: this.props.t('apiErrors.' + response.data.message),
+            });
+          } else {
+            notification.error({
+              message: this.props.t('apiErrors.defaultErrorTitle'),
+              description: this.props.t('apiErrors.defaultErrorMessage'),
+            });
           }
         } else {
           auth.loadUserData().then(() => {
             notification.success({
-              placement: 'bottomRight',
-              bottom: 50,
-              duration: 10,
-              message: "Successful register",
-              description: "You can choose and pay your subscription",
+              message: this.props.t('editProfile.successfullMessage.title'),
+              description: this.props.t('editProfile.successfullMessage.message'),
             });
             this.setState({ successfulLogin: true, establishmentId: response.data.content.id });
           });
         }
       }).catch((error) => {
-
         notification.error({
-          placement: 'bottomRight',
-          bottom: 50,
-          duration: 10,
-          message: "Failed register",
-          description: "There was an error saving the data",
+          message: this.props.t('apiErrors.defaultErrorTitle'),
+          description: this.props.t('apiErrors.defaultErrorMessage'),
         });
       });
   }
-  getDaysArray(daysString) {
+  daysStringToArray(daysString) {
     let daysArray = [];
-    let day = '';
-    let c;
-    for (var i = 0; i < daysString.length; i++) {
-      c = daysString.charAt(i);
-      if (c !== ',' && c !== '' && c.match(/[0-9]/i)) {
-        day += c;
-      } else {
-        daysArray.push(day);
-        day = '';
-      }
-    }
-    daysArray.push(day)
+
+    daysString.split(" ").forEach(function(value, index, array) {
+      daysArray.push(value.trim().toLowerCase());
+    });
+
     return daysArray;
   }
+  checkBirthday = (date) => {
+
+    let maximumDate = moment().subtract(18, 'years');
+
+
+    return date >= maximumDate;
+  }
+  componentDidMount() {
+    let days = this.props.data.workingHours.split(',')[0].trim()
+    const hours = this.props.data.workingHours.split(',')[1].trim();
+
+    let data = this.props.data
+    data.weekscheadule = this.daysStringToArray(days);
+    data.open = moment(hours.split('-')[0].trim(), 'HH:mm');
+    data.close = moment(hours.split('-')[1].trim(), "HH:mm");
+
+    this.props.form.setFieldsValue(data);
+  }
+
   render() {
-    const { getFieldDecorator, getFieldsError } = this.props.form;
-    const { autoCompleteResult, successfulLogin } = this.state;
+    const { getFieldDecorator } = this.props.form;
+    const { successfulLogin } = this.state;
     const { t } = this.props;
-
-    const { name, surname, country,
-      city, email, establishmentName,
-      description, address, workingHours, offer } = this.props.data
-
-    let days = workingHours.substr(0, workingHours.length - 11);
-    const hours = workingHours.substr(workingHours.length - 11);
-    days = this.getDaysArray(days);
-    let openHour = hours.substr(0, 5);
-    let closeHour = hours.substr(6)
-    closeHour = moment(closeHour, "HH:mm");
-    openHour = moment(openHour, "HH:mm");
 
     if (successfulLogin) {
       return (
@@ -154,12 +216,17 @@ class index extends Component {
               <Row>
                 <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
                   <Form.Item label={t('form.name')}>
-                    {getFieldDecorator('name', { initialValue: name }, {
+                    {getFieldDecorator('name', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield'),
-                      }],
-                    })(
+                        message: t('form.validationErrors.required'),
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
                       <Input />
                     )}
                   </Form.Item>
@@ -168,26 +235,17 @@ class index extends Component {
               <Row>
                 <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
                   <Form.Item label={t('form.surname')}>
-                    {getFieldDecorator('surname', { initialValue: surname }, {
+                    {getFieldDecorator('surname', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
-                      }],
-                    })(
-                      <Input />
-                    )}
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
-                  <Form.Item label={t('form.country')}>
-                    {getFieldDecorator('country', { initialValue: country }, {
-                      rules: [{
-                        required: true,
-                        message: t('form.emptyfield')
-                      }],
-                    })(
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
                       <Input />
                     )}
                   </Form.Item>
@@ -196,12 +254,17 @@ class index extends Component {
               <Row>
                 <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
                   <Form.Item label={t('form.city')}>
-                    {getFieldDecorator('city', { initialValue: city }, {
+                    {getFieldDecorator('city', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
-                      }],
-                    })(
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
                       <Input />
                     )}
                   </Form.Item>
@@ -209,31 +272,60 @@ class index extends Component {
               </Row>
               <Row>
                 <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
-                  <Form.Item label={t('form.email')}>
-                    {getFieldDecorator('email', { initialValue: email }, {
+                  <Form.Item label={t('form.country')}>
+                    {getFieldDecorator('country', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
-                      }, {
-                        type: 'email', message: 'The input is not valid E-mail!',
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
+                      <Input />
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                  <Form.Item label={t('form.email')}>
+                    {getFieldDecorator('email', {
+                      rules: [{
+                        required: true,
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        type: 'email', 
+                        message: t('form.validationErrors.emailFormat'),
+                      },{
+                        validator: this.genericValidator
                       }],
                     })(
                       <Input />
                     )}
                   </Form.Item>
                 </Col>
-              </Row> 
+              </Row>
               <hr></hr>
               <Row>
                 <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
                   <Form.Item label={t('form.establishmentname')}>
-                    {getFieldDecorator('establishmentname', { initialValue: establishmentName }, {
+                    {getFieldDecorator('establishmentName', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
                       }
-                      ]
-                    })(
+                    ]})(
                       <Input />
                     )}
                   </Form.Item>
@@ -242,9 +334,12 @@ class index extends Component {
               <Row>
                 <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
                   <Form.Item label={t('form.description')}>
-                    {getFieldDecorator('description', { initialValue: description }, {
-                      rules: [{}],
-                    })(
+                    {getFieldDecorator('description', {
+                      rules: [{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    }
+                    ]})(
                       <Input.TextArea rows={3} />
                     )}
                   </Form.Item>
@@ -253,12 +348,17 @@ class index extends Component {
               <Row>
                 <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
                   <Form.Item label={t('form.address')}>
-                    {getFieldDecorator('address', { initialValue: address }, {
+                    {getFieldDecorator('address', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
-                      }],
-                    })(
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
                       <Input />
                     )}
                   </Form.Item>
@@ -271,18 +371,21 @@ class index extends Component {
                   >
                     {getFieldDecorator("weekscheadule", {
                       rules: [
-                        { required: true, message: t('form.emptyfield')},
-                      ],
-                    })(
+                        {
+                          required: true, message: t('form.validationErrors.required')
+                        },{
+                          validator: this.genericValidator
+                        }
+                      ]})(
                       <Checkbox.Group style={{ width: "100%" }}>
                         <Row> 
-                          <Col xs="6" sm="4" md="6"><Checkbox value="0">{t('monday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="1">{t('thuesday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="2">{t('wednesday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="3">{t('thursday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="4">{t('friday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="5">{t('saturday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="6">{t('sunday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="monday">{t('days.monday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="tuesday">{t('days.tuesday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="wednesday">{t('days.wednesday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="thursday">{t('days.thursday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="friday">{t('days.friday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="saturday">{t('days.saturday')}</Checkbox></Col>
+                          <Col xs="6" sm="4" md="6"><Checkbox value="sunday">{t('days.sunday')}</Checkbox></Col>
                         </Row>
                       </Checkbox.Group>
                     )}
@@ -292,14 +395,15 @@ class index extends Component {
               <Row>
                 <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
                   <Form.Item label={t('form.open')}>
-                    {getFieldDecorator('open', { initialValue: openHour }, {
+                    {getFieldDecorator('open', {
                       rules: [
                         {
                           required: true,
-                          message: t('form.emptyfield'),
-                        },
-                      ],
-                    })(
+                          message: t('form.validationErrors.required'),
+                        },{
+                          validator: this.genericValidator
+                        }
+                      ]})(
                       <TimePicker format="HH:mm" />
                     )}
                   </Form.Item>
@@ -308,14 +412,15 @@ class index extends Component {
               <Row>
                 <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
                   <Form.Item label={t('form.closed')}>
-                    {getFieldDecorator('close', { initialValue: closeHour }, {
+                    {getFieldDecorator('close', {
                       rules: [
                         {
                           required: true,
-                          message: t('form.emptyfield'),
-                        },
-                      ],
-                    })(
+                          message: t('form.validationErrors.required'),
+                        },{
+                          validator: this.genericValidator
+                        }
+                      ]})(
                       <TimePicker format="HH:mm" />
                     )}
                   </Form.Item>
@@ -324,19 +429,24 @@ class index extends Component {
               <Row>
                 <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
                   <Form.Item label={t('form.offer')}>
-                    {getFieldDecorator('offer', { initialValue: offer }, {
+                    {getFieldDecorator('offer', {
                       rules: [{
                         required: true,
-                        message: t('form.emptyfield')
-                      }],
-                    })(
+                        message: t('form.validationErrors.required')
+                      },{
+                        max: 255, 
+                        message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                    },{
+                        validator: this.genericValidator
+                      }
+                    ]})(
                       <Input.TextArea rows={3} />
                     )}
                   </Form.Item>
                 </Col>
               </Row>
               <Form.Item>
-                <button  className="register__button" htmlType="submit">{t('edit')}</button>
+                <button  className="register__button" type="submit">{t('edit')}</button>
               </Form.Item>
 
             </Form>

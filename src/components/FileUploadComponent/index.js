@@ -39,12 +39,18 @@ function beforeUpload(file) {
       }
       if (info.file.status === 'done') {
         auth.setUserData(info.file.response.content);
-        this.setState({imageUrl: info.file.response.content[this.props.imageType]})
+
+        let imageUrl = info.file.response.content[this.props.imageType];
+        if (imageUrl.constructor === Array) {
+          imageUrl = imageUrl[0];
+        }
+
+        this.setState({imageUrl: imageUrl});
       }
     }
 
     getImage = (image) => {
-      return (image === '' || image === null) ? this.props.defaultImage : (auth.isUser() ? process.env.REACT_APP_BE_URL + '/users/uploads/' + image : image);
+      return (image === '' || image === null) ? this.props.defaultImage : image;
     };
 
     componentDidMount() {
@@ -61,8 +67,6 @@ function beforeUpload(file) {
         </div>
       );
       const imageUrl = this.state.imageUrl;
-      console.log("STATE fileUpload, ", this.state)
-      console.log(process.env.REACT_APP_BE_URL + this.props.endpoint);
 
       if (this.props.allowUpload !== true) {
         return (

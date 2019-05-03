@@ -1,13 +1,15 @@
-import { notification } from 'antd';
+import { notification, Switch } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
 import { Col, Row } from 'reactstrap';
 import { auth } from '../../../auth';
-import CustomCard from '../../../components/CustomCard/CustomCard';
+import CustomCardExchange from '../../../components/CustomCard/CustomCardExchange/CustomCardExchange';
 import Loading from "../../../components/Loading/Loading";
-import defaultImage from '../../../media/default-exchange-logo.png';
 import { exchangesService } from '../../../services/exchangesService';
+import '../ExchangesList.scss';
+import moment from 'moment';
+import { Redirect } from "react-router-dom";
 
 
 class MyExchangesList extends Component {
@@ -17,7 +19,9 @@ class MyExchangesList extends Component {
         this.state = {
             items: [],
             loaded: false,
-            errorMessage: null
+            errorMessage: null,
+            all: false,
+            redirectToCreate: false
         };
     }
 
@@ -26,10 +30,14 @@ class MyExchangesList extends Component {
             .then((response) => this.setData(response)).catch((error) => this.setError(error));
     };
     setData = (response) => {
-        this.setState({
-            items: response,
-            loaded: true
-        })
+        if (response.data.code === 200 && response.data.success) {
+            this.setState({
+                items: response.data.content,
+                loaded: true
+            });
+        } else {
+            this.setError(null);
+        }
     };
 
     setError = (error) => {
@@ -39,18 +47,18 @@ class MyExchangesList extends Component {
     };
 
     componentDidMount() {
-        document.title = "Barlingo - Exchanges";
+        document.title = "Barlingo - My exchanges";
         this.fetchData();
     }
     leaveProcessResponse = (response) => {
-        if (response.status === 200) {
+        if (response.data.code === 200 && response.data.success) {
             this.showSuccessfulMessage("leave");
         } else {
             this.showErrorMessage("leave");
         }
     };
     joinProcessResponse = (response) => {
-        if (response.status === 200) {
+        if (response.data.code === 200 && response.data.success) {
             this.showSuccessfulMessage();
         } else {
             this.showErrorMessage();
@@ -67,9 +75,6 @@ class MyExchangesList extends Component {
             description = t('leave.successful.message');
         }
         notification.success({
-            placement: 'bottomRight',
-            bottom: 50,
-            duration: 10,
             message: message,
             description: description,
         });
@@ -87,9 +92,6 @@ class MyExchangesList extends Component {
             description = t('leave.failed.message');
         }
         notification.error({
-            placement: 'bottomRight',
-            bottom: 50,
-            duration: 10,
             message: message,
             description: description,
         });
@@ -164,9 +166,40 @@ class MyExchangesList extends Component {
         }
     }
 
+    changeFilter = (checked) => {
+        this.setState({all: checked});
+    }
+
+    getItems = () => {
+        let activeItems = [];
+        if (this.state.all) {
+            return this.state.items;
+        }
+
+        let current = moment();
+        this.state.items.forEach(function (value, key, array) {
+            let exchangeMoment = moment(value.moment + 'Z');
+            exchangeMoment.add(48, 'hours');
+            if (exchangeMoment.isAfter(current)) {
+                activeItems.push(value);
+            }
+        });
+
+        return activeItems;
+    }
+
+    redirectToCreate = () => {
+        this.setState({redirectToCreate: true});
+    }
+
     render() {
-        const { errorMessage, loaded, items } = this.state;
-        let dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        const { errorMessage, loaded, redirectToCreate } = this.state;
+        const { t } = this.props;
+
+        if (redirectToCreate) {
+            return (<Redirect to={"/establishments"} />)
+        }
+
 
         if (!loaded) {
             return (
@@ -181,12 +214,19 @@ class MyExchangesList extends Component {
         return (
             <Page layout="public">
                 <Section slot="content">
+                    <div className="createContainer">   
+                        <button type="button" onClick={() => this.redirectToCreate()}>{t('landing.navOptions.createExchanges')}</button>
+                    </div>
+                    <div className="selectContainer">
+                        <span className="container">{t('action.showActive')}</span> 
+                        <span className="container"><Switch onChange={this.changeFilter}/></span> 
+                        <span className="container">{t('action.showAll')}</span>
+                    </div>
                     <Row>
-                        {items.map((i, index) => (
+                        {this.getItems().map((i, index) => (
 
                             <Col xs="12" md="6" xl="4" key={i.id}>
-                                <CustomCard onClick={() => this.manageOnClick(i)} route="exchanges" buttonMessage={this.checkIfUserJoined(i)} id={i.id} image={defaultImage}
-                                    title={i.title} address={i.establishment.establishmentName + ", " + i.establishment.address} schedule={new Date(i.moment).toLocaleDateString('es-ES', dateFormat)} max={i.numberOfParticipants} />
+                                <CustomCardExchange exchange = {i} />
                             </Col>
                         ))}
                     </Row>

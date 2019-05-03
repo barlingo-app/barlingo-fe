@@ -37,3 +37,35 @@
     }
   }
 }
+
+.ant-switch-checked {
+  background-color: $mainColor !important;
+}
+
+.ant-alert {
+  position: fixed !important;
+  top: $navbarHeight;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  a,
+  a:hover,
+  a:active {
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+  }
+}
+
+.ant-alert-error {
+  background-color: #FFBAB6;
+}
+
+.ant-alert-warning {
+  background-color: #FFECAB;
+}
+
+.ant-alert-message {
+  font-weight: bold;
+}
