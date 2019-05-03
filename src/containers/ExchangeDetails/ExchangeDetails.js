@@ -1,21 +1,17 @@
-import { Avatar, Badge, Button, Card, Icon } from 'antd';
+import {Button} from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
-import { NavLink } from "react-router-dom";
-import { Col, Row } from 'reactstrap';
+import { Col, Row } from 'react-bootstrap';
 import { auth } from '../../auth';
 import Loading from "../../components/Loading/Loading";
-import image from '../../media/default-exchange-header.jpg';
-import locationIcon from '../../media/imageedit_5_5395394410.png';
 import { Redirect } from 'react-router-dom';
-import timeIcon from '../../media/imageedit_8_4988666292.png';
-import personIcon from '../../media/person.png';
 import { discountCodeService } from '../../services/discountCodeService';
 import { exchangesService } from '../../services/exchangesService';
 import { notification } from 'antd';
-import './ExchangeDetails.scss';
+import defaultImage from '../../media/default-exchange-header.jpg';
 import MapContainer from '../MapContainer/MapContainer';
+import './ExchangeDetails.scss';
 
 
 class ExchangeDetails extends Component {
@@ -55,6 +51,10 @@ class ExchangeDetails extends Component {
         this.setState({
             errorMessage: "loadErrorMessage"
         })
+    };
+
+    getImage = (image) => {
+        return (image === '' || image === null) ? defaultImage : image;
     };
 
     readCodeOk = (response) => {
@@ -136,47 +136,8 @@ class ExchangeDetails extends Component {
         }
     }
 
-    renderDescription() {
-        const description = this.state.exchange.description
-        const address = this.state.exchange.establishment.establishmentName + ", " + this.state.exchange.establishment.address;
-        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-        return (
-            <div className="exchange">
-                <div>
-                    {description}
-                </div>
-                <div>
-                    <img className="exchange__icon" src={locationIcon} alt="Location" />
-                    {address}
-                </div>
-                <div className="exchange__icon-wrapper">
-                    <img className="exchange__icon" src={timeIcon} alt="Date and time" />{new Date(this.state.exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)}
-                </div>
-                <div className="exchange__icon-wrapper">
-                    <img className="exchange__icon" src={personIcon} alt="Participants" />{this.state.exchange.participants.length === 0 ? 1 : this.state.exchange.participants.length}
-                </div>
-            </div>
-        );
-    }
-    renderParticipants() {
-        const { t } = this.props;
-        return <div style={{ paddingTop: 20 }}>
-            <NavLink exact={true} to={"/profile/" + this.state.exchange.creator.id} activeClassName={"none"} >
-                <Badge count={<Icon type="smile" style={{ color: '$mainColor' }} />}>
-                    <Avatar size="large" alt={t('exchange.organizer')} src={this.state.exchange.creator.personalPic ? this.state.exchange.creator.personalPic : personIcon} onError={(e) =>{ return personIcon }
-                    } />
-                </Badge>
-            </NavLink>
-            {this.state.exchange.participants.map((i, index) => (
-                i.id !== this.state.exchange.creator.id && <NavLink exact={true} to={"/profile/" + i.id} activeClassName={"none"} >
-                    <Avatar src={i.personalPic ? i.personalPic : personIcon} onError={(e) => {return personIcon}} />
-                </NavLink>
-            ))}
-
-        </div>
-    }
     render() {
-        const { Meta } = Card;
+
         const { errorMessage, loaded, exchange, codeShown, redirectToNotFound } = this.state;
         const { t } = this.props;
 
@@ -195,38 +156,83 @@ class ExchangeDetails extends Component {
                 </Page>
             );
         }
-        const address = exchange.establishment.address + ", " + exchange.establishment.city + ", " + exchange.establishment.country;
+
+        const image = exchange.establishment.imageProfile;
+        const address = exchange.establishment.establishmentName + ", " + exchange.establishment.address;
+        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
+        const participants = exchange.participants;
+        const mapAddress = exchange.establishment.address + ", " + exchange.establishment.city + ", " + exchange.establishment.country;
         const name = exchange.establishment.establishmentName;
+
         return (
-            <Page layout="public">
-                <Section slot="content">
-                    <Row>
-                        <Col col-sm="12" offset-md="4" col-md="4">
-                            <Card
-                                cover={<img className="header-img" alt="example" src={image} />}>
-                                <Meta
-                                    avatar={<Avatar src={image} />}
-                                    title={exchange.title}
-                                    description={this.renderDescription()}
-                                />
-                                {this.renderParticipants()}
-                            </Card>
-                        </Col>
-                        <Col>
-                            <MapContainer address={address} name={name} />
-                        </Col>
-                    </Row>
-                    {auth.isAuthenticated() && this.isJoined() &&
-                        <div style={{ width: "100%", textAlign: "center" }}>
-                            {(codeShown === null) && <Button type="primary" htmlType="submit" onClick={() => this.showCode()} className="login-form-button primaryButton">
-                                {t('code.show')}
-                            </Button>}
-                            {(codeShown !== null) && <div style={{ fontSize: "18px" }}>{t('code.showTitle')}:</div>}
-                            {(codeShown !== null) && <div>{codeShown}</div>}
-                        </div>
-                    }
-                </Section>
-            </Page >
+            <div className="exchange-details">
+                <Page layout="public">
+                    <Section slot="content">
+                        <Row>
+                            <Col className="exchange-details__content" sm="12" md={{span: 8, offset: 2}}>
+                                <div className="exchange-details__top">
+                                    <img  className="exchange-details__image" alt="Exchange" src={this.getImage(image)} onError={(e) => e.target.src = defaultImage}/>
+                                </div>
+
+                                <div className="exchange-details__title">{exchange.title}</div>
+
+                                <div className="exchange-details__date">{new Date(exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)}</div>
+                                <div className="exchange-details__languages">
+                                    {t(`languages.${exchange.targetLangs[0]}`)}
+                                    <i class="fas fa-exchange-alt exchange-details__languages-icon"></i>
+                                    {t(`languages.${exchange.targetLangs[1]}`)}
+                                </div>
+
+                                <div className="exchange-details__description">{exchange.description}</div>
+
+                                <div className="exchange-details__address">
+                                    <i className="fas fa-map-marker-alt fa-lg exchange-details__location-icon"></i>
+                                    {address}
+                                </div>
+                                <div className="exchange-details__map">
+                                    <MapContainer address={mapAddress} name={name} />
+                                </div>
+
+                                <div className="exchange-details__participants-title">{t('exchange.participants')}</div>
+                                <Row>
+                                    {participants.map(function (i) {
+                                        var creator = "";
+                                        if (exchange.creator.id === i.id) {
+                                            creator = t('exchange.creator')
+                                        }
+                                        return (
+                                            <Col xs="12" md="4" lg="3" key={i.id}>
+                                                <img  className="exchange-details__participant-image" alt="Participant" src={i.personalPic}/>
+                                                <div className="exchange-details__participant-name">{i.name + " " + i.surname + creator}</div>
+                                            </Col>
+                                        )
+                                        
+                                    })}
+                                </Row>
+                                {auth.isAuthenticated() && this.isJoined() &&
+                                <div style={{ textAlign: "center", margin: "30px" }}>
+                                {(codeShown === null) && <Button type="primary" htmlType="submit" onClick={() => this.showCode()} className="login-form-button primaryButton">
+                                    {t('code.show')}
+                                </Button>}
+                                {(codeShown !== null) &&
+                                    <Row>
+                                        <Col xs="12" sm={{span: 6, offset: 3}} md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}} xl={{span: 4, offset: 4}}>
+                                            <div className="exchange-details__code-wrapper">
+                                                <div className="exchange-details__code-title" >{t('code.showTitle')}:</div>
+                                                <div className="exchange-details__code">{codeShown}</div>
+                                            </div>
+                                        </Col>
+                                    </Row> }
+                                {/*{(codeShown !== null) && <div className="exchange-details__code-title" >{t('code.showTitle')}:</div>}
+                                {(codeShown !== null) && <div className="exchange-details__code">{codeShown}</div>}*/}
+                            </div>
+                        }
+                            </Col>
+                        </Row>                      
+                    </Section>
+                </Page >
+            </div>
+
         );
     }
 }

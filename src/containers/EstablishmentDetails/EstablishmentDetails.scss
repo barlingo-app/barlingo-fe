@@ -9,7 +9,10 @@
         padding-bottom: 30px;
     }
     &__top {
-        background-color: lighten(#70C1B3, 20%);
+        background: #44cfcb; /* Old browsers */
+        background: -moz-linear-gradient(-45deg, #44cfcb 1%, #4ea5d9 47%, #4357ad 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(-45deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(135deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%);
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         height: 100px;
@@ -34,11 +37,7 @@
         font-weight: 600;
         text-align: center;
     }
-    &__address {
-        color: $fontColor-secondary;
-        font-family: $font-primary;
-        text-align: center;
-    }
+    
     &__description {
         border-bottom: 0.5px solid $color-primary;
         font-family: $font-primary;
@@ -47,6 +46,37 @@
         padding-bottom: 15px;
         text-align: center;
         width: 100%;
+    }
+    &__address {
+        color: $fontColor-secondary;
+        font-family: $font-primary;
+        margin-top: 15px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    &__map > div > div {
+        position: relative!important;
+    }
+    &__map > div > div > div {
+        border: 2px solid #4357ad;
+        box-shadow: 0px 2px 3px rgba(0,0,0,.13), 1px 2px 2px rgba(0,0,0,.1), -1px -2px 2px rgba(0,0,0,.05);
+        border-radius: 5px;
+        height: 250px!important;
+        position: relative!important;
+        width: 100%!important;
+        @media(max-width: 350px) {
+            margin-left: -8px;
+            width: 107%!important;
+        }
+        @media(min-width: 992px) {
+            display: block!important;
+            margin-left: auto!important;
+            margin-right: auto!important;
+            width: 70%!important;
+        }
+    }
+    &__location-icon {
+        margin-right: 5px;
     }
     &__workingHours-title {
         font-family: $font-primary;

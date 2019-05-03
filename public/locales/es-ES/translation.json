@@ -230,6 +230,8 @@
     }
   },
   "exchange": {
+    "creator": " (creador)",
+    "participants": "Participantes",
     "search": {
       "textarea": "Buscar intercambio",
       "date": "Fecha",
