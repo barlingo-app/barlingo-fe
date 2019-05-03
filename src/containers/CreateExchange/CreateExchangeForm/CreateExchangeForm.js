@@ -168,6 +168,11 @@ class CreateExchangeForm extends Component {
                               fieldNames.push(fieldName);
                             }
                             this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
+                            
+                            notification.warning({
+                                message: this.props.t('form.validationNotification.title'),
+                                description: this.props.t('form.validationNotification.message'),
+                            });
                         } else if (response.data.code === 500) {
                             notification.error({
                                 message: this.props.t('apiErrors.defaultErrorTitle'),

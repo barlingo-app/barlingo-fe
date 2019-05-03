@@ -8,7 +8,6 @@ import './i18n';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css'
 
-
 ReactDOM.render(
     <Router>
     <App />

@@ -30,7 +30,7 @@ class ChangePassword extends Component {
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.visible !== this.state.visible) {
-            this.setState({ visible: nextProps.visible }, this.renderModalText());
+            this.setState({ visible: nextProps.visible });
         }
     }
 

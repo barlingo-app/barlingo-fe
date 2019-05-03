@@ -259,7 +259,7 @@ export const auth = {
     } else if (this.isAdmin()) {
       return await adminService.findById(this.getUserId()).then((response) => {
         if (response.data.success && response.data.content !== null && response.data.content !== "") {
-          this.setUserData(response.data);
+          this.setUserData(response.data.content);
           this.setAuthenticationFlag("true");
           return true;
         } else {

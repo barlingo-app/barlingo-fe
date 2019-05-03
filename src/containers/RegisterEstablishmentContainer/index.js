@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import RegisterEstablishmentComoponent from './../../components/RegisterEstablishmentComponent'
+import RegisterEstablishmentComponent from './../../components/RegisterEstablishmentComponent'
 import { Page, Section } from "react-page-layout"
 
 class index extends Component {
@@ -9,7 +9,7 @@ class index extends Component {
       <div className="register-bg">
         <Page layout="public">
           <Section slot="content">
-            <RegisterEstablishmentComoponent />
+            <RegisterEstablishmentComponent />
           </Section>
         </Page>
       </div>

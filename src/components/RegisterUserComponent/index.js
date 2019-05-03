@@ -176,21 +176,43 @@ export class index extends Component {
             }
         }).then((response) => {
             if (response.data.success !== true) {
-                if (response.data.message === 'The username already exists.') {
-                    this.setState({ usernameInvalid: true, validated: true })
+                if (response.data.code === 400) {
+                    this.externalErrors = response.data.validationErrors;
+                    let fieldNames = [];
+                    for (var fieldName in this.externalErrors)  {
+                    fieldNames.push(fieldName);
+                    }
+                    this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
+
+                    notification.warning({
+                      message: this.props.t('form.validationNotification.title'),
+                      description: this.props.t('form.validationNotification.message'),
+                    });
+
+                    this.setState({validated: true});
+                } else if (response.data.code === 500) {
+                    notification.error({
+                      message: this.props.t('apiErrors.defaultErrorTitle'),
+                      description: this.props.t('apiErrors.' + response.data.message),
+                    });                  
+                    this.setState({validated: true})
+                } else {
+                  notification.error({
+                    message: this.props.t('apiErrors.defaultErrorTitle'),
+                    description: this.props.t('apiErrors.defaultErrorMessage')
+                  });
                 }
             } else {
                 this.setState({ successfulLogin: true });
                 notification.success({
-                    message: "Successful register",
-                    description: "You can log in with your username and password",
+                    message: this.props.t('userRegister.successfulMessage.title'),
+                    description: this.props.t('userRegister.successfulMessage.message'),
                 });
             }
         }).catch((error) => {
-
             notification.error({
-                message: "Failed register",
-                description: "There was an error saving the data",
+                message: this.props.t('apiErrors.defaultErrorTitle'),
+                description: this.props.t('apiErrors.defaultErrorMessage')
             });
         });
     }
