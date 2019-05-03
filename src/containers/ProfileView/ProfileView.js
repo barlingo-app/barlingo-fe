@@ -409,11 +409,13 @@ class ProfileView extends Component {
                                         </Button>}
                                     </Col>
                                     <Col>
-                                        {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && <Button type="primary" onClick={() => this.paySubscription()} htmlType="submit" className="login-form-button primaryButton">
+                                        {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) ? <Button type="primary" onClick={() => this.paySubscription()} htmlType="submit" className="login-form-button primaryButton">
                                             {t('subscription.payButton')}
-                                        </Button>}
+                                        </Button>: 
+                                        <div>{t('subcripcionEnd')+": "+auth.getUserData().subscription.finishMoment.split('T')[0] }</div>}
                                     </Col>
                                 </Row>
+                                
                             </Card>
 
                         </Col>
