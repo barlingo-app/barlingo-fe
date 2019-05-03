@@ -53,11 +53,44 @@ class Home extends Component {
     render() {
         const { t } = this.props;
         
-        const label1 = !auth.isAuthenticated() ? 'links.login':'landing.navOptions.createExchanges'
-        const label2 = !auth.isAuthenticated() ? 'links.registerUser':'landing.navOptions.findExchanges'
+        let label1 = "undefiend"
+        let label2 = "undefined"
 
-        const path1 = !auth.isAuthenticated() ? '/login':'/establishments'
-        const path2 = !auth.isAuthenticated() ? '/register':'/exchanges'
+        let path1 = "/undefiend"
+        let path2 = "/undefined"
+
+        if(auth.isAuthenticated()){
+            if(auth.isUser()){
+                label1 = 'landing.navOptions.createExchanges'
+                label2 = 'landing.navOptions.findExchanges'
+
+                path1 = '/establishments'
+                path2 = '/exchanges'
+            }
+            else if(auth.isEstablishment()){
+                label1 = 'links.calendar'
+                label2 = 'links.validateCode'
+
+                path1 = '/calendar'
+                path2 = '/validateCode'
+            }
+            else if(auth.isAdmin()){
+                label1 = "links.manageaccounts"
+                label2 = "links.notification"
+
+                path1 = '/users'
+                path2 = '/createNotification'
+            }
+
+            
+        }else{
+            label1 = 'links.login'
+            label2 = 'links.registerUser'
+
+            path1 = '/login'
+            path2 = '/register'
+        }
+
 
         return (
             <Page layout="public">

@@ -108,7 +108,8 @@
     "logout": "Cerrar sesión"
   },
   "links": {
-    "notification": "Enviar notificación",
+    "manageaccounts": "Gestionar cuentas",
+    "notification": "Enviar un mensaje de difusión",
     "exchanges": "Intercambios",
     "establishments": "Establecimientos",
     "validateCode": "Validar código",
@@ -119,7 +120,7 @@
     "myExchanges": "Mis intercambios",
     "created": "Creados",
     "joined": "Unidos",
-    "calendar": "Calendario de empresa"
+    "calendar": "Calendario de la empresa"
   },
   "access": {
     "error": {

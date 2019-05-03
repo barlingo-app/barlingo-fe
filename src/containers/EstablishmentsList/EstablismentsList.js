@@ -87,7 +87,7 @@ class EstablismentsList extends Component {
                     <Row>
                         {items.map((i, index) => (
                             <Col xs="12" md="6" xl="4" key={i.id}>
-                                <CustomCardEstablishment establishment={i} showButton={!auth.isAuthenticated() || auth.isUser()}/>
+                                <CustomCardEstablishment establishment={i} showButton={auth.isUser()}/>
                             </Col>
                         ))}
                     </Row>

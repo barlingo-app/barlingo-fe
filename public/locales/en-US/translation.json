@@ -107,7 +107,8 @@
     "logout": "Logout"
   },
   "links": {
-    "notification": "Send notification",
+    "manageaccounts": "Manage accounts",
+    "notification": "Send broadcast message",
     "exchanges": "Exchanges",
     "establishments": "Establishments",
     "validateCode": "Validate code",
@@ -118,7 +119,7 @@
     "myExchanges": "My exchanges",
     "created": "Created",
     "joined": "Joined",
-    "calendar": "Business calendar"
+    "calendar": "Exchanges created"
   },
   "form": {
     "validationErrors": {
