@@ -410,37 +410,68 @@
       "User": {
         "UsernameEmpty": "El nombre de usuario o la contraseña son incorrectos.",
         "UsernameExists": "El nombre de usuario ya está siendo utilizado."
+      },
+      "LanguageExchange": {
+        "NotNull": "El establecimiento indicado no existe."
       }
     },
     "Unsigned": {
       "Establishment": {
-        "ValidationErrors": "El establecimiento no es correcto"
+        "ValidationErrors": "El establecimiento no es correcto."
       }
     },
     "Signed": {
       "Establishment": {
-        "ErrorLoadingImage": "Se ha producido un error al cargar la imagen"
+        "ErrorLoadingImage": "Se ha producido un error al cargar la imagen."
       },
       "LanguageExchange": {
-        "UserNotExists": "El usuario indicado no existe",
-        "EstablishmentNotExists": "El establecimiento indicado no existe",
-        "NotFound": "El establecimiento indicado no existe"
+        "UserNotExists": "El usuario indicado no existe.",
+        "UserNotNull": "El usuario indicado no existe.",
+        "EstablishmentNotExists": "El establecimiento indicado no existe.",
+        "NotFound": "El establecimiento indicado no existe."
       },
       "UserDiscount": {
         "UserNotNull": "Se ha producido un error al crear el intercambio.",
         "ErrorSavingDiscount": "Se ha producido un error al crear el intercambio.",
-        "CodeBelongOtherExchange":"Se ha producido un error al crear el intercambio."
+        "CodeBelongOtherExchange": "Se ha producido un error al crear el intercambio.",
+        "CodeNotValid": "El código no es válido.",
+        "CodeNotExists": "El código no es válido.",
+        "NotVisible": "El código no es válido.",
+        "LanguageExchangeNotStartedYet": "El intercambio aún no ha comenzado."
+      },
+      "UserAccount": {
+        "NotNull": "No se encuentra la cuenta del usuario indicada.",
+        "SecretEmpty": "La contraseña no puede estar vacía",
+        "NotExists": "No se encuentra la cuenta del usuario indicada.",
+        "CannotModifyOtherUsers": "Esta acción no esta permitida, tenga cuidado.",
+        "ErrorDecoding":"No se ha podido decodificar la contraseña.",
+        "ErrorSavingAccount":"No se ha podido guardar la cuenta."
       }
     },
     "Establishment": {
       "Establishment": {
         "ErrorSavingEstablishment": "Error al guardar el establecimiento.",
-        "CannotModifyOtherUser": "Esta acción no esta permitida, tenga cuidado",
-        "NotFound": "El establecimiento que intenta editar no existe",
-        "EstablishmentDataNotNull": "Los datos del establecimiento no son correctos",
-        "NotNull": "El establecimiento indicado no existe",
-        "UnknownFileType": "El archivo no tiene el formato adecuado",
-        "SecretNotEmpty": "La contraseña no puede ser un texto vacío"
+        "CannotModifyOtherUser": "Esta acción no esta permitida, tenga cuidado.",
+        "NotFound": "El establecimiento que intenta editar no existe.",
+        "EstablishmentDataNotNull": "Los datos del establecimiento no son correctos.",
+        "NotNull": "El establecimiento indicado no existe.",
+        "UnknownFileType": "El archivo no tiene el formato adecuado.",
+        "SecretNotEmpty": "La contraseña no puede ser un texto vacío."
+      },
+      "UserDiscount": {
+        "UserDiscountCannotBeExchanged": "El código no es válido."
+      },
+      "Payment": {
+        "IO": "No se ha podido realizar la transacción, inténtelo más tarde.",
+        "EstablishmentNotExists": "El establecimiento indicado no existe.",
+        "EstablishmentAlreadyHavesSubscription": "La subscripción ya ha sido abonada.",
+        "ErrorProcesingOrder": "No se ha podido realizar la transacción, inténtelo más tarde.",
+        "ErrorProcesingSubscription": "No se ha podido realizar la transacción, inténtelo más tarde.",
+        "OrderIsNotValid": "El pedido indicado no existe.",
+        "OrderBelongsToAnotherSubscription": "Esta acción no esta permitida, tenga cuidado.",
+        "ErrorSavingPaydata": "No se ha podido realizar la transacción, inténtelo más tarde.",
+        "OrderIdNotNull": "El pedido indicado no existe.",
+        "ErrorSavingEstablishment": "No se ha podido realizar la transacción, inténtelo más tarde."
       }
     },
     "User": {
@@ -454,9 +485,14 @@
       },
       "LanguageExchange": {
         "UserNotFound": "El usuario indicado no existe",
+        "UserNotNull": "El usuario indicado no existe",
         "CannotModifyOtherUsers": "Esta acción no esta permitida, tenga cuidado",
         "IsFull": "No se pueden unir más participantes a este intercambio.",
-        "AlreadyRegistered": "El usuario ya está registrado en el evento."
+        "AlreadyRegistered": "El usuario ya está registrado en el evento.",
+        "EventFinalized": "Esta acción no esta permitida, tenga cuidado.",
+        "UserNotRegistered": "Esta acción no esta permitida, tenga cuidado.",
+        "ErrorSavingExchange": "Se ha producido un error al guardar el intercambio.",
+        "CannotSavePastExchange": "No se puede crear un intercambio en pasado."
       }
     }
   }
