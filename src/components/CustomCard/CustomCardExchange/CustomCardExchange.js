@@ -47,8 +47,8 @@ class CustomCardExchange extends Component {
             const userData = auth.getUserData();
             const { exchange } = this.props;
             
-            if(exchange.participants.length >= exchange.numberMaxParticipants){ 
-                return <div className="custom-card-exchange__button-wrapper"><button className="custom-card-exchange__button" >{t('completed')}</button></div>               
+            if(exchange.participants.length >= exchange.numberMaxParticipants && !exchange.participants.find(x => x.id === userData.id)){ 
+                return <div className="custom-card-exchange__button-wrapper"><button className="custom-card-exchange__button-completed" >{t('completed')}</button></div>               
             }
             else{
                 if (exchange.creator.id === userData.id || new Date(exchange.moment + 'Z') < new Date())

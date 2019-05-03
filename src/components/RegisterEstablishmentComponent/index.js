@@ -198,7 +198,7 @@ class index extends Component {
             name: values.name,
             surname: values.surname,
             email: values.email,
-            birthdate: values['date-picker']._d,
+            birthdate: values['birthdate'].format('YYYY-MM-DD'),
             country: values.country,
             city: values.city,
             establishmentName: values.establishmentName,
@@ -443,8 +443,8 @@ class index extends Component {
               <Row>
                 <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
                   <Form.Item label={t('form.birthday')}>
-                    {getFieldDecorator('date-picker', config)(
-                      <DatePicker format="YYYY-MM-DD" disabledDate={this.checkBirthday}/>
+                    {getFieldDecorator('birthdate', config)(
+                      <DatePicker defaultPickerValue={moment().subtract(18, 'years')} format="YYYY-MM-DD" disabledDate={this.checkBirthday}/>
                     )}
                   </Form.Item>
                 </Col>

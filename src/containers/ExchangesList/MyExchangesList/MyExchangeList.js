@@ -9,7 +9,7 @@ import Loading from "../../../components/Loading/Loading";
 import { exchangesService } from '../../../services/exchangesService';
 import '../ExchangesList.scss';
 import moment from 'moment';
-import { NavLink } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 
 class MyExchangesList extends Component {
@@ -20,7 +20,8 @@ class MyExchangesList extends Component {
             items: [],
             loaded: false,
             errorMessage: null,
-            all: false
+            all: false,
+            redirectToCreate: false
         };
     }
 
@@ -187,9 +188,18 @@ class MyExchangesList extends Component {
         return activeItems;
     }
 
+    redirectToCreate = () => {
+        this.setState({redirectToCreate: true});
+    }
+
     render() {
-        const { errorMessage, loaded } = this.state;
+        const { errorMessage, loaded, redirectToCreate } = this.state;
         const { t } = this.props;
+
+        if (redirectToCreate) {
+            return (<Redirect to={"/establishments"} />)
+        }
+
 
         if (!loaded) {
             return (
@@ -204,6 +214,9 @@ class MyExchangesList extends Component {
         return (
             <Page layout="public">
                 <Section slot="content">
+                    <div className="createContainer">   
+                        <button type="button" onClick={() => this.redirectToCreate()}>{t('landing.navOptions.createExchanges')}</button>
+                    </div>
                     <div className="selectContainer">
                         <span className="container">{t('action.showActive')}</span> 
                         <span className="container"><Switch onChange={this.changeFilter}/></span> 
@@ -216,11 +229,6 @@ class MyExchangesList extends Component {
                                 <CustomCardExchange exchange = {i} />
                             </Col>
                         ))}
-                        <div className={"navContainer"}>
-                            <NavLink exact={true} to={"/establishments"}>
-                                <div className={"navOption"}>{t('landing.navOptions.createExchanges')}</div>
-                            </NavLink>
-                        </div>
                     </Row>
                 </Section>
             </Page>
