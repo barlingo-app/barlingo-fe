@@ -8,6 +8,10 @@
   padding: $navbarHeight + 30px 40px $footerHeight + 30px 40px;
 }
 
+.contentWithWarning {
+  padding-top: $navbarHeight + 100px !important;
+}
+
 .fullContent {
   position: absolute;
   top: $navbarHeight;

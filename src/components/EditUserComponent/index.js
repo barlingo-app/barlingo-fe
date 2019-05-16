@@ -379,4 +379,4 @@ export class index extends Component {
 
 index = Form.create({ name: 'registerUser' })(index);
 
-export default withNamespaces('translation')(index)
+export default withNamespaces()(index)

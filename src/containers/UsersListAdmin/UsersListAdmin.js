@@ -129,4 +129,4 @@ class UsersListAdmin extends Component {
     }
 
 }
-export default withNamespaces('translation')(UsersListAdmin);
+export default withNamespaces()(UsersListAdmin);

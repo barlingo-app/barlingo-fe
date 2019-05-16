@@ -257,5 +257,5 @@ class PaySubscriptionContainer extends React.Component{
   }
 }
 
-export default withNamespaces('translation')(PaySubscriptionContainer);
+export default withNamespaces()(PaySubscriptionContainer);
 

@@ -183,5 +183,5 @@ class ValidateCodeContainer extends React.Component {
 }
 
 ValidateCodeContainer = Form.create({ name: "validateCode" })(ValidateCodeContainer);
-export default withNamespaces('translation')(ValidateCodeContainer);
+export default withNamespaces()(ValidateCodeContainer);
 

@@ -182,4 +182,4 @@ class LoginForm extends Component {
 }
 LoginForm = Form.create({ name: "normal_login" })(LoginForm);
 
-export default withNamespaces('translation')(LoginForm);
+export default withNamespaces()(LoginForm);

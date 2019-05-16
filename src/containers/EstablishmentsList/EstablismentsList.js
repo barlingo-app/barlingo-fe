@@ -97,4 +97,4 @@ class EstablismentsList extends Component {
     }
 }
 
-export default withNamespaces('translation')(EstablismentsList);
+export default withNamespaces()(EstablismentsList);

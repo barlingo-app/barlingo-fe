@@ -236,4 +236,4 @@ class MyExchangesList extends Component {
     }
 }
 
-export default withNamespaces('translation')(MyExchangesList);
+export default withNamespaces()(MyExchangesList);

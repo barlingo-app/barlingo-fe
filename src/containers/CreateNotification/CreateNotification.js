@@ -89,4 +89,4 @@ class CreateNotification extends Component {
     }
 }
 CreateNotification = Form.create({ name: "createNotification" })(CreateNotification)
-export default withNamespaces('translation')(CreateNotification);
+export default withNamespaces()(CreateNotification);

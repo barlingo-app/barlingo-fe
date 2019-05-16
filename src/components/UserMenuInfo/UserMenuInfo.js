@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import "./UserMenuInfo.scss";
-import defaultImage from "../../media/person.png"
+import defaultImage from "../../media/person.jpg"
 import { NavLink } from "react-router-dom";
 import { auth } from '../../auth';
 import { withRouter } from 'react-router-dom';
@@ -59,4 +59,4 @@ class UserMenuInfo extends Component {
     }
 }
 
-export default withRouter(withNamespaces('translation')(UserMenuInfo));
+export default withRouter(withNamespaces()(UserMenuInfo));

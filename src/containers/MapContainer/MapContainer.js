@@ -75,5 +75,6 @@ export class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyCtXovrlAq5but4UH_mqmq9SVUsF53bGSc'
+  apiKey: 'AIzaSyCtXovrlAq5but4UH_mqmq9SVUsF53bGSc',
+  language: (localStorage.getItem('i18nextLng') != null) ? localStorage.getItem('i18nextLng') : 'es-ES'
 })(MapContainer)    

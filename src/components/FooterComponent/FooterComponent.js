@@ -69,4 +69,4 @@ class FooterComponent extends Component {
     }
 }
 
-export default withNamespaces('translation')(FooterComponent);
+export default withNamespaces()(FooterComponent);
