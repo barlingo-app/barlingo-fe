@@ -87,4 +87,4 @@ class CreateExchange extends Component {
     }
 }
 
-export default withNamespaces('translation')(CreateExchange);
+export default withNamespaces()(CreateExchange);

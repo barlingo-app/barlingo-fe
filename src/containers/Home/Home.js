@@ -18,7 +18,7 @@ class Home extends Component {
 
     componentDidMount() {
 
-        document.title = "Barlingo - Home";
+        document.title = "Barlingo - Enjoy talking where you prefer";
         if (!this.state.errorAlreadyDisplayed) {
             if (this.props.location.state) {
                 const { t } = this.props;
@@ -119,4 +119,4 @@ class Home extends Component {
     }
 }
 
-export default withNamespaces('translation')(Home);
+export default withNamespaces()(Home);

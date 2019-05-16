@@ -331,4 +331,4 @@ class CreateExchangeForm extends Component {
 }
 
 CreateExchangeForm = Form.create({ name: "normal_login" })(CreateExchangeForm)
-export default withNamespaces('translation')(CreateExchangeForm);
+export default withNamespaces()(CreateExchangeForm);

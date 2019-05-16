@@ -231,4 +231,4 @@ ChangePassword.defaultProps = {
   };
 
 ChangePassword = Form.create({ name: "ChangePassword_Form" })(ChangePassword);
-export default withNamespaces('translation')(ChangePassword);
+export default withNamespaces()(ChangePassword);

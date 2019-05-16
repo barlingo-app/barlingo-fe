@@ -80,4 +80,4 @@ class CustomCardEstablishment extends Component {
     }
 }
 
-export default withNamespaces('translation')(CustomCardEstablishment);
+export default withNamespaces()(CustomCardEstablishment);

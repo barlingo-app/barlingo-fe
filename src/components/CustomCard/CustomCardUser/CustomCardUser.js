@@ -1,14 +1,9 @@
-import { Icon } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import defaultImage from '../../../media/default-exchange-logo.png';
-import french from '../../../media/france.svg';
-import german from '../../../media/germany.svg';
 import locationIcon from '../../../media/imageedit_5_5395394410.png';
 import personIcon from '../../../media/person.png';
-import spanish from '../../../media/spain.svg';
-import english from '../../../media/united-kingdom.svg';
 import './CustomCardUser.scss';
 
 
@@ -21,29 +16,6 @@ class CustomCardUser extends Component {
 
     getRandomArbitrary(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
-    }
-    renderLanguageWrapper() {
-
-        const user = this.props.user;
-        const idioms = { "es": spanish, "en": english, "fr": french, "de": german };
-        const speakLangs = [];
-        const langsToLearn = [];
-        user.speakLangs.forEach(lang => {
-            speakLangs.push(idioms[lang]);
-        });
-        user.langsToLearn.forEach(lang => {
-            langsToLearn.push(idioms[lang]);
-        });
-
-        return (<div className="custom-card-user__language-wrapper">
-            {speakLangs.map((i, index) => (
-                <img key={"mother_tonge_" + index} className="custom-card-user__language-icon" src={i} alt="Mother tongue" />
-            ))}
-            <Icon type="arrow-right" />
-            {langsToLearn.map((i, index) => (
-                <img key={"target_tonge_" + index} className="custom-card-user__language-icon" src={i} alt="Target language" />
-            ))}
-        </div>);
     }
 
     calculate_age(dob) {
@@ -83,4 +55,4 @@ class CustomCardUser extends Component {
     }
 }
 
-export default withNamespaces('translation')(CustomCardUser);
+export default withNamespaces()(CustomCardUser);

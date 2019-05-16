@@ -31,4 +31,4 @@ class Sidebar extends Component {
   }
 }
 
-export default withNamespaces('translation')(Sidebar);
+export default withNamespaces()(Sidebar);

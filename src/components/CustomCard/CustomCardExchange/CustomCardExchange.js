@@ -3,14 +3,10 @@ import { withNamespaces } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { auth } from '../../../auth';
 import defaultImage from '../../../media/default-exchange-logo.png';
-import french from '../../../media/france.svg';
 import { notification } from 'antd';
-import german from '../../../media/germany.svg';
 import locationIcon from '../../../media/imageedit_5_5395394410.png';
 import timeIcon from '../../../media/imageedit_8_4988666292.png';
-import personIcon from '../../../media/person.png';
-import spanish from '../../../media/spain.svg';
-import english from '../../../media/united-kingdom.svg';
+import personIcon from '../../../media/person.jpg';
 import { exchangesService } from '../../../services/exchangesService';
 import './CustomCardExchange.scss';
 
@@ -26,21 +22,7 @@ class CustomCardExchange extends Component {
     getRandomArbitrary(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
-    renderLanguageWrapper() {
-        const exchange = this.props.exchange;
-        const idioms = { "es": spanish, "en": english, "fr": french, "de": german };
-        const targetLangs = [];
-        exchange.targetLangs.forEach(lang => {
-            if (idioms[lang])
-                targetLangs.push(idioms[lang]);
-        });
 
-        return (<div className="custom-card-exchange__language-wrapper">
-            {targetLangs.map((i, index) => (
-                <img key={"mother_tonge_" + index} className="custom-card-exchange-user__language-icon" src={i} alt="target tongue" />
-            ))}
-        </div>);
-    }
     renderButton() {
         if (auth.isAuthenticated()) {
             const { t } = this.props;
@@ -181,7 +163,6 @@ class CustomCardExchange extends Component {
                 <div className="custom-card-exchange">
 
                     <img className="custom-card-exchange__image" src={this.getImage(image)} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
-                    {this.renderLanguageWrapper()}
                     <p className="custom-card-exchange__title">
                         <NavLink className="custom-card-exchange__link" exact={true} activeClassName={"active"} to={"exchanges/" + exchange.id}>{title}</NavLink>
                     </p>
@@ -204,4 +185,4 @@ class CustomCardExchange extends Component {
     }
 }
 
-export default withNamespaces('translation')(CustomCardExchange);
+export default withNamespaces()(CustomCardExchange);

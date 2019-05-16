@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
 import { Col, Row } from 'react-bootstrap';
-import defaultImage from '../../media/default-exchange-header.jpg';
+import defaultImage from '../../media/default-exchange-logo.png';
 import MapContainer from '../MapContainer/MapContainer';
 import { establishmentService } from '../../services/establishmentService';
 import Loading from "../../components/Loading/Loading";
@@ -27,7 +27,7 @@ class EstablishmentDetails extends Component {
 
     setData = (response) => {
         if (response.data.code === 200 && response.data.success && response.data.content) {
-            document.title = "Barlingo - " + response.data.establishmentName;
+            document.title = "Barlingo - " + response.data.content.establishmentName;
             this.setState({
                 establishment: response.data.content,
                 loaded: true
@@ -44,7 +44,6 @@ class EstablishmentDetails extends Component {
     };
 
     componentDidMount() {
-        document.title = "Barlingo - " + this.state.establishment.establishmentName;
         this.fetchData();
     }
 
@@ -102,7 +101,7 @@ class EstablishmentDetails extends Component {
                                 </div>
 
                                 <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
-                                <div className="establishment-details__workingHours">{establishment.workingHours}</div>
+                                <div className="establishment-details__workingHours">{this.getFormattedWorkingHours(establishment.workingHours)}</div>
                                 <div className="establishment-details__offer-title">{t('form.offer')}</div>
                                 <div className="establishment-details__offer">{establishment.offer}</div>
                             </Col>
@@ -114,4 +113,4 @@ class EstablishmentDetails extends Component {
     }
 }
 
-export default withNamespaces('translation')(EstablishmentDetails);
+export default withNamespaces()(EstablishmentDetails);

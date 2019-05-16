@@ -35,4 +35,4 @@ class LanguageSelector extends Component {
     }
 }
 
-export default withNamespaces('translation')(LanguageSelector);
+export default withNamespaces()(LanguageSelector);

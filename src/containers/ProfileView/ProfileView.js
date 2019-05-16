@@ -6,8 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
 import { auth } from '../../auth';
 import Loading from "../../components/Loading/Loading";
-import defaultImage from '../../media/default-exchange-header.jpg';
-import locationIcon from '../../media/imageedit_5_5395394410.png';
+import defaultImage from '../../media/default-exchange-logo.png';
 import { userService } from '../../services/userService';
 import { establishmentService } from '../../services/establishmentService';
 import FileUploadComponent from './../../components/FileUploadComponent/';
@@ -292,6 +291,7 @@ class ProfileView extends Component {
             message={this.props.t('subscription.warningMessage.title')}
             description={this.props.t('subscription.warningMessage.message2')}
             type="warning"
+            closable
             showIcon
             banner
         />
@@ -364,7 +364,6 @@ class ProfileView extends Component {
                 </Page>
             );
         }
-        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
         const menu = (
             <Menu>
               <Menu.Item key="0">
@@ -408,10 +407,16 @@ class ProfileView extends Component {
             </Menu>
           );
         
+        let slotName = "content";
+
+        if (auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id)) {
+            slotName = "contentWithWarning";
+        }
+
         return (
             <div className="profileview">
                 <Page layout="public">
-                    <Section slot="content">
+                    <Section slot={slotName}>
                         {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && this.getSubcriptionWarning()}
                         <Row>
                             <Col className="profileview__content" sm="12" md={{span: 6, offset: 3}}>
@@ -420,7 +425,7 @@ class ProfileView extends Component {
                                 <Row>
                                     <Col xs={{span: 3, offset: 9}} lg={{span: 1, offset: 10}}>
                                         <Dropdown overlay={menu} trigger={['click']}>
-                                        <a className="ant-dropdown-link profileview__settings-icon" href="#">
+                                        <a className="ant-dropdown-link profileview__settings-icon" href="/profile" onClick={e => e.preventDefault()}>
                                             <i className = "fas fa-cog fa-lg "></i>
                                         </a>
                                         </Dropdown>
@@ -514,4 +519,4 @@ class ProfileView extends Component {
 }
 
 ProfileView = Form.create({ name: "password" })(ProfileView);
-export default withNamespaces('translation')(ProfileView);
+export default withNamespaces()(ProfileView);

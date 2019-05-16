@@ -10,7 +10,7 @@ import { Redirect } from 'react-router-dom';
 import { discountCodeService } from '../../services/discountCodeService';
 import { exchangesService } from '../../services/exchangesService';
 import { notification } from 'antd';
-import defaultImage from '../../media/default-exchange-header.jpg';
+import defaultImage from '../../media/default-exchange-logo.png';
 import MapContainer from '../MapContainer/MapContainer';
 import './ExchangeDetails.scss';
 
@@ -250,4 +250,4 @@ class ExchangeDetails extends Component {
     }
 }
 
-export default withNamespaces('translation')(ExchangeDetails);
+export default withNamespaces()(ExchangeDetails);

@@ -100,4 +100,4 @@ class CustomCard extends Component {
     }
 }
 
-export default withNamespaces('translation')(CustomCard);
+export default withNamespaces()(CustomCard);

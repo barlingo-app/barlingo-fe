@@ -30,4 +30,4 @@ class NotFound extends Component {
     }
 }
 
-export default withNamespaces('translation')(NotFound);
+export default withNamespaces()(NotFound);
