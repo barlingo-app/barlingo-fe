@@ -1,4 +1,9 @@
-{
+{ 
+  "filter":"Filter results:",
+  "date&time": "Date and time",
+  "laanguages": "Languages",
+  "timerange": "Time range",
+  "of": "of",
   "profileview" : {
     "age": "years old",
     "speak": "I speak",

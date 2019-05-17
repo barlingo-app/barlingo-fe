@@ -4,15 +4,18 @@ import { NavLink } from "react-router-dom";
 import { auth } from '../../../auth';
 import defaultImage from '../../../media/default-exchange-logo.png';
 import { notification } from 'antd';
-import locationIcon from '../../../media/imageedit_5_5395394410.png';
-import timeIcon from '../../../media/imageedit_8_4988666292.png';
-import personIcon from '../../../media/person.jpg';
 import { exchangesService } from '../../../services/exchangesService';
 import './CustomCardExchange.scss';
 
 
 
 class CustomCardExchange extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            exchange: null
+        }
+    }
 
 
     getImage = (originalImage) => {
@@ -38,8 +41,11 @@ class CustomCardExchange extends Component {
                 let buttonMessage = t('generic.join');
                 if (exchange.participants.find(x => x.id === userData.id)) {
                 buttonMessage = t('generic.leave');
+                return <div className="custom-card-exchange__button-wrapper"><button className="custom-card-exchange__button-leave" onClick={this.manageOnClick}>{buttonMessage}</button></div>
+
             }
                 return <div className="custom-card-exchange__button-wrapper"><button className="custom-card-exchange__button" onClick={this.manageOnClick}>{buttonMessage}</button></div>
+
 
             }
         }
@@ -143,6 +149,16 @@ class CustomCardExchange extends Component {
         this.setState({ loginFailed: false });
     };
 
+    orderParticipants = (participants) => {
+        const {exchange} = this.props
+        var orderedParticipants = participants.sort (
+        function(x,y) {
+           
+        return x.id === exchange.creator.id ? -1 : y.id === exchange.creator.id ? 1 : 0
+    })
+        return orderedParticipants
+    }
+
 
 
     render() {
@@ -158,29 +174,48 @@ class CustomCardExchange extends Component {
         const schedule = new Date(exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)
         const numberOfParticipants = exchange.participants.length === 0 ? 1 : exchange.participants.length;
         const numberMaxParticipants = exchange.numberMaxParticipants === null ? 1 : exchange.numberMaxParticipants;
-        return (
-            <div style={{ "height": "100%", "padding": "15px 0" }}>
-                <div className="custom-card-exchange">
+        const orderedParticipants = this.orderParticipants(exchange.participants)
+        const route = "profile";
 
-                    <img className="custom-card-exchange__image" src={this.getImage(image)} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
-                    <p className="custom-card-exchange__title">
-                        <NavLink className="custom-card-exchange__link" exact={true} activeClassName={"active"} to={"exchanges/" + exchange.id}>{title}</NavLink>
-                    </p>
-                    <div className="custom-card-exchange__location-wrapper">
-                        <img className="custom-card-exchange__location-icon" src={locationIcon} alt="Location" />
-                        <p className="custom-card-exchange__text">{address}</p>
-                    </div>
-                    <div className="custom-card-exchange__time-wrapper">
-                        <img className="custom-card-exchange__time-icon" src={timeIcon} alt="Date and time" />
-                        <p className="custom-card-exchange__text">{schedule}</p>
-                    </div>
-                    <div className="custom-card-exchange__participants-wrapper">
-                        <img className="custom-card-exchange__participants-icon" src={personIcon} alt="Participants" />
-                        <p className="custom-card-exchange__text">{numberOfParticipants}/{numberMaxParticipants+" "+ t('participants')}</p>
-                    </div>
-                    {this.renderButton()}
+
+        return (
+                <div className="custom-card-exchange">
+                            <div className="custom-card-exchange__image-wrapper">
+                                <img className="custom-card-exchange__image" src={this.getImage(image)} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
+                            </div>
+                            <div className="custom-card-exchange__content">
+                                <div className="custom-card-exchange__title">
+                                    <NavLink className="custom-card-exchange__link" exact={true} activeClassName={"active"} to={"exchanges/" + exchange.id}>{title}</NavLink>
+                                </div>
+
+                                <div className="custom-card-exchange__subtitle">
+                                <div>{new Date(exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)}</div>
+    
+                                {t(`languages.${exchange.targetLangs[0]}`)}
+                                <i class="fas fa-exchange-alt exchange-details__languages-icon"></i>
+                                {t(`languages.${exchange.targetLangs[1]}`)}
+                                </div>
+
+                                <div className="custom-card-exchange__participants-wrapper">
+                                    <div className="custom-card-exchange__participants-text">{numberOfParticipants}{" " + t('of') + " "}{numberMaxParticipants+" "+ t('participants')}</div>
+                                        { orderedParticipants.map(function (i) {
+                                            var creator = "";
+                                            if (exchange.creator.id === i.id) {
+                                                creator = t('exchange.creator')
+                                            }
+                                            return (
+                                                <div key={i.id} className="custom-card-exchange__participants">
+                                                    <NavLink exact={true} activeClassName={"active"} to={`/${route}/${i.id}`} className="custom-card-exchange__link">
+                                                        <img  className="custom-card-exchange__participant-image" alt="Participant" src={i.personalPic}/>
+                                                    </NavLink>
+                                                </div>
+                                            )
+                                            
+                                        })}
+                                </div>
+                            </div>
+                            {this.renderButton()}
                 </div>
-            </div>
         );
     }
 }
