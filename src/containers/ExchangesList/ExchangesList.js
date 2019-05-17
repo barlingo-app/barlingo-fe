@@ -197,15 +197,15 @@ class ExchangesList extends Component {
                 <Page layout="public">
                     <Section slot="content">
                         <Row>
-                            <Col md={{span:11,offset:1}} lg={{span:9,offset:3}} xl={{span:8,offset:4}}>   {auth.isAuthenticated() && auth.isUser() && 
+                            <Col md={{span:11,offset:1}} lg={{span:9,offset:3}} xl={{span:7,offset:5}}>   {auth.isAuthenticated() && auth.isUser() && 
                                     <button className="exchange-list__button" type="button" onClick={() => this.redirectToCreate()}>{t('landing.navOptions.createExchanges')}</button>
                                }  
                             </Col>
                         </Row>
                         <Row>
-                            <Col md={{span:10,offset:1}} lg={{span:3,offset:0}} xl={{span:4,offset:0}}>
+                            <Col md={{span:10,offset:1}} lg={{span:3,offset:0}} xl={{span:4,offset:1}}>
                                 <Row>
-                                    <Col xs="12" md="10">
+                                    <Col xs="12">
                                         <Row>
                                             <Col md="8" lg="12" xl="10">
                                                 <Input placeholder={t("exchange.search.textarea")} onChange={this.handleInputText} className={"customInput"} />
