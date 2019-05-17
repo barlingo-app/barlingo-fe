@@ -1,4 +1,8 @@
-{
+{ "filter":"Filtrar resultados:",
+  "date&time": "Fecha y hora:",
+  "laanguages": "Idiomas",
+  "timerange": "Rango horario",
+  "of": "de",
   "profileview" : {
     "age": "años",
     "speak": "Hablo",
@@ -44,7 +48,7 @@
     "navOptions": {
       "findExchanges": "Encuentra tu intercambio",
       "seeEstablishments": "Ver establecimientos",
-      "createExchanges": "Crear tu intercambio"
+      "createExchanges": "Crea tu intercambio"
     }
   },
   "select-register": "Elija un tipo de registro",

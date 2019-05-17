@@ -1,6 +1,43 @@
 @import "../../styles/defaultStyles";
 
+.exchange-list {
+    background: linear-gradient(to top, #ffffff, #D7DDE8);
+    &__card {
+        margin-bottom: 15px;
+    }
+    &__filter-title {
+        color: $mainColor;
+        font-family: $font-primary;
+        font-size: 20px;
+        font-weight:600;
+        margin-top: 15px;
+    }
+    &__filter-text {
+        font-family: $font-primary;
+        font-size: 18px;
+        margin-top: 10px;
+    }
+    &__button {
+        border: none;
+        border-radius: 10px;
+        padding: 5px 20px;
+        color: white;
+        background: #44cfcb; /* Old browsers */
+        background: -moz-linear-gradient(-45deg, #44cfcb 1%, #4ea5d9 47%, #4357ad 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(-45deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(135deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%);
+        font-family: $font-primary;
+        font-size: 18px;
+        margin-bottom: 30px;
 
+        &:hover {
+            background: #4ea5d9;
+            color: white;
+            outline: none;
+        } 
+    }
+    
+}
 
 .selectContainer {
     text-align: center;
@@ -13,34 +50,4 @@
     }
 }
 
-.createContainer {
-    display: flex;
-    padding: 10px 20px;
-    width: 100%;
-    align-items: flex-end;
-    justify-content: flex-end;
-    align-content: flex-end;
-    flex-direction: row;
 
-    button {
-        float: right;
-        border: none;
-        border-radius: 25px;
-        padding: 5px 20px;
-        color: white;
-        background: $mainColor;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        &:hover {
-            background: white;
-            border: 2px solid $mainColor;
-            color: $mainColor;
-            margin: -2px;
-            outline: none;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        } 
-    }
-}
