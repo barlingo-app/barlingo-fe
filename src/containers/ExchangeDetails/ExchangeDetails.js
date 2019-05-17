@@ -224,9 +224,9 @@ class ExchangeDetails extends Component {
                                 </Row>
                                 {auth.isAuthenticated() && this.isJoined() &&
                                 <div style={{ textAlign: "center", margin: "30px" }}>
-                                {(codeShown === null) && <Button type="primary" htmlType="submit" onClick={() => this.showCode()} className="login-form-button primaryButton">
+                                {(codeShown === null) && <button htmlType="submit" onClick={() => this.showCode()} className="exchange-details__button">
                                     {t('code.show')}
-                                </Button>}
+                                </button>}
                                 {(codeShown !== null) &&
                                     <Row>
                                         <Col xs="12" sm={{span: 6, offset: 3}} md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}} xl={{span: 4, offset: 4}}>

@@ -36,18 +36,21 @@
             outline: none;
         } 
     }
+    &__actives-filter {
+        text-align: center;
+        padding: 10px 20px;
+    
+        .container {
+            padding: 5px 10px;
+            color: $mainColor;
+            font-weight: bold;
+            @media(max-width: 425px) {
+                padding: 5px 2px;
+            }
+        }
+    }
     
 }
 
-.selectContainer {
-    text-align: center;
-    padding: 10px 20px;
-
-    .container {
-        padding: 5px 10px;
-        color: $mainColor;
-        font-weight: bold;
-    }
-}
 
 
