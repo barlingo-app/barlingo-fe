@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <meta name="description" content="Barlingo is an application that allows you to create or join exchanges to practice the language you want to learn. These exchanges can be made in a cafeteria, pub, bar, ... It is the best way to learn the language you have always wanted to learn. And if you are an establishment, you can get new clients who can grow your business. Come on, join Barlingo!" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -16,6 +15,89 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/ios-icon.png">
+    <style>
+      html,
+      body,
+      #root,
+      #landing-loading {
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      #landing-loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #4357ad;
+      }
+      .logo-loading-landing {
+        width: 60%;
+        max-width: 300px;
+      }
+      .message-loading-landing {
+        color: #ffffff;
+        font-size: 25px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .lds-ellipsis {
+        display: inline-block;
+        position: relative;
+        width: 64px;
+        height: 64px;
+      }
+      .lds-ellipsis div {
+        position: absolute;
+        top: 27px;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #ffffff;
+        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+      }
+      .lds-ellipsis div:nth-child(1) {
+        left: 6px;
+        animation: lds-ellipsis1 0.6s infinite;
+      }
+      .lds-ellipsis div:nth-child(2) {
+        left: 6px;
+        animation: lds-ellipsis2 0.6s infinite;
+      }
+      .lds-ellipsis div:nth-child(3) {
+        left: 26px;
+        animation: lds-ellipsis2 0.6s infinite;
+      }
+      .lds-ellipsis div:nth-child(4) {
+        left: 45px;
+        animation: lds-ellipsis3 0.6s infinite;
+      }
+      @keyframes lds-ellipsis1 {
+        0% {
+          transform: scale(0);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      @keyframes lds-ellipsis3 {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(0);
+        }
+      }
+      @keyframes lds-ellipsis2 {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(19px, 0);
+        }
+      }
+    </style>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -29,7 +111,14 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <div id="landing-loading">
+        <img src="%PUBLIC_URL%/logo.png" class="logo-loading-landing" alt="logo">
+        <div class="message-loading-landing"><p>Enjoy talking where you prefer</p></div>
+        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+      </div>
+    </div>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

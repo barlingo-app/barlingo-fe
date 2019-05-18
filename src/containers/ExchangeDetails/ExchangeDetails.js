@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import {Button} from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
@@ -190,7 +189,7 @@ class ExchangeDetails extends Component {
                                 <div className="exchange-details__date">{new Date(exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)}</div>
                                 <div className="exchange-details__languages">
                                     {t(`languages.${exchange.targetLangs[0]}`)}
-                                    <i class="fas fa-exchange-alt exchange-details__languages-icon"></i>
+                                    <i className="fas fa-exchange-alt exchange-details__languages-icon"></i>
                                     {t(`languages.${exchange.targetLangs[1]}`)}
                                 </div>
 
