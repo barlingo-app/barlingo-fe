@@ -10,9 +10,9 @@ class PublicLayout extends Component {
         return (
             <>
                 <Header />
-                <Slot name="content" className={"content"}/>
-                <Slot name="contentWithWarning" className={"content contentWithWarning"}/>
-                <Slot name="fullContent" className={"fullContent"}/>
+                <Slot name="content" component="main" className={"content"}/>
+                <Slot name="contentWithWarning" component="main" className={"content contentWithWarning"}/>
+                <Slot name="fullContent" component="main" className={"fullContent"}/>
                 <FooterContainer />
             </>
         );

@@ -13,7 +13,7 @@ i18n
             'en-GB': ['en-US'],
             'default': ['es-ES']
         },
-        debug: process.env.REACT_APP_I18N_DEBUG,
+        debug: (process.env.REACT_APP_I18N_DEBUG === 'true'),
         interpolation: {
             escapeValue: false, // not needed for react as it escapes by default
         },

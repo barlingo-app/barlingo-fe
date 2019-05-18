@@ -1,6 +1,7 @@
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import React, { Component } from 'react';
 import Geocode from "react-geocode";
+import { withNamespaces } from "react-i18next";
 
 const mapStyles = {
   width: '300px',
@@ -70,11 +71,11 @@ export class MapContainer extends Component {
             }} />
         </Map>
       );
-    return "Loading...";
+    return this.props.t('generic.loading');
   }
 }
 
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyCtXovrlAq5but4UH_mqmq9SVUsF53bGSc',
   language: (localStorage.getItem('i18nextLng') != null) ? localStorage.getItem('i18nextLng') : 'es-ES'
-})(MapContainer)    
+})(withNamespaces()(MapContainer))    

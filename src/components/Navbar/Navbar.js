@@ -23,7 +23,7 @@ class Navbar extends Component {
             <header className="navbar">
                 <nav className="navigation">
                     <div className="toggle-button-container">
-                        <button className="toggle-button" onClick={showSidebarClickHandler}>
+                        <button aria-label="Toggle button" className="toggle-button" onClick={showSidebarClickHandler}>
                             <div className="toggle-button-line" />
                             <div className="toggle-button-line" />
                             <div className="toggle-button-line" />

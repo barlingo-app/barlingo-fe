@@ -169,9 +169,7 @@ class CustomCardExchange extends Component {
         const { exchange } = this.props;
         const title = exchange.title;
         const image = exchange.establishment.imageProfile;
-        const address = exchange.establishment.establishmentName + ", " + exchange.establishment.address;
         const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-        const schedule = new Date(exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)
         const numberOfParticipants = exchange.participants.length === 0 ? 1 : exchange.participants.length;
         const numberMaxParticipants = exchange.numberMaxParticipants === null ? 1 : exchange.numberMaxParticipants;
         const orderedParticipants = this.orderParticipants(exchange.participants)
@@ -194,17 +192,13 @@ class CustomCardExchange extends Component {
                                 <div>{new Date(exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)}</div>
     
                                 {t(`languages.${exchange.targetLangs[0]}`)}
-                                <i class="fas fa-exchange-alt exchange-details__languages-icon"></i>
+                                <i className="fas fa-exchange-alt exchange-details__languages-icon"></i>
                                 {t(`languages.${exchange.targetLangs[1]}`)}
                                 </div>
 
                                 <div className="custom-card-exchange__participants-wrapper">
                                     <div className="custom-card-exchange__participants-text">{numberOfParticipants}{" " + t('of') + " "}{numberMaxParticipants+" "+ t('participants')}</div>
                                         { orderedParticipants.map(function (i) {
-                                            var creator = "";
-                                            if (exchange.creator.id === i.id) {
-                                                creator = t('exchange.creator')
-                                            }
                                             return (
                                                 <div key={i.id} className="custom-card-exchange__participants">
                                                     <NavLink exact={true} activeClassName={"active"} to={`/${route}/${i.id}`} className="custom-card-exchange__link">
