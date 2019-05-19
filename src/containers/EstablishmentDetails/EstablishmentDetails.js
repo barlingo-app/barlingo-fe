@@ -64,6 +64,11 @@ class EstablishmentDetails extends Component {
         return (image === '' || image === null) ? defaultImage : image;
     };
 
+    getWorkingTime = (workingHours) => {
+        var time = workingHours.split(',')[1];
+        return time;
+    }
+
     render() {
         const { errorMessage, loaded, establishment } = this.state;
         const { t } = this.props;
@@ -99,9 +104,44 @@ class EstablishmentDetails extends Component {
                                 <div className="establishment-details__map">
                                     <MapContainer address={mapAddress} name={name} />
                                 </div>
-
-                                <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
-                                <div className="establishment-details__workingHours">{this.getFormattedWorkingHours(establishment.workingHours)}</div>
+                                
+                                        <div className="establishment-details__workingHours-wrapper">
+                                            <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
+                                            <table className="establishment-details__table">
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.monday')}</td>
+                                                    <td className="hours-table__time">{this.getWorkingTime(establishment.workingHours)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.tuesday')}</td>
+                                                    <td className="hours-table__time">{this.getWorkingTime(establishment.workingHours)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.wednesday')}</td>
+                                                    <td className="hours-table__time">{this.getWorkingTime(establishment.workingHours)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.thursday')}</td>
+                                                    <td className="hours-table__time">{this.getWorkingTime(establishment.workingHours)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.friday')}</td>
+                                                    <td className="hours-table__time">{this.getWorkingTime(establishment.workingHours)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.saturday')}</td>
+                                                    <td className="hours-table__time">{this.getWorkingTime(establishment.workingHours)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.sunday')}</td>
+                                                    <td className="hours-table__time">{this.getWorkingTime(establishment.workingHours)}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    
+                                {/*<div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
+                                <div className="establishment-details__workingHours">{this.getFormattedWorkingHours(establishment.workingHours)}</div>*/}
+                                
                                 <div className="establishment-details__offer-title">{t('form.offer')}</div>
                                 <div className="establishment-details__offer">{establishment.offer}</div>
                             </Col>

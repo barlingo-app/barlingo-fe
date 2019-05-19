@@ -2,7 +2,7 @@ import { Input } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
-import { Col, Row } from 'reactstrap';
+import { Col, Row } from 'react-bootstrap';
 import CustomCardEstablishment from '../../components/CustomCard/CustomCardEstablishment/CustomCardEstablishment';
 import Loading from '../../components/Loading/Loading';
 import { establishmentService } from '../../services/establishmentService';
@@ -80,19 +80,21 @@ class EstablismentsList extends Component {
             );
         }
         return (
-            <Page layout="public">
-                <Section slot="content">
-                    <Input placeholder={t("establishment.search")} onChange={this.handleInput} className={"customInput"} />
-                    {t("ourExchanges")}
-                    <Row>
-                        {items.map((i, index) => (
-                            <Col xs="12" md="6" xl="4" key={i.id}>
-                                <CustomCardEstablishment establishment={i} showButton={auth.isUser()}/>
-                            </Col>
-                        ))}
-                    </Row>
-                </Section>
-            </Page>
+            <div className="establishment-list">
+                <Page layout="public">
+                    <Section slot="content">
+                        <div className="establishment-list__message">{t("ourExchanges")}</div>    
+                        <Row>
+                            <Col xs="12" md={{span:10,offset:1}} lg={{span:8,offset:2}} xl={{span:6,offset:3}}><Input placeholder={t("establishment.search")} onChange={this.handleInput} className={"customInput establishment-list__search"} /></Col>
+                            {items.map((i, index) => (
+                                <Col className="establishment-list__card" xs="12" md={{span:10,offset:1}} lg={{span:8,offset:2}} xl={{span:6,offset:3}} key={i.id}>
+                                    <CustomCardEstablishment establishment={i} showButton={auth.isUser()}/>
+                                </Col>
+                            ))}
+                        </Row>
+                    </Section>
+                </Page>
+            </div>
         );
     }
 }
