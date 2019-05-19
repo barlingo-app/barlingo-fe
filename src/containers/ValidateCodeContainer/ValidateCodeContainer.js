@@ -7,6 +7,9 @@ import {
 import './ValidateCodeContainer.scss';
 import { discountCodeService } from '../../services/discountCodeService';
 import { exchangesService } from '../../services/exchangesService';
+import QrReader from 'react-qr-reader'
+import moment from 'moment';
+import {isMobile} from 'react-device-detect';
 
 class ValidateCodeContainer extends React.Component {
 
@@ -14,36 +17,32 @@ class ValidateCodeContainer extends React.Component {
   constructor() {
     super()
     this.state = {
-      code: {
-        code: null,
-      },
-      redeemable: false
+      code: null,
+      showQrScanner: false,
+      scannerBlocked: false,
+      showCodeRedeemedMessage: false,
+      redeemable: false,
+      errorMessage: null,
+      codeValidationMessage: null,
+      codeValidationStatus: null
     };
   }
-  validateStatus(code) {
-    const { t } = this.props;
-    if (code.length >= 13) {
-      return {
-        validateStatus: 'success',
-        errorMsg: null,
-      };
-    }
-    return {
-      validateStatus: 'error',
-      errorMsg: t('code.validate.failCode.format'),
-    };
+
+  isValidCodeFormat(code) {
+    const regex = /^\d{8}-[A-Z]{4}$/gm;
+
+    return regex.exec(code) != null;
   }
+
   handleInput = (event) => {
+    const { t } = this.props;
     const code = event.target.value;
-    const valid = this.validateStatus(code);
-    this.setState({
-      code: {
-        ...valid,
-        code,
-      },
-    });
-    if (valid.validateStatus === "success") {
+    if (this.isValidCodeFormat(code)) {
       this.checkCode(code);
+    } else if (code.length === 13) {
+      this.setState({codeValidationMessage: t('code.validate.invalidFormat'), codeValidationStatus: "error"});
+    } else {
+      this.setState({codeValidationMessage: null, codeValidationStatus: null});
     }
   }
   redeemOk = (response) => {
@@ -60,14 +59,24 @@ class ValidateCodeContainer extends React.Component {
     exchangesService.findOne(code.langExchangeId)
       .then((response) => {
         if (response.data.code === 200 && response.data.success && response.data.content) {
-          if (new Date(response.data.content.moment) < new Date()) {
-            this.codeOk();
+          let startMoment = moment.utc(new Date(response.data.content.moment + 'Z'));
+          let finishMoment = moment.utc(new Date(response.data.content.moment + 'Z')).add(2, 'd');
+          if (moment().isAfter(startMoment) 
+            && moment().isBefore(finishMoment)) {
+            this.codeOk(code);
           } else {
-            if (!new Date(response.data.content.moment) < new Date())
+            if (moment().isBefore(startMoment))
               this.codeFail("undone")
+            if (moment().isAfter(finishMoment))
+              this.codeFail("expired")
             if (response.data.content.exchanged)
               this.codeFail("exchanged")
           }
+        } else if (response.data.code === 500) {
+          notification.error({
+            message: this.props.t('code.errorTitles.' + response.data.message),
+            description: this.props.t('apiErrors.' + response.data.message),
+          });
         } else {
           this.codeFail();
         }
@@ -75,10 +84,12 @@ class ValidateCodeContainer extends React.Component {
       .catch((error) => { this.codeFail() });
   }
 
-  codeOk = (response) => {
+  codeOk = (code) => {
     const { t } = this.props;
     this.setState({
-      redeemable: true
+      code: code.code,
+      redeemable: true,
+      showQrScanner: false
     })
     notification.success({
       message: t('code.validate.validCode.title'),
@@ -102,11 +113,14 @@ class ValidateCodeContainer extends React.Component {
 
     if (string) {
       if (string === "undone") {
-        message = t('code.validate.failCode.date.title');
-        description = t('code.validate.failCode.date.message');
+        message = t('code.redeem.fail.date.title');
+        description = t('code.redeem.fail.date.message');
+      } else if (string === "expired") {
+        message = t('code.redeem.fail.expired.title');
+        description = t('code.redeem.fail.expired.message');
       } else if (string === "exchanged") {
-        message = t('code.validate.failCode.exchanged.title');
-        description = t('code.validate.failCode.exchanged.message');
+        message = t('code.redeem.fail.exchanged.title');
+        description = t('code.redeem.fail.exchanged.message');
       }
     }
 
@@ -127,7 +141,7 @@ class ValidateCodeContainer extends React.Component {
             this.codeFail("exchanged")
         } else if (response.data.code === 500) {
           notification.error({
-            message: this.props.t('apiErrors.defaultErrorTitle'),
+            message: this.props.t('code.errorTitles.' + response.data.message),
             description: this.props.t('apiErrors.' + response.data.message),
           });
         } else {
@@ -138,9 +152,9 @@ class ValidateCodeContainer extends React.Component {
         this.codeFail()
       })
   };
+  
   handleOnClick = () => {
-
-    discountCodeService.redeem(this.state.code.code)
+    discountCodeService.redeem(this.state.code)
       .then((response) => {
         if (response.data.code === 200 && response.data.success) {
           this.redeemOk(response)
@@ -153,27 +167,77 @@ class ValidateCodeContainer extends React.Component {
       });
   }
 
+  showQrScanner = () => {
+    this.props.form.setFieldsValue({"code": null});
+    this.setState({showQrScanner: true, redeemable: false});
+  }
+
+  hideQrScanner = (blocked = false) => {
+    this.setState({showQrScanner: false, redeemable: false, scannerBlocked: blocked});
+  }
+
+  handleScan = code => {
+    if (code && this.isValidCodeFormat(code)) {
+      this.props.form.setFieldsValue({"code": code});
+      this.checkCode(code);
+      this.setState({code: code, showQrScanner: false});
+    }
+  }
+
+  handleError = err => {
+    notification.warn({
+      message: this.props.t('code.scanError.title'),
+      description: this.props.t('code.scanError.message')
+    })
+    this.hideQrScanner(true);
+  }
+
   render() {
     const { t } = this.props;
     const { getFieldDecorator } = this.props.form;
-    const { code } = this.state;
+    const { showQrScanner, codeValidationMessage, codeValidationStatus, scannerBlocked } = this.state;
 
     return (
       <Page layout="public">
         <Section slot="content">
           <div className={"validateCodeContainer"}>
             <Form>
-              <Form.Item help={code.errorMsg} validateStatus={code.validateStatus}>
+              {!showQrScanner &&
+              <Form.Item help={codeValidationMessage} validateStatus={codeValidationStatus}>
                 {getFieldDecorator('code', {
-                  rules: [{ required: true, message: t('code.validate.empty') }],
+                  preserve: true,
+                  rules: [{ required: true, message: t('code.validate.empty') }]
                 })(
                   <Input onChange={this.handleInput} className={"customInput"} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="text" placeholder={t('code.validate.placeholder')} />
                 )}
-              </Form.Item>
+              </Form.Item>}
               {this.state.redeemable && <Button type="primary" onClick={this.handleOnClick} className="login-form-button primaryButton">
                 {t('code.redeem.buttonMessage')}
               </Button>}
             </Form>
+          </div>
+          <div className={"validateCodeContainer"}>
+          {isMobile && !showQrScanner &&  !scannerBlocked &&
+            <Button type="primary" onClick={this.showQrScanner} className="login-form-button primaryButton">
+              <Icon type="scan" /> {t('code.scan')}
+            </Button>
+          }
+          {isMobile && showQrScanner && !scannerBlocked &&
+            <div style={{width:"300px", padding: "20px 0"}}>
+              <QrReader
+              delay={300}
+              onError={this.handleError}
+              onScan={this.handleScan}
+              style={{ width: '100%' }} />
+            </div>
+          }
+          {isMobile && showQrScanner && !scannerBlocked &&
+            <div>
+              <Button type="primary" onClick={() => this.hideQrScanner(false)} className="login-form-button primaryButton">
+                <Icon type="edit" /> {t('code.manual')}
+              </Button>
+            </div>
+          }
           </div>
         </Section>
       </Page>

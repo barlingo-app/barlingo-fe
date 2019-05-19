@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
 import { auth } from '../../auth';
 import Loading from "../../components/Loading/Loading";
-import defaultImage from '../../media/default-exchange-logo.png';
+import defaultImage from '../../media/person.jpg';
 import { userService } from '../../services/userService';
 import { establishmentService } from '../../services/establishmentService';
 import FileUploadComponent from './../../components/FileUploadComponent/';
