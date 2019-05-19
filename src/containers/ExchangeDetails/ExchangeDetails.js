@@ -10,8 +10,11 @@ import { discountCodeService } from '../../services/discountCodeService';
 import { exchangesService } from '../../services/exchangesService';
 import { notification } from 'antd';
 import defaultImage from '../../media/default-exchange-logo.png';
+import defaultUserImage from '../../media/person.jpg';
 import MapContainer from '../MapContainer/MapContainer';
+import QRCode from 'qrcode.react';
 import './ExchangeDetails.scss';
+import { isMobile } from "react-device-detect";
 
 
 class ExchangeDetails extends Component {
@@ -55,6 +58,10 @@ class ExchangeDetails extends Component {
 
     getImage = (image) => {
         return (image === '' || image === null) ? defaultImage : image;
+    };
+
+    getUserImage = (image) => {
+        return (image === '' || image === null) ? defaultUserImage : image;
     };
 
     readCodeOk = (response) => {
@@ -175,6 +182,7 @@ class ExchangeDetails extends Component {
         const orderedParticipants = this.orderParticipants(exchange.participants)
         const route = "profile";
 
+        const userImage = this.getUserImage;
         return (
             <div className="exchange-details">
                 <Page layout="public">
@@ -213,7 +221,7 @@ class ExchangeDetails extends Component {
                                         return (
                                             <Col xs="12" md="4" lg="3" key={i.id}>
                                                 <NavLink exact={true} activeClassName={"active"} to={`/${route}/${i.id}`} className="exchange-details__link">
-                                                    <img  className="exchange-details__participant-image" alt="Participant" src={i.personalPic}/>
+                                                    <img  className="exchange-details__participant-image" alt="Participant" src={userImage(i.personalPic)} onError={(e) => e.target.src = defaultUserImage}/>
                                                     <div className="exchange-details__participant-name">{i.name + " " + i.surname + creator}</div>
                                                 </NavLink>
                                             </Col>
@@ -232,6 +240,9 @@ class ExchangeDetails extends Component {
                                             <div className="exchange-details__code-wrapper">
                                                 <div className="exchange-details__code-title" >{t('code.showTitle')}:</div>
                                                 <div className="exchange-details__code">{codeShown}</div>
+                                                {isMobile && <div>
+                                                    <QRCode includeMargin level={"H"} size={200} value={codeShown} />
+                                                </div>}
                                             </div>
                                         </Col>
                                     </Row> }

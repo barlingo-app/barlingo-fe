@@ -380,6 +380,12 @@
     "payButton": "Pay subscription"
   },
   "code": {
+    "scan": "Scan QR code",
+    "manual": "Enter the code manually",
+    "scanError": {
+      "title": "Error with the QR scanner",
+      "message": "There was an error initializing the QR scanner. Please check that access to the camera is allowed."
+    },
     "redeem": {
       "buttonMessage": "Redeem",
       "ok": {
@@ -390,6 +396,10 @@
         "date": {
           "title": "Not redeemable",
           "message": "The code is valid, but the exchange has not yet occurred."
+        },
+        "expired": {
+          "title": "Not redeemable",
+          "message": "The code has expired."
         },
         "exchanged": {
           "title": "Not redeemable",
@@ -406,6 +416,7 @@
     "error": "There isn't code to show",
     "used": "This code has already been redeemed",
     "validate": {
+      "invalidFormat": "The format of the code is not valid.",
       "placeholder": "Introduce the code",
       "button": "Validate code",
       "empty": "Please input the code",
@@ -416,6 +427,22 @@
       "failCode": {
         "title": "Invalid code",
         "message": "The code is invalid."
+      }
+    },
+    "errorTitles": {
+      "Signed": {
+        "UserDiscount": {
+          "UserNotNull": "There was an error",
+          "ErrorSavingDiscount":  "There was an error",
+          "CodeBelongOtherExchange":  "There was an error",
+          "CodeNotValid": "Invalid code",
+          "CodeNotExists": "Code not found",
+          "NotVisible": "Code not visible",
+          "LanguageExchangeNotStartedYet":  "There was an error",
+          "LanguajeExchangeNotNull":  "There was an error",
+          "UserDiscountNotNull": "There was an error",
+          "AccessForbidden":  "There was an error"
+        }
       }
     }
   },
@@ -463,8 +490,8 @@
         "ErrorSavingDiscount": "An error occurred while creating the exchange.",
         "CodeBelongOtherExchange": "An error occurred while creating the exchange.",
         "CodeNotValid": "The code is not valid.",
-        "CodeNotExists": "The code is not valid.",
-        "NotVisible": "The code is not valid.",
+        "CodeNotExists": "The code does not exist.",
+        "NotVisible": "The code only can be showed 4 hours before the event and 48 hours after.",
         "LanguageExchangeNotStartedYet": "The exchange has not started yet.",
         "LanguajeExchangeNotNull": "The exchange parameter sended is not valid",
         "UserDiscountNotNull": "There is no discount for the user in the exchange",

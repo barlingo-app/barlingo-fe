@@ -3,6 +3,7 @@ import { withNamespaces } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { auth } from '../../../auth';
 import defaultImage from '../../../media/default-exchange-logo.png';
+import defaultUserImage from '../../../media/person.jpg';
 import { notification } from 'antd';
 import { exchangesService } from '../../../services/exchangesService';
 import './CustomCardExchange.scss';
@@ -20,6 +21,10 @@ class CustomCardExchange extends Component {
 
     getImage = (originalImage) => {
         return (originalImage === '' || originalImage === null) ? defaultImage : originalImage;
+    };
+
+    getUserImage = (originalImage) => {
+        return (originalImage === '' || originalImage === null) ? defaultUserImage : originalImage;
     };
 
     getRandomArbitrary(min, max) {
@@ -174,6 +179,7 @@ class CustomCardExchange extends Component {
         const numberMaxParticipants = exchange.numberMaxParticipants === null ? 1 : exchange.numberMaxParticipants;
         const orderedParticipants = this.orderParticipants(exchange.participants)
         const route = "profile";
+        const userImage = this.getUserImage
 
 
         return (
@@ -202,7 +208,7 @@ class CustomCardExchange extends Component {
                                             return (
                                                 <div key={i.id} className="custom-card-exchange__participants">
                                                     <NavLink exact={true} activeClassName={"active"} to={`/${route}/${i.id}`} className="custom-card-exchange__link">
-                                                        <img  className="custom-card-exchange__participant-image" alt="Participant" src={i.personalPic}/>
+                                                        <img  className="custom-card-exchange__participant-image" alt="Participant" src={userImage(i.personalPic)} onError={(e) => e.target.src = defaultUserImage}/>
                                                     </NavLink>
                                                 </div>
                                             )

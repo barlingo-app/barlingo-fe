@@ -21,6 +21,11 @@
   }
 }
 
+.anticon-scan,
+.anticon.edit {
+  vertical-align: 0.125em !important;
+}
+
 .customInput {
   input {
     border-color: $mainColor;

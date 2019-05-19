@@ -380,6 +380,12 @@
     "payButton": "Pagar suscripción"
   },
   "code": {
+    "scan": "Escanear código QR",
+    "manual": "Introducir el código manualmente",
+    "scanError": {
+      "title": "Error con el escáner QR",
+      "message": "Se produjo un error al inicializar el escáner QR. Por favor, compruebe que el acceso a la cámara está permitido."
+    },
     "redeem": {
       "buttonMessage": "Canjear",
       "ok": {
@@ -387,8 +393,21 @@
         "message": "Se ha canjeado el código de manera correcta."
       },
       "fail": {
-        "title": "Ups, algo ha salido mal",
-        "message": "Se ha producido un error mientras se canjeaba el código."
+        "date": {
+          "title": "No canjeable",
+          "message": "El código es válido, pero el intercambio aun no ha tenido lugar."
+        },
+        "expired": {
+          "title": "No canjeable",
+          "message": "El código ha expirado."
+        },
+        "exchanged": {
+          "title": "No canjeable",
+          "message": "El código ya ha sido canjeado."
+        },
+        "format": "El código debe tener el siguiente formato: <<00000000-AAAA>>",
+        "title": "Fail during reedem",
+        "message": "An error has ocurred while reedeming"
       }
     },
     "outDate": "El código solo se mostrará 4 horas antes del evento y 48 horas después.",
@@ -397,6 +416,7 @@
     "error": "No hay código para mostrar",
     "used": "Este código ya ha sido canjeado",
     "validate": {
+      "invalidFormat": "El formato del codigo no es valido.",
       "placeholder": "Introduzca el código",
       "button": "Validar código",
       "empty": "Por favor introduzca el código",
@@ -416,6 +436,22 @@
         "format": "El código debe tener el siguiente formato: <<00000000-AAAA>>",
         "title": "Código inválido",
         "message": "El código no es válido"
+      }
+    },
+    "errorTitles": {
+      "Signed": {
+        "UserDiscount": {
+          "UserNotNull": "Hubo un error",
+          "ErrorSavingDiscount":  "Hubo un error",
+          "CodeBelongOtherExchange":  "Hubo un error",
+          "CodeNotValid": "Código inválido",
+          "CodeNotExists": "Código no encontrado",
+          "NotVisible": "Código no visible",
+          "LanguageExchangeNotStartedYet":  "Hubo un error",
+          "LanguajeExchangeNotNull":  "Hubo un error",
+          "UserDiscountNotNull": "Hubo un error",
+          "AccessForbidden":  "Hubo un error"
+        }
       }
     }
   },
@@ -465,8 +501,8 @@
         "ErrorSavingDiscount": "Se ha producido un error al crear el intercambio.",
         "CodeBelongOtherExchange": "Se ha producido un error al crear el intercambio.",
         "CodeNotValid": "El código no es válido.",
-        "CodeNotExists": "El código no es válido.",
-        "NotVisible": "El código no es válido.",
+        "CodeNotExists": "El código no existe.",
+        "NotVisible": "El código solo se mostrará 4 horas antes del evento y 48 horas después.",
         "LanguageExchangeNotStartedYet": "El intercambio aún no ha comenzado.",
         "LanguageExchangeNotNull": "No se ha pasado como intercambio un parámetro válido",
         "UserDiscountNotNull": "No existe ningún descuento para el usuario en el intercambio suministrado",
