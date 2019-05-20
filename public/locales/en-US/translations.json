@@ -4,6 +4,10 @@
   "laanguages": "Languages",
   "timerange": "Time range",
   "of": "of",
+  "to":"to",
+  "open":"Open",
+  "close":"Closed",
+  "from":"from",
   "profileview" : {
     "age": "years old",
     "speak": "I speak",
