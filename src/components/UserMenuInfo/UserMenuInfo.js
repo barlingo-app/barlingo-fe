@@ -42,7 +42,8 @@ class UserMenuInfo extends Component {
                 <div className={"userImageContainer"}>
                     <div className={"userImage"}>
                         {!auth.isAuthenticated() && < img src={defaultImage} alt={"user"} />}
-                        {auth.isAuthenticated() && <NavLink exact={true} to={"/profile"} activeClassName={"none"} ><img src={ this.getImage(auth.isEstablishment() ? userData.imageProfile : userData.personalPic) } alt={"user"} onError={(e) => { e.target.src = defaultImage }}/></NavLink>}
+                        {auth.isAuthenticated() && !auth.isAdmin() && <NavLink exact={true} to={"/profile"} activeClassName={"none"} ><img src={this.getImage(auth.isEstablishment() ? userData.imageProfile : userData.personalPic)} alt={"user"} onError={(e) => { e.target.src = defaultImage }} /></NavLink>}
+                        {auth.isAuthenticated() && auth.isAdmin() && <img src={this.getImage(auth.isEstablishment() ? userData.imageProfile : userData.personalPic)} alt={"user"} onError={(e) => { e.target.src = defaultImage }} />}
                     </div>
                 </div>
                 <div className={"userInfoContainer"}>

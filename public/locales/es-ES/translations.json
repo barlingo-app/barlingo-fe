@@ -1,15 +1,19 @@
-{ "filter":"Filtrar resultados:",
+{
+  "filter": "Filtrar resultados:",
   "date&time": "Fecha y hora:",
   "laanguages": "Idiomas",
   "timerange": "Rango horario",
   "of": "de",
-  "profileview" : {
+  "to": "a",
+  "open": "Abierto",
+  "close": "Cerrado",
+  "from": "desde",
+  "profileview": {
     "age": "años",
     "speak": "Hablo",
     "tolearn": "Quiero aprender",
     "editprofile": "Editar perfil"
   },
-
   "subcripcionEnd": "Subscripción caduca en",
   "intercambiosconcertadosensulocal": "Intercambios concertados en su local",
   "completed": "Completo",

@@ -224,14 +224,14 @@ class ExchangesList extends Component {
                                         <div className="exchange-list__filter-text">{t('laanguages')}</div>
                                         <Row>
                                             <Col md="12" lg="12">
-                                                <Select onChange={this.handleInputMotherTongue} style={{ width: 200 }} placeholder={t("exchange.search.motherTongue")}>
+                                                <Select allowClear={true} onChange={this.handleInputMotherTongue} style={{ width: 200 }} placeholder={t("exchange.search.motherTongue")}>
                                                     {languages.map((key, index) => (
                                                         <Option key={key} value={key}>{t('languages.' + key)}</Option>
                                                     ))}
                                                 </Select>
                                             </Col>
                                             <Col md="12" lg="12" className="mt-1">
-                                                <Select onChange={this.handleInputTargetTongue} style={{ width: 200 }} placeholder={t("exchange.search.targetTongue")}>
+                                                <Select allowClear={true} onChange={this.handleInputTargetTongue} style={{ width: 200 }} placeholder={t("exchange.search.targetTongue")}>
                                                     {languages.map((key, index) => (
                                                         <Option key={key} value={key}>{t('languages.' + key)}</Option>
                                                     ))}

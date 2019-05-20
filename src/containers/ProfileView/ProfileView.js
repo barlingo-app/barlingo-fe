@@ -303,20 +303,15 @@ class ProfileView extends Component {
     }
 
     getAge = (finalBirthDate) => {
-        var splitedDate = finalBirthDate.split('/')
-        var today = new Date()
-        var age = today.getFullYear() - splitedDate[2]
-        var month = today.getMonth - splitedDate[1]
-        if(month < 0 || (month === 0 && today.getDay < splitedDate[0])) {
-            age--
-        }
-        return age
+        var diff_ms = Date.now() - finalBirthDate.getTime();
+        var age_dt = new Date(diff_ms);
+
+        return Math.abs(age_dt.getUTCFullYear() - 1970);
 
     }
     printAge = () => {
-        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit'};
         var birthDate = this.state.user.birthday.split('T')[0]
-        var finalBirthDate =  new Date(birthDate + 'Z').toLocaleDateString('es-ES', dateFormat)
+        var finalBirthDate =  new Date(birthDate + 'Z')
         return this.getAge(finalBirthDate);
     }
 
