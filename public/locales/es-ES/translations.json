@@ -70,7 +70,8 @@
     "en": "Inglés",
     "fr": "Francés",
     "de": "Alemán",
-    "ja": "Japonés"
+    "ja": "Japonés",
+    "ko": "Coreano"
   },
   "days": {
     "monday": "Lunes",
@@ -343,10 +344,14 @@
   },
   "subscription": {
     "title": "Elige una suscripción",
+    "infoTitle": "Suscripción",
     "errorSavingData": {
       "title": "Error guardando datos del pago",
       "message": "Se produjo un error al guardar la información de pago. Contáctenos a través del correo electrónico barlingoapp@gmail.com e indique el pago con el id de pedido: "
     },
+    "typeTitle": "Tipo de suscripción",
+    "startTitle": "Fecha de inicio",
+    "finishTitle": "Fecha de finalización",
     "discounts": {
       "10%": "¡Obten un 10% de descuento!",
       "25%": "¡Obten un 25% de descuento!"
