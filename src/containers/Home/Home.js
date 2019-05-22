@@ -47,6 +47,7 @@ class Home extends Component {
             type="warning"
             showIcon
             banner
+            className={"ant-alert-fixed"}
         />
     )
 

@@ -114,6 +114,26 @@
         font-family: $font-primary;
         text-align: center;
     }
+    &__subscription_alert {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 10px 0;
+        font-family: $font-primary;
+    }
+    &__subscription_info {
+        text-align: center;
+        font-family: $font-primary;
+
+        &__row {
+            padding: 5px 10px;
+
+            &__title {
+                font-weight: bold;
+                padding-right: 10px;
+            }
+        }
+    }
     &__offer-title {
         font-family: $font-primary;
         font-size: 18px;

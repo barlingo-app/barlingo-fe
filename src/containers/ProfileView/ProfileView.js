@@ -291,9 +291,6 @@ class ProfileView extends Component {
             message={this.props.t('subscription.warningMessage.title')}
             description={this.props.t('subscription.warningMessage.message2')}
             type="warning"
-            closable
-            showIcon
-            banner
         />
     )
     visibleChangePassword = () => {
@@ -404,15 +401,10 @@ class ProfileView extends Component {
         
         let slotName = "content";
 
-        if (auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id)) {
-            slotName = "contentWithWarning";
-        }
-
         return (
             <div className="profileview">
                 <Page layout="public">
                     <Section slot={slotName}>
-                        {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && this.getSubcriptionWarning()}
                         <Row>
                             <Col className="profileview__content" sm="12" md={{span: 6, offset: 3}}>
                                 <div className="profileview__top">
@@ -453,9 +445,33 @@ class ProfileView extends Component {
                                 {auth.isAuthenticated() && auth.isEstablishment() ?
                                 <div>
                                     <div className="profileview__workingHours-title">{t('form.workingHours')}</div>
-                                    <div className="profileview__workingHours">{user.workingHours}</div>
+                                    <div className="profileview__workingHours">{this.getFormattedWorkingHours(user.workingHours)}</div>
                                     <div className="profileview__offer-title">{t('form.offer')}</div>
                                     <div className="profileview__offer">{user.offer}</div>
+                                    <div className="profileview__workingHours-title">{t('subscription.infoTitle')}</div>
+                                    {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && <div className="profileview__subscription_alert">
+                                         {this.getSubcriptionWarning()}
+                                    </div>}
+                                    {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription != null) && (user.id === auth.getUserData().id) && <div className="profileview__subscription_info">
+                                         <div className="profileview__subscription_info__row">
+                                            <span className="profileview__subscription_info__row__title">
+                                                {t('subscription.typeTitle')}:
+                                            </span>
+                                                {t('subscription.type.' + auth.getUserData().subscription.subscriptionType.toLowerCase())}
+                                         </div>
+                                         <div className="profileview__subscription_info__row">
+                                            <span className="profileview__subscription_info__row__title">
+                                                {t('subscription.startTitle')}:
+                                            </span>
+                                             {new Date(auth.getUserData().subscription.initMoment + 'Z').toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'})}
+                                         </div>
+                                         <div className="profileview__subscription_info__row">
+                                            <span className="profileview__subscription_info__row__title">
+                                                {t('subscription.finishTitle')}:
+                                            </span>
+                                             {new Date(auth.getUserData().subscription.finishMoment + 'Z').toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'})}
+                                         </div>
+                                    </div>}
                                 </div> : 
                                 <div>
                                     <Row>
