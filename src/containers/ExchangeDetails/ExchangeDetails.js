@@ -40,7 +40,8 @@ class ExchangeDetails extends Component {
     };
 
     setData = (response) => {
-        if (response.data.success && response.data.code === 200 && response.data.content) {
+        console.log(!response.data.content.establishment.userAccount.active);
+        if (response.data.success && response.data.code === 200 && response.data.content && response.data.content.establishment.userAccount.active) {
             this.setState({
                 exchange: response.data.content,
                 loaded: true

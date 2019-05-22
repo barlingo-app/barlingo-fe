@@ -259,7 +259,7 @@ class ExchangesList extends Component {
                                  
                              
                                    
-                                    {items.map((i, index) =>(
+                                    {items.filter(item => item.establishment.userAccount.active).map((i, index) =>(
                                         <Col className="exchange-list__card" xs="12" key={i.id}>
                                             <CustomCardExchange fetchData={this.fetchData} exchange={i} />
                                         </Col>
