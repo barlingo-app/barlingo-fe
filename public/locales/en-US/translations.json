@@ -252,6 +252,7 @@
     }
   },
   "exchange": {
+    "notAvailable": "This exchange is no longer available. The establishment has deleted his account.",
     "creator": " (creator)",
     "participantss": "Participants",
     "search": {
@@ -357,7 +358,7 @@
       "25%": "Get 25% discount!"
     },
     "type": {
-      "monthly": "Monthy subscription",
+      "monthly": "Monthly subscription",
       "trimestral": "Trimestral subscription",
       "annual": "Annual subscription"
     },

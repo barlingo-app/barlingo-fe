@@ -32,10 +32,10 @@ class CustomCardExchange extends Component {
     }
 
     renderButton() {
-        if (auth.isAuthenticated()) {
+        const { exchange } = this.props;
+        if (auth.isAuthenticated() && exchange.establishment.userAccount.active)  {
             const { t } = this.props;
             const userData = auth.getUserData();
-            const { exchange } = this.props;
             
             if(exchange.participants.length >= exchange.numberMaxParticipants && !exchange.participants.find(x => x.id === userData.id)){ 
                 return <div className="custom-card-exchange__button-wrapper"><button className="custom-card-exchange__button-completed" >{t('completed')}</button></div>               
@@ -181,9 +181,13 @@ class CustomCardExchange extends Component {
         const route = "profile";
         const userImage = this.getUserImage
 
-
         return (
                 <div className="custom-card-exchange">
+                            {!exchange.establishment.userAccount.active && 
+                                <div className="custom-card-exchange__overlay-disable">
+                                    {t('exchange.notAvailable')}
+                                </div>
+                            }
                             <div className="custom-card-exchange__image-wrapper">
                                 <NavLink exact={true} activeClassName={"active"} to={"exchanges/" + exchange.id}>
                                     <img className="custom-card-exchange__image" src={this.getImage(image)} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
