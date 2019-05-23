@@ -95,18 +95,20 @@ class ProfileView extends Component {
         }
     }
 
-    getFormattedWorkingHours = (workingHours) => {
+    formatWorkingHours = (workingHours) => {
         const { t } = this.props;
-
-        let formattedWorkingHours = '';
-        let days = workingHours.split(',')[0].trim();
-
-        days.split(' ').forEach(function (value, index, array) {
-            formattedWorkingHours += t('days.' + value.trim().toLowerCase()) + ' ';
-        });
-
-        return formattedWorkingHours.trim() + ' , ' + workingHours.split(',')[1].trim();
+        var formatedWorkingHours = new Array()
+        var splitedWorkingHours = workingHours.split(',')
+        for (var i=0; i<(splitedWorkingHours.length-1); i++) {
+            var elem = splitedWorkingHours[i].split('/')
+            if(elem[1] === "closed") {
+                elem[1] = t('close')
+            }
+            formatedWorkingHours.push(elem[1])
+        }
+        return formatedWorkingHours       
     }
+
 
 
     getImage = (image) => {
@@ -444,8 +446,39 @@ class ProfileView extends Component {
 
                                 {auth.isAuthenticated() && auth.isEstablishment() ?
                                 <div>
-                                    <div className="profileview__workingHours-title">{t('form.workingHours')}</div>
-                                    <div className="profileview__workingHours">{this.getFormattedWorkingHours(user.workingHours)}</div>
+                                    <div className="establishment-details__workingHours-wrapper">
+                                        <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
+                                            <table className="establishment-details__table">
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.monday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[0]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.tuesday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[1]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.wednesday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[2]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.thursday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[3]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.friday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[4]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.saturday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[5]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.sunday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[6]}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     <div className="profileview__offer-title">{t('form.offer')}</div>
                                     <div className="profileview__offer">{user.offer}</div>
                                     <div className="profileview__workingHours-title">{t('subscription.infoTitle')}</div>

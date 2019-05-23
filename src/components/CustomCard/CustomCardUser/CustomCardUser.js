@@ -36,19 +36,24 @@ class CustomCardUser extends Component {
         return (
             <div style={{ "height": "100%", "padding": "15px 0" }}>
                 <div className="custom-card-user">
-                    <NavLink exact={true} activeClassName={"active"} to={`/${route}/${user.id}`}>
-                        <img className="custom-card-user__image" src={image} alt="User" onError={(e) => e.target.src = personIcon} />
-                    </NavLink>
-                    <p className="custom-card-user__title">
-                        <NavLink className="custom-card-user__link" exact={true} activeClassName={"active"} to={`/${route}/${user.id}`}>{title}</NavLink>
-                    </p>
-                    <div className="custom-card-user__location-wrapper">
-                        <img className="custom-card-user__location-icon" src={locationIcon} alt="Location" />
-                        <p className="custom-card-user__text">{address}</p>
+                    <div className="custom-card-user__image-wrapper">
+                        <NavLink exact={true} activeClassName={"active"} to={`/${route}/${user.id}`}>
+                            <img className="custom-card-user__image" src={image} alt="User" onError={(e) => e.target.src = personIcon} />
+                        </NavLink>
                     </div>
-                    {this.props.buttonMessage && <div className="custom-card-user__button-wrapper">
-                        <button className="custom-card-user__button" onClick={this.props.handleOnClick}>{this.props.buttonMessage}</button>
-                    </div >}
+                    <div className="custom-card-user__content">
+                        <div className="custom-card-user__title">
+                            <NavLink className="custom-card-user__link" exact={true} activeClassName={"active"} to={`/${route}/${user.id}`}>{title}</NavLink>
+                        </div>
+                        <div className="custom-card-user__location-wrapper">
+                            <i className="fas fa-map-marker-alt custom-card-establishment__location-icon"></i>
+                            <div className="custom-card-user__location-text">{address}</div>
+                        </div>
+                        
+                        {this.props.buttonMessage && 
+                            <button className="custom-card-user__button" onClick={this.props.handleOnClick}>{this.props.buttonMessage}</button>
+                       }
+                    </div>
                 </div>
             </div>
         );

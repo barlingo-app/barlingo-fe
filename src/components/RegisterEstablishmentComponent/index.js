@@ -341,7 +341,7 @@ class index extends Component {
             <div className="register__title">{t('create-account')}</div>
             <Form onSubmit={this.handleSubmit}>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
                   <Form.Item label={t('form.username')}>
                     {getFieldDecorator('username', {
                       rules: [{
@@ -361,7 +361,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
                   <Form.Item label={t('form.password')}>
                     {getFieldDecorator('password', {
                       rules: [{
@@ -380,7 +380,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
                   <Form.Item label={t('form.confirmPassword')}>
                     {getFieldDecorator('confirm', {
                       rules: [{
@@ -399,7 +399,7 @@ class index extends Component {
               </Row>
               <hr></hr>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
                   <Form.Item label={t('form.name')}>
                     {getFieldDecorator('name', {
                       rules: [{
@@ -419,7 +419,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
                   <Form.Item label={t('form.surname')}>
                     {getFieldDecorator('surname', {
                       rules: [{
@@ -439,7 +439,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
                   <Form.Item label={t('form.city')}>
                     {getFieldDecorator('city', {
                       rules: [{
@@ -459,7 +459,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
                   <Form.Item label={t('form.country')}>
                     {getFieldDecorator('country', {
                       rules: [{
@@ -479,7 +479,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
                   <Form.Item label={t('form.email')}>
                     {getFieldDecorator('email', {
                       rules: [{
@@ -501,7 +501,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
                   <Form.Item label={t('form.birthday')}>
                     {getFieldDecorator('birthdate', config)(
                       <DatePicker defaultPickerValue={moment().subtract(18, 'years')} format="YYYY-MM-DD" disabledDate={this.checkBirthday} />
@@ -511,7 +511,7 @@ class index extends Component {
               </Row>
               <hr></hr>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
                   <Form.Item label={t('form.establishmentname')}>
                     {getFieldDecorator('establishmentName', {
                       rules: [{
@@ -531,7 +531,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
                   <Form.Item label={t('form.description')}>
                     {getFieldDecorator('description', {
                       rules: [{
@@ -547,7 +547,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
                   <Form.Item label={t('form.address')}>
                     {getFieldDecorator('address', {
                       rules: [{
@@ -566,308 +566,452 @@ class index extends Component {
                   </Form.Item>
                 </Col>
               </Row>
+
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+
                   <Form.Item label={t('form.weekscheadule')}>
-                    <Form.Item style={{ marginBottom: '3px' }}>
-                      {t('days.monday')}:
-                      <Form.Item style={{
-                        display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                        marginRight: '3px'
-                      }}>
-                        {getFieldDecorator('monday.isOpen', {
-                          initialValue: "open"
-                        })(
-                          <Select style={{ width: 100 }} onChange={this.handleScheduleMonday}>
-                            <Option value="open">{t('open')}</Option>
-                            <Option value="close">{t('close')}</Option>
-                          </Select>
-                        )}
+                    <Row>
+                      <Col lg="6">
+                        <Form.Item style={{ marginBottom: '20px' }}>
+                          <Row>
+                            <Col xs="3">
+                              {t('days.monday')}:
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                                display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                marginRight: '3px'
+                              }}>
+                                {getFieldDecorator('monday.isOpen', {
+                                  initialValue: "open"
+                                })(
+                                  <Select style={{ width: 100 }} onChange={this.handleScheduleMonday}>
+                                    <Option value="open">{t('open')}</Option>
+                                    <Option value="close">{t('close')}</Option>
+                                  </Select>
+                                )}
+                              </Form.Item>
+                            </Col>
+                          </Row>
+                          
+                            {this.state.mondayIsOpen &&
+                              <div style={{ display: 'inline' }}>
+                              <Row>
+                                <Col xs="3">
+                                  {t('from')}:
+                                </Col>
+                                <Col xs="9">
+                                  <Form.Item style={{
+                                    display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                    marginRight: '3px'
+                                  }} >
+                                    {getFieldDecorator('monday.openTime', {
+                                      initialValue: moment('6:00', "HH:mm")
+                                    })(
+                                      <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                                    )}
+                                  </Form.Item>
+                                </Col>
+                                <Col xs="3">
+                                  {t('to')}: 
+                                </Col>
+                                <Col xs="9">
+                                  <Form.Item style={{
+                                    display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                    marginRight: '3px'
+                                  }}>
+                                    {getFieldDecorator('monday.closeTime', {
+                                      initialValue: moment('23:30', "HH:mm")
+                                    })(
+                                      <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                                    )}
+                                  </Form.Item>
+                                </Col>
+                              </Row>
+                            </div>}
                       </Form.Item>
-                      {this.state.mondayIsOpen &&
-                        <div style={{ display: 'inline' }}>
-                          {t('from')}:
-                  <Form.Item style={{
-                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                            marginRight: '3px'
-                          }} >
-                            {getFieldDecorator('monday.openTime', {
-                              initialValue: moment('6:00', "HH:mm")
-                            })(
-                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+                    </Col>
+                    <Col lg="6">
+                      <Form.Item style={{ marginBottom: '20px' }}>
+                        <Row>
+                          <Col xs="3">
+                            {t('days.tuesday')}:
+                          </Col>
+                          <Col xs="9">
+                            <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                              }}>
+                              {getFieldDecorator('tuesday.isOpen', {
+                                initialValue: "open"
+                              })(
+                                <Select style={{ width: 100 }} onChange={this.handleScheduleTuesday}>
+                                  <Option value="open">{t('open')}</Option>
+                                  <Option value="close">{t('close')}</Option>
+                                </Select>
+                              )}
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                        {this.state.tuesdayIsOpen &&
+                          <div style={{ display: 'inline' }}>
+                          <Row>
+                            <Col xs="3">
+                              {t('from')}:
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                                display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                marginRight: '3px'
+                                }} >
+                                {getFieldDecorator('tuesday.openTime', {
+                                  initialValue: moment('6:00', "HH:mm")
+                                })(
+                                  <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
 
-                            )}
-                          </Form.Item>
-                          {t('to')}: <Form.Item style={{
-                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                            marginRight: '3px'
-                          }}>
-                            {getFieldDecorator('monday.closeTime', {
-                              initialValue: moment('23:30', "HH:mm")
-                            })(
-                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+                                )}
+                          
+                              </Form.Item>
+                            </Col>
+                            <Col xs="3">
+                              {t('to')}: 
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                                display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                marginRight: '3px'
+                                }}>
+                                {getFieldDecorator('tuesday.closeTime', {
+                                  initialValue: moment('23:30', "HH:mm")
+                                })(
+                                  <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
 
-                            )}
-                          </Form.Item>
+                                )}
+                              </Form.Item>
+                            </Col>
+                          </Row>
                         </div>}
-                    </Form.Item>
-                    <Form.Item style={{ marginBottom: '3px' }}>
-                      {t('days.tuesday')}:
-                  <Form.Item style={{
-                        display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                        marginRight: '3px'
-                      }}>
-                        {getFieldDecorator('tuesday.isOpen', {
-                          initialValue: "open"
-                        })(
-                          <Select style={{ width: 100 }} onChange={this.handleScheduleTuesday}>
-                            <Option value="open">{t('open')}</Option>
-                            <Option value="close">{t('close')}</Option>
-                          </Select>
-                        )}
                       </Form.Item>
-                      {this.state.tuesdayIsOpen &&
-                        <div style={{ display: 'inline' }}>
-                          {t('from')}:
-                  <Form.Item style={{
-                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                            marginRight: '3px'
-                          }} >
-                            {getFieldDecorator('tuesday.openTime', {
-                              initialValue: moment('6:00', "HH:mm")
-                            })(
-                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+                  </Col>
 
-                            )}
+                  <Col lg="6">
+                    <Form.Item style={{ marginBottom: '20px' }}>
+                      <Row>
+                        <Col xs="3">
+                          {t('days.wednesday')}:
+                        </Col>
+                        <Col xs="9">
+                          <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px', marginBottom: '0px',
+                              marginRight: '3px'
+                            }}>
+                              {getFieldDecorator('wednesday.isOpen', {
+                                initialValue: "open"
+                              })(
+                                <Select style={{ width: 100 }} onChange={this.handleScheduleWednesday}>
+                                  <Option value="open">{t('open')}</Option>
+                                  <Option value="close">{t('close')}</Option>
+                                </Select>
+                              )}
                           </Form.Item>
-                          {t('to')}: <Form.Item style={{
-                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                            marginRight: '3px'
-                          }}>
-                            {getFieldDecorator('tuesday.closeTime', {
-                              initialValue: moment('23:30', "HH:mm")
-                            })(
-                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
-
-                            )}
-                          </Form.Item>
-                        </div>}
-                    </Form.Item>
-                    <Form.Item style={{ marginBottom: '3px' }}>
-                      {t('days.wednesday')}:
-                  <Form.Item style={{
-                        display: 'inline-block', marginLeft: '3px', marginBottom: '0px', marginBottom: '0px',
-                        marginRight: '3px'
-                      }}>
-                        {getFieldDecorator('wednesday.isOpen', {
-                          initialValue: "open"
-                        })(
-                          <Select style={{ width: 100 }} onChange={this.handleScheduleWednesday}>
-                            <Option value="open">{t('open')}</Option>
-                            <Option value="close">{t('close')}</Option>
-                          </Select>
-                        )}
-                      </Form.Item>
+                        </Col>
+                      </Row>
                       {this.state.wednesdayIsOpen &&
-                        <div style={{ display: 'inline' }}>
-                          {t('from')}:
-                  <Form.Item style={{
-                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                            marginRight: '3px'
-                          }} >
-                            {getFieldDecorator('wednesday.openTime', {
-                              initialValue: moment('6:00', "HH:mm")
-                            })(
-                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+                      <div style={{ display: 'inline' }}>
+                        <Row>
+                          <Col xs="3">
+                            {t('from')}:
+                          </Col>
+                          <Col xs="9">
+                            <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                              }} >
+                              {getFieldDecorator('wednesday.openTime', {
+                                initialValue: moment('6:00', "HH:mm")
+                              })(
+                                <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
 
-                            )}
-                          </Form.Item>
-                          {t('to')}: <Form.Item style={{
-                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                            marginRight: '3px'
-                          }}>
-                            {getFieldDecorator('wednesday.closeTime', {
-                              initialValue: moment('23:30', "HH:mm")
-                            })(
-                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+                              )}
+                            </Form.Item>
+                          </Col>
+                          <Col xs="3">
+                            {t('to')}:
+                          </Col>
+                          <Col xs="9">
+                          <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                              }}>
+                              {getFieldDecorator('wednesday.closeTime', {
+                                initialValue: moment('23:30', "HH:mm")
+                              })(
+                                <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
 
-                            )}
-                          </Form.Item>
-                        </div>}
+                              )}
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                      </div>}
                     </Form.Item>
-                    <Form.Item style={{ marginBottom: '3px' }}>
-                      {t('days.thursday')}:
-                  <Form.Item style={{
-                        display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                        marginRight: '3px'
-                      }}>
-                        {getFieldDecorator('thursday.isOpen', {
-                          initialValue: "open"
-                        })(
-                          <Select style={{ width: 100 }} onChange={this.handleScheduleThursday}>
-                            <Option value="open">{t('open')}</Option>
-                            <Option value="close">{t('close')}</Option>
-                          </Select>
-                        )}
-                      </Form.Item>
+                  </Col>
+                    
+
+
+
+                  <Col lg="6">
+                    <Form.Item style={{ marginBottom: '20px' }}>
+                      <Row>
+                        <Col xs="3">
+                          {t('days.thursday')}:
+                        </Col>
+                        <Col xs="9">
+                          <Form.Item style={{
+                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                            marginRight: '3px'
+                            }}>
+                            {getFieldDecorator('thursday.isOpen', {
+                              initialValue: "open"
+                            })(
+                              <Select style={{ width: 100 }} onChange={this.handleScheduleThursday}>
+                                <Option value="open">{t('open')}</Option>
+                                <Option value="close">{t('close')}</Option>
+                              </Select>
+                            )}
+                          </Form.Item>
+                        </Col>
+                      </Row>
                       {this.state.thursdayIsOpen &&
                         <div style={{ display: 'inline' }}>
-                          {t('from')}:
-                  <Form.Item style={{
-                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                            marginRight: '3px'
-                          }} >
-                            {getFieldDecorator('thursday.openTime', {
-                              initialValue: moment('6:00', "HH:mm")
-                            })(
-                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+                          <Row>
+                            <Col xs="3">
+                              {t('from')}:
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                              }} >
+                              {getFieldDecorator('thursday.openTime', {
+                                initialValue: moment('6:00', "HH:mm")
+                              })(
+                                <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
 
-                            )}
-                          </Form.Item>
-                          {t('to')}: <Form.Item style={{
+                              )}
+                              </Form.Item>
+                            </Col>
+                            <Col xs="3">
+                              {t('to')}: 
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                                display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                marginRight: '3px'
+                              }}>
+                                {getFieldDecorator('thursday.closeTime', {
+                                  initialValue: moment('23:30', "HH:mm")
+                                })(
+                                  <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                                )}
+                              </Form.Item>
+                            </Col>
+                          </Row>
+                        </div>}
+                    </Form.Item>
+                  </Col>
+
+                  <Col lg="6">
+                    <Form.Item style={{ marginBottom: '20px' }}>
+                      <Row>
+                        <Col xs="3">
+                          {t('days.friday')}:
+                        </Col>
+                        <Col xs="9">
+                          <Form.Item style={{
                             display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
                             marginRight: '3px'
                           }}>
-                            {getFieldDecorator('thursday.closeTime', {
-                              initialValue: moment('23:30', "HH:mm")
+                            {getFieldDecorator('friday.isOpen', {
+                              initialValue: "open"
                             })(
-                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
-
+                              <Select style={{ width: 100 }} onChange={this.handleScheduleFriday}>
+                                <Option value="open">{t('open')}</Option>
+                                <Option value="close">{t('close')}</Option>
+                              </Select>
                             )}
                           </Form.Item>
-                        </div>}
-                    </Form.Item>
-                    <Form.Item style={{ marginBottom: '3px' }}>
-                      {t('days.friday')}:
-                  <Form.Item style={{
-                        display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                        marginRight: '3px'
-                      }}>
-                        {getFieldDecorator('friday.isOpen', {
-                          initialValue: "open"
-                        })(
-                          <Select style={{ width: 100 }} onChange={this.handleScheduleFriday}>
-                            <Option value="open">{t('open')}</Option>
-                            <Option value="close">{t('close')}</Option>
-                          </Select>
-                        )}
-                      </Form.Item>
+                        </Col>
+                      </Row>
                       {this.state.fridayIsOpen &&
                         <div style={{ display: 'inline' }}>
-                          {t('from')}:
-                  <Form.Item style={{
+                        <Row>
+                          <Col xs="3">
+                            {t('from')}:
+                          </Col>
+                          <Col xs="9">
+                            <Form.Item style={{
                             display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
                             marginRight: '3px'
-                          }} >
+                            }} >
                             {getFieldDecorator('friday.openTime', {
                               initialValue: moment('6:00', "HH:mm")
                             })(
                               <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
 
                             )}
-                          </Form.Item>
-                          {t('to')}: <Form.Item style={{
-                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                            marginRight: '3px'
-                          }}>
+                            </Form.Item>
+                          </Col>
+                          <Col xs="3">
+                            {t('to')}:
+                          </Col>
+                          <Col xs="9">
+                            <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                            }}>
                             {getFieldDecorator('friday.closeTime', {
                               initialValue: moment('23:30', "HH:mm")
                             })(
                               <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
 
                             )}
-                          </Form.Item>
-                        </div>}
-                    </Form.Item>
-                    <Form.Item style={{ marginBottom: '3px' }}>
-                      {t('days.saturday')}:
-                  <Form.Item style={{
-                        display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                        marginRight: '3px'
-                      }}>
-                        {getFieldDecorator('saturday.isOpen', {
-                          initialValue: "open"
-                        })(
-                          <Select style={{ width: 100 }} onChange={this.handleScheduleSaturday}>
-                            <Option value="open">{t('open')}</Option>
-                            <Option value="close">{t('close')}</Option>
-                          </Select>
-                        )}
+                                </Form.Item>
+                              </Col>
+                            </Row>
+                          </div>}
                       </Form.Item>
+                    </Col>
+
+                  <Col lg="6">
+                    <Form.Item style={{ marginBottom: '20px' }}>
+                      <Row>
+                        <Col xs="3">
+                          {t('days.saturday')}:
+                        </Col>
+                        <Col xs="9">
+                          <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                            }}>
+                              {getFieldDecorator('saturday.isOpen', {
+                                initialValue: "open"
+                              })(
+                                <Select style={{ width: 100 }} onChange={this.handleScheduleSaturday}>
+                                  <Option value="open">{t('open')}</Option>
+                                  <Option value="close">{t('close')}</Option>
+                                </Select>
+                              )}
+                          </Form.Item>
+                        </Col>
+                      </Row>
                       {this.state.saturdayIsOpen &&
                         <div style={{ display: 'inline' }}>
-                          {t('from')}:
-                  <Form.Item style={{
-                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                            marginRight: '3px'
-                          }} >
-                            {getFieldDecorator('saturday.openTime', {
-                              initialValue: moment('6:00', "HH:mm")
-                            })(
-                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+                          <Row>
+                            <Col xs="3">
+                              {t('from')}:
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                                display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                marginRight: '3px'
+                              }} >
+                                {getFieldDecorator('saturday.openTime', {
+                                  initialValue: moment('6:00', "HH:mm")
+                                })(
+                                  <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
 
-                            )}
-                          </Form.Item>
-                          {t('to')}: <Form.Item style={{
-                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                            marginRight: '3px'
-                          }}>
-                            {getFieldDecorator('saturday.closeTime', {
-                              initialValue: moment('23:30', "HH:mm")
-                            })(
-                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+                                )}
+                              </Form.Item>
+                            </Col>
+                            <Col xs="3">
+                              {t('to')}: 
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                                display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                marginRight: '3px'
+                              }}>
+                                {getFieldDecorator('saturday.closeTime', {
+                                  initialValue: moment('23:30', "HH:mm")
+                                })(
+                                  <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
 
-                            )}
-                          </Form.Item>
+                                )}
+                              </Form.Item>
+                            </Col>
+                          </Row>
                         </div>}
-                    </Form.Item>
-                    <Form.Item style={{ marginBottom: '3px' }}>
-                      {t('days.sunday')}:
-                  <Form.Item style={{
-                        display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                        marginRight: '3px'
-                      }}>
-                        {getFieldDecorator('sunday.isOpen', {
-                          initialValue: "open"
-                        })(
-                          <Select style={{ width: 100 }} onChange={this.handleScheduleSunday}>
-                            <Option value="open">{t('open')}</Option>
-                            <Option value="close">{t('close')}</Option>
-                          </Select>
-                        )}
                       </Form.Item>
-                      {this.state.sundayIsOpen &&
-                        <div style={{ display: 'inline' }}>
-                          {t('from')}:
-                  <Form.Item style={{
-                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                            marginRight: '3px'
-                          }} >
-                            {getFieldDecorator('sunday.openTime', {
-                              initialValue: moment('6:00', "HH:mm")
-                            })(
-                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+                    </Col>
 
-                            )}
-                          </Form.Item>
-                          {t('to')}: <Form.Item style={{
-                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
-                            marginRight: '3px'
-                          }}>
-                            {getFieldDecorator('sunday.closeTime', {
-                              initialValue: moment('23:30', "HH:mm")
-                            })(
-                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+                    <Col lg="6">
+                      <Form.Item style={{ marginBottom: '20px' }}>
+                        <Row>
+                          <Col xs="3">
+                            {t('days.sunday')}:
+                          </Col>
+                          <Col xs="9">
+                            <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                            }}>
+                              {getFieldDecorator('sunday.isOpen', {
+                                initialValue: "open"
+                              })(
+                                <Select style={{ width: 100 }} onChange={this.handleScheduleSunday}>
+                                  <Option value="open">{t('open')}</Option>
+                                  <Option value="close">{t('close')}</Option>
+                                </Select>
+                              )}
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                        {this.state.sundayIsOpen &&
+                          <div style={{ display: 'inline' }}>
+                            <Row>
+                              <Col xs="3">
+                                {t('from')}:
+                              </Col>
+                              <Col xs="9">
+                                <Form.Item style={{
+                                  display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                  marginRight: '3px'
+                                }} >
+                                  {getFieldDecorator('sunday.openTime', {
+                                    initialValue: moment('6:00', "HH:mm")
+                                  })(
+                                    <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
 
-                            )}
-                          </Form.Item>
-                        </div>}
-                    </Form.Item>
+                                  )}
+                                </Form.Item>
+                              </Col>
+                              <Col xs="3">
+                                {t('to')}:
+                              </Col>
+                              <Col xs="9">
+                                <Form.Item style={{display: 'inline-block', marginLeft: '3px', marginBottom: '0px'}}>
+                                  {getFieldDecorator( 'sunday.closeTime', {initialValue: moment('23:30', "HH:mm")} )
+                                  (
+                                    <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                                  )}
+                                </Form.Item>
+                              </Col>
+                            </Row>
+                          </div>}
+                      </Form.Item>
+                    </Col>
+                    </Row>
                   </Form.Item>
                 </Col>
               </Row>
+
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.offer')}>
                     {getFieldDecorator('offer', {
                       rules: [{
@@ -887,8 +1031,8 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
-                  <Form.Item>
+                <Col md={{ span: 8, offset: 2 }}>
+                  <Form.Item className="register__terms-wrapper">
                     {getFieldDecorator('agreement',
                       {
                         rules: [{
