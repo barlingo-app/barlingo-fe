@@ -27,22 +27,19 @@ class CustomCardEstablishment extends Component {
         this.props.history.push(`/${route}/${id}`);*/
     }
     
-    getFormattedWorkingHours = (workingHours) => {
+    
+    formatWorkingHours = (workingHours) => {
         const { t } = this.props;
-
-        let formattedWorkingHours = '';
-        let days = workingHours.split(',')[0].trim();
-
-        days.split(' ').forEach(function(value, index,  array) {
-            formattedWorkingHours += t('days.' + value.trim().toLowerCase()) + ' ';
-        });
-
-        return formattedWorkingHours.trim() + ' , ' + workingHours.split(',')[1].trim();
-    }
-
-    getWorkingTime = (workingHours) => {
-        var time = workingHours.split(',')[1];
-        return time;
+        var formatedWorkingHours = new Array()
+        var splitedWorkingHours = workingHours.split(',')
+        for (var i=0; i<(splitedWorkingHours.length-1); i++) {
+            var elem = splitedWorkingHours[i].split('/')
+            if(elem[1] === "closed") {
+                elem[1] = t('close')
+            }
+            formatedWorkingHours.push(elem[1])
+        }
+        return formatedWorkingHours       
     }
 
     render() {
@@ -55,31 +52,31 @@ class CustomCardEstablishment extends Component {
             <table className="hours-table">
                 <tr>
                     <td className="hours-table__day">{t('days.monday')}</td>
-                    <td className="hours-table__time">{this.getWorkingTime(workingHours)}</td>
+                    <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[0]}</td>
                 </tr>
                 <tr>
                     <td className="hours-table__day">{t('days.tuesday')}</td>
-                    <td className="hours-table__time">{this.getWorkingTime(workingHours)}</td>
+                    <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[1]}</td>
                 </tr>
                 <tr>
                     <td className="hours-table__day">{t('days.wednesday')}</td>
-                    <td className="hours-table__time">{this.getWorkingTime(workingHours)}</td>
+                    <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[2]}</td>
                 </tr>
                 <tr>
                     <td className="hours-table__day">{t('days.thursday')}</td>
-                    <td className="hours-table__time">{this.getWorkingTime(workingHours)}</td>
+                    <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[3]}</td>
                 </tr>
                 <tr>
                     <td className="hours-table__day">{t('days.friday')}</td>
-                    <td className="hours-table__time">{this.getWorkingTime(workingHours)}</td>
+                    <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[4]}</td>
                 </tr>
                 <tr>
                     <td className="hours-table__day">{t('days.saturday')}</td>
-                    <td className="hours-table__time">{this.getWorkingTime(workingHours)}</td>
+                    <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[5]}</td>
                 </tr>
                 <tr>
                     <td className="hours-table__day">{t('days.sunday')}</td>
-                    <td className="hours-table__time">{this.getWorkingTime(workingHours)}</td>
+                    <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[6]}</td>
                 </tr>
             </table>
            )
@@ -93,7 +90,9 @@ class CustomCardEstablishment extends Component {
                 <div className="custom-card-establishment">
                     
                             <div className="custom-card-establishment__image-wrapper">
-                                <img className="custom-card-establishment__image" src={this.getImage(imageProfile)} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
+                                <NavLink  exact={true} activeClassName={"active"} to={`/${route}/${id}`}>
+                                    <img className="custom-card-establishment__image" src={this.getImage(imageProfile)} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
+                                </NavLink>
                             </div>
                             <div className="custom-card-establishment__content">
                                 <div className="custom-card-establishment__title">

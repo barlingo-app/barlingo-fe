@@ -31,13 +31,11 @@ class RegisterContainer extends Component {
 
         if (!registerType) {
             return(
-                <div className="register-bg">
                     <Page layout="public">
                         <Section slot="content">
                             <div className="selectRegister">
                                 <Row>
-                                    <Col className="selectRegister__container" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
-                                        <div className="selectRegister__title">{t('select-register')}</div>
+                                    <Col sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }} lg={{span:4,offset:4}}>
                                         <NavLink to={"/register/user"}>
                                             <div className="selectRegister__option">
                                                 <div>{t('action.register.asUser')}</div>
@@ -53,7 +51,6 @@ class RegisterContainer extends Component {
                             </div>
                         </Section>
                     </Page>
-                </div>
             );
         } 
 

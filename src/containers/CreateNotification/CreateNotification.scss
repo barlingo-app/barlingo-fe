@@ -1,31 +1,12 @@
-
 @import "../../styles/variables";
 
-.register {
+.create-notification {
+    background: linear-gradient(to top, #ffffff, #D7DDE8);
     &__form {
         background: white;
         box-shadow: 0px 2px 3px rgba(0,0,0,.13) ,1px 2px 2px rgba(0,0,0,.1) , -1px -2px 2px rgba(0,0,0,.05) ;
         border-radius: 5px;
-        padding: 0 0 15px 0;
-    }
-    &__title {
-        border-bottom: 0.5px solid $mainColor;
-        text-align: center;
-        font-size: 20px;
-        font-weight: 800;
-        font-weight: bolder;
-        margin-right: auto;
-        margin-left: auto;
-        margin-bottom: 30px;
-        width: 90%;
-        padding: 10px;
-    }
-
-    &__select {
-        overflow: hidden;
-    }
-    &__terms-wrapper .ant-form-item-control-wrapper .ant-form-item-control{
-        line-height: 10px!important;
+        padding-top: 15px;
     }
     &__button {
         border: none;

@@ -269,7 +269,7 @@ export class index extends Component {
                         <div className="register__title">{t('create-account')}</div>
                         <Form onSubmit={this.handleSubmit}>
                         <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.username')}>
                     {getFieldDecorator('username', {
                       rules: [{
@@ -288,7 +288,7 @@ export class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.password')}>
                     {getFieldDecorator('password', {
                       rules: [{
@@ -307,7 +307,7 @@ export class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.confirmPassword')}>
                     {getFieldDecorator('confirm', {
                       rules: [{
@@ -326,7 +326,7 @@ export class index extends Component {
               </Row>
               <hr></hr>
                         <Row>
-                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Col md={{span: 8, offset: 2}}>
                         <Form.Item label={t('form.name')}>
                             {getFieldDecorator('name', {
                             rules: [{
@@ -345,7 +345,7 @@ export class index extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Col md={{span: 8, offset: 2}}>
                         <Form.Item label={t('form.surname')}>
                             {getFieldDecorator('surname', {
                             rules: [{
@@ -364,7 +364,7 @@ export class index extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Col md={{span: 8, offset: 2}}>
                         <Form.Item label={t('form.email')}>
                             {getFieldDecorator('email', {
                             rules: [{
@@ -386,7 +386,7 @@ export class index extends Component {
                         </Col>
                     </Row> 
                     <Row>
-                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Col md={{span: 8, offset: 2}}>
                         <Form.Item label={t('form.city')}>
                             {getFieldDecorator('city', {
                             rules: [{
@@ -407,7 +407,7 @@ export class index extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Col md={{span: 8, offset: 2}}>
                         <Form.Item label={t('form.country')}>
                             {getFieldDecorator('country', {
                             rules: [{
@@ -426,7 +426,7 @@ export class index extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Col md={{span: 8, offset: 2}}>
                         <Form.Item label={t('form.aboutme')}>
                             {getFieldDecorator('aboutMe', {
                             rules: [
@@ -441,7 +441,7 @@ export class index extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                        <Col md={{ span: 8, offset: 2 }}>
                         <Form.Item label={t('form.birthday')}>
                             {getFieldDecorator('birthdate', config)(
                             <DatePicker defaultPickerValue={moment().subtract(18, 'years')} format="YYYY-MM-DD" disabledDate={this.checkBirthday}/>
@@ -450,7 +450,7 @@ export class index extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Col md={{span: 8, offset: 2}}>
                         <Form.Item
                             label={t('form.speakedlanguages')}
                         >
@@ -475,7 +475,7 @@ export class index extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                        <Col md={{span: 8, offset: 2}}>
                         <Form.Item
                             label={t('form.languagesToLearn')}
                         >
@@ -500,8 +500,8 @@ export class index extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
-                        <Form.Item>
+                        <Col md={{ span: 8, offset: 2 }}>
+                        <Form.Item className="register__terms-wrapper">
                             {getFieldDecorator('agreement',
                             {
                                 rules: [{
