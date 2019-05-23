@@ -210,31 +210,34 @@ class index extends Component {
   }
   getDays(data) {
     let days = data.workingHours.split(',');
-    let monday = this.getSchedule(days[0].split('/')[1]);
-    if (monday.isOpen === 'close') this.setState({ mondayIsOpen: false })
-    data.monday = monday;
-    let tuesday = this.getSchedule(days[1].split('/')[1]);
-    if (tuesday.isOpen === 'close') this.setState({ tuesdayIsOpen: false })
-    data.tuesday = tuesday;
-    let wednesday = this.getSchedule(days[2].split('/')[1]);
-    if (wednesday.isOpen === 'close') this.setState({ wednesdayIsOpen: false })
-    data.wednesday = wednesday;
-    let thursday = this.getSchedule(days[3].split('/')[1]);
-    if (thursday.isOpen === 'close') this.setState({ thursdayIsOpen: false })
-    data.thursday = thursday;
-    let friday = this.getSchedule(days[4].split('/')[1]);
-    if (friday.isOpen === 'close') this.setState({ fridayIsOpen: false })
-    data.friday = friday;
-    let saturday = this.getSchedule(days[5].split('/')[1]);
-    if (saturday.isOpen === 'close') this.setState({ saturdayIsOpen: false })
-    data.saturday = saturday;
-    let sunday = this.getSchedule(days[6].split('/')[1]);
-    if (sunday.isOpen === 'close') this.setState({ sundayIsOpen: false })
-    data.sunday = sunday;
+    if (days.length === 8) {
+      let monday = this.getSchedule(days[0].split('/')[1]);
+      if (monday && monday.isOpen === 'close') this.setState({ mondayIsOpen: false })
+      data.monday = monday;
+      let tuesday = this.getSchedule(days[1].split('/')[1]);
+      if (tuesday && tuesday.isOpen === 'close') this.setState({ tuesdayIsOpen: false })
+      data.tuesday = tuesday;
+      let wednesday = this.getSchedule(days[2].split('/')[1]);
+      if (wednesday && wednesday.isOpen === 'close') this.setState({ wednesdayIsOpen: false })
+      data.wednesday = wednesday;
+      let thursday = this.getSchedule(days[3].split('/')[1]);
+      if (thursday && thursday.isOpen === 'close') this.setState({ thursdayIsOpen: false })
+      data.thursday = thursday;
+      let friday = this.getSchedule(days[4].split('/')[1]);
+      if (friday && friday.isOpen === 'close') this.setState({ fridayIsOpen: false })
+      data.friday = friday;
+      let saturday = this.getSchedule(days[5].split('/')[1]);
+      if (saturday && saturday.isOpen === 'close') this.setState({ saturdayIsOpen: false })
+      data.saturday = saturday;
+      let sunday = this.getSchedule(days[6].split('/')[1]);
+      if (sunday && sunday.isOpen === 'close') this.setState({ sundayIsOpen: false })
+      data.sunday = sunday;
+    }
     return data;
   }
 
   getSchedule(string) {
+    if (!string) return null;
     if (string === 'closed') return { isOpen: 'close' };
     let open = string.split('-')[0];
     let close = string.split('-')[1];
