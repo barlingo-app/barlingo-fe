@@ -8,6 +8,7 @@ import CustomCardEstablishment from '../../components/CustomCard/CustomCardEstab
 import Loading from "../../components/Loading/Loading";
 import { establishmentService } from '../../services/establishmentService';
 import CreateExchangeForm from './CreateExchangeForm/CreateExchangeForm';
+import './CreateExchange.scss'
 
 
 class CreateExchange extends Component {
@@ -61,20 +62,22 @@ class CreateExchange extends Component {
                 return <Redirect to={"/establishments"} />
             let i = establishment;
             return (
-                <Page layout="public">
-                    <Section slot="content">
-                        <Row>
-                            <Col md={{ size: 6, offset: 3 }}>
-                                <div>
-                                    <CustomCardEstablishment establishment={i} showButton={false} />
-                                </div>
-                                <div>
-                                    <CreateExchangeForm establishment={i} />
-                                </div>
-                            </Col>
-                        </Row>
-                    </Section>
-                </Page>
+                <div className="create-exchange-wrapper">
+                    <Page layout="public">
+                        <Section slot="content">
+                            <Row>
+                                <Col md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }} className="create-exchange-wrapper__form">
+                                    <div className="mt-3">
+                                        <CustomCardEstablishment establishment={i} showButton={false} />
+                                    </div>
+                                    <div>
+                                        <CreateExchangeForm establishment={i} />
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Section>
+                    </Page>
+                </div>
             );
         }
         return (
