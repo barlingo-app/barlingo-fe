@@ -38,7 +38,7 @@ export class index extends Component {
             <div className="register-bg">
                 <Page layout="public">
                     <Section slot="content">
-                            <EditUserComponent data ={data} />
+                        <EditUserComponent data ={data} />
                     </Section>
                 </Page>
             </div>

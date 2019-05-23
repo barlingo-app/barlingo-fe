@@ -120,7 +120,7 @@ class UsersListAdmin extends Component {
                         <Row>
                             {users.map((user, index) => (
                                 <Col xs="12" md={{span:10,offset:1}} lg={{span:8,offset:2}} xl={{span:6,offset:3}} key={index}>
-                                    <CustomCardUser user={user} buttonMessage={this.getButtonMessage(user)} handleOnClick={() => this.handleOnClick(user)} />
+                                    <CustomCardUser user={user} buttonMessage={this.getButtonMessage(user)} handleOnClick={() => this.handleOnClick(user)} from={"/users"}/>
                                 </Col>
                             ))}
                         </Row>

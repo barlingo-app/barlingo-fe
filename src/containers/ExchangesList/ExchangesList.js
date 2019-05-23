@@ -254,14 +254,14 @@ class ExchangesList extends Component {
                             </Col>
                             
                             <Col md={{span:10,offset:1}} lg={{span:8,offset:0}} xl={{span:6,offset:0}}> 
-                                {items.length==0 &&
+                                {items.length === 0 &&
                                     <div>No hay ningún intercambio</div>
                                 }
                                 <Row>
                                     {
                                         items.filter(item => item.establishment.userAccount.active).map((i, index) =>(
                                         <Col className="exchange-list__card" xs="12" key={i.id}>
-                                            <CustomCardExchange fetchData={this.fetchData} exchange={i} />
+                                            <CustomCardExchange fetchData={this.fetchData} exchange={i} from={"/exchanges"}/>
                                         </Col>
                                     ))
                                     

@@ -7,6 +7,7 @@ import { withNamespaces } from "react-i18next";
 import languages from '../../data/languages';
 import moment from 'moment';
 import { Checkbox, DatePicker, Form, Input, notification } from 'antd';
+import BackButton from '../../components/BackButton/BackButton';
 
 export class index extends Component {
     constructor(props){
@@ -193,7 +194,10 @@ export class index extends Component {
         <div className="register">
           <Row>
             <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
-                <div className="register__title">{t('edit-account')}</div>
+                <div className="register__title">
+                  <BackButton to={"/profile"} additionalClasses={"left"} />
+                  {t('edit-account')}
+                </div>
                 <Form onSubmit={this.handleSubmit}>
                 <Row>
                 <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>

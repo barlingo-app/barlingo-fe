@@ -9,6 +9,7 @@ import moment from 'moment';
 import languages from '../../data/languages';
 import { Button, Checkbox, DatePicker, Form, Input, Modal, notification } from 'antd';
 import './index.scss';
+import BackButton from '../BackButton/BackButton';
 
 export class index extends Component {
     constructor(props) {
@@ -266,8 +267,11 @@ export class index extends Component {
             <div className="register">
               <Row>
               <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
-                        <div className="register__title">{t('create-account')}</div>
-                        <Form onSubmit={this.handleSubmit}>
+                    <div className="register__title">
+                        <BackButton to={"/register"} additionalClasses={"left"} />
+                        {t('create-account')}
+                    </div>
+                    <Form onSubmit={this.handleSubmit}>
                         <Row>
                 <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.username')}>

@@ -10,6 +10,7 @@ import { exchangesService } from '../../../services/exchangesService';
 import '../ExchangesList.scss';
 import moment from 'moment';
 import { Redirect } from "react-router-dom";
+import BackButton from "../../../components/BackButton/BackButton";
 
 
 class MyExchangesList extends Component {
@@ -216,6 +217,7 @@ class MyExchangesList extends Component {
                 <Page layout="public">
                     <Section slot="content">
                         <div className="text-center">
+                            <BackButton to={"/profile"} />
                             <button type="button" className="exchange-list__button" onClick={() => this.redirectToCreate()}>{t('landing.navOptions.createExchanges')}</button>
                         </div>   
                         <div className="exchange-list__actives-filter">
@@ -227,7 +229,7 @@ class MyExchangesList extends Component {
                             {this.getItems().map((i, index) => (
 
                                 <Col className="exchange-list__card" xs="12" md={{span:10,offset:1}} lg={{span:8,offset:2}} xl={{span:6,offset:3}} key={i.id}>
-                                    <CustomCardExchange exchange = {i} />
+                                    <CustomCardExchange exchange = {i} from={"/myExchanges"} />
                                 </Col>
                             ))}
                         </Row>

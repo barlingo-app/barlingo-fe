@@ -8,6 +8,7 @@
   "open": "Abierto",
   "close": "Cerrado",
   "from": "desde",
+  "profile": "Perfil",
   "profileview": {
     "age": "años",
     "speak": "Hablo",
@@ -177,8 +178,8 @@
   },
   "form": {
     "validationNotification": {
-      "title": "Failed validation",
-      "message": "Please, check the form."
+      "title": "Validación fallida",
+      "message": "Por favor, revisa el formulario."
     },
     "validationErrors": {
       "usernameExists": "El nombre de usuario ya existe.",
@@ -453,14 +454,30 @@
         "UserDiscount": {
           "UserNotNull": "Hubo un error",
           "ErrorSavingDiscount":  "Hubo un error",
-          "CodeBelongOtherExchange":  "Hubo un error",
+          "CodeBelongOtherExchange":  "Código inválido",
           "CodeNotValid": "Código inválido",
           "CodeNotExists": "Código no encontrado",
           "NotVisible": "Código no visible",
-          "LanguageExchangeNotStartedYet":  "Hubo un error",
+          "LanguageExchangeNotStartedYet":  "Código no canjeable",
+          "UserDiscountCannotBeExchanged": "Código no canjeable",
           "LanguajeExchangeNotNull":  "Hubo un error",
           "UserDiscountNotNull": "Hubo un error",
-          "AccessForbidden":  "Hubo un error"
+          "AccessForbidden":  "Acceso denegado"
+        }
+      },
+      "Establishment": {
+        "UserDiscount": {
+          "UserNotNull": "Hubo un error",
+          "ErrorSavingDiscount":  "Hubo un error",
+          "CodeBelongOtherExchange":  "Código inválido",
+          "CodeNotValid": "Código inválido",
+          "CodeNotExists": "Código no encontrado",
+          "NotVisible": "Código no visible",
+          "LanguageExchangeNotStartedYet":  "Código no canjeable",
+          "UserDiscountCannotBeExchanged": "Código no canjeable",
+          "LanguajeExchangeNotNull":  "Hubo un error",
+          "UserDiscountNotNull": "Hubo un error",
+          "AccessForbidden":  "Acceso denegado"
         }
       }
     }
@@ -538,7 +555,17 @@
         "SecretNotEmpty": "La contraseña no puede ser un texto vacío."
       },
       "UserDiscount": {
-        "UserDiscountCannotBeExchanged": "El código no es válido."
+        "UserDiscountCannotBeExchanged": "El código no se puede canjear.",
+        "UserNotNull": "Se ha producido un error al crear el intercambio.",
+        "ErrorSavingDiscount": "Se ha producido un error al crear el intercambio.",
+        "CodeBelongOtherExchange": "Se ha producido un error al crear el intercambio.",
+        "CodeNotValid": "El código no es válido.",
+        "CodeNotExists": "El código no existe.",
+        "NotVisible": "El código solo se mostrará 4 horas antes del evento y 48 horas después.",
+        "LanguageExchangeNotStartedYet": "El intercambio aún no ha comenzado.",
+        "LanguageExchangeNotNull": "No se ha pasado como intercambio un parámetro válido",
+        "UserDiscountNotNull": "No existe ningún descuento para el usuario en el intercambio suministrado",
+        "AccessForbidden": "El usuario/establecimiento está intentando acceder a un descuento que no le pertenece"
       },
       "Payment": {
         "IO": "No se ha podido realizar la transacción, inténtelo más tarde.",
