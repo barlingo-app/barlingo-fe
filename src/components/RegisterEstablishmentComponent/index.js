@@ -9,15 +9,9 @@ import { userService } from '../../services/userService';
 
 import moment from 'moment';
 import './index.scss';
+import BackButton from '../BackButton/BackButton';
 
 const Option = Select.Option;
-const week = ["monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
-  "sunday"]
 
 class index extends Component {
 
@@ -191,14 +185,7 @@ class index extends Component {
       if (!err) {
 
         let workinghours = ''
-        /*for (let i of week) {
-          if (values.weekscheadule.indexOf(i) >= 0) {
-            workinghours += i + " "
-          }
-        }
         
-        workinghours = workinghours.trim()
-        workinghours += "," + values.open.format("HH:mm") + "-" + values.close.format("HH:mm")*/
         workinghours += values.monday.isOpen === 'open' ? 'monday/' + values.monday.openTime.format("HH:mm") + '-' + values.monday.closeTime.format("HH:mm") + ',' : 'monday/closed,';
         workinghours += values.tuesday.isOpen === 'open' ? 'tuesday/' + values.tuesday.openTime.format("HH:mm") + '-' + values.tuesday.closeTime.format("HH:mm") + ',' : 'tuesday/closed,';
         workinghours += values.wednesday.isOpen === 'open' ? 'wednesday/' + values.wednesday.openTime.format("HH:mm") + '-' + values.wednesday.closeTime.format("HH:mm") + ',' : 'wednesday/closed,';
@@ -338,7 +325,10 @@ class index extends Component {
       <div className="register">
         <Row>
           <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
-            <div className="register__title">{t('create-account')}</div>
+            <div className="register__title">
+              <BackButton to={"/register"} additionalClasses={"left"} />
+              {t('create-account')}
+            </div>
             <Form onSubmit={this.handleSubmit}>
               <Row>
                 <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
@@ -705,7 +695,7 @@ class index extends Component {
                         </Col>
                         <Col xs="9">
                           <Form.Item style={{
-                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px', marginBottom: '0px',
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
                               marginRight: '3px'
                             }}>
                               {getFieldDecorator('wednesday.isOpen', {
@@ -758,10 +748,6 @@ class index extends Component {
                       </div>}
                     </Form.Item>
                   </Col>
-                    
-
-
-
                   <Col lg="6">
                     <Form.Item style={{ marginBottom: '20px' }}>
                       <Row>
@@ -994,11 +980,7 @@ class index extends Component {
                               </Col>
                               <Col xs="9">
                                 <Form.Item style={{display: 'inline-block', marginLeft: '3px', marginBottom: '0px'}}>
-                                  {getFieldDecorator( 'sunday.closeTime', {initialValue: moment('23:30', "HH:mm")} )
-                                  (
-                                    <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
-
-                                  )}
+                                  {getFieldDecorator( 'sunday.closeTime', {initialValue: moment('23:30', "HH:mm")})(<TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />)}
                                 </Form.Item>
                               </Col>
                             </Row>

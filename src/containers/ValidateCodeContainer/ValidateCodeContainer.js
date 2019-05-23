@@ -37,6 +37,7 @@ class ValidateCodeContainer extends React.Component {
   handleInput = (event) => {
     const { t } = this.props;
     const code = event.target.value;
+    this.setState({redeemable: false});
     if (this.isValidCodeFormat(code)) {
       this.checkCode(code);
     } else if (code.length === 13) {
@@ -158,6 +159,11 @@ class ValidateCodeContainer extends React.Component {
       .then((response) => {
         if (response.data.code === 200 && response.data.success) {
           this.redeemOk(response)
+        } else if (response.data.code === 500) {
+          notification.error({
+            message: this.props.t('code.errorTitles.' + response.data.message),
+            description: this.props.t('apiErrors.' + response.data.message),
+          });
         } else {
           this.redeemFail()
         }

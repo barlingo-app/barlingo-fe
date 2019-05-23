@@ -18,6 +18,7 @@
     "node-sass": "^4.11.0",
     "qrcode.react": "^0.9.3",
     "react": "^16.8.5",
+    "react-big-calendar": "^0.21.0",
     "react-bootstrap": "^1.0.0-beta.6",
     "react-bootstrap-validation": "^0.1.11",
     "react-device-detect": "^1.6.2",

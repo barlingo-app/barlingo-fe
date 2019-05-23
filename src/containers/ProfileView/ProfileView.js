@@ -12,6 +12,7 @@ import { establishmentService } from '../../services/establishmentService';
 import FileUploadComponent from './../../components/FileUploadComponent/';
 import ChangePassword from './ChangePassword/ChangePassword';
 import './ProfileView.scss';
+import BackButton from '../../components/BackButton/BackButton';
 
 
 class ProfileView extends Component {
@@ -47,7 +48,7 @@ class ProfileView extends Component {
 
     componentDidMount() {
         this.consultarUsuario();
-        document.title = "Barlingo - Profile";
+        document.title = "Barlingo - " + this.props.t('profile');
     }
 
     setData = (response, loggedUser) => {
@@ -97,7 +98,7 @@ class ProfileView extends Component {
 
     formatWorkingHours = (workingHours) => {
         const { t } = this.props;
-        var formatedWorkingHours = new Array()
+        var formatedWorkingHours = [];
         var splitedWorkingHours = workingHours.split(',')
         for (var i=0; i<(splitedWorkingHours.length-1); i++) {
             var elem = splitedWorkingHours[i].split('/')
@@ -410,6 +411,7 @@ class ProfileView extends Component {
                         <Row>
                             <Col className="profileview__content" sm="12" md={{span: 6, offset: 3}}>
                                 <div className="profileview__top">
+                                {this.props.location.state && this.props.location.state.from && (!auth.isAuthenticated() || (auth.isAuthenticated() && user.id !== auth.getUserData().id)) && <BackButton to={this.props.location.state.from} additionalClasses={"centered contrast"} />}
                                 {auth.isAuthenticated() && (auth.isEstablishment() || user.id === auth.getUserData().id) && 
                                 <Row>
                                     <Col xs={{span: 3, offset: 9}} lg={{span: 1, offset: 10}}>

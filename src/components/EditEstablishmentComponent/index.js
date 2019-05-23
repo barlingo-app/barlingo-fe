@@ -1,4 +1,4 @@
-import { Checkbox, Form, Input, notification, TimePicker, Select } from 'antd';
+import { Form, Input, notification, TimePicker, Select } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { establishmentService } from '../../services/establishmentService';
@@ -7,15 +7,9 @@ import { Row, Col } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 import { auth } from '../../auth';
+import BackButton from '../BackButton/BackButton';
 
 const Option = Select.Option;
-const week = ["monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
-  "sunday"]
 
 
 class index extends Component {
@@ -104,14 +98,6 @@ class index extends Component {
 
         let workinghours = ''
 
-        /*for (let i of week) {
-          if (values.weekscheadule.indexOf(i) >= 0) {
-            workinghours += i + " "
-          }
-        }*/
-
-        //workinghours = workinghours.trim()
-        //workinghours += "," + values.open.format("HH:mm") + "-" + values.close.format("HH:mm")
         workinghours += values.monday.isOpen === 'open' ? 'monday/' + values.monday.openTime.format("HH:mm") + '-' + values.monday.closeTime.format("HH:mm") + ',' : 'monday/closed,';
         workinghours += values.tuesday.isOpen === 'open' ? 'tuesday/' + values.tuesday.openTime.format("HH:mm") + '-' + values.tuesday.closeTime.format("HH:mm") + ',' : 'tuesday/closed,';
         workinghours += values.wednesday.isOpen === 'open' ? 'wednesday/' + values.wednesday.openTime.format("HH:mm") + '-' + values.wednesday.closeTime.format("HH:mm") + ',' : 'wednesday/closed,';
@@ -301,7 +287,10 @@ class index extends Component {
       <div className="register">
         <Row>
           <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
-            <div className="register__title">{t('edit-account')}</div>
+            <div className="register__title">
+              <BackButton to={"/profile"} additionalClasses={"left"} />
+              {t('edit-account')}
+            </div>
             <Form onSubmit={this.handleSubmit}>
               <Row>
                 <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
@@ -551,7 +540,7 @@ class index extends Component {
                     <Form.Item style={{ marginBottom: '3px' }}>
                       {t('days.wednesday')}:
                   <Form.Item style={{
-                        display: 'inline-block', marginLeft: '3px', marginBottom: '0px', marginBottom: '0px',
+                        display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
                         marginRight: '3px'
                       }}>
                         {getFieldDecorator('wednesday.isOpen', {

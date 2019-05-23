@@ -7,6 +7,7 @@ import MapContainer from '../MapContainer/MapContainer';
 import { establishmentService } from '../../services/establishmentService';
 import Loading from "../../components/Loading/Loading";
 import './EstablishmentDetails.scss';
+import BackButton from "../../components/BackButton/BackButton";
 
 
 class EstablishmentDetails extends Component {
@@ -54,7 +55,7 @@ class EstablishmentDetails extends Component {
 
     formatWorkingHours = (workingHours) => {
         const { t } = this.props;
-        var formatedWorkingHours = new Array()
+        var formatedWorkingHours = [];
         var splitedWorkingHours = workingHours.split(',')
         for (var i=0; i<(splitedWorkingHours.length-1); i++) {
             var elem = splitedWorkingHours[i].split('/')
@@ -89,6 +90,7 @@ class EstablishmentDetails extends Component {
                         <Row>
                             <Col className="establishment-details__content" sm="12" md={{span: 6, offset: 3}}>
                                 <div className="establishment-details__top"> 
+                                    {<BackButton to={(this.props.location.state && this.props.location.state.from) ? this.props.location.state.from : "/establishments" } additionalClasses={"centered contrast"} />}
                                     <img  className="establishment-details__image" alt="Establishment" src={this.getImage(establishment.imageProfile)} onError={(e) => e.target.src = defaultImage}/>
                                 </div>
                                 <div className="establishment-details__name">{establishment.establishmentName}</div>

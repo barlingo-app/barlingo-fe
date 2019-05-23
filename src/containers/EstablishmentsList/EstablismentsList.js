@@ -88,7 +88,7 @@ class EstablismentsList extends Component {
                             <Col xs="12" md={{span:10,offset:1}} lg={{span:8,offset:2}} xl={{span:6,offset:3}}><Input placeholder={t("establishment.search")} onChange={this.handleInput} className={"customInput establishment-list__search"} /></Col>
                             {items.map((i, index) => (
                                 <Col className="establishment-list__card" xs="12" md={{span:10,offset:1}} lg={{span:8,offset:2}} xl={{span:6,offset:3}} key={i.id}>
-                                    <CustomCardEstablishment establishment={i} showButton={auth.isUser()}/>
+                                    <CustomCardEstablishment establishment={i} showButton={auth.isUser()} from={"/establishments"}/>
                                 </Col>
                             ))}
                         </Row>

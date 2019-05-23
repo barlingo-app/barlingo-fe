@@ -26,19 +26,3 @@
         text-align: center;
     }
 }
-
-.backContainer {
-    color: $mainColor;
-    padding: 10px 0;
-
-    a,
-    a:hover,
-    a:active {
-        text-decoration: none;
-        color: $mainColor;
-    }
-    
-    span {
-        vertical-align: "-0.22em";
-    }
-}

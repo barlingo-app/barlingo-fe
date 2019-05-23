@@ -189,13 +189,13 @@ class CustomCardExchange extends Component {
                                 </div>
                             }
                             <div className="custom-card-exchange__image-wrapper">
-                                <NavLink exact={true} activeClassName={"active"} to={"exchanges/" + exchange.id}>
+                                <NavLink exact={true} activeClassName={"active"} to={{pathname: "exchanges/" + exchange.id, state: {from: (this.props.from) ? this.props.from : "/" }}}>
                                     <img className="custom-card-exchange__image" src={this.getImage(image)} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
                                 </NavLink>
                             </div>
                             <div className="custom-card-exchange__content">
                                 <div className="custom-card-exchange__title">
-                                    <NavLink className="custom-card-exchange__link" exact={true} activeClassName={"active"} to={"exchanges/" + exchange.id}>{title}</NavLink>
+                                    <NavLink className="custom-card-exchange__link" exact={true} activeClassName={"active"} to={{pathname: "exchanges/" + exchange.id, state: {from: (this.props.from) ? this.props.from : "/" }}}>{title}</NavLink>
                                 </div>
 
                                 <div className="custom-card-exchange__subtitle">
@@ -211,7 +211,7 @@ class CustomCardExchange extends Component {
                                         { orderedParticipants.map(function (i) {
                                             return (
                                                 <div key={i.id} className="custom-card-exchange__participants">
-                                                    <NavLink exact={true} activeClassName={"active"} to={`/${route}/${i.id}`} className="custom-card-exchange__link">
+                                                    <NavLink exact={true} activeClassName={"active"} to={{pathname: `/${route}/${i.id}`, state: {from: "/exchanges" }}} className="custom-card-exchange__link">
                                                         <img  className="custom-card-exchange__participant-image" alt="Participant" src={userImage(i.personalPic)} onError={(e) => e.target.src = defaultUserImage}/>
                                                     </NavLink>
                                                 </div>

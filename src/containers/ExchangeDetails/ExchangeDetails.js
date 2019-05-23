@@ -15,6 +15,7 @@ import MapContainer from '../MapContainer/MapContainer';
 import QRCode from 'qrcode.react';
 import './ExchangeDetails.scss';
 import { isMobile } from "react-device-detect";
+import BackButton from "../../components/BackButton/BackButton";
 
 
 class ExchangeDetails extends Component {
@@ -40,7 +41,6 @@ class ExchangeDetails extends Component {
     };
 
     setData = (response) => {
-        console.log(!response.data.content.establishment.userAccount.active);
         if (response.data.success && response.data.code === 200 && response.data.content && response.data.content.establishment.userAccount.active) {
             this.setState({
                 exchange: response.data.content,
@@ -304,6 +304,7 @@ class ExchangeDetails extends Component {
                         <Row>
                             <Col className="exchange-details__content" sm="12" md={{ span: 8, offset: 2 }}>
                                 <div className="exchange-details__top">
+                                    {<BackButton to={(this.props.location.state && this.props.location.state.from) ? this.props.location.state.from : "/exchanges"} additionalClasses={"centered contrast"} />}
                                     <img className="exchange-details__image" alt="Exchange" src={this.getImage(image)} onError={(e) => e.target.src = defaultImage} />
                                 </div>
 
@@ -334,7 +335,7 @@ class ExchangeDetails extends Component {
                                         }
                                         return (
                                             <Col xs="12" md="4" lg="3" key={i.id}>
-                                                <NavLink exact={true} activeClassName={"active"} to={`/${route}/${i.id}`} className="exchange-details__link">
+                                                <NavLink exact={true} activeClassName={"active"} to={{pathname: `/${route}/${i.id}`, state: {from: "/exchanges/" + exchange.id }}} className="exchange-details__link">
                                                     <img className="exchange-details__participant-image" alt="Participant" src={userImage(i.personalPic)} onError={(e) => e.target.src = defaultUserImage} />
                                                     <div className="exchange-details__participant-name">{i.name + " " + i.surname + creator}</div>
                                                 </NavLink>

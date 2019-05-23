@@ -90,6 +90,8 @@ class CreateExchangeForm extends Component {
             return false;
         }
 
+        date.seconds(0).milliseconds(0);
+
         let openingDays = [];
 
         this.props.establishment.workingHours.split(',')[0].trim().split(' ').forEach(function(value, index, array) {
@@ -140,16 +142,16 @@ class CreateExchangeForm extends Component {
         this.errors = {};
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                var data = JSON.stringify({
+                var data = {
                     "description": values.description,
-                    "moment": values['date-time-picker']._d,
+                    "moment": values['date-time-picker'].seconds(0).milliseconds(0).toISOString(),
                     "title": values.title,
                     "creatorId": auth.getUserData().id,
                     "establishmentId": this.props.establishment.id,
                     "numberOfParticipants": values.participants,
                     "targetLangs": [values.motherTongue, values.targetLanguage]
 
-                });
+                };
                 const { t } = this.props;
                 exchangesService.create(data)
                     .then((response) => {
@@ -216,6 +218,7 @@ class CreateExchangeForm extends Component {
         if (cambiar !== null) return <Redirect to={cambiar} />;
 
         function disabledDate(current) {
+            current.seconds(0).milliseconds(0);
             var startDate = moment().subtract(1, 'minutes');
             var endDate = moment().add(1, 'months');
             var subscriptionFinishMoment = moment(establishment.subscription.finishMoment + 'Z');
@@ -316,7 +319,7 @@ class CreateExchangeForm extends Component {
                     </Form.Item>
                     <Form.Item label={t('form.startDate')}>
                         {getFieldDecorator('date-time-picker', config)(
-                            <DatePicker disabledDate={disabledDate} showTime format="YYYY-MM-DD HH:mm:ss" />
+                            <DatePicker disabledDate={disabledDate} showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm" />
                         )}
                     </Form.Item>
                     <Form.Item >
