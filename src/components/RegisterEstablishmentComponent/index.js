@@ -191,7 +191,6 @@ class index extends Component {
       if (!err) {
 
         let workinghours = ''
-        console.log(values)
         /*for (let i of week) {
           if (values.weekscheadule.indexOf(i) >= 0) {
             workinghours += i + " "
