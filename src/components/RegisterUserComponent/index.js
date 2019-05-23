@@ -265,7 +265,6 @@ export class index extends Component {
         return (
             <div className="register">
               <Row>
-                  
               <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
                         <div className="register__title">{t('create-account')}</div>
                         <Form onSubmit={this.handleSubmit}>

@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Icon, Input, notification, Radio, Select } from 'antd';
+import { DatePicker, Form, Icon, Input, notification, Radio, Select } from 'antd';
 import 'antd/dist/antd.css';
 import React, { Component } from "react";
 import { withNamespaces } from "react-i18next";
@@ -223,109 +223,110 @@ class CreateExchangeForm extends Component {
         }
         
         return (
-
-            <Form onSubmit={this.handleSubmit} className="login-form">
-                {formFailed && this.showErrorMessage()}
-                <Form.Item label={t('form.title')}>
-                    {getFieldDecorator('title', {
-                        rules: [
-                            {
-                                required: true, message: t('form.validationErrors.required') 
+            <div className="create-exchange">
+                <Form onSubmit={this.handleSubmit}>
+                    {formFailed && this.showErrorMessage()}
+                    <Form.Item className="mt-3" label={t('form.title')}>
+                        {getFieldDecorator('title', {
+                            rules: [
+                                {
+                                    required: true, message: t('form.validationErrors.required') 
+                                },{
+                                    max: 255, 
+                                    message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
+                                },{
+                                    validator: this.genericValidator
+                                }
+                        ]})(
+                            <Input prefix={<Icon type="edit" style={{ color: "#4357ad" }} />} />
+                        )}
+                    </Form.Item>
+                    <Form.Item label={t('form.description')}>
+                        {getFieldDecorator('description', {
+                            rules: [{
+                                required: true,
+                                message: t('form.validationErrors.required')
                             },{
                                 max: 255, 
                                 message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
                             },{
                                 validator: this.genericValidator
                             }
-                    ]})(
-                        <Input prefix={<Icon type="edit" style={{ color: "#4357ad" }} />} />
-                    )}
-                </Form.Item>
-                <Form.Item label={t('form.description')}>
-                    {getFieldDecorator('description', {
-                        rules: [{
-                            required: true,
-                            message: t('form.validationErrors.required')
-                        },{
-                            max: 255, 
-                            message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                        },{
-                            validator: this.genericValidator
-                        }
-                    ]})(
-                        <TextArea  autosize={{ minRows: 6, maxRows: 12}} prefix={<Icon type="edit" style={{ color: '#4357ad' }} />} />
-                    )}
-                </Form.Item>
-                <Form.Item
-                    label={t('form.numberOfParticipants')}
-                >
-                    {getFieldDecorator('participants', { 
-                        rules: [
-                            {required: true, message: t('form.validationErrors.required') 
-                        },{
-                            validator: this.genericValidator
-                        }
-                    ]})(
-                        <Radio.Group>
-                            <Radio value="2">2</Radio>
-                            <Radio value="3">3</Radio>
-                            <Radio value="4">4</Radio>
-                            <Radio value="5">5</Radio>
-                        </Radio.Group>
-                    )}
-                </Form.Item>
-                <Form.Item
-                    label={t('form.motherTongue')}
-                    hasFeedback
-                >
-                    {getFieldDecorator('motherTongue', {
-                        rules: [
-                            {
-                                required: true, message: t('form.validationErrors.required') 
+                        ]})(
+                            <TextArea  autosize={{ minRows: 6, maxRows: 12}} prefix={<Icon type="edit" style={{ color: '#4357ad' }} />} />
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        label={t('form.numberOfParticipants')}
+                    >
+                        {getFieldDecorator('participants', { 
+                            rules: [
+                                {required: true, message: t('form.validationErrors.required') 
                             },{
                                 validator: this.genericValidator
                             }
-                        ],
-                    })(
-                        <Select>
-                            {auth.getUserData().speakLangs.map((key, index) => (
-                                <Option key={key} value={key}>{t('languages.' + key)}</Option>
-                            ))}
-                        </Select>
-                    )}
-                </Form.Item>
-                <Form.Item
-                    label={t('form.targetLanguage')}
-                    hasFeedback
-                >
-                    {getFieldDecorator('targetLanguage', {
-                        rules: [
-                            {
-                                required: true, message: t('form.validationErrors.required') 
-                            },{
-                                validator: this.genericValidator
-                            }
-                        ],
-                    })(
-                        <Select>
-                            {auth.getUserData().langsToLearn.map((key, index) => (
-                                <Option key={key} value={key}>{t('languages.' + key)}</Option>
-                            ))}
-                        </Select>
-                    )}
-                </Form.Item>
-                <Form.Item label={t('form.startDate')}>
-                    {getFieldDecorator('date-time-picker', config)(
-                        <DatePicker disabledDate={disabledDate} showTime format="YYYY-MM-DD HH:mm:ss" />
-                    )}
-                </Form.Item>
-                <Form.Item className="create__button">
-                    <Button type="primary" htmlType="submit" className="login-form-button">
-                        {t('generic.create')}
-                    </Button>
-                </Form.Item>
+                        ]})(
+                            <Radio.Group>
+                                <Radio value="2">2</Radio>
+                                <Radio value="3">3</Radio>
+                                <Radio value="4">4</Radio>
+                                <Radio value="5">5</Radio>
+                            </Radio.Group>
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        label={t('form.motherTongue')}
+                        hasFeedback
+                    >
+                        {getFieldDecorator('motherTongue', {
+                            rules: [
+                                {
+                                    required: true, message: t('form.validationErrors.required') 
+                                },{
+                                    validator: this.genericValidator
+                                }
+                            ],
+                        })(
+                            <Select>
+                                {auth.getUserData().speakLangs.map((key, index) => (
+                                    <Option key={key} value={key}>{t('languages.' + key)}</Option>
+                                ))}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        label={t('form.targetLanguage')}
+                        hasFeedback
+                    >
+                        {getFieldDecorator('targetLanguage', {
+                            rules: [
+                                {
+                                    required: true, message: t('form.validationErrors.required') 
+                                },{
+                                    validator: this.genericValidator
+                                }
+                            ],
+                        })(
+                            <Select>
+                                {auth.getUserData().langsToLearn.map((key, index) => (
+                                    <Option key={key} value={key}>{t('languages.' + key)}</Option>
+                                ))}
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label={t('form.startDate')}>
+                        {getFieldDecorator('date-time-picker', config)(
+                            <DatePicker disabledDate={disabledDate} showTime format="YYYY-MM-DD HH:mm:ss" />
+                        )}
+                    </Form.Item>
+                    <Form.Item >
+                        <button className="create-exchange__button" type="primary" htmlType="submit">
+                            {t('generic.create')}
+                        </button>
+                    </Form.Item>
 
-            </Form>
+                </Form>
+            </div>
         );
     }
 }
