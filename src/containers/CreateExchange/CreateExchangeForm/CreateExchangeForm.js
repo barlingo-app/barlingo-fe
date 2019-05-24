@@ -19,9 +19,19 @@ const dayArrays = [
     'saturday',
     'sunday'
 ];
+const dayJson = {
+    0: 'sunday',
+    1: 'monday',
+    2: 'tuesday',
+    3: 'wednesday',
+    4: 'thursday',
+    5: 'friday',
+    6: 'saturday'
+}
+
 
 class CreateExchangeForm extends Component {
-    
+
     constructor(props) {
         super(props);
 
@@ -53,7 +63,7 @@ class CreateExchangeForm extends Component {
             delete this.errors[rule.field];
         }
 
-        switch(rule.field) {
+        switch (rule.field) {
             case 'date-time-picker':
                 let message1 = this.checkExchangeDate(value);
                 if (message1) {
@@ -84,44 +94,94 @@ class CreateExchangeForm extends Component {
 
         return false;
     }
+    getDays(workingHours) {
+        let data = {};
+        let days = workingHours.split(',');
+        if (days.length === 8) {
+            let monday = this.getSchedule(days[0].split('/')[1]);
+            if (monday && monday.isOpen === 'close') this.setState({ mondayIsOpen: false })
+            data.monday = monday;
+            let tuesday = this.getSchedule(days[1].split('/')[1]);
+            if (tuesday && tuesday.isOpen === 'close') this.setState({ tuesdayIsOpen: false })
+            data.tuesday = tuesday;
+            let wednesday = this.getSchedule(days[2].split('/')[1]);
+            if (wednesday && wednesday.isOpen === 'close') this.setState({ wednesdayIsOpen: false })
+            data.wednesday = wednesday;
+            let thursday = this.getSchedule(days[3].split('/')[1]);
+            if (thursday && thursday.isOpen === 'close') this.setState({ thursdayIsOpen: false })
+            data.thursday = thursday;
+            let friday = this.getSchedule(days[4].split('/')[1]);
+            if (friday && friday.isOpen === 'close') this.setState({ fridayIsOpen: false })
+            data.friday = friday;
+            let saturday = this.getSchedule(days[5].split('/')[1]);
+            if (saturday && saturday.isOpen === 'close') this.setState({ saturdayIsOpen: false })
+            data.saturday = saturday;
+            let sunday = this.getSchedule(days[6].split('/')[1]);
+            if (sunday && sunday.isOpen === 'close') this.setState({ sundayIsOpen: false })
+            data.sunday = sunday;
+        }
+        return data;
+    }
+    getSchedule(string) {
+        if (!string) return null;
+        if (string === 'closed') return { isOpen: 'close' };
+        let open = string.split('-')[0];
+        let close = string.split('-')[1];
+        return { isOpen: 'open', openTime: moment(open, 'HH:mm'), closeTime: moment(close, 'HH:mm') };
+    }
 
     checkExchangeDate = (date) => {
         if (!date) {
             return false;
         }
 
-        date.seconds(0).milliseconds(0);
+        let day = dayJson[date.day()]
 
         let openingDays = [];
+        let days = this.getDays(this.props.establishment.workingHours);
+        const daySchedule = days[day];
+        const previousDay = days[dayJson[date.day() === 0 ? 6 : date.day() - 1]];
 
-        this.props.establishment.workingHours.split(',')[0].trim().split(' ').forEach(function(value, index, array) {
-            openingDays.push(value.trim().toLowerCase());
-        });
 
-        let basicOpeningTime = moment(this.props.establishment.workingHours.split(',')[1].trim().split('-')[0].trim() + ':00', 'HH:mm:ss');
-        let basicClosingTime = moment(this.props.establishment.workingHours.split(',')[1].trim().split('-')[1].trim() + ':00', 'HH:mm:ss');
         let selectedTime = moment(date.format('YYYY-MM-DD HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
 
-        if (basicClosingTime.isBefore(basicOpeningTime)) {
-            let openingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicOpeningTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
-            let closingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicClosingTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
-            closingTime.add(1, 'days');
-            if ((openingTime.isBefore(selectedTime) && closingTime.isAfter(selectedTime)) && (openingDays.indexOf(dayArrays[openingTime.isoWeekday() - 1]) >= 0)) {
-                return false;
+        if (daySchedule.isOpen === 'open') {
+            let basicOpeningTime = moment(daySchedule.openTime, "HH:mm:ss");
+            let basicClosingTime = moment(daySchedule.closeTime, "HH:mm:ss");
+
+
+            if (basicClosingTime.isBefore(basicOpeningTime)) {
+                let openingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicOpeningTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
+                let closingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicClosingTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
+                closingTime.add(1, 'days');
+                if ((openingTime.isBefore(selectedTime) && closingTime.isAfter(selectedTime))) {
+                    return false;
+                } else {
+                    let openingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicOpeningTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
+                    let closingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicClosingTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
+                    openingTime.subtract(1, 'days');
+                    if ((openingTime.isBefore(selectedTime) && closingTime.isAfter(selectedTime))) {
+                        return false;
+                    }
+                }
             } else {
                 let openingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicOpeningTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
                 let closingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicClosingTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
-                openingTime.subtract(1, 'days');
-                if ((openingTime.isBefore(selectedTime) && closingTime.isAfter(selectedTime)) && (openingDays.indexOf(dayArrays[openingTime.isoWeekday() - 1]) >= 0)) {
+                if ((openingTime.isBefore(selectedTime) && closingTime.isAfter(selectedTime))) {
                     return false;
                 }
             }
-        } else {
-            //(openingDays.indexOf(dayArrays[date.isoWeekday() - 1]) >= 0
-            let openingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicOpeningTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
-            let closingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicClosingTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
-            if ((openingTime.isBefore(selectedTime) && closingTime.isAfter(selectedTime)) && (openingDays.indexOf(dayArrays[openingTime.isoWeekday() - 1]) >= 0)) {
-                return false;
+        }
+        if (previousDay.isOpen === 'open') {
+            let basicPreviousOpeningTime = moment(previousDay.openTime, "HH:mm:ss");
+            let basicPreviousClosingTime = moment(previousDay.closeTime, "HH:mm:ss");
+            let openingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicPreviousOpeningTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
+            let closingTime = moment(date.format('YYYY-MM-DD') + ' ' + basicPreviousClosingTime.format('HH:mm:ss'), 'YYYY-MM-DD HH:mm:ss');
+            openingTime.subtract(1, 'days');
+            if (basicPreviousClosingTime.isBefore(basicPreviousOpeningTime)) {
+                if ((openingTime.isBefore(selectedTime) && closingTime.isAfter(selectedTime))) {
+                    return false;
+                }
             }
         }
 
@@ -166,11 +226,11 @@ class CreateExchangeForm extends Component {
                         } else if (response.data.code === 400) {
                             this.externalErrors = response.data.validationErrors;
                             let fieldNames = [];
-                            for (var fieldName in this.externalErrors)  {
-                              fieldNames.push(fieldName);
+                            for (var fieldName in this.externalErrors) {
+                                fieldNames.push(fieldName);
                             }
-                            this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
-                            
+                            this.props.form.validateFieldsAndScroll(fieldNames, { force: true });
+
                             notification.warning({
                                 message: this.props.t('form.validationNotification.title'),
                                 description: this.props.t('form.validationNotification.message'),
@@ -179,7 +239,7 @@ class CreateExchangeForm extends Component {
                             notification.error({
                                 message: this.props.t('apiErrors.defaultErrorTitle'),
                                 description: this.props.t('apiErrors.' + response.data.message),
-                              });
+                            });
                         } else {
                             notification.error({
                                 message: this.props.t('apiErrors.defaultErrorTitle'),
@@ -211,7 +271,7 @@ class CreateExchangeForm extends Component {
         const config = {
             rules: [{ type: 'object', required: true, message: t('form.validationErrors.required') }, {
                 validator: this.genericValidator,
-              }],
+            }],
         };
         const { getFieldDecorator } = this.props.form;
         const { cambiar, formFailed } = this.state;
@@ -224,7 +284,7 @@ class CreateExchangeForm extends Component {
             var subscriptionFinishMoment = moment(establishment.subscription.finishMoment + 'Z');
             return current.isBefore(startDate) || current.isAfter((subscriptionFinishMoment.isBefore(endDate) ? subscriptionFinishMoment : endDate));
         }
-        
+
         return (
             <div className="create-exchange">
                 <Form onSubmit={this.handleSubmit}>
@@ -233,14 +293,15 @@ class CreateExchangeForm extends Component {
                         {getFieldDecorator('title', {
                             rules: [
                                 {
-                                    required: true, message: t('form.validationErrors.required') 
-                                },{
-                                    max: 255, 
+                                    required: true, message: t('form.validationErrors.required')
+                                }, {
+                                    max: 255,
                                     message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                                },{
+                                }, {
                                     validator: this.genericValidator
                                 }
-                        ]})(
+                            ]
+                        })(
                             <Input prefix={<Icon type="edit" style={{ color: "#4357ad" }} />} />
                         )}
                     </Form.Item>
@@ -249,26 +310,29 @@ class CreateExchangeForm extends Component {
                             rules: [{
                                 required: true,
                                 message: t('form.validationErrors.required')
-                            },{
-                                max: 255, 
+                            }, {
+                                max: 255,
                                 message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                            },{
+                            }, {
                                 validator: this.genericValidator
                             }
-                        ]})(
-                            <TextArea  autosize={{ minRows: 6, maxRows: 12}} prefix={<Icon type="edit" style={{ color: '#4357ad' }} />} />
+                            ]
+                        })(
+                            <TextArea autosize={{ minRows: 6, maxRows: 12 }} prefix={<Icon type="edit" style={{ color: '#4357ad' }} />} />
                         )}
                     </Form.Item>
                     <Form.Item
                         label={t('form.numberOfParticipants')}
                     >
-                        {getFieldDecorator('participants', { 
+                        {getFieldDecorator('participants', {
                             rules: [
-                                {required: true, message: t('form.validationErrors.required') 
-                            },{
-                                validator: this.genericValidator
-                            }
-                        ]})(
+                                {
+                                    required: true, message: t('form.validationErrors.required')
+                                }, {
+                                    validator: this.genericValidator
+                                }
+                            ]
+                        })(
                             <Radio.Group>
                                 <Radio value="2">2</Radio>
                                 <Radio value="3">3</Radio>
@@ -284,8 +348,8 @@ class CreateExchangeForm extends Component {
                         {getFieldDecorator('motherTongue', {
                             rules: [
                                 {
-                                    required: true, message: t('form.validationErrors.required') 
-                                },{
+                                    required: true, message: t('form.validationErrors.required')
+                                }, {
                                     validator: this.genericValidator
                                 }
                             ],
@@ -304,8 +368,8 @@ class CreateExchangeForm extends Component {
                         {getFieldDecorator('targetLanguage', {
                             rules: [
                                 {
-                                    required: true, message: t('form.validationErrors.required') 
-                                },{
+                                    required: true, message: t('form.validationErrors.required')
+                                }, {
                                     validator: this.genericValidator
                                 }
                             ],
