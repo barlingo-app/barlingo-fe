@@ -1,4 +1,6 @@
 @import '../../styles/defaultStyles.scss';
+@import "../../styles/variables";
+
 
 .landingContainer {
   box-sizing: border-box;
@@ -31,7 +33,6 @@
 
   .navContainer {
     display: flex;
-    margin-bottom: 30px;
     a {
       text-decoration: none;
       &:hover,
@@ -58,4 +59,72 @@
       }
     }
   }
+}
+
+.arrow-down {
+  color: $mainColor;
+}
+
+.home-info {
+
+&__title {
+  font-family: $font-primary;
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 15px;
+  margin-top: 30px;
+}
+
+&__description {
+  text-align: center;
+}
+&__pricing-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  display: block;
+  height: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+&__monthly {
+  color: #FF8C00; 
+  font-weight: 600;
+  font-size: 20px;
+}
+&__quarterly {
+  color: #FFD700;
+  font-weight: 600;
+  font-size: 20px;
+
+}
+&__annual {
+  color: #32CD32;
+  font-weight: 600;
+  font-size: 20px;
+
+}
+&__team {
+  margin-bottom: 120px;
+}
+&__team-card {
+  border-radius: 10px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  padding-bottom: 5px;
+  text-align: center;
+  width: 250px;
+
+}
+&__img {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 100%;
+ }
 }

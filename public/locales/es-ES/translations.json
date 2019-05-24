@@ -1,4 +1,23 @@
 {
+
+  "home": {
+    "whatis": "¿Qué es Barlingo?",
+    "paragraph1": "Barlingo es una aplicación de intercambio de idiomas donde los usuarios realizan intercambios en establecimientos y reciben descuentos.",
+    "paragraph2": "Si quieres practicar idiomas de manera gratuita, únete a uno de los intercambios publicados o crea uno a tu gusto. Hay personas como tú dispuestas a aprender y echar un buen rato.",
+    "paragraph3": "Si tienes un negocio y quieres atraer personas que realicen intercambio de idiomas, regístrate.",
+    "pricing": "Precios",
+    "monthly": "MENSUAL",
+    "quarterly": "TRIMESTRAL",
+    "annual": "ANUAL",
+    "month": "mes",
+    "team": "Nuestro equipo",
+    "pm": "Jefe de proyecto",
+    "be-leader": "Líder de backend",
+    "be-dev": "Desarrollador backend",
+    "fe-leader": "Líder de frontend",
+    "fe-dev": "Desarrollador frontend"
+
+  },
   "filter": "Filtrar resultados:",
   "date&time": "Fecha y hora:",
   "laanguages": "Idiomas",
