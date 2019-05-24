@@ -331,7 +331,7 @@ class index extends Component {
             </div>
             <Form onSubmit={this.handleSubmit}>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.username')}>
                     {getFieldDecorator('username', {
                       rules: [{
@@ -351,7 +351,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.password')}>
                     {getFieldDecorator('password', {
                       rules: [{
@@ -370,7 +370,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.confirmPassword')}>
                     {getFieldDecorator('confirm', {
                       rules: [{
@@ -389,7 +389,7 @@ class index extends Component {
               </Row>
               <hr></hr>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.name')}>
                     {getFieldDecorator('name', {
                       rules: [{
@@ -409,7 +409,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.surname')}>
                     {getFieldDecorator('surname', {
                       rules: [{
@@ -429,7 +429,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.city')}>
                     {getFieldDecorator('city', {
                       rules: [{
@@ -449,7 +449,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.country')}>
                     {getFieldDecorator('country', {
                       rules: [{
@@ -469,7 +469,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.email')}>
                     {getFieldDecorator('email', {
                       rules: [{
@@ -491,7 +491,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.birthday')}>
                     {getFieldDecorator('birthdate', config)(
                       <DatePicker defaultPickerValue={moment().subtract(18, 'years')} format="YYYY-MM-DD" disabledDate={this.checkBirthday} />
@@ -501,7 +501,7 @@ class index extends Component {
               </Row>
               <hr></hr>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.establishmentname')}>
                     {getFieldDecorator('establishmentName', {
                       rules: [{
@@ -521,7 +521,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.description')}>
                     {getFieldDecorator('description', {
                       rules: [{
@@ -537,7 +537,7 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.address')}>
                     {getFieldDecorator('address', {
                       rules: [{
@@ -558,7 +558,7 @@ class index extends Component {
               </Row>
 
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 10, offset: 1 }}>
+                <Col md={{ span: 8, offset: 2 }}>
 
                   <Form.Item label={t('form.weekscheadule')}>
                     <Row>
