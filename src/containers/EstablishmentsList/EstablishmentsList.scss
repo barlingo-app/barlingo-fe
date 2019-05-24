@@ -1,1 +1,18 @@
 @import "../../styles/defaultStyles";
+
+.establishment-list {
+    background: linear-gradient(to top, #ffffff, #D7DDE8);
+    &__message {
+        font-family: $font-primary;
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    &__card {
+        margin-bottom: 15px;
+    }
+    &__search {
+        margin-bottom: 30px;
+    }
+}

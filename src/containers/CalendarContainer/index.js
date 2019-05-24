@@ -6,6 +6,7 @@ import {auth} from './../../auth'
 import Loading from "../../components/Loading/Loading";
 import './index'
 import "antd/dist/antd.css";
+import { withNamespaces } from "react-i18next";
 
 
 export class index extends Component {
@@ -41,7 +42,7 @@ export class index extends Component {
   };
 
   componentDidMount(){
-    document.title = "Barlingo - Business calendar";
+    document.title = "Barlingo - " + this.props.t('links.calendar');
     this.fetchData()
     
   }
@@ -72,4 +73,4 @@ export class index extends Component {
   }
 }
 
-export default index
+export default withNamespaces()(index)

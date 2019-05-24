@@ -6,13 +6,13 @@ import { Redirect } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
 import { auth } from '../../auth';
 import Loading from "../../components/Loading/Loading";
-import defaultImage from '../../media/default-exchange-header.jpg';
-import locationIcon from '../../media/imageedit_5_5395394410.png';
+import defaultImage from '../../media/person.jpg';
 import { userService } from '../../services/userService';
 import { establishmentService } from '../../services/establishmentService';
 import FileUploadComponent from './../../components/FileUploadComponent/';
 import ChangePassword from './ChangePassword/ChangePassword';
 import './ProfileView.scss';
+import BackButton from '../../components/BackButton/BackButton';
 
 
 class ProfileView extends Component {
@@ -48,7 +48,7 @@ class ProfileView extends Component {
 
     componentDidMount() {
         this.consultarUsuario();
-        document.title = "Barlingo - Profile";
+        document.title = "Barlingo - " + this.props.t('profile');
     }
 
     setData = (response, loggedUser) => {
@@ -96,18 +96,20 @@ class ProfileView extends Component {
         }
     }
 
-    getFormattedWorkingHours = (workingHours) => {
+    formatWorkingHours = (workingHours) => {
         const { t } = this.props;
-
-        let formattedWorkingHours = '';
-        let days = workingHours.split(',')[0].trim();
-
-        days.split(' ').forEach(function (value, index, array) {
-            formattedWorkingHours += t('days.' + value.trim().toLowerCase()) + ' ';
-        });
-
-        return formattedWorkingHours.trim() + ' , ' + workingHours.split(',')[1].trim();
+        var formatedWorkingHours = [];
+        var splitedWorkingHours = workingHours.split(',')
+        for (var i=0; i<(splitedWorkingHours.length-1); i++) {
+            var elem = splitedWorkingHours[i].split('/')
+            if(elem[1] === "closed") {
+                elem[1] = t('close')
+            }
+            formatedWorkingHours.push(elem[1])
+        }
+        return formatedWorkingHours       
     }
+
 
 
     getImage = (image) => {
@@ -292,8 +294,6 @@ class ProfileView extends Component {
             message={this.props.t('subscription.warningMessage.title')}
             description={this.props.t('subscription.warningMessage.message2')}
             type="warning"
-            showIcon
-            banner
         />
     )
     visibleChangePassword = () => {
@@ -303,20 +303,15 @@ class ProfileView extends Component {
     }
 
     getAge = (finalBirthDate) => {
-        var splitedDate = finalBirthDate.split('/')
-        var today = new Date()
-        var age = today.getFullYear() - splitedDate[2]
-        var month = today.getMonth - splitedDate[1]
-        if(month < 0 || (month === 0 && today.getDay < splitedDate[0])) {
-            age--
-        }
-        return age
+        var diff_ms = Date.now() - finalBirthDate.getTime();
+        var age_dt = new Date(diff_ms);
+
+        return Math.abs(age_dt.getUTCFullYear() - 1970);
 
     }
     printAge = () => {
-        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit'};
         var birthDate = this.state.user.birthday.split('T')[0]
-        var finalBirthDate =  new Date(birthDate + 'Z').toLocaleDateString('es-ES', dateFormat)
+        var finalBirthDate =  new Date(birthDate + 'Z')
         return this.getAge(finalBirthDate);
     }
 
@@ -364,7 +359,6 @@ class ProfileView extends Component {
                 </Page>
             );
         }
-        const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
         const menu = (
             <Menu>
               <Menu.Item key="0">
@@ -408,19 +402,21 @@ class ProfileView extends Component {
             </Menu>
           );
         
+        let slotName = "content";
+
         return (
             <div className="profileview">
                 <Page layout="public">
-                    <Section slot="content">
-                        {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && this.getSubcriptionWarning()}
+                    <Section slot={slotName}>
                         <Row>
                             <Col className="profileview__content" sm="12" md={{span: 6, offset: 3}}>
                                 <div className="profileview__top">
+                                {this.props.location.state && this.props.location.state.from && (!auth.isAuthenticated() || (auth.isAuthenticated() && user.id !== auth.getUserData().id)) && <BackButton to={this.props.location.state.from} additionalClasses={"centered contrast"} />}
                                 {auth.isAuthenticated() && (auth.isEstablishment() || user.id === auth.getUserData().id) && 
                                 <Row>
                                     <Col xs={{span: 3, offset: 9}} lg={{span: 1, offset: 10}}>
                                         <Dropdown overlay={menu} trigger={['click']}>
-                                        <a className="ant-dropdown-link profileview__settings-icon" href="#">
+                                        <a className="ant-dropdown-link profileview__settings-icon" href="/profile" onClick={e => e.preventDefault()}>
                                             <i className = "fas fa-cog fa-lg "></i>
                                         </a>
                                         </Dropdown>
@@ -452,10 +448,65 @@ class ProfileView extends Component {
 
                                 {auth.isAuthenticated() && auth.isEstablishment() ?
                                 <div>
-                                    <div className="profileview__workingHours-title">{t('form.workingHours')}</div>
-                                    <div className="profileview__workingHours">{user.workingHours}</div>
+                                    <div className="establishment-details__workingHours-wrapper">
+                                        <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
+                                            <table className="establishment-details__table">
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.monday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[0]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.tuesday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[1]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.wednesday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[2]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.thursday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[3]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.friday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[4]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.saturday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[5]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="hours-table__day">{t('days.sunday')}</td>
+                                                    <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[6]}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     <div className="profileview__offer-title">{t('form.offer')}</div>
                                     <div className="profileview__offer">{user.offer}</div>
+                                    <div className="profileview__workingHours-title">{t('subscription.infoTitle')}</div>
+                                    {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) && (user.id === auth.getUserData().id) && <div className="profileview__subscription_alert">
+                                         {this.getSubcriptionWarning()}
+                                    </div>}
+                                    {auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription != null) && (user.id === auth.getUserData().id) && <div className="profileview__subscription_info">
+                                         <div className="profileview__subscription_info__row">
+                                            <span className="profileview__subscription_info__row__title">
+                                                {t('subscription.typeTitle')}:
+                                            </span>
+                                                {t('subscription.type.' + auth.getUserData().subscription.subscriptionType.toLowerCase())}
+                                         </div>
+                                         <div className="profileview__subscription_info__row">
+                                            <span className="profileview__subscription_info__row__title">
+                                                {t('subscription.startTitle')}:
+                                            </span>
+                                             {new Date(auth.getUserData().subscription.initMoment + 'Z').toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'})}
+                                         </div>
+                                         <div className="profileview__subscription_info__row">
+                                            <span className="profileview__subscription_info__row__title">
+                                                {t('subscription.finishTitle')}:
+                                            </span>
+                                             {new Date(auth.getUserData().subscription.finishMoment + 'Z').toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'})}
+                                         </div>
+                                    </div>}
                                 </div> : 
                                 <div>
                                     <Row>
@@ -514,4 +565,4 @@ class ProfileView extends Component {
 }
 
 ProfileView = Form.create({ name: "password" })(ProfileView);
-export default withNamespaces('translation')(ProfileView);
+export default withNamespaces()(ProfileView);

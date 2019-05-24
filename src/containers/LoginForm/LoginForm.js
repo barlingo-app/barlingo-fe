@@ -168,9 +168,9 @@ class LoginForm extends Component {
                                     <Checkbox>{t('form.remember')}</Checkbox>
                                 )}
                             </Form.Item>
-                            <Button type="primary" htmlType="submit" className="login-form-button primaryButton">
+                            <button  htmlType="submit" className="loginContainer__button">
                                 {t('form.login')}
-                            </Button>
+                            </button>
                         </Form>
                     </div>
                 </Section>
@@ -182,4 +182,4 @@ class LoginForm extends Component {
 }
 LoginForm = Form.create({ name: "normal_login" })(LoginForm);
 
-export default withNamespaces('translation')(LoginForm);
+export default withNamespaces()(LoginForm);

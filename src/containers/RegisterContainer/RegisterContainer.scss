@@ -1,5 +1,8 @@
 @import '../../styles/defaultStyles.scss';
 
+.register-bg {
+    background: linear-gradient(to top, #ffffff, #D7DDE8);
+}
 .selectRegister {
     a,
     a:hover,
@@ -7,51 +10,19 @@
         text-decoration: none;
     }
 
-    &__container {
-        background: white;
-        box-shadow: 0px 2px 3px rgba(0,0,0,.13) ,1px 2px 2px rgba(0,0,0,.1) , -1px -2px 2px rgba(0,0,0,.05) ;
-        border-radius: 5px;
-        padding: 0 0 15px 0;
-    }
-    &__title {
-        border-bottom: 0.5px solid $mainColor;
-        text-align: center;
-        font-size: 20px;
-        font-weight: 800;
-        font-weight: bolder;
-        margin-right: auto;
-        margin-left: auto;
-        margin-bottom: 30px;
-        width: 90%;
-        padding: 10px;
-    }
 
     &__option {
         box-sizing: border-box;
         padding: 40px 10px;
         margin: 40px 10px;
-        border: 1px solid #000000;
         border-radius: 5px;
         cursor: pointer;
-        background-color: $mainColor;
+        background: #44cfcb; /* Old browsers */
+        background: -moz-linear-gradient(-45deg, #44cfcb 1%, #4ea5d9 47%, #4357ad 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(-45deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(135deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%);
         color: $mainFontColor;
         font-weight: bold;
         text-align: center;
-    }
-}
-
-.backContainer {
-    color: $mainColor;
-    padding: 10px 0;
-
-    a,
-    a:hover,
-    a:active {
-        text-decoration: none;
-        color: $mainColor;
-    }
-    
-    span {
-        vertical-align: "-0.22em";
     }
 }

@@ -3,49 +3,39 @@ import { withNamespaces } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { auth } from '../../../auth';
 import defaultImage from '../../../media/default-exchange-logo.png';
-import french from '../../../media/france.svg';
+import defaultUserImage from '../../../media/person.jpg';
 import { notification } from 'antd';
-import german from '../../../media/germany.svg';
-import locationIcon from '../../../media/imageedit_5_5395394410.png';
-import timeIcon from '../../../media/imageedit_8_4988666292.png';
-import personIcon from '../../../media/person.png';
-import spanish from '../../../media/spain.svg';
-import english from '../../../media/united-kingdom.svg';
 import { exchangesService } from '../../../services/exchangesService';
 import './CustomCardExchange.scss';
 
 
 
 class CustomCardExchange extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            exchange: null
+        }
+    }
 
 
     getImage = (originalImage) => {
         return (originalImage === '' || originalImage === null) ? defaultImage : originalImage;
     };
 
+    getUserImage = (originalImage) => {
+        return (originalImage === '' || originalImage === null) ? defaultUserImage : originalImage;
+    };
+
     getRandomArbitrary(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
-    renderLanguageWrapper() {
-        const exchange = this.props.exchange;
-        const idioms = { "es": spanish, "en": english, "fr": french, "de": german };
-        const targetLangs = [];
-        exchange.targetLangs.forEach(lang => {
-            if (idioms[lang])
-                targetLangs.push(idioms[lang]);
-        });
 
-        return (<div className="custom-card-exchange__language-wrapper">
-            {targetLangs.map((i, index) => (
-                <img key={"mother_tonge_" + index} className="custom-card-exchange-user__language-icon" src={i} alt="target tongue" />
-            ))}
-        </div>);
-    }
     renderButton() {
-        if (auth.isAuthenticated()) {
+        const { exchange } = this.props;
+        if (auth.isAuthenticated() && exchange.establishment.userAccount.active)  {
             const { t } = this.props;
             const userData = auth.getUserData();
-            const { exchange } = this.props;
             
             if(exchange.participants.length >= exchange.numberMaxParticipants && !exchange.participants.find(x => x.id === userData.id)){ 
                 return <div className="custom-card-exchange__button-wrapper"><button className="custom-card-exchange__button-completed" >{t('completed')}</button></div>               
@@ -56,8 +46,11 @@ class CustomCardExchange extends Component {
                 let buttonMessage = t('generic.join');
                 if (exchange.participants.find(x => x.id === userData.id)) {
                 buttonMessage = t('generic.leave');
+                return <div className="custom-card-exchange__button-wrapper"><button className="custom-card-exchange__button-leave" onClick={this.manageOnClick}>{buttonMessage}</button></div>
+
             }
                 return <div className="custom-card-exchange__button-wrapper"><button className="custom-card-exchange__button" onClick={this.manageOnClick}>{buttonMessage}</button></div>
+
 
             }
         }
@@ -161,6 +154,16 @@ class CustomCardExchange extends Component {
         this.setState({ loginFailed: false });
     };
 
+    orderParticipants = (participants) => {
+        const {exchange} = this.props
+        var orderedParticipants = participants.sort (
+        function(x,y) {
+           
+        return x.id === exchange.creator.id ? -1 : y.id === exchange.creator.id ? 1 : 0
+    })
+        return orderedParticipants
+    }
+
 
 
     render() {
@@ -171,37 +174,56 @@ class CustomCardExchange extends Component {
         const { exchange } = this.props;
         const title = exchange.title;
         const image = exchange.establishment.imageProfile;
-        const address = exchange.establishment.establishmentName + ", " + exchange.establishment.address;
         const dateFormat = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-        const schedule = new Date(exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)
         const numberOfParticipants = exchange.participants.length === 0 ? 1 : exchange.participants.length;
         const numberMaxParticipants = exchange.numberMaxParticipants === null ? 1 : exchange.numberMaxParticipants;
-        return (
-            <div style={{ "height": "100%", "padding": "15px 0" }}>
-                <div className="custom-card-exchange">
+        const orderedParticipants = this.orderParticipants(exchange.participants)
+        const route = "profile";
+        const userImage = this.getUserImage
 
-                    <img className="custom-card-exchange__image" src={this.getImage(image)} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
-                    {this.renderLanguageWrapper()}
-                    <p className="custom-card-exchange__title">
-                        <NavLink className="custom-card-exchange__link" exact={true} activeClassName={"active"} to={"exchanges/" + exchange.id}>{title}</NavLink>
-                    </p>
-                    <div className="custom-card-exchange__location-wrapper">
-                        <img className="custom-card-exchange__location-icon" src={locationIcon} alt="Location" />
-                        <p className="custom-card-exchange__text">{address}</p>
-                    </div>
-                    <div className="custom-card-exchange__time-wrapper">
-                        <img className="custom-card-exchange__time-icon" src={timeIcon} alt="Date and time" />
-                        <p className="custom-card-exchange__text">{schedule}</p>
-                    </div>
-                    <div className="custom-card-exchange__participants-wrapper">
-                        <img className="custom-card-exchange__participants-icon" src={personIcon} alt="Participants" />
-                        <p className="custom-card-exchange__text">{numberOfParticipants}/{numberMaxParticipants+" "+ t('participants')}</p>
-                    </div>
-                    {this.renderButton()}
+        return (
+                <div className="custom-card-exchange">
+                            {!exchange.establishment.userAccount.active && 
+                                <div className="custom-card-exchange__overlay-disable">
+                                    {t('exchange.notAvailable')}
+                                </div>
+                            }
+                            <div className="custom-card-exchange__image-wrapper">
+                                <NavLink exact={true} activeClassName={"active"} to={{pathname: "exchanges/" + exchange.id, state: {from: (this.props.from) ? this.props.from : "/" }}}>
+                                    <img className="custom-card-exchange__image" src={this.getImage(image)} alt="Bar logo" onError={(e) => e.target.src = defaultImage} />
+                                </NavLink>
+                            </div>
+                            <div className="custom-card-exchange__content">
+                                <div className="custom-card-exchange__title">
+                                    <NavLink className="custom-card-exchange__link" exact={true} activeClassName={"active"} to={{pathname: "exchanges/" + exchange.id, state: {from: (this.props.from) ? this.props.from : "/" }}}>{title}</NavLink>
+                                </div>
+
+                                <div className="custom-card-exchange__subtitle">
+                                <div>{new Date(exchange.moment + 'Z').toLocaleDateString('es-ES', dateFormat)}</div>
+    
+                                {t(`languages.${exchange.targetLangs[0]}`)}
+                                <i className="fas fa-exchange-alt exchange-details__languages-icon"></i>
+                                {t(`languages.${exchange.targetLangs[1]}`)}
+                                </div>
+
+                                <div className="custom-card-exchange__participants-wrapper">
+                                    <div className="custom-card-exchange__participants-text">{numberOfParticipants}{" " + t('of') + " "}{numberMaxParticipants+" "+ t('participants')}</div>
+                                        { orderedParticipants.map(function (i) {
+                                            return (
+                                                <div key={i.id} className="custom-card-exchange__participants">
+                                                    <NavLink exact={true} activeClassName={"active"} to={{pathname: `/${route}/${i.id}`, state: {from: "/exchanges" }}} className="custom-card-exchange__link">
+                                                        <img  className="custom-card-exchange__participant-image" alt="Participant" src={userImage(i.personalPic)} onError={(e) => e.target.src = defaultUserImage}/>
+                                                    </NavLink>
+                                                </div>
+                                            )
+                                            
+                                        })}
+                                </div>
+                            </div>
+                            {this.renderButton()}
                 </div>
-            </div>
         );
     }
 }
 
-export default withNamespaces('translation')(CustomCardExchange);
+export default withNamespaces()(CustomCardExchange);

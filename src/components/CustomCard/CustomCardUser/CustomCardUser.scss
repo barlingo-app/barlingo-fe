@@ -1,33 +1,52 @@
 @import "../../../styles/variables";
 
 .custom-card-user {
-  border: 2px solid $mainColor;
+  background: white;
   border-radius: 10px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   //margin-top: 30px;
   padding: 10px 20px 20px 20px;
   position: relative;
   height: 100%;
 
-
-    &__image {
-      border: 2px solid $mainColor;
-      border-radius: 50%;
-      display: block;
-      height: 70px;
-      margin-left: auto;
-      margin-right: auto;
-      width: 70px;
+    &__image-wrapper {
+      display: table-cell;
+      vertical-align: middle;
+      width: 10em;
+      @media(max-width: 767px) {
+        display: block;
+        width: 100%;
+      }
     }
+    &__image {
+      border-radius: 50%;
+      height: 140px;
+      width: 140px;
+      @media(max-width: 767px){
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    &__content {
+      display: table-cell;
+      vertical-align: middle;
+      @media(max-width: 767px) {
+        display: block;
+      }
+    }
+    
 
     &__title {
       font-size: 22px;
-      font-weight:600;
-      margin-left: 10px;
-      text-align: center;
+      font-weight:600;  
+      overflow: hidden;
+      text-overflow: ellipsis;
 
-      @media(max-width: 575px) {
+      @media(max-width: 767px) {
         font-size: 23px;
+        text-align:center;
       }
     }
 
@@ -69,16 +88,21 @@
     }
 
     &__location-wrapper {
-      margin-left: 18px;
-      margin-top: 12px;
+      color: $fontColor-secondary;
+      font-family: $font-primary;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      @media(max-width: 767px) {
+        text-align: center;
+      }
+    }
+    &__location-icon {
+      margin-right: 5px;
+    }
+    &__location-text {
+      display: inline;
     }
 
-    &__location-icon {
-      display: table-cell;
-      float: left;
-      margin-right: 5px;
-      width: 18px;
-    }
 
     &__time-wrapper {
       margin-top: 12px;
@@ -99,26 +123,28 @@
       width: 30px;
     }
 
-    &__button-wrapper {
-      display: flex;
-      margin-top: 30px;
-      justify-content: center;
-    }
+    &__button { 
+      border: none;
+      border-radius: 5px;
+      padding: 5px 20px;
+      color: white;
+      background: #44cfcb; /* Old browsers */
+      background: -moz-linear-gradient(-45deg, #44cfcb 1%, #4ea5d9 47%, #4357ad 100%); /* FF3.6-15 */
+      background: -webkit-linear-gradient(-45deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%); /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(135deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%);
+      font-family: $font-primary;
+      margin-top: 15px;
+      @media(max-width: 767px) {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
 
-    &__button {
-        border: none;
-        border-radius: 25px;
-        padding: 5px 20px;
-        color: white;
-        background: $mainColor;
-
-        &:hover {
-            background: white;
-            border: 2px solid $mainColor;
-            color: $mainColor;
-            margin: -2px;
-            outline: none;
-        } 
+      &:hover {
+          background: #4ea5d9;
+          color: white;
+          outline: none;
+      } 
     }
 
     &__code-icon {

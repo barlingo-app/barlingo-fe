@@ -188,6 +188,8 @@ class PaySubscriptionContainer extends React.Component{
             description={t('subscription.errorSavingData.message') + orderId} 
             type="error" 
             showIcon
+            closable
+            className={"ant-alert-fixed"}
           />}
         <div className={"payment"}>   
         <Row>
@@ -257,5 +259,5 @@ class PaySubscriptionContainer extends React.Component{
   }
 }
 
-export default withNamespaces('translation')(PaySubscriptionContainer);
+export default withNamespaces()(PaySubscriptionContainer);
 

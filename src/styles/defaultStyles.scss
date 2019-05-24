@@ -21,6 +21,12 @@
   }
 }
 
+.anticon-scan,
+.anticon.edit,
+.anticon-left-circle {
+  vertical-align: 0.125em !important;
+}
+
 .customInput {
   input {
     border-color: $mainColor;
@@ -43,11 +49,6 @@
 }
 
 .ant-alert {
-  position: fixed !important;
-  top: $navbarHeight;
-  left: 0;
-  right: 0;
-  z-index: 1000;
 
   a,
   a:hover,
@@ -68,4 +69,20 @@
 
 .ant-alert-message {
   font-weight: bold;
+}
+
+.ant-alert-fixed {
+  position: fixed !important;
+  top: $navbarHeight;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  a,
+  a:hover,
+  a:active {
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+  }
 }

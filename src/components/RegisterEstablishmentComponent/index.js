@@ -1,4 +1,4 @@
-import { Button, Checkbox, DatePicker, Form, Input, Modal, notification, TimePicker } from 'antd';
+import { Button, Checkbox, DatePicker, Form, Input, Modal, notification, TimePicker, Select } from 'antd';
 import React, { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { withNamespaces } from "react-i18next";
@@ -6,16 +6,12 @@ import { Redirect } from 'react-router-dom';
 import { auth } from "../../auth";
 import { establishmentService } from '../../services/establishmentService';
 import { userService } from '../../services/userService';
+
 import moment from 'moment';
 import './index.scss';
+import BackButton from '../BackButton/BackButton';
 
-const week = ["monday",
-            "tuesday",
-            "wednesday", 
-            "thursday", 
-            "friday", 
-            "saturday", 
-            "sunday"]
+const Option = Select.Option;
 
 class index extends Component {
 
@@ -28,7 +24,14 @@ class index extends Component {
       usernameInvalid: false,
       confirmDirty: true,
       visible: false,
-      submittedForm: false
+      submittedForm: false,
+      mondayIsOpen: true,
+      tuesdayIsOpen: true,
+      thursdayIsOpen: true,
+      wednesdayIsOpen: true,
+      fridayIsOpen: true,
+      saturdayIsOpen: true,
+      sundayIsOpen: true
     }
 
     this.errors = {
@@ -45,9 +48,9 @@ class index extends Component {
 
   getValidationMessage = (fieldName) => {
     if (this.errors.hasOwnProperty(fieldName)) {
-        return this.errors[fieldName];
+      return this.errors[fieldName];
     } else {
-        return false;
+      return false;
     }
 
   }
@@ -57,48 +60,48 @@ class index extends Component {
     const { t } = this.props;
 
     if (this.errors.hasOwnProperty(rule.field)) {
-        delete this.errors[rule.field];
+      delete this.errors[rule.field];
     }
 
     this.errors = Object.assign({}, this.externalErrors);
-    
+
     if (this.externalErrors.hasOwnProperty(rule.field)) {
       delete this.externalErrors[rule.field];
     }
 
-    switch(rule.field) {
-        case 'username':
-          let message0 = await this.checkUsername(value);
-          if (message0) {
-            this.errors[rule.field] = message0;
-          }
-          break;
-        case 'confirm':
-          let message1 = this.comparePasswords();
-          if (message1) {
-              this.errors[rule.field] = message1;
-          }
-          break;
-        case 'password':
-          let message2 = this.comparePasswords();
-          if (message2) {
-              this.errors[rule.field] = message2;
-          }
-          break;
-        case 'close-disabledValidation':
-          let message3 = this.checkCloseTime(value);
-          if (message3) {
-              this.errors[rule.field] = message3;
-          }
-          break;
-        default:
-          break;
+    switch (rule.field) {
+      case 'username':
+        let message0 = await this.checkUsername(value);
+        if (message0) {
+          this.errors[rule.field] = message0;
+        }
+        break;
+      case 'confirm':
+        let message1 = this.comparePasswords();
+        if (message1) {
+          this.errors[rule.field] = message1;
+        }
+        break;
+      case 'password':
+        let message2 = this.comparePasswords();
+        if (message2) {
+          this.errors[rule.field] = message2;
+        }
+        break;
+      case 'close-disabledValidation':
+        let message3 = this.checkCloseTime(value);
+        if (message3) {
+          this.errors[rule.field] = message3;
+        }
+        break;
+      default:
+        break;
     }
 
     if (this.getValidationMessage(rule.field)) {
-        callback(t('form.validationErrors.' + this.getValidationMessage(rule.field)));
+      callback(t('form.validationErrors.' + this.getValidationMessage(rule.field)));
     } else {
-        callback();
+      callback();
     }
   }
 
@@ -138,7 +141,7 @@ class index extends Component {
 
   checkUsername = async (value) => {
     if (value) {
-      let result = await this.usernameExists(value).then((result) => {return result});
+      let result = await this.usernameExists(value).then((result) => { return result });
       return (result) ? 'usernameExists' : false;
     } else {
       return false;
@@ -179,45 +182,43 @@ class index extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-        if (!err) {
+      if (!err) {
 
-          let workinghours = ''
+        let workinghours = ''
+        
+        workinghours += values.monday.isOpen === 'open' ? 'monday/' + values.monday.openTime.format("HH:mm") + '-' + values.monday.closeTime.format("HH:mm") + ',' : 'monday/closed,';
+        workinghours += values.tuesday.isOpen === 'open' ? 'tuesday/' + values.tuesday.openTime.format("HH:mm") + '-' + values.tuesday.closeTime.format("HH:mm") + ',' : 'tuesday/closed,';
+        workinghours += values.wednesday.isOpen === 'open' ? 'wednesday/' + values.wednesday.openTime.format("HH:mm") + '-' + values.wednesday.closeTime.format("HH:mm") + ',' : 'wednesday/closed,';
+        workinghours += values.thursday.isOpen === 'open' ? 'thursday/' + values.thursday.openTime.format("HH:mm") + '-' + values.thursday.closeTime.format("HH:mm") + ',' : 'thursday/closed,';
+        workinghours += values.friday.isOpen === 'open' ? 'friday/' + values.friday.openTime.format("HH:mm") + '-' + values.friday.closeTime.format("HH:mm") + ',' : 'friday/closed,';
+        workinghours += values.saturday.isOpen === 'open' ? 'saturday/' + values.saturday.openTime.format("HH:mm") + '-' + values.saturday.closeTime.format("HH:mm") + ',' : 'saturday/closed,';
+        workinghours += values.sunday.isOpen === 'open' ? 'sunday/' + values.sunday.openTime.format("HH:mm") + '-' + values.sunday.closeTime.format("HH:mm") + ',' : 'sunday/closed,';
 
-          for(let i of week){
-            if (values.weekscheadule.indexOf(i) >= 0) {
-              workinghours += i+" "
-            }
-          }
-  
-          workinghours = workinghours.trim()
-          workinghours += "," + values.open.format("HH:mm") + "-" + values.close.format("HH:mm")
-
-          let dataToSend = {
-            username: values.username,
-            password: values.password,
-            name: values.name,
-            surname: values.surname,
-            email: values.email,
-            birthdate: values['birthdate'].format('YYYY-MM-DD'),
-            country: values.country,
-            city: values.city,
-            establishmentName: values.establishmentName,
-            description: values.description,
-            address: values.address,
-            workingHours: workinghours,
-            offer: values.offer
-          }
-
-          if (!this.state.submittedForm) {
-            this.sendForm(dataToSend);
-          }
+        let dataToSend = {
+          username: values.username,
+          password: values.password,
+          name: values.name,
+          surname: values.surname,
+          email: values.email,
+          birthdate: values['birthdate'].format('YYYY-MM-DD'),
+          country: values.country,
+          city: values.city,
+          establishmentName: values.establishmentName,
+          description: values.description,
+          address: values.address,
+          workingHours: workinghours,
+          offer: values.offer
         }
-      });
+        if (!this.state.submittedForm) {
+          this.sendForm(dataToSend);
+        }
+      }
+    });
   }
 
   sendForm = (data) => {
     const { t } = this.props;
-    this.setState({submittedForm: true});
+    this.setState({ submittedForm: true });
 
     establishmentService.create(data)
       .then((response) => {
@@ -225,18 +226,18 @@ class index extends Component {
           if (response.data.code === 400) {
             this.externalErrors = response.data.validationErrors;
             let fieldNames = [];
-            for (var fieldName in this.externalErrors)  {
+            for (var fieldName in this.externalErrors) {
               fieldNames.push(fieldName);
             }
-                            
+
             notification.warning({
               message: this.props.t('form.validationNotification.title'),
               description: this.props.t('form.validationNotification.message'),
             });
 
-            this.props.form.validateFieldsAndScroll(fieldNames, {force: true});
-            this.setState({validated: true, submittedForm: false });
-          }else if (response.data.code === 500) {
+            this.props.form.validateFieldsAndScroll(fieldNames, { force: true });
+            this.setState({ validated: true, submittedForm: false });
+          } else if (response.data.code === 500) {
             notification.error({
               message: this.props.t('apiErrors.defaultErrorTitle'),
               description: this.props.t('apiErrors.' + response.data.message),
@@ -259,7 +260,48 @@ class index extends Component {
         this.setState({ submittedForm: false });
       });
   }
-
+  handleScheduleMonday = (value, option) => {
+    var open = value === 'open';
+    this.setState({
+      mondayIsOpen: open
+    })
+  }
+  handleScheduleTuesday = (value, option) => {
+    var open = value === 'open';
+    this.setState({
+      tuesdayIsOpen: open
+    })
+  }
+  handleScheduleThursday = (value, option) => {
+    var open = value === 'open';
+    this.setState({
+      thursdayIsOpen: open
+    })
+  }
+  handleScheduleWednesday = (value, option) => {
+    var open = value === 'open';
+    this.setState({
+      wednesdayIsOpen: open
+    })
+  }
+  handleScheduleFriday = (value, option) => {
+    var open = value === 'open';
+    this.setState({
+      fridayIsOpen: open
+    })
+  }
+  handleScheduleSaturday = (value, option) => {
+    var open = value === 'open';
+    this.setState({
+      saturdayIsOpen: open
+    })
+  }
+  handleScheduleSunday = (value, option) => {
+    var open = value === 'open';
+    this.setState({
+      sundayIsOpen: open
+    })
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { successfulLogin } = this.state;
@@ -268,7 +310,7 @@ class index extends Component {
       rules: [
         {
           type: 'object', required: true, message: t('form.validationErrors.required')
-        },{
+        }, {
           validator: this.genericValidator
         }
       ],
@@ -283,38 +325,42 @@ class index extends Component {
       <div className="register">
         <Row>
           <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
-            <div className="register__title">{t('create-account')}</div>
+            <div className="register__title">
+              <BackButton to={"/register"} additionalClasses={"left"} />
+              {t('create-account')}
+            </div>
             <Form onSubmit={this.handleSubmit}>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.username')}>
                     {getFieldDecorator('username', {
                       rules: [{
                         required: true,
                         message: t('form.validationErrors.required')
-                      },{
-                        max: 255, 
+                      }, {
+                        max: 255,
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                    },{
+                      }, {
                         validator: this.genericValidator
                       }
-                    ]})(
+                      ]
+                    })(
                       <Input />
                     )}
                   </Form.Item>
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.password')}>
                     {getFieldDecorator('password', {
                       rules: [{
                         required: true,
                         message: t('form.validationErrors.required')
-                      },{
-                        max: 255, 
+                      }, {
+                        max: 255,
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                    },{
+                      }, {
                         validator: this.genericValidator
                       }],
                     })(
@@ -324,15 +370,15 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.confirmPassword')}>
                     {getFieldDecorator('confirm', {
                       rules: [{
                         required: true, message: t('form.validationErrors.required'),
-                      },{
-                        max: 255, 
+                      }, {
+                        max: 255,
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                    },{
+                      }, {
                         validator: this.genericValidator,
                       }],
                     })(
@@ -343,95 +389,99 @@ class index extends Component {
               </Row>
               <hr></hr>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.name')}>
                     {getFieldDecorator('name', {
                       rules: [{
                         required: true,
                         message: t('form.validationErrors.required')
-                      },{
-                        max: 255, 
+                      }, {
+                        max: 255,
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                    },{
+                      }, {
                         validator: this.genericValidator
                       }
-                    ]})(
+                      ]
+                    })(
                       <Input />
                     )}
                   </Form.Item>
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.surname')}>
                     {getFieldDecorator('surname', {
                       rules: [{
                         required: true,
                         message: t('form.validationErrors.required')
-                      },{
-                        max: 255, 
+                      }, {
+                        max: 255,
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                    },{
+                      }, {
                         validator: this.genericValidator
                       }
-                    ]})(
+                      ]
+                    })(
                       <Input />
                     )}
                   </Form.Item>
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.city')}>
                     {getFieldDecorator('city', {
                       rules: [{
                         required: true,
                         message: t('form.validationErrors.required')
-                      },{
-                        max: 255, 
+                      }, {
+                        max: 255,
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                    },{
+                      }, {
                         validator: this.genericValidator
                       }
-                    ]})(
+                      ]
+                    })(
                       <Input />
                     )}
                   </Form.Item>
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.country')}>
                     {getFieldDecorator('country', {
                       rules: [{
                         required: true,
                         message: t('form.validationErrors.required')
-                      },{
-                        max: 255, 
+                      }, {
+                        max: 255,
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                    },{
+                      }, {
                         validator: this.genericValidator
                       }
-                    ]})(
+                      ]
+                    })(
                       <Input />
                     )}
                   </Form.Item>
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.email')}>
                     {getFieldDecorator('email', {
                       rules: [{
                         required: true,
                         message: t('form.validationErrors.required')
-                      },{
-                        max: 255, 
+                      }, {
+                        max: 255,
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                    },{
-                        type: 'email', 
+                      }, {
+                        type: 'email',
                         message: t('form.validationErrors.emailFormat'),
-                      },{
+                      }, {
                         validator: this.genericValidator
                       }],
                     })(
@@ -441,42 +491,43 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.birthday')}>
                     {getFieldDecorator('birthdate', config)(
-                      <DatePicker defaultPickerValue={moment().subtract(18, 'years')} format="YYYY-MM-DD" disabledDate={this.checkBirthday}/>
+                      <DatePicker defaultPickerValue={moment().subtract(18, 'years')} format="YYYY-MM-DD" disabledDate={this.checkBirthday} />
                     )}
                   </Form.Item>
                 </Col>
               </Row>
               <hr></hr>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.establishmentname')}>
                     {getFieldDecorator('establishmentName', {
                       rules: [{
                         required: true,
                         message: t('form.validationErrors.required')
-                      },{
-                        max: 255, 
+                      }, {
+                        max: 255,
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                    },{
+                      }, {
                         validator: this.genericValidator
                       }
-                    ]})(
+                      ]
+                    })(
                       <Input />
                     )}
                   </Form.Item>
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.description')}>
                     {getFieldDecorator('description', {
                       rules: [{
-                        max: 255, 
+                        max: 255,
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                    },{
+                      }, {
                         validator: this.genericValidator
                       }],
                     })(
@@ -486,108 +537,484 @@ class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.address')}>
                     {getFieldDecorator('address', {
                       rules: [{
                         required: true,
                         message: t('form.validationErrors.required')
-                      },{
-                        max: 255, 
+                      }, {
+                        max: 255,
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                    },{
+                      }, {
                         validator: this.genericValidator
                       }
-                    ]})(
+                      ]
+                    })(
                       <Input />
                     )}
                   </Form.Item>
                 </Col>
               </Row>
+
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
-                  <Form.Item
-                    label={t('form.weekscheadule')}
-                  >
-                    {getFieldDecorator("weekscheadule", {
-                      rules: [
-                        {
-                          required: true, message: t('form.validationErrors.required') 
-                        },{
-                          validator: this.genericValidator
-                        }
-                      ]})(
-                      <Checkbox.Group style={{ width: "100%" }}>
+                <Col md={{ span: 8, offset: 2 }}>
+
+                  <Form.Item label={t('form.weekscheadule')}>
+                    <Row>
+                      <Col lg="6">
+                        <Form.Item style={{ marginBottom: '20px' }}>
+                          <Row>
+                            <Col xs="3">
+                              {t('days.monday')}:
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                                display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                marginRight: '3px'
+                              }}>
+                                {getFieldDecorator('monday.isOpen', {
+                                  initialValue: "open"
+                                })(
+                                  <Select style={{ width: 100 }} onChange={this.handleScheduleMonday}>
+                                    <Option value="open">{t('open')}</Option>
+                                    <Option value="close">{t('close')}</Option>
+                                  </Select>
+                                )}
+                              </Form.Item>
+                            </Col>
+                          </Row>
+                          
+                            {this.state.mondayIsOpen &&
+                              <div style={{ display: 'inline' }}>
+                              <Row>
+                                <Col xs="3">
+                                  {t('from')}:
+                                </Col>
+                                <Col xs="9">
+                                  <Form.Item style={{
+                                    display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                    marginRight: '3px'
+                                  }} >
+                                    {getFieldDecorator('monday.openTime', {
+                                      initialValue: moment('6:00', "HH:mm")
+                                    })(
+                                      <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                                    )}
+                                  </Form.Item>
+                                </Col>
+                                <Col xs="3">
+                                  {t('to')}: 
+                                </Col>
+                                <Col xs="9">
+                                  <Form.Item style={{
+                                    display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                    marginRight: '3px'
+                                  }}>
+                                    {getFieldDecorator('monday.closeTime', {
+                                      initialValue: moment('23:30', "HH:mm")
+                                    })(
+                                      <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                                    )}
+                                  </Form.Item>
+                                </Col>
+                              </Row>
+                            </div>}
+                      </Form.Item>
+                    </Col>
+                    <Col lg="6">
+                      <Form.Item style={{ marginBottom: '20px' }}>
                         <Row>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="monday">{t('days.monday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="tuesday">{t('days.tuesday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="wednesday">{t('days.wednesday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="thursday">{t('days.thursday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="friday">{t('days.friday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="saturday">{t('days.saturday')}</Checkbox></Col>
-                          <Col xs="6" sm="4" md="6"><Checkbox value="sunday">{t('days.sunday')}</Checkbox></Col>
+                          <Col xs="3">
+                            {t('days.tuesday')}:
+                          </Col>
+                          <Col xs="9">
+                            <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                              }}>
+                              {getFieldDecorator('tuesday.isOpen', {
+                                initialValue: "open"
+                              })(
+                                <Select style={{ width: 100 }} onChange={this.handleScheduleTuesday}>
+                                  <Option value="open">{t('open')}</Option>
+                                  <Option value="close">{t('close')}</Option>
+                                </Select>
+                              )}
+                            </Form.Item>
+                          </Col>
                         </Row>
-                      </Checkbox.Group>
-                    )}
+                        {this.state.tuesdayIsOpen &&
+                          <div style={{ display: 'inline' }}>
+                          <Row>
+                            <Col xs="3">
+                              {t('from')}:
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                                display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                marginRight: '3px'
+                                }} >
+                                {getFieldDecorator('tuesday.openTime', {
+                                  initialValue: moment('6:00', "HH:mm")
+                                })(
+                                  <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                                )}
+                          
+                              </Form.Item>
+                            </Col>
+                            <Col xs="3">
+                              {t('to')}: 
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                                display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                marginRight: '3px'
+                                }}>
+                                {getFieldDecorator('tuesday.closeTime', {
+                                  initialValue: moment('23:30', "HH:mm")
+                                })(
+                                  <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                                )}
+                              </Form.Item>
+                            </Col>
+                          </Row>
+                        </div>}
+                      </Form.Item>
+                  </Col>
+
+                  <Col lg="6">
+                    <Form.Item style={{ marginBottom: '20px' }}>
+                      <Row>
+                        <Col xs="3">
+                          {t('days.wednesday')}:
+                        </Col>
+                        <Col xs="9">
+                          <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                            }}>
+                              {getFieldDecorator('wednesday.isOpen', {
+                                initialValue: "open"
+                              })(
+                                <Select style={{ width: 100 }} onChange={this.handleScheduleWednesday}>
+                                  <Option value="open">{t('open')}</Option>
+                                  <Option value="close">{t('close')}</Option>
+                                </Select>
+                              )}
+                          </Form.Item>
+                        </Col>
+                      </Row>
+                      {this.state.wednesdayIsOpen &&
+                      <div style={{ display: 'inline' }}>
+                        <Row>
+                          <Col xs="3">
+                            {t('from')}:
+                          </Col>
+                          <Col xs="9">
+                            <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                              }} >
+                              {getFieldDecorator('wednesday.openTime', {
+                                initialValue: moment('6:00', "HH:mm")
+                              })(
+                                <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                              )}
+                            </Form.Item>
+                          </Col>
+                          <Col xs="3">
+                            {t('to')}:
+                          </Col>
+                          <Col xs="9">
+                          <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                              }}>
+                              {getFieldDecorator('wednesday.closeTime', {
+                                initialValue: moment('23:30', "HH:mm")
+                              })(
+                                <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                              )}
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                      </div>}
+                    </Form.Item>
+                  </Col>
+                  <Col lg="6">
+                    <Form.Item style={{ marginBottom: '20px' }}>
+                      <Row>
+                        <Col xs="3">
+                          {t('days.thursday')}:
+                        </Col>
+                        <Col xs="9">
+                          <Form.Item style={{
+                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                            marginRight: '3px'
+                            }}>
+                            {getFieldDecorator('thursday.isOpen', {
+                              initialValue: "open"
+                            })(
+                              <Select style={{ width: 100 }} onChange={this.handleScheduleThursday}>
+                                <Option value="open">{t('open')}</Option>
+                                <Option value="close">{t('close')}</Option>
+                              </Select>
+                            )}
+                          </Form.Item>
+                        </Col>
+                      </Row>
+                      {this.state.thursdayIsOpen &&
+                        <div style={{ display: 'inline' }}>
+                          <Row>
+                            <Col xs="3">
+                              {t('from')}:
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                              }} >
+                              {getFieldDecorator('thursday.openTime', {
+                                initialValue: moment('6:00', "HH:mm")
+                              })(
+                                <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                              )}
+                              </Form.Item>
+                            </Col>
+                            <Col xs="3">
+                              {t('to')}: 
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                                display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                marginRight: '3px'
+                              }}>
+                                {getFieldDecorator('thursday.closeTime', {
+                                  initialValue: moment('23:30', "HH:mm")
+                                })(
+                                  <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                                )}
+                              </Form.Item>
+                            </Col>
+                          </Row>
+                        </div>}
+                    </Form.Item>
+                  </Col>
+
+                  <Col lg="6">
+                    <Form.Item style={{ marginBottom: '20px' }}>
+                      <Row>
+                        <Col xs="3">
+                          {t('days.friday')}:
+                        </Col>
+                        <Col xs="9">
+                          <Form.Item style={{
+                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                            marginRight: '3px'
+                          }}>
+                            {getFieldDecorator('friday.isOpen', {
+                              initialValue: "open"
+                            })(
+                              <Select style={{ width: 100 }} onChange={this.handleScheduleFriday}>
+                                <Option value="open">{t('open')}</Option>
+                                <Option value="close">{t('close')}</Option>
+                              </Select>
+                            )}
+                          </Form.Item>
+                        </Col>
+                      </Row>
+                      {this.state.fridayIsOpen &&
+                        <div style={{ display: 'inline' }}>
+                        <Row>
+                          <Col xs="3">
+                            {t('from')}:
+                          </Col>
+                          <Col xs="9">
+                            <Form.Item style={{
+                            display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                            marginRight: '3px'
+                            }} >
+                            {getFieldDecorator('friday.openTime', {
+                              initialValue: moment('6:00', "HH:mm")
+                            })(
+                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                            )}
+                            </Form.Item>
+                          </Col>
+                          <Col xs="3">
+                            {t('to')}:
+                          </Col>
+                          <Col xs="9">
+                            <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                            }}>
+                            {getFieldDecorator('friday.closeTime', {
+                              initialValue: moment('23:30', "HH:mm")
+                            })(
+                              <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                            )}
+                                </Form.Item>
+                              </Col>
+                            </Row>
+                          </div>}
+                      </Form.Item>
+                    </Col>
+
+                  <Col lg="6">
+                    <Form.Item style={{ marginBottom: '20px' }}>
+                      <Row>
+                        <Col xs="3">
+                          {t('days.saturday')}:
+                        </Col>
+                        <Col xs="9">
+                          <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                            }}>
+                              {getFieldDecorator('saturday.isOpen', {
+                                initialValue: "open"
+                              })(
+                                <Select style={{ width: 100 }} onChange={this.handleScheduleSaturday}>
+                                  <Option value="open">{t('open')}</Option>
+                                  <Option value="close">{t('close')}</Option>
+                                </Select>
+                              )}
+                          </Form.Item>
+                        </Col>
+                      </Row>
+                      {this.state.saturdayIsOpen &&
+                        <div style={{ display: 'inline' }}>
+                          <Row>
+                            <Col xs="3">
+                              {t('from')}:
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                                display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                marginRight: '3px'
+                              }} >
+                                {getFieldDecorator('saturday.openTime', {
+                                  initialValue: moment('6:00', "HH:mm")
+                                })(
+                                  <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                                )}
+                              </Form.Item>
+                            </Col>
+                            <Col xs="3">
+                              {t('to')}: 
+                            </Col>
+                            <Col xs="9">
+                              <Form.Item style={{
+                                display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                marginRight: '3px'
+                              }}>
+                                {getFieldDecorator('saturday.closeTime', {
+                                  initialValue: moment('23:30', "HH:mm")
+                                })(
+                                  <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                                )}
+                              </Form.Item>
+                            </Col>
+                          </Row>
+                        </div>}
+                      </Form.Item>
+                    </Col>
+
+                    <Col lg="6">
+                      <Form.Item style={{ marginBottom: '20px' }}>
+                        <Row>
+                          <Col xs="3">
+                            {t('days.sunday')}:
+                          </Col>
+                          <Col xs="9">
+                            <Form.Item style={{
+                              display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                              marginRight: '3px'
+                            }}>
+                              {getFieldDecorator('sunday.isOpen', {
+                                initialValue: "open"
+                              })(
+                                <Select style={{ width: 100 }} onChange={this.handleScheduleSunday}>
+                                  <Option value="open">{t('open')}</Option>
+                                  <Option value="close">{t('close')}</Option>
+                                </Select>
+                              )}
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                        {this.state.sundayIsOpen &&
+                          <div style={{ display: 'inline' }}>
+                            <Row>
+                              <Col xs="3">
+                                {t('from')}:
+                              </Col>
+                              <Col xs="9">
+                                <Form.Item style={{
+                                  display: 'inline-block', marginLeft: '3px', marginBottom: '0px',
+                                  marginRight: '3px'
+                                }} >
+                                  {getFieldDecorator('sunday.openTime', {
+                                    initialValue: moment('6:00', "HH:mm")
+                                  })(
+                                    <TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />
+
+                                  )}
+                                </Form.Item>
+                              </Col>
+                              <Col xs="3">
+                                {t('to')}:
+                              </Col>
+                              <Col xs="9">
+                                <Form.Item style={{display: 'inline-block', marginLeft: '3px', marginBottom: '0px'}}>
+                                  {getFieldDecorator( 'sunday.closeTime', {initialValue: moment('23:30', "HH:mm")})(<TimePicker style={{ width: 100 }} allowClear={false} format="HH:mm" />)}
+                                </Form.Item>
+                              </Col>
+                            </Row>
+                          </div>}
+                      </Form.Item>
+                    </Col>
+                    </Row>
                   </Form.Item>
                 </Col>
               </Row>
+
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
-                  <Form.Item label={t('form.open')}>
-                    {getFieldDecorator('open', {
-                      rules: [
-                        {
-                          required: true,
-                          message: t('form.validationErrors.required'),
-                        },{
-                          validator: this.genericValidator
-                        }
-                      ]})(
-                      <TimePicker format="HH:mm" />
-                    )}
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
-                  <Form.Item label={t('form.closed')}>
-                    {getFieldDecorator('close', {
-                      rules: [
-                        {
-                          required: true,
-                          message: t('form.validationErrors.required'),
-                        },{
-                          validator: this.genericValidator
-                        }
-                      ]})(
-                      <TimePicker format="HH:mm" />
-                    )}
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.offer')}>
                     {getFieldDecorator('offer', {
                       rules: [{
                         required: true,
                         message: t('form.validationErrors.required')
-                      },{
-                        max: 255, 
+                      }, {
+                        max: 255,
                         message: t('form.validationErrors.maxLength').replace("NUMBER_OF_CHARACTERS", 255)
-                    },{
+                      }, {
                         validator: this.genericValidator
                       }
-                    ]})(
+                      ]
+                    })(
                       <Input.TextArea rows={3} />
                     )}
                   </Form.Item>
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
-                  <Form.Item>
+                <Col md={{ span: 8, offset: 2 }}>
+                  <Form.Item className="register__terms-wrapper">
                     {getFieldDecorator('agreement',
                       {
                         rules: [{
@@ -633,7 +1060,7 @@ class index extends Component {
             <li>{t('terms-right2')}</li>
             <li>{t('terms-right3')}</li>
           </ul>
-          
+
           <p><b>{t('terms-intellectual-property')}</b></p>
           <p>{t('terms-intellectual-property-text')}</p>
 
@@ -648,11 +1075,11 @@ class index extends Component {
           <p><b>{t('terms-modifications')}</b></p>
           <p>{t('terms-modifications-text')}</p>
         </Modal>
-      </div>
+      </div >
     )
   }
 }
 
 index = Form.create({ name: 'register' })(index);
 
-export default withNamespaces('translation')(index)
+export default withNamespaces()(index)

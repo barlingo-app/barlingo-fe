@@ -1,4 +1,32 @@
-{
+{ 
+  "home": {
+    "whatis": "¿Qué es Barlingo?",
+    "paragraph1": "Barlingo is a language exchange app where users make exchanges in establishments and receive discounts.",
+    "paragraph2": "If you want to practice languages ​​for free, join one of the exchanges published or create one to your liking. There are people like you willing to learn and have a good time.",
+    "paragraph3": "If you have a business and you want to attract people who exchange languages, sign up.",
+    "pricing": "Pricing",
+    "monthly": "MONTHLY",
+    "quarterly": "QUARTERLY",
+    "annual": "ANNUAL",
+    "month": "month",
+    "team": "Our team",
+    "pm": "Project Manager",
+    "be-leader": "Backend leader",
+    "be-dev": "Backend developer",
+    "fe-leader": "Frontend leader",
+    "fe-dev": "Frontend developer"
+
+  },
+  "filter":"Filter results:",
+  "date&time": "Date and time",
+  "laanguages": "Languages",
+  "timerange": "Time range",
+  "of": "of",
+  "to":"to",
+  "open":"Open",
+  "close":"Closed",
+  "from":"from",
+  "profile": "Profile",
   "profileview" : {
     "age": "years old",
     "speak": "I speak",
@@ -50,8 +78,8 @@
   "action": {
     "back": "Back",
     "register": {
-      "asUser": "Sign in as user",
-      "asEstablishment": "Sign in as establishment"
+      "asUser": "Sign up as user",
+      "asEstablishment": "Sign up as establishment"
     },
     "showAll": "All",
     "showActive": "Only active"
@@ -61,7 +89,8 @@
     "en": "English",
     "fr": "French",
     "de": "German",
-    "ja": "Japanese"
+    "ja": "Japanese",
+    "ko": "Korean"
   },
   "days": {
     "monday": "Monday",
@@ -121,13 +150,13 @@
     "establishments": "Establishments",
     "validateCode": "Validate code",
     "login": "Log In",
-    "register": "Sign in",
+    "register": "Sign up",
     "registerUser": "Join to Barlingo zone",
     "logout": "Logout",
     "myExchanges": "My exchanges",
     "created": "Created",
     "joined": "Joined",
-    "calendar": "Exchanges created"
+    "calendar": "Business calendar"
   },
   "form": {
     "validationNotification": {
@@ -242,6 +271,7 @@
     }
   },
   "exchange": {
+    "notAvailable": "This exchange is no longer available. The establishment has deleted his account.",
     "creator": " (creator)",
     "participantss": "Participants",
     "search": {
@@ -334,16 +364,20 @@
   },
   "subscription": {
     "title": "Choose a subscription",
+    "infoTitle": "Subscription",
     "errorSavingData": {
       "title": "Error saving payment data",
       "message": "There was an error saving the payment information. Contact us through the email barlingoapp@gmail.com and indicate the payment with the order id: "
     },
+    "typeTitle": "Subcription type",
+    "startTitle": "Start date",
+    "finishTitle": "Finish date",
     "discounts": {
       "10%": "Get 10% discount!",
       "25%": "Get 25% discount!"
     },
     "type": {
-      "monthly": "Monthy subscription",
+      "monthly": "Monthly subscription",
       "trimestral": "Trimestral subscription",
       "annual": "Annual subscription"
     },
@@ -375,6 +409,12 @@
     "payButton": "Pay subscription"
   },
   "code": {
+    "scan": "Scan QR code",
+    "manual": "Enter the code manually",
+    "scanError": {
+      "title": "Error with the QR scanner",
+      "message": "There was an error initializing the QR scanner. Please check that access to the camera is allowed."
+    },
     "redeem": {
       "buttonMessage": "Redeem",
       "ok": {
@@ -385,6 +425,10 @@
         "date": {
           "title": "Not redeemable",
           "message": "The code is valid, but the exchange has not yet occurred."
+        },
+        "expired": {
+          "title": "Not redeemable",
+          "message": "The code has expired."
         },
         "exchanged": {
           "title": "Not redeemable",
@@ -401,6 +445,7 @@
     "error": "There isn't code to show",
     "used": "This code has already been redeemed",
     "validate": {
+      "invalidFormat": "The format of the code is not valid.",
       "placeholder": "Introduce the code",
       "button": "Validate code",
       "empty": "Please input the code",
@@ -411,6 +456,38 @@
       "failCode": {
         "title": "Invalid code",
         "message": "The code is invalid."
+      }
+    },
+    "errorTitles": {
+      "Signed": {
+        "UserDiscount": {
+          "UserNotNull": "There was an error",
+          "ErrorSavingDiscount":  "There was an error",
+          "CodeBelongOtherExchange":  "Invalid code",
+          "CodeNotValid": "Invalid code",
+          "CodeNotExists": "Code not found",
+          "NotVisible": "Code not visible",
+          "LanguageExchangeNotStartedYet":  "Code not redeemable",
+          "UserDiscountCannotBeExchanged": "Code not redeemable",
+          "LanguajeExchangeNotNull":  "There was an error",
+          "UserDiscountNotNull": "There was an error",
+          "AccessForbidden":  "Access forbidden"
+        }
+      },
+      "Establishment": {
+        "UserDiscount": {
+          "UserNotNull": "There was an error",
+          "ErrorSavingDiscount":  "There was an error",
+          "CodeBelongOtherExchange":  "Invalid code",
+          "CodeNotValid": "Invalid code",
+          "CodeNotExists": "Code not found",
+          "NotVisible": "Code not visible",
+          "LanguageExchangeNotStartedYet":  "Code not redeemable",
+          "UserDiscountCannotBeExchanged": "Code not redeemable",
+          "LanguajeExchangeNotNull":  "There was an error",
+          "UserDiscountNotNull": "There was an error",
+          "AccessForbidden":  "Access forbidden"
+        }
       }
     }
   },
@@ -458,8 +535,8 @@
         "ErrorSavingDiscount": "An error occurred while creating the exchange.",
         "CodeBelongOtherExchange": "An error occurred while creating the exchange.",
         "CodeNotValid": "The code is not valid.",
-        "CodeNotExists": "The code is not valid.",
-        "NotVisible": "The code is not valid.",
+        "CodeNotExists": "The code does not exist.",
+        "NotVisible": "The code only can be showed 4 hours before the event and 48 hours after.",
         "LanguageExchangeNotStartedYet": "The exchange has not started yet.",
         "LanguajeExchangeNotNull": "The exchange parameter sended is not valid",
         "UserDiscountNotNull": "There is no discount for the user in the exchange",
@@ -485,9 +562,17 @@
         "SecretNotEmpty": "The password can not be an empty text."
       },
       "UserDiscount": {
-        "UserDiscountCannotBeExchanged": {
-          "NotVisible": "The code is not valid."
-        }
+        "UserDiscountCannotBeExchanged": "The code cannot be redeemed.",
+        "UserNotNull": "An error occurred while creating the exchange.",
+        "ErrorSavingDiscount": "An error occurred while creating the exchange.",
+        "CodeBelongOtherExchange": "An error occurred while creating the exchange.",
+        "CodeNotValid": "The code is not valid.",
+        "CodeNotExists": "The code does not exist.",
+        "NotVisible": "The code only can be showed 4 hours before the event and 48 hours after.",
+        "LanguageExchangeNotStartedYet": "The exchange has not started yet.",
+        "LanguajeExchangeNotNull": "The exchange parameter sended is not valid",
+        "UserDiscountNotNull": "There is no discount for the user in the exchange",
+        "AccessForbidden": "The user/establishment does not have access to the discount"
       },
       "Payment": {
         "IO": "The transaction could not be completed, please try later.",

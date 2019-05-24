@@ -7,6 +7,7 @@ import { withNamespaces } from "react-i18next";
 import languages from '../../data/languages';
 import moment from 'moment';
 import { Checkbox, DatePicker, Form, Input, notification } from 'antd';
+import BackButton from '../../components/BackButton/BackButton';
 
 export class index extends Component {
     constructor(props){
@@ -193,10 +194,13 @@ export class index extends Component {
         <div className="register">
           <Row>
             <Col className="register__form" sm={{ span: 10, offset: 1 }} md={{ span: 8, offset: 2 }}>
-                <div className="register__title">{t('edit-account')}</div>
+                <div className="register__title">
+                  <BackButton to={"/profile"} additionalClasses={"left"} />
+                  {t('edit-account')}
+                </div>
                 <Form onSubmit={this.handleSubmit}>
                 <Row>
-                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                <Col md={{span: 8, offset: 2}}>
                   <Form.Item label={t('form.name')}>
                     {getFieldDecorator('name', {
                     rules: [{
@@ -215,7 +219,7 @@ export class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                <Col md={{span: 8, offset: 2}}>
                   <Form.Item label={t('form.surname')}>
                     {getFieldDecorator('surname', {
                       rules: [{
@@ -234,7 +238,7 @@ export class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                <Col md={{span: 8, offset: 2}}>
                   <Form.Item label={t('form.email')}>
                     {getFieldDecorator('email', {
                       rules: [{
@@ -256,7 +260,7 @@ export class index extends Component {
                 </Col>
               </Row> 
               <Row>
-                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                <Col md={{span: 8, offset: 2}}>
                   <Form.Item label={t('form.city')}>
                     {getFieldDecorator('city', {
                       rules: [{
@@ -275,7 +279,7 @@ export class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                <Col md={{span: 8, offset: 2}}>
                   <Form.Item label={t('form.country')}>
                     {getFieldDecorator('country', {
                       rules: [{
@@ -294,7 +298,7 @@ export class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                <Col md={{span: 8, offset: 2}}>
                   <Form.Item label={t('form.aboutme')}>
                     {getFieldDecorator('aboutMe', {
                       rules: [{
@@ -310,7 +314,7 @@ export class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }}>
+                <Col md={{ span: 8, offset: 2 }}>
                   <Form.Item label={t('form.birthday')}>
                     {getFieldDecorator('birthdate', config)(
                       <DatePicker format="YYYY-MM-DD" disabledDate={this.checkBirthday}/>
@@ -319,7 +323,7 @@ export class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                <Col md={{span: 8, offset: 2}}>
                   <Form.Item
                     label={t('form.speakedlanguages')}
                   >
@@ -343,7 +347,7 @@ export class index extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}}>
+                <Col md={{span: 8, offset: 2}}>
                   <Form.Item
                     label={t('form.languagesToLearn')}
                   >
@@ -379,4 +383,4 @@ export class index extends Component {
 
 index = Form.create({ name: 'registerUser' })(index);
 
-export default withNamespaces('translation')(index)
+export default withNamespaces()(index)

@@ -33,4 +33,4 @@ class LinkContainer extends Component {
     }
 }
 
-export default withNamespaces('translation')(LinkContainer);
+export default withNamespaces()(LinkContainer);

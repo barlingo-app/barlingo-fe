@@ -5,7 +5,16 @@ import { Page, Section } from 'react-page-layout';
 import './Home.scss';
 import { notification, Alert } from 'antd';
 import { NavLink } from "react-router-dom";
+import { Row, Col } from 'react-bootstrap'
 import {auth} from './../../auth'
+import ernesto from '../../media/Ernesto.optimized.jpg'
+import fernando from '../../media/Fernando.optimized.jpg'
+import ramon from '../../media/Ramon.optimized.jpg'
+import miguelangel from '../../media/Miguel Angel.optimized.jpg'
+import angel from '../../media/Angel.optimized.jpg'
+import jesus from '../../media/Jesus.optimized.jpg'
+import migue from '../../media/Miguel.optimized.jpg'
+import jose from '../../media/Jose.optimized.jpg'
 
 class Home extends Component {
     
@@ -18,7 +27,7 @@ class Home extends Component {
 
     componentDidMount() {
 
-        document.title = "Barlingo - Home";
+        document.title = "Barlingo - Enjoy talking where you prefer";
         if (!this.state.errorAlreadyDisplayed) {
             if (this.props.location.state) {
                 const { t } = this.props;
@@ -47,6 +56,7 @@ class Home extends Component {
             type="warning"
             showIcon
             banner
+            className={"ant-alert-fixed"}
         />
     )
 
@@ -113,10 +123,132 @@ class Home extends Component {
                             </NavLink>
                         </div>
                     </div>
-                </Section>
-            </Page>
+                  <div className="home-info">
+                    <Row>
+                        <Col className="home-info__whatis">
+                            <Row>
+                                <Col>
+                                    <div className="home-info__title">{t('home.whatis')}</div>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="home-info__description" xs={{span:10,offset:1}} md={{span:8,offset:2}}>
+                                    <p>{t('home.paragraph1')}</p>
+                                    <p>{t('home.paragraph2')}</p>
+                                    <p>{t('home.paragraph3')}</p>
+                                </Col>
+                            </Row>
+                           
+                        </Col>
+                    </Row>
+                    
+                    <Row>
+                        <Col className="home-info__pricing">
+                            <Row>
+                                <Col>
+                                    <div className="home-info__title">{t('home.pricing')}</div>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={{span:10,offset:1}} md={{span:4,offset:0}}>
+                                    <div className="home-info__pricing-card">
+                                        <b>{t('home.monthly')}</b>
+                                        <div className="home-info__monthly">6.99 €/{t('home.month')}</div>
+                                        <div>TOTAL: 6.99€</div>
+                                    </div>
+                                </Col>
+                                <Col xs={{span:10,offset:1}} md={{span:4,offset:0}}> 
+                                    <div className="home-info__pricing-card">
+                                        <b>{t('home.quarterly')}</b>
+                                        <div className="home-info__quarterly">6.33 €/{t('home.month')}</div>
+                                        <div>-10%</div>
+                                        <div>TOTAL: 18.99€</div>
+                                    </div>
+                                </Col>
+                                <Col xs={{span:10,offset:1}} md={{span:4,offset:0}}>
+                                    <div className="home-info__pricing-card">
+                                        <b>{t('home.annual')}</b>
+                                        <div className="home-info__annual">5.24 €/{t('home.month')}</div>
+                                        <div>-25%</div>
+                                        <div>TOTAL: 62.99€</div>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Col>            
+                    </Row>
+                    <Row>
+                        <Col className="home-info__team">
+                            <Row>
+                                <Col>
+                                    <div className="home-info__title">{t('home.team')}</div>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md="6" lg="4" xl="3">
+                                    <div className="home-info__team-card">
+                                        <img className="home-info__img" src={ernesto} alt=""/>
+                                        <b>Ernesto de Tovar</b>
+                                        <div>{t('home.pm')}</div>
+                                    </div>
+                                </Col>
+                                <Col md="6" lg="4" xl="3">
+                                    <div className="home-info__team-card">
+                                        <img className="home-info__img" src={fernando} alt=""/>
+                                        <b>Fernando Ramírez</b>
+                                        <div>{t('home.be-leader')}</div>
+                                    </div>
+                                </Col>
+                                <Col md="6" lg="4" xl="3">
+                                    <div className="home-info__team-card">
+                                        <img className="home-info__img" src={ramon} alt=""/>
+                                        <b>Ramón Guerrero</b>
+                                        <div>{t('home.be-dev')}</div>
+                                    </div>
+                                </Col>
+                                <Col md="6" lg="4" xl="3">
+                                    <div className="home-info__team-card">
+                                        <img className="home-info__img" src={angel} alt=""/>
+                                        <b>Ángel Pomares</b>
+                                        <div>{t('home.be-dev')}</div>
+                                    </div>
+                                </Col>
+                                <Col md="6" lg="4" xl="3">
+                                    <div className="home-info__team-card">
+                                        <img className="home-info__img" src={miguelangel} alt=""/>
+                                        <b>Miguel Angel Mogrovejo</b>
+                                        <div>{t('home.be-dev')}</div>
+                                    </div>
+                                </Col>
+                                <Col md="6" lg="4" xl="3">
+                                    <div className="home-info__team-card">
+                                        <img className="home-info__img" src={jesus} alt=""/>
+                                        <b>Jesús Rivas</b>
+                                        <div>{t('home.fe-leader')}</div>
+                                    </div>
+                                </Col>
+                                <Col md="6" lg="4" xl="3">
+                                    <div className="home-info__team-card">
+                                        <img className="home-info__img" src={jose} alt=""/>
+                                        <b>José Giraldo</b>
+                                        <div>{t('home.fe-dev')}</div>
+                                    </div>
+                                </Col>
+                                <Col md="6" lg="4" xl="3">
+                                    <div className="home-info__team-card">
+                                        <img className="home-info__img" src={migue} alt=""/>
+                                        <b>Miguel Campos</b>
+                                        <div>{t('home.fe-dev')}</div>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Col>    
+                    </Row>
+                  
+                </div>
+            </Section>
+        </Page>
         );
     }
 }
 
-export default withNamespaces('translation')(Home);
+export default withNamespaces()(Home);

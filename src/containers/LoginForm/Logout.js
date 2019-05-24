@@ -18,4 +18,4 @@ class Logout extends Component {
             </Page>);
     }
 }
-export default withNamespaces('translation')(Logout);
+export default withNamespaces()(Logout);

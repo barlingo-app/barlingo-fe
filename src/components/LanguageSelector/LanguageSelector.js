@@ -26,7 +26,8 @@ class LanguageSelector extends Component {
         const { language } = this.state;
         return (
             <div className={"language-selector"}>
-            <select onChange={this.onLanguageSelect} value={language}>
+            <label htmlFor="languageSelector" style={{display: "none"}} title="Language selector">Language selector</label>
+            <select name="languageSelector" onChange={this.onLanguageSelect} value={language}>
                 {this.renderOption("en-US", "en")}
                 {this.renderOption("es-ES", "es")}
             </select>
@@ -35,4 +36,4 @@ class LanguageSelector extends Component {
     }
 }
 
-export default withNamespaces('translation')(LanguageSelector);
+export default withNamespaces()(LanguageSelector);
