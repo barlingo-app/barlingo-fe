@@ -78,8 +78,8 @@
   "action": {
     "back": "Back",
     "register": {
-      "asUser": "Sign in as user",
-      "asEstablishment": "Sign in as establishment"
+      "asUser": "Sign up as user",
+      "asEstablishment": "Sign up as establishment"
     },
     "showAll": "All",
     "showActive": "Only active"
