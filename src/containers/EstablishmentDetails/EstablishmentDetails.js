@@ -91,7 +91,7 @@ class EstablishmentDetails extends Component {
         }
         if (create) {
             return (
-                <Redirect to={"/createExchange/" + establishment.id} />
+                <Redirect to={{pathname: "/createExchange/" + establishment.id , state: {from: "/establishments/" + establishment.id }}}/>
             )
         }
         const mapAddress = establishment.address + ", " + establishment.city + ", " + establishment.country;

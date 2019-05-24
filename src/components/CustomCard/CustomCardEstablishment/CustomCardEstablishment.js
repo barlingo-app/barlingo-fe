@@ -82,7 +82,7 @@ class CustomCardEstablishment extends Component {
 
         if (create) {
             return (
-                <Redirect to={"/createExchange/" + id} />
+                <Redirect to={{pathname: "/createExchange/" + id , state: {from: "/establishments" }}}/>
             )
         }
         return (
