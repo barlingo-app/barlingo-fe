@@ -1,46 +1,56 @@
 @import "../../styles/defaultStyles";
 
-
-
-.selectContainer {
-    text-align: center;
-    padding: 10px 20px;
-
-    .container {
-        padding: 5px 10px;
-        color: $mainColor;
-        font-weight: bold;
+.exchange-list {
+    background: linear-gradient(to top, #ffffff, #D7DDE8);
+    &__card {
+        margin-bottom: 15px;
     }
-}
-
-.createContainer {
-    display: flex;
-    padding: 10px 20px;
-    width: 100%;
-    align-items: flex-end;
-    justify-content: flex-end;
-    align-content: flex-end;
-    flex-direction: row;
-
-    button {
-        float: right;
+    &__filter-title {
+        color: $mainColor;
+        font-family: $font-primary;
+        font-size: 20px;
+        font-weight:600;
+        margin-top: 15px;
+    }
+    &__filter-text {
+        font-family: $font-primary;
+        font-size: 18px;
+        margin-top: 10px;
+    }
+    &__button {
         border: none;
-        border-radius: 25px;
+        border-radius: 10px;
         padding: 5px 20px;
         color: white;
-        background: $mainColor;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
+        background: #44cfcb; /* Old browsers */
+        background: -moz-linear-gradient(-45deg, #44cfcb 1%, #4ea5d9 47%, #4357ad 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(-45deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(135deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%);
+        font-family: $font-primary;
+        font-size: 18px;
+        margin-bottom: 30px;
+
         &:hover {
-            background: white;
-            border: 2px solid $mainColor;
-            color: $mainColor;
-            margin: -2px;
+            background: #4ea5d9;
+            color: white;
             outline: none;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
         } 
     }
+    &__actives-filter {
+        text-align: center;
+        padding: 10px 20px;
+    
+        .container {
+            padding: 5px 10px;
+            color: $mainColor;
+            font-weight: bold;
+            @media(max-width: 425px) {
+                padding: 5px 2px;
+            }
+        }
+    }
+    
 }
+
+
+

@@ -1,0 +1,55 @@
+@import '../../styles/defaultStyles.scss';
+
+.backContainer {
+    color: $mainColor;
+    padding: 0;
+    font-size: 35px;
+    margin: 0;
+    box-sizing: border-box;
+    float: left;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    &.full {
+        float: none;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    &.left {
+        position: absolute;
+        left: 15px;
+    }
+
+    &.centered {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        margin-top: -17.5px;
+    }
+
+    &.contrast {
+        color: $mainFontColor;
+
+        a,
+        a:hover,
+        a:active {
+            text-decoration: none;
+            color: $mainFontColor ;
+            height: 35px;
+            line-height: 35px;
+        }
+    }
+
+    a,
+    a:hover,
+    a:active {
+        text-decoration: none;
+        color: $mainColor;
+        height: 35px;
+        line-height: 35px;
+    }
+}

@@ -1,12 +1,15 @@
 import React, { Component } from "react";
+import { Col, Row } from 'react-bootstrap';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
-import { Col, Row } from 'react-bootstrap';
-import defaultImage from '../../media/default-exchange-header.jpg';
-import MapContainer from '../MapContainer/MapContainer';
-import { establishmentService } from '../../services/establishmentService';
+import { Redirect } from 'react-router-dom';
+import BackButton from "../../components/BackButton/BackButton";
 import Loading from "../../components/Loading/Loading";
+import defaultImage from '../../media/default-exchange-logo.png';
+import { establishmentService } from '../../services/establishmentService';
+import MapContainer from '../MapContainer/MapContainer';
 import './EstablishmentDetails.scss';
+
 
 
 class EstablishmentDetails extends Component {
@@ -15,7 +18,8 @@ class EstablishmentDetails extends Component {
         this.state = {
             establishment: {},
             loaded: false,
-            errorMessage: null
+            errorMessage: null,
+            create: false
         }
     }
 
@@ -27,13 +31,13 @@ class EstablishmentDetails extends Component {
 
     setData = (response) => {
         if (response.data.code === 200 && response.data.success && response.data.content) {
-            document.title = "Barlingo - " + response.data.establishmentName;
+            document.title = "Barlingo - " + response.data.content.establishmentName;
             this.setState({
                 establishment: response.data.content,
                 loaded: true
             });
         } else {
-            this.setState({redirectToNotFound: true});
+            this.setState({ redirectToNotFound: true });
         }
     };
 
@@ -44,29 +48,37 @@ class EstablishmentDetails extends Component {
     };
 
     componentDidMount() {
-        document.title = "Barlingo - " + this.state.establishment.establishmentName;
         this.fetchData();
     }
 
-    getFormattedWorkingHours = (workingHours) => {
-        const { t } = this.props;
-
-        let formattedWorkingHours = '';
-        let days = workingHours.split(',')[0].trim();
-
-        days.split(' ').forEach(function(value, index,  array) {
-            formattedWorkingHours += t('days.' + value.trim().toLowerCase()) + ' ';
-        });
-
-        return formattedWorkingHours.trim() + ' , ' + workingHours.split(',')[1].trim();
-    }
 
     getImage = (image) => {
         return (image === '' || image === null) ? defaultImage : image;
     };
 
+    formatWorkingHours = (workingHours) => {
+        const { t } = this.props;
+        var formatedWorkingHours = [];
+        var splitedWorkingHours = workingHours.split(',')
+        for (var i = 0; i < (splitedWorkingHours.length - 1); i++) {
+            var elem = splitedWorkingHours[i].split('/')
+            if (elem[1] === "closed") {
+                elem[1] = t('close')
+            }
+            formatedWorkingHours.push(elem[1])
+        }
+        return formatedWorkingHours
+    }
+
+    handleOnClick = (id) => {
+        this.setState({
+            create: true
+        })
+        /*let route = "createExchange";
+        this.props.history.push(`/${route}/${id}`);*/
+    }
     render() {
-        const { errorMessage, loaded, establishment } = this.state;
+        const { errorMessage, loaded, establishment, create } = this.state;
         const { t } = this.props;
         if (!loaded) {
             return (
@@ -77,7 +89,11 @@ class EstablishmentDetails extends Component {
                 </Page>
             );
         }
-
+        if (create) {
+            return (
+                <Redirect to={{pathname: "/createExchange/" + establishment.id , state: {from: "/establishments/" + establishment.id }}}/>
+            )
+        }
         const mapAddress = establishment.address + ", " + establishment.city + ", " + establishment.country;
         const name = establishment.establishmentName;
 
@@ -86,9 +102,10 @@ class EstablishmentDetails extends Component {
                 <Page layout="public">
                     <Section slot="content">
                         <Row>
-                            <Col className="establishment-details__content" sm="12" md={{span: 6, offset: 3}}>
-                                <div className="establishment-details__top"> 
-                                    <img  className="establishment-details__image" alt="Establishment" src={this.getImage(establishment.imageProfile)} onError={(e) => e.target.src = defaultImage}/>
+                            <Col className="establishment-details__content" sm="12" md={{ span: 6, offset: 3 }}>
+                                <div className="establishment-details__top">
+                                    {<BackButton to={(this.props.location.state && this.props.location.state.from) ? this.props.location.state.from : "/establishments"} additionalClasses={"centered contrast"} />}
+                                    <img className="establishment-details__image" alt="Establishment" src={this.getImage(establishment.imageProfile)} onError={(e) => e.target.src = defaultImage} />
                                 </div>
                                 <div className="establishment-details__name">{establishment.establishmentName}</div>
                                 <div className="establishment-details__description">{establishment.description}</div>
@@ -101,10 +118,47 @@ class EstablishmentDetails extends Component {
                                     <MapContainer address={mapAddress} name={name} />
                                 </div>
 
-                                <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
-                                <div className="establishment-details__workingHours">{establishment.workingHours}</div>
+                                <div className="establishment-details__workingHours-wrapper">
+                                    <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
+                                    <table className="establishment-details__table">
+                                        <tr>
+                                            <td className="hours-table__day">{t('days.monday')}</td>
+                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[0]}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="hours-table__day">{t('days.tuesday')}</td>
+                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[1]}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="hours-table__day">{t('days.wednesday')}</td>
+                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[2]}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="hours-table__day">{t('days.thursday')}</td>
+                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[3]}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="hours-table__day">{t('days.friday')}</td>
+                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[4]}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="hours-table__day">{t('days.saturday')}</td>
+                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[5]}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="hours-table__day">{t('days.sunday')}</td>
+                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[6]}</td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+
+
                                 <div className="establishment-details__offer-title">{t('form.offer')}</div>
                                 <div className="establishment-details__offer">{establishment.offer}</div>
+                                <div style={{ textAlign: "center", margin: "30px" }}>
+                                    <button className="custom-card-establishment__button" onClick={() => this.handleOnClick()}>{t('generic.createExchange')}</button>
+                                </div>
                             </Col>
                         </Row>
                     </Section>
@@ -114,4 +168,4 @@ class EstablishmentDetails extends Component {
     }
 }
 
-export default withNamespaces('translation')(EstablishmentDetails);
+export default withNamespaces()(EstablishmentDetails);

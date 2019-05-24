@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /*
+Sitemap: https://app.barlingo.es/sitemap.xml
+Crawl-delay: 20

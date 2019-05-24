@@ -1,6 +1,9 @@
 @import "../../styles/variables";
 
 .register {
+    &__terms-wrapper .ant-form-item-control-wrapper .ant-form-item-control{
+        line-height: 10px!important;
+    }
     &__terms {
         background:none!important;
         color:$mainColor!important;

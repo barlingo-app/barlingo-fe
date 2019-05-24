@@ -13,11 +13,26 @@ i18n
             'en-GB': ['en-US'],
             'default': ['es-ES']
         },
-        debug: false,
-
+        debug: (process.env.REACT_APP_I18N_DEBUG === 'true'),
         interpolation: {
             escapeValue: false, // not needed for react as it escapes by default
         },
+        whitelist: [
+            'en-US', 
+            'es-ES'
+        ],
+        load: [
+            'en-US', 
+            'es-ES'
+        ],
+        preload: [
+            'en-US', 
+            'es-ES'
+        ],
+        ns: [
+            'translations'
+        ],
+        defaultNS: 'translations',
         // special options for react-i18next
         // learn more: https://react.i18next.com/components/i18next-instance
         react: {

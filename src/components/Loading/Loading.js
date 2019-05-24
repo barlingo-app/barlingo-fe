@@ -27,4 +27,4 @@ class Loading extends Component {
     }
 }
 
-export default withNamespaces('translation')(Loading);
+export default withNamespaces()(Loading);

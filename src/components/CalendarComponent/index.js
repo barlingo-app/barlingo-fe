@@ -93,5 +93,5 @@ export class index extends Component {
   }
 }
 
-export default withNamespaces('translation')(index);
+export default withNamespaces()(index);
 

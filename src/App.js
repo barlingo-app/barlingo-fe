@@ -143,4 +143,4 @@ class App extends Component {
 
 }
 
-export default withRouter(withNamespaces('translations')(App));
+export default withRouter(withNamespaces()(App));

@@ -44,5 +44,5 @@ class displayCodeContainer extends React.Component{
   }
 }
 
-export default withNamespaces('translation')(displayCodeContainer);
+export default withNamespaces()(displayCodeContainer);
 

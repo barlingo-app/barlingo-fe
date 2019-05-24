@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import "./UserMenuInfo.scss";
-import defaultImage from "../../media/person.png"
+import defaultImage from "../../media/person.jpg"
 import { NavLink } from "react-router-dom";
 import { auth } from '../../auth';
 import { withRouter } from 'react-router-dom';
@@ -42,7 +42,8 @@ class UserMenuInfo extends Component {
                 <div className={"userImageContainer"}>
                     <div className={"userImage"}>
                         {!auth.isAuthenticated() && < img src={defaultImage} alt={"user"} />}
-                        {auth.isAuthenticated() && <NavLink exact={true} to={"/profile"} activeClassName={"none"} ><img src={ this.getImage(auth.isEstablishment() ? userData.imageProfile : userData.personalPic) } alt={"user"} onError={(e) => { e.target.src = defaultImage }}/></NavLink>}
+                        {auth.isAuthenticated() && !auth.isAdmin() && <NavLink exact={true} to={"/profile"} activeClassName={"none"} ><img src={this.getImage(auth.isEstablishment() ? userData.imageProfile : userData.personalPic)} alt={"user"} onError={(e) => { e.target.src = defaultImage }} /></NavLink>}
+                        {auth.isAuthenticated() && auth.isAdmin() && <img src={this.getImage(auth.isEstablishment() ? userData.imageProfile : userData.personalPic)} alt={"user"} onError={(e) => { e.target.src = defaultImage }} />}
                     </div>
                 </div>
                 <div className={"userInfoContainer"}>
@@ -59,4 +60,4 @@ class UserMenuInfo extends Component {
     }
 }
 
-export default withRouter(withNamespaces('translation')(UserMenuInfo));
+export default withRouter(withNamespaces()(UserMenuInfo));

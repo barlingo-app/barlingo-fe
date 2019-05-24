@@ -5,7 +5,7 @@ import './index.scss'
 
 const index = () => {
   return (
-    <div className="register-bg">
+    <div>
       <Page layout="public">
           <Section slot="content">
             <RegisterUserComponent />

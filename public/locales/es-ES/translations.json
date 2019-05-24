@@ -1,11 +1,39 @@
 {
-  "profileview" : {
+
+  "home": {
+    "whatis": "¿Qué es Barlingo?",
+    "paragraph1": "Barlingo es una aplicación de intercambio de idiomas donde los usuarios realizan intercambios en establecimientos y reciben descuentos.",
+    "paragraph2": "Si quieres practicar idiomas de manera gratuita, únete a uno de los intercambios publicados o crea uno a tu gusto. Hay personas como tú dispuestas a aprender y echar un buen rato.",
+    "paragraph3": "Si tienes un negocio y quieres atraer personas que realicen intercambio de idiomas, regístrate.",
+    "pricing": "Precios",
+    "monthly": "MENSUAL",
+    "quarterly": "TRIMESTRAL",
+    "annual": "ANUAL",
+    "month": "mes",
+    "team": "Nuestro equipo",
+    "pm": "Jefe de proyecto",
+    "be-leader": "Líder de backend",
+    "be-dev": "Desarrollador backend",
+    "fe-leader": "Líder de frontend",
+    "fe-dev": "Desarrollador frontend"
+
+  },
+  "filter": "Filtrar resultados:",
+  "date&time": "Fecha y hora:",
+  "laanguages": "Idiomas",
+  "timerange": "Rango horario",
+  "of": "de",
+  "to": "a",
+  "open": "Abierto",
+  "close": "Cerrado",
+  "from": "desde",
+  "profile": "Perfil",
+  "profileview": {
     "age": "años",
     "speak": "Hablo",
     "tolearn": "Quiero aprender",
     "editprofile": "Editar perfil"
   },
-
   "subcripcionEnd": "Subscripción caduca en",
   "intercambiosconcertadosensulocal": "Intercambios concertados en su local",
   "completed": "Completo",
@@ -44,7 +72,7 @@
     "navOptions": {
       "findExchanges": "Encuentra tu intercambio",
       "seeEstablishments": "Ver establecimientos",
-      "createExchanges": "Crear tu intercambio"
+      "createExchanges": "Crea tu intercambio"
     }
   },
   "select-register": "Elija un tipo de registro",
@@ -62,7 +90,8 @@
     "en": "Inglés",
     "fr": "Francés",
     "de": "Alemán",
-    "ja": "Japonés"
+    "ja": "Japonés",
+    "ko": "Coreano"
   },
   "days": {
     "monday": "Lunes",
@@ -168,8 +197,8 @@
   },
   "form": {
     "validationNotification": {
-      "title": "Failed validation",
-      "message": "Please, check the form."
+      "title": "Validación fallida",
+      "message": "Por favor, revisa el formulario."
     },
     "validationErrors": {
       "usernameExists": "El nombre de usuario ya existe.",
@@ -243,6 +272,7 @@
     }
   },
   "exchange": {
+    "notAvailable": "Este intercambio ya no esta disponible. El establecimiento ha eliminado su cuenta.",
     "creator": " (creador)",
     "participantss": "Participantes",
     "search": {
@@ -335,10 +365,14 @@
   },
   "subscription": {
     "title": "Elige una suscripción",
+    "infoTitle": "Suscripción",
     "errorSavingData": {
       "title": "Error guardando datos del pago",
       "message": "Se produjo un error al guardar la información de pago. Contáctenos a través del correo electrónico barlingoapp@gmail.com e indique el pago con el id de pedido: "
     },
+    "typeTitle": "Tipo de suscripción",
+    "startTitle": "Fecha de inicio",
+    "finishTitle": "Fecha de finalización",
     "discounts": {
       "10%": "¡Obten un 10% de descuento!",
       "25%": "¡Obten un 25% de descuento!"
@@ -376,6 +410,12 @@
     "payButton": "Pagar suscripción"
   },
   "code": {
+    "scan": "Escanear código QR",
+    "manual": "Introducir el código manualmente",
+    "scanError": {
+      "title": "Error con el escáner QR",
+      "message": "Se produjo un error al inicializar el escáner QR. Por favor, compruebe que el acceso a la cámara está permitido."
+    },
     "redeem": {
       "buttonMessage": "Canjear",
       "ok": {
@@ -383,8 +423,21 @@
         "message": "Se ha canjeado el código de manera correcta."
       },
       "fail": {
-        "title": "Ups, algo ha salido mal",
-        "message": "Se ha producido un error mientras se canjeaba el código."
+        "date": {
+          "title": "No canjeable",
+          "message": "El código es válido, pero el intercambio aun no ha tenido lugar."
+        },
+        "expired": {
+          "title": "No canjeable",
+          "message": "El código ha expirado."
+        },
+        "exchanged": {
+          "title": "No canjeable",
+          "message": "El código ya ha sido canjeado."
+        },
+        "format": "El código debe tener el siguiente formato: <<00000000-AAAA>>",
+        "title": "Fail during reedem",
+        "message": "An error has ocurred while reedeming"
       }
     },
     "outDate": "El código solo se mostrará 4 horas antes del evento y 48 horas después.",
@@ -393,6 +446,7 @@
     "error": "No hay código para mostrar",
     "used": "Este código ya ha sido canjeado",
     "validate": {
+      "invalidFormat": "El formato del codigo no es valido.",
       "placeholder": "Introduzca el código",
       "button": "Validar código",
       "empty": "Por favor introduzca el código",
@@ -412,6 +466,38 @@
         "format": "El código debe tener el siguiente formato: <<00000000-AAAA>>",
         "title": "Código inválido",
         "message": "El código no es válido"
+      }
+    },
+    "errorTitles": {
+      "Signed": {
+        "UserDiscount": {
+          "UserNotNull": "Hubo un error",
+          "ErrorSavingDiscount":  "Hubo un error",
+          "CodeBelongOtherExchange":  "Código inválido",
+          "CodeNotValid": "Código inválido",
+          "CodeNotExists": "Código no encontrado",
+          "NotVisible": "Código no visible",
+          "LanguageExchangeNotStartedYet":  "Código no canjeable",
+          "UserDiscountCannotBeExchanged": "Código no canjeable",
+          "LanguajeExchangeNotNull":  "Hubo un error",
+          "UserDiscountNotNull": "Hubo un error",
+          "AccessForbidden":  "Acceso denegado"
+        }
+      },
+      "Establishment": {
+        "UserDiscount": {
+          "UserNotNull": "Hubo un error",
+          "ErrorSavingDiscount":  "Hubo un error",
+          "CodeBelongOtherExchange":  "Código inválido",
+          "CodeNotValid": "Código inválido",
+          "CodeNotExists": "Código no encontrado",
+          "NotVisible": "Código no visible",
+          "LanguageExchangeNotStartedYet":  "Código no canjeable",
+          "UserDiscountCannotBeExchanged": "Código no canjeable",
+          "LanguajeExchangeNotNull":  "Hubo un error",
+          "UserDiscountNotNull": "Hubo un error",
+          "AccessForbidden":  "Acceso denegado"
+        }
       }
     }
   },
@@ -461,8 +547,8 @@
         "ErrorSavingDiscount": "Se ha producido un error al crear el intercambio.",
         "CodeBelongOtherExchange": "Se ha producido un error al crear el intercambio.",
         "CodeNotValid": "El código no es válido.",
-        "CodeNotExists": "El código no es válido.",
-        "NotVisible": "El código no es válido.",
+        "CodeNotExists": "El código no existe.",
+        "NotVisible": "El código solo se mostrará 4 horas antes del evento y 48 horas después.",
         "LanguageExchangeNotStartedYet": "El intercambio aún no ha comenzado.",
         "LanguageExchangeNotNull": "No se ha pasado como intercambio un parámetro válido",
         "UserDiscountNotNull": "No existe ningún descuento para el usuario en el intercambio suministrado",
@@ -488,7 +574,17 @@
         "SecretNotEmpty": "La contraseña no puede ser un texto vacío."
       },
       "UserDiscount": {
-        "UserDiscountCannotBeExchanged": "El código no es válido."
+        "UserDiscountCannotBeExchanged": "El código no se puede canjear.",
+        "UserNotNull": "Se ha producido un error al crear el intercambio.",
+        "ErrorSavingDiscount": "Se ha producido un error al crear el intercambio.",
+        "CodeBelongOtherExchange": "Se ha producido un error al crear el intercambio.",
+        "CodeNotValid": "El código no es válido.",
+        "CodeNotExists": "El código no existe.",
+        "NotVisible": "El código solo se mostrará 4 horas antes del evento y 48 horas después.",
+        "LanguageExchangeNotStartedYet": "El intercambio aún no ha comenzado.",
+        "LanguageExchangeNotNull": "No se ha pasado como intercambio un parámetro válido",
+        "UserDiscountNotNull": "No existe ningún descuento para el usuario en el intercambio suministrado",
+        "AccessForbidden": "El usuario/establecimiento está intentando acceder a un descuento que no le pertenece"
       },
       "Payment": {
         "IO": "No se ha podido realizar la transacción, inténtelo más tarde.",

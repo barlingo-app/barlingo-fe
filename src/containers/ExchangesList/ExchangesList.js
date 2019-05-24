@@ -2,7 +2,7 @@ import { TimePicker, Input, Select, DatePicker } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
-import { Col, Row } from 'reactstrap';
+import { Col, Row } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import CustomCardExchange from '../../components/CustomCard/CustomCardExchange/CustomCardExchange';
 import Loading from "../../components/Loading/Loading";
@@ -193,52 +193,87 @@ class ExchangesList extends Component {
 
 
         return (
-            <Page layout="public">
-                <Section slot="content">
-                    {auth.isAuthenticated() && auth.isUser() && 
-                    <div className="createContainer">   
-                        <button type="button" onClick={() => this.redirectToCreate()}>{t('landing.navOptions.createExchanges')}</button>
-                    </div>}
-                    <Row>
-                        <Col xs="12" md="6" xl="4">
-                            <Input placeholder={t("exchange.search.textarea")} onChange={this.handleInputText} className={"customInput"} />
-                        </Col>
-                        <Col xs="12" md="6" xl="4">
-                            <Select onChange={this.handleInputMotherTongue} style={{ width: 200 }} placeholder={t("exchange.search.motherTongue")}>
-                                {languages.map((key, index) => (
-                                    <Option key={key} value={key}>{t('languages.' + key)}</Option>
-                                ))}
-                            </Select>
-                        </Col>
-                        <Col xs="12" md="6" xl="4">
-                            <Select onChange={this.handleInputTargetTongue} style={{ width: 200 }} placeholder={t("exchange.search.targetTongue")}>
-                                {languages.map((key, index) => (
-                                    <Option key={key} value={key}>{t('languages.' + key)}</Option>
-                                ))}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <DatePicker onChange={this.handleInputDate} placeholder={t("exchange.search.date")} />
-                        </Col>
-                        <Col xs="12" md="6" xl="4">
-                            <TimePicker onChange={this.handleInputStartTime} format="HH:mm" placeholder={t("exchange.search.startTime")} />
-                        </Col>
-                        <Col xs="12" md="6" xl="4">
-                            <TimePicker onChange={this.handleInputEndTime} format="HH:mm" placeholder={t("exchange.search.endTime")} />
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        {items.map((i, index) =>(
-                            <Col xs="12" md="6" xl="4" key={i.id}>
-                                <CustomCardExchange fetchData={this.fetchData} exchange={i} />
+            <div className="exchange-list">
+                <Page layout="public">
+                    <Section slot="content">
+                        <Row>
+                            <Col md={{span:11,offset:1}} lg={{span:9,offset:3}} xl={{span:7,offset:5}}>   {auth.isAuthenticated() && auth.isUser() && 
+                                    <button className="exchange-list__button" type="button" onClick={() => this.redirectToCreate()}>{t('landing.navOptions.createExchanges')}</button>
+                               }  
                             </Col>
-                        ))}
-                    </Row>
-                </Section>
-            </Page >
+                        </Row>
+                        <Row>
+                            <Col md={{span:10,offset:1}} lg={{span:3,offset:0}} xl={{span:4,offset:1}}>
+                                <Row>
+                                    <Col xs="12">
+                                        <Row>
+                                            <Col md="8" lg="12" xl="10">
+                                                <Input placeholder={t("exchange.search.textarea")} onChange={this.handleInputText} className={"customInput"} />
+                                            </Col>
+                                        </Row>
+
+                                        <div className="exchange-list__filter-title">{t('filter')}</div>
+
+                                        <div className="exchange-list__filter-text">{t('date&time')}</div>
+                                        <Row>
+                                            <Col>
+                                                <DatePicker onChange={this.handleInputDate} placeholder={t("exchange.search.date")} />
+                                            </Col>
+                                        </Row>
+
+                                        <div className="exchange-list__filter-text">{t('laanguages')}</div>
+                                        <Row>
+                                            <Col md="12" lg="12">
+                                                <Select allowClear={true} onChange={this.handleInputMotherTongue} style={{ width: 200 }} placeholder={t("exchange.search.motherTongue")}>
+                                                    {languages.map((key, index) => (
+                                                        <Option key={key} value={key}>{t('languages.' + key)}</Option>
+                                                    ))}
+                                                </Select>
+                                            </Col>
+                                            <Col md="12" lg="12" className="mt-1">
+                                                <Select allowClear={true} onChange={this.handleInputTargetTongue} style={{ width: 200 }} placeholder={t("exchange.search.targetTongue")}>
+                                                    {languages.map((key, index) => (
+                                                        <Option key={key} value={key}>{t('languages.' + key)}</Option>
+                                                    ))}
+                                                </Select>
+                                            </Col>
+                                        </Row>
+
+                                        <div className="exchange-list__filter-text">{t('timerange')}</div>
+                                        <Row>
+                                            <Col md="12" lg="12">
+                                                <TimePicker onChange={this.handleInputStartTime} format="HH:mm" placeholder={t("exchange.search.startTime")} />
+                                            </Col>  
+                                            <Col md="12" lg="12" className="mt-1 mb-5">        
+                                                <TimePicker onChange={this.handleInputEndTime} format="HH:mm" placeholder={t("exchange.search.endTime")} />
+                                            </Col>            
+                                        </Row>
+
+                                    </Col>
+                                </Row>
+                            </Col>
+                            
+                            <Col md={{span:10,offset:1}} lg={{span:8,offset:0}} xl={{span:6,offset:0}}> 
+                                {items.length === 0 &&
+                                    <div>No hay ningún intercambio</div>
+                                }
+                                <Row>
+                                    {
+                                        items.filter(item => item.establishment.userAccount.active).map((i, index) =>(
+                                        <Col className="exchange-list__card" xs="12" key={i.id}>
+                                            <CustomCardExchange fetchData={this.fetchData} exchange={i} from={"/exchanges"}/>
+                                        </Col>
+                                    ))
+                                    
+                                    }
+                                </Row>
+                            </Col>
+                        </Row>
+                    </Section>
+                </Page >
+            </div>
         );
     }
 }
 
-export default withNamespaces('translation')(ExchangesList);
+export default withNamespaces()(ExchangesList);

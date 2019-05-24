@@ -2,7 +2,7 @@ import { notification, Switch } from 'antd';
 import React, { Component } from 'react';
 import { withNamespaces } from "react-i18next";
 import { Page, Section } from "react-page-layout";
-import { Col, Row } from 'reactstrap';
+import { Col, Row } from 'react-bootstrap';
 import { auth } from '../../../auth';
 import CustomCardExchange from '../../../components/CustomCard/CustomCardExchange/CustomCardExchange';
 import Loading from "../../../components/Loading/Loading";
@@ -10,6 +10,7 @@ import { exchangesService } from '../../../services/exchangesService';
 import '../ExchangesList.scss';
 import moment from 'moment';
 import { Redirect } from "react-router-dom";
+import BackButton from "../../../components/BackButton/BackButton";
 
 
 class MyExchangesList extends Component {
@@ -212,28 +213,31 @@ class MyExchangesList extends Component {
         }
 
         return (
-            <Page layout="public">
-                <Section slot="content">
-                    <div className="createContainer">   
-                        <button type="button" onClick={() => this.redirectToCreate()}>{t('landing.navOptions.createExchanges')}</button>
-                    </div>
-                    <div className="selectContainer">
-                        <span className="container">{t('action.showActive')}</span> 
-                        <span className="container"><Switch onChange={this.changeFilter}/></span> 
-                        <span className="container">{t('action.showAll')}</span>
-                    </div>
-                    <Row>
-                        {this.getItems().map((i, index) => (
+            <div className="exchange-list">
+                <Page layout="public">
+                    <Section slot="content">
+                        <div className="text-center">
+                            <BackButton to={"/profile"} />
+                            <button type="button" className="exchange-list__button" onClick={() => this.redirectToCreate()}>{t('landing.navOptions.createExchanges')}</button>
+                        </div>   
+                        <div className="exchange-list__actives-filter">
+                            <span className="container">{t('action.showActive')}</span> 
+                            <span className="container"><Switch onChange={this.changeFilter}/></span> 
+                            <span className="container">{t('action.showAll')}</span>
+                        </div>
+                        <Row>
+                            {this.getItems().map((i, index) => (
 
-                            <Col xs="12" md="6" xl="4" key={i.id}>
-                                <CustomCardExchange exchange = {i} />
-                            </Col>
-                        ))}
-                    </Row>
-                </Section>
-            </Page>
+                                <Col className="exchange-list__card" xs="12" md={{span:10,offset:1}} lg={{span:8,offset:2}} xl={{span:6,offset:3}} key={i.id}>
+                                    <CustomCardExchange exchange = {i} from={"/myExchanges"} />
+                                </Col>
+                            ))}
+                        </Row>
+                    </Section>
+                </Page>
+            </div>
         );
     }
 }
 
-export default withNamespaces('translation')(MyExchangesList);
+export default withNamespaces()(MyExchangesList);
