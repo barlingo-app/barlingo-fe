@@ -411,7 +411,7 @@ class ProfileView extends Component {
                         <Row>
                             <Col className="profileview__content" sm="12" md={{span: 6, offset: 3}}>
                                 <div className="profileview__top">
-                                {this.props.location.state && this.props.location.state.from && (!auth.isAuthenticated() || (auth.isAuthenticated() && user.id !== auth.getUserData().id)) && <BackButton to={this.props.location.state.from} additionalClasses={"centered contrast"} />}
+                                {this.props.location.state && this.props.location.state.from && this.props.match.params.userId !== null && this.props.match.params.userId !== undefined && <BackButton to={this.props.location.state.from} additionalClasses={"centered contrast"} />}
                                 {auth.isAuthenticated() && (auth.isEstablishment() || user.id === auth.getUserData().id) && 
                                 <Row>
                                     <Col xs={{span: 3, offset: 9}} lg={{span: 1, offset: 10}}>

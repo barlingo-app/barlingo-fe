@@ -23,3 +23,13 @@
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+.ant-back-top {
+  bottom: 70px;
+
+  .ant-back-top-content,
+  .ant-back-top-content:hover {
+    background-color: $mainColor;
+    color: $mainFontColor;
+  }
+}
