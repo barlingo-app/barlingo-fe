@@ -2,6 +2,7 @@ import axios from 'axios';
 import { userService } from './services/userService';
 import { establishmentService } from './services/establishmentService';
 import { adminService } from './services/adminService';
+import { notification } from 'antd';
 
 const AUTH_TOKEN_KEY = "authToken";
 const USER_ID_KEY = "userId";
@@ -84,6 +85,8 @@ export const auth = {
     localStorage.removeItem(EXPIRATION_MOMENT_KEY);
     localStorage.removeItem(CREDENTIALS_KEY);
     localStorage.removeItem(ROLE_KEY);
+    
+    notification.destroy();
   },
 
   setAuthenticationFlag(flag) {

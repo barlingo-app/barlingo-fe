@@ -104,7 +104,7 @@ class Home extends Component {
 
         return (
             <Page layout="public">
-                <Section slot="fullContent">
+                <Section slot="contentWithBackground">
                     {  auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) &&  this.getSubcriptionWarning() }
                     <div className="landingContainer">
                         <img src={logo} className="logo" alt="logo" />
@@ -141,7 +141,6 @@ class Home extends Component {
                            
                         </Col>
                     </Row>
-                    
                     <Row>
                         <Col className="home-info__pricing">
                             <Row>
@@ -150,14 +149,14 @@ class Home extends Component {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col xs={{span:10,offset:1}} md={{span:4,offset:0}}>
+                                <Col className="home-info__pricing-col" xs={{span:10,offset:1}} md={{span:4,offset:0}}>
                                     <div className="home-info__pricing-card">
                                         <b>{t('home.monthly')}</b>
                                         <div className="home-info__monthly">6.99 €/{t('home.month')}</div>
                                         <div>TOTAL: 6.99€</div>
                                     </div>
                                 </Col>
-                                <Col xs={{span:10,offset:1}} md={{span:4,offset:0}}> 
+                                <Col className="home-info__pricing-col" xs={{span:10,offset:1}} md={{span:4,offset:0}}> 
                                     <div className="home-info__pricing-card">
                                         <b>{t('home.quarterly')}</b>
                                         <div className="home-info__quarterly">6.33 €/{t('home.month')}</div>
@@ -165,7 +164,7 @@ class Home extends Component {
                                         <div>TOTAL: 18.99€</div>
                                     </div>
                                 </Col>
-                                <Col xs={{span:10,offset:1}} md={{span:4,offset:0}}>
+                                <Col className="home-info__pricing-col" xs={{span:10,offset:1}} md={{span:4,offset:0}}>
                                     <div className="home-info__pricing-card">
                                         <b>{t('home.annual')}</b>
                                         <div className="home-info__annual">5.24 €/{t('home.month')}</div>
@@ -176,6 +175,8 @@ class Home extends Component {
                             </Row>
                         </Col>            
                     </Row>
+                    </div>
+                    <div className={"home-info"}>
                     <Row>
                         <Col className="home-info__team">
                             <Row>

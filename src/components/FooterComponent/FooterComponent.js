@@ -28,6 +28,7 @@ class FooterComponent extends Component {
         const {t} = this.props;
         return (
             <footer className="footer">
+              <div className="footer__options">
                 <Button className="footer__terms" onClick={this.showModal}>
                     {t('term&cond')}
                 </Button>
@@ -64,6 +65,10 @@ class FooterComponent extends Component {
                     <p><b>{t('terms-modifications')}</b></p>
                     <p>{t('terms-modifications-text')}</p>
                 </Modal>     
+              </div>
+              <div className="footer__version">
+                {t('version')}: {process.env.REACT_APP_VERSION}
+              </div>
             </footer>
         );
     }

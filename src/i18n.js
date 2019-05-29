@@ -30,9 +30,9 @@ i18n
             'es-ES'
         ],
         ns: [
-            'translations'
+            'translation'
         ],
-        defaultNS: 'translations',
+        defaultNS: 'translation',
         // special options for react-i18next
         // learn more: https://react.i18next.com/components/i18next-instance
         react: {
