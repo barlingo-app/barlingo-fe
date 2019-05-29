@@ -1,5 +1,5 @@
 {
-
+  "version": "Versión",
   "home": {
     "whatis": "¿Qué es Barlingo?",
     "paragraph1": "Barlingo es una aplicación de intercambio de idiomas donde los usuarios realizan intercambios en establecimientos y reciben descuentos.",
@@ -136,6 +136,13 @@
     "list": "Lista de usuarios",
     "deactivate": "Desactivar",
     "activate": "Activar"
+  },
+  "exchanges":{
+    "empty": "No hay intercambios",
+    "myList": {
+      "activeEmpty": "No tienes intercambios activos",
+      "empty": "No tienes ningún intercambio. Crea uno nuevo o unete a uno que ya exista."
+    }
   },
   "titles": {
     "exchangesList": "Intercambios",
@@ -474,6 +481,7 @@
           "UserNotNull": "Hubo un error",
           "ErrorSavingDiscount":  "Hubo un error",
           "CodeBelongOtherExchange":  "Código inválido",
+          "CodeBelongOtherStablishment":  "Código inválido",
           "CodeNotValid": "Código inválido",
           "CodeNotExists": "Código no encontrado",
           "NotVisible": "Código no visible",
@@ -489,6 +497,7 @@
           "UserNotNull": "Hubo un error",
           "ErrorSavingDiscount":  "Hubo un error",
           "CodeBelongOtherExchange":  "Código inválido",
+          "CodeBelongOtherStablishment":  "Código inválido",
           "CodeNotValid": "Código inválido",
           "CodeNotExists": "Código no encontrado",
           "NotVisible": "Código no visible",
@@ -544,8 +553,9 @@
       },
       "UserDiscount": {
         "UserNotNull": "Se ha producido un error al crear el intercambio.",
-        "ErrorSavingDiscount": "Se ha producido un error al crear el intercambio.",
-        "CodeBelongOtherExchange": "Se ha producido un error al crear el intercambio.",
+        "ErrorSavingDiscount": "Se ha producido un error al canjear el código.",
+        "CodeBelongOtherExchange": "El código pertenece a otro intercambio.",
+        "CodeBelongOtherStablishment": "El código pertenece a otro establecimiento.",
         "CodeNotValid": "El código no es válido.",
         "CodeNotExists": "El código no existe.",
         "NotVisible": "El código solo se mostrará 4 horas antes del evento y 48 horas después.",

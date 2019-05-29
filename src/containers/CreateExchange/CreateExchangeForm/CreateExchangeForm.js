@@ -10,15 +10,6 @@ import './CreateExchangeForm.scss';
 import './CreateExchangeForm.scss';
 const { Option } = Select;
 
-const dayArrays = [
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-    'sunday'
-];
 const dayJson = {
     0: 'sunday',
     1: 'monday',
@@ -137,7 +128,6 @@ class CreateExchangeForm extends Component {
 
         let day = dayJson[date.day()]
 
-        let openingDays = [];
         let days = this.getDays(this.props.establishment.workingHours);
         const daySchedule = days[day];
         const previousDay = days[dayJson[date.day() === 0 ? 6 : date.day() - 1]];

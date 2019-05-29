@@ -189,6 +189,10 @@ class MyExchangesList extends Component {
         return activeItems;
     }
 
+    getAllItems = () => {
+        return this.state.items;
+    }
+
     redirectToCreate = () => {
         this.setState({redirectToCreate: true});
     }
@@ -226,6 +230,12 @@ class MyExchangesList extends Component {
                             <span className="container">{t('action.showAll')}</span>
                         </div>
                         <Row>
+                            {this.getItems().length === 0 && this.getAllItems().length > 0 &&
+                                <div className="emptyMessageContainer">{t('exchanges.myList.activeEmpty')}</div>
+                            }
+                            {this.getItems().length === 0 && this.getAllItems().length === 0 &&
+                                <div className="emptyMessageContainer">{t('exchanges.myList.empty')}</div>
+                            }
                             {this.getItems().map((i, index) => (
 
                                 <Col className="exchange-list__card" xs="12" md={{span:10,offset:1}} lg={{span:8,offset:2}} xl={{span:6,offset:3}} key={i.id}>

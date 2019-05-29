@@ -14,11 +14,10 @@
   flex-direction: column;
   width: 100%;
   text-align: center;
-  background: url('../../media/barlingo-background.webp') no-repeat;
-  background-size: cover; 
+  margin-bottom: 70px;
 
   .logo {
-    width: 60%;
+    width: 50%;
     max-width: 300px;
   }
 
@@ -67,6 +66,12 @@
 
 .home-info {
 
+  margin: 0 40px $footerHeight 40px;
+  padding: 0 20px 20px 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-radius: 10px;
+
 &__title {
   font-family: $font-primary;
   font-size: 25px;
@@ -78,12 +83,18 @@
 &__description {
   text-align: center;
 }
+
+&__pricing-col {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 &__pricing-card {
   background: white;
   border-radius: 10px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   display: block;
-  height: 150px;
+  height: 100%;
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
@@ -107,9 +118,6 @@
   font-size: 20px;
 
 }
-&__team {
-  margin-bottom: 120px;
-}
 &__team-card {
   border-radius: 10px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
@@ -120,11 +128,14 @@
   padding-bottom: 5px;
   text-align: center;
   width: 250px;
+  max-width: 100%;
+  box-sizing: border-box;
 
 }
 &__img {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   width: 100%;
+  max-width: 100%;
  }
 }

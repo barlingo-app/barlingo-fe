@@ -51,6 +51,20 @@ export function register(config) {
         registerValidSW(swUrl, config);
       }
     });
+
+    window.addEventListener('activate', function(event) {
+      var cacheWhitelist = ['v1', 'v2'];
+    
+      event.waitUntil(
+        caches.keys().then(function(keyList) {
+          Promise.all(keyList.map(function(key) {
+            if (cacheWhitelist.indexOf(key) === -1) {
+              return caches.delete(key);
+            }
+          }));
+        })
+      );
+    });
   }
 }
 

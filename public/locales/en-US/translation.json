@@ -1,4 +1,5 @@
-{ 
+{
+  "version": "Version", 
   "home": {
     "whatis": "¿Qué es Barlingo?",
     "paragraph1": "Barlingo is a language exchange app where users make exchanges in establishments and receive discounts.",
@@ -135,6 +136,13 @@
     "list": "Users list",
     "deactivate": "Deactivate",
     "activate": "Activate"
+  },
+  "exchanges":{
+    "empty": "There are no exchanges",
+    "myList": {
+      "activeEmpty": "You do not have active exchanges",
+      "empty": "You do not have any exchange. Create a new one or join one that already exists."
+    }
   },
   "titles": {
     "exchangesList": "Exchanges",
@@ -464,6 +472,7 @@
           "UserNotNull": "There was an error",
           "ErrorSavingDiscount":  "There was an error",
           "CodeBelongOtherExchange":  "Invalid code",
+          "CodeBelongOtherStablishment": "Invalid code",
           "CodeNotValid": "Invalid code",
           "CodeNotExists": "Code not found",
           "NotVisible": "Code not visible",
@@ -479,6 +488,7 @@
           "UserNotNull": "There was an error",
           "ErrorSavingDiscount":  "There was an error",
           "CodeBelongOtherExchange":  "Invalid code",
+          "CodeBelongOtherStablishment": "Invalid code",
           "CodeNotValid": "Invalid code",
           "CodeNotExists": "Code not found",
           "NotVisible": "Code not visible",
@@ -533,7 +543,8 @@
       "UserDiscount": {
         "UserNotNull": "An error occurred while creating the exchange.",
         "ErrorSavingDiscount": "An error occurred while creating the exchange.",
-        "CodeBelongOtherExchange": "An error occurred while creating the exchange.",
+        "CodeBelongOtherExchange": "The code belongs to another exchange.",
+        "CodeBelongOtherStablishment": "The code belongs to another establishment.",
         "CodeNotValid": "The code is not valid.",
         "CodeNotExists": "The code does not exist.",
         "NotVisible": "The code only can be showed 4 hours before the event and 48 hours after.",
