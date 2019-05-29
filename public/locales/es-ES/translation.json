@@ -18,7 +18,7 @@
     "fe-dev": "Desarrollador frontend"
 
   },
-  "filter": "Filtrar resultados:",
+  "filter": "Búsqueda avanzada",
   "date&time": "Fecha y hora:",
   "laanguages": "Idiomas",
   "timerange": "Rango horario",
@@ -41,6 +41,11 @@
   "ourExchanges": "Nuestros establecimientos",
   "notification": {
     "priority": "Prioridad",
+    "priorities": {
+      "top": "Máxima",
+      "high": "Alta",
+      "normal": "Normal"
+    },
     "emptyPriority": "Por favor, indique una prioridad",
     "success": {
       "title": "Notificación enviada",

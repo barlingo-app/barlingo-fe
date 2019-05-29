@@ -18,7 +18,7 @@
     "fe-dev": "Frontend developer"
 
   },
-  "filter":"Filter results:",
+  "filter":"Advanced search",
   "date&time": "Date and time",
   "laanguages": "Languages",
   "timerange": "Time range",
@@ -42,6 +42,11 @@
   "ourExchanges": "Our establishments",
   "notification": {
     "priority": "Priority",
+    "priorities": {
+      "top": "Top",
+      "high": "High",
+      "normal": "Normal"
+    },
     "emptyPriority": "Please, mark a priority",
     "success": {
       "title": "Notify sent",

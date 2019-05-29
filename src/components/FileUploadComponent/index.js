@@ -75,7 +75,7 @@ function beforeUpload(file) {
       }
 
       return (
-        <div className={(this.props.full ? "full" : "")}>
+        <div>
           <Upload
             name="file"
             listType="picture-card"
@@ -85,7 +85,12 @@ function beforeUpload(file) {
             beforeUpload={beforeUpload}
             onChange={this.handleChange}
           >
-            {imageUrl ? <img style={{height: this.props.height, width: this.props.width, maxWidth: "100%" }}src={this.getImage(imageUrl)} alt="avatar"  onError={(e) => {e.target.src = this.props.defaultImage}} /> : uploadButton}
+            <img style={{height: this.props.height, width: this.props.width, maxWidth: "100%" }}src={this.getImage(imageUrl)} alt="avatar"  onError={(e) => {e.target.src = this.props.defaultImage}} />
+            <div className="uploadIconContainer">
+              <div className="uploadIcon">
+            <Icon type="upload" />
+            </div>
+            </div>
           </Upload>
           </div>
       );

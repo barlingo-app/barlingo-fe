@@ -10,6 +10,9 @@ import { exchangesService } from '../../services/exchangesService';
 import './ExchangesList.scss';
 import languages from '../../data/languages';
 import { auth } from '../../auth';
+import { Collapse } from 'antd';
+
+const Panel = Collapse.Panel;
 const { Option } = Select;
 
 
@@ -203,7 +206,7 @@ class ExchangesList extends Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col md={{span:10,offset:1}} lg={{span:3,offset:0}} xl={{span:4,offset:1}}>
+                            <Col md={{span:10,offset:1}} lg={{span:3,offset:0}} xl={{span:4,offset:1}} style={{marginBottom: "20px"}}>
                                 <Row>
                                     <Col xs="12">
                                         <Row>
@@ -212,7 +215,10 @@ class ExchangesList extends Component {
                                             </Col>
                                         </Row>
 
-                                        <div className="exchange-list__filter-title">{t('filter')}</div>
+                                        <Row>
+                                        <Col md="8" lg="12" xl="10">
+                                        <Collapse defaultActiveKey={[]} expandIconPosition="right">
+                                            <Panel header={t('filter')} key="1">
 
                                         <div className="exchange-list__filter-text">{t('date&time')}</div>
                                         <Row>
@@ -248,7 +254,10 @@ class ExchangesList extends Component {
                                                 <TimePicker onChange={this.handleInputEndTime} format="HH:mm" placeholder={t("exchange.search.endTime")} />
                                             </Col>            
                                         </Row>
-
+                                        </Panel>
+                                        </Collapse>
+                                        </Col>
+                                        </Row>
                                     </Col>
                                 </Row>
                             </Col>
