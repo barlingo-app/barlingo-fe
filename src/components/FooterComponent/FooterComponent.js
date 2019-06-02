@@ -29,6 +29,7 @@ class FooterComponent extends Component {
         return (
             <footer className="footer">
               <div className="footer__options">
+                <div className="footer__copyright">© Barlingo 2019</div>
                 <Button className="footer__terms" onClick={this.showModal}>
                     {t('term&cond')}
                 </Button>
