@@ -332,22 +332,40 @@ class ProfileView extends Component {
         return auth.isAuthenticated() && auth.isEstablishment() ? this.state.user.description : this.state.user.aboutMe
     }
 
-    getRates = (alike) => {
+    getRating = () => {
         if (this.state.user.id === auth.getUserData().id && this.state.assessments === null) {
-            return this.props.t('generic.loading');
+            return 0;
         } else if (this.state.user.id === auth.getUserData().id && this.state.assessments === false) {
-            return 'Error';
+            return 0;
         } else {
-            let count = 0;
+            let rating = 0;
+            let countLikes = 0;
+            let countDislikes = 0;
             let assessments = this.state.user.id === auth.getUserData().id ? this.state.assessments : this.state.user.assessments;
 
             for (let index in assessments) {
-                if (assessments[index].alike === alike) {
-                    count++;
+                if (assessments[index].alike) {
+                    countLikes++;
+                } else {
+                    countDislikes++;
                 }
             }
 
-            return count;
+            let percent = (countLikes * 100) / (countLikes + countDislikes);
+
+            if (percent >= 0 && percent <= 20) {
+                rating = 1;
+            } else if (percent > 20 && percent <= 40) {
+                rating = 2;
+            } else if (percent > 40 && percent <= 60) {
+                rating = 3;
+            } else if (percent > 60 && percent <= 80) {
+                rating = 4;
+            } else if (percent > 80 && percent <= 100) {
+                rating = 5;
+            }
+
+            return rating;
         }
     }
     
@@ -355,7 +373,9 @@ class ProfileView extends Component {
     render() {
         const { t } = this.props
         const {calendar, visibleChangePassword, myExchange, errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText, paySubscription, redirectToNotFound } = this.state;
-        
+        const getRating = this.getRating;
+        const ratesArray = [1,2,3,4,5];
+
         if (editProfile) {
             return (<Redirect to={"/editProfile"} />);
         }
@@ -571,18 +591,18 @@ class ProfileView extends Component {
                                     <Row>
                                         <Col>
                                             <div className="profileview__rates-title">
-                                                <span style={{color: "#32CD32",padding: "10px 10px"}}><Icon type="like" theme="filled"/></span>
+                                                { t('rating') }
                                             </div>
                                             <div className="profileview__rates">
-                                                { this.getRates(true) }
-                                            </div>
-                                        </Col>
-                                        <Col>
-                                            <div className="profileview__rates-title">
-                                                <span style={{color: "#f5222d",padding: "10px 10px"}}><Icon type="dislike" theme="filled"/></span>
-                                            </div>
-                                            <div className="profileview__rates">
-                                                { this.getRates(false) }
+                                                {ratesArray.map(function(i) {
+                                                    if (getRating() === 0) {
+                                                        return(<span className="profileview__rates-disabled"><Icon type="star" theme="filled" /></span>)
+                                                    } else if (i <= getRating()) {
+                                                        return(<span className="profileview__rates-actived"><Icon type="star" theme="filled" /></span>)
+                                                    } else {
+                                                        return(<span className="profileview__rates-actived"><Icon type="star" /></span>)
+                                                    }
+                                                })}
                                             </div>
                                         </Col>
                                     </Row>

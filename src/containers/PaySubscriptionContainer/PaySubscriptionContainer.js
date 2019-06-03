@@ -2,7 +2,7 @@ import React from 'react'
 import { withNamespaces } from "react-i18next"
 import { PayPalButton } from "react-paypal-button-v2";
 import { Page, Section } from "react-page-layout";
-import { notification, Alert } from "antd";
+import { notification, Alert, Icon } from "antd";
 import { Redirect } from 'react-router-dom';
 import './PaySubscriptionContainer.scss';
 import { establishmentService } from '../../services/establishmentService';
@@ -33,7 +33,8 @@ class PaySubscriptionContainer extends React.Component{
       establishmentId: null,
       unknownEstablishment: false,
       paidSubscription: false,
-      orderId: null
+      orderId: null,
+      buttonLoaded: false
     }
   }
   
@@ -89,21 +90,24 @@ class PaySubscriptionContainer extends React.Component{
         this.setState({
           subscriptionName: t('subscription.type.monthly'), 
           subscriptionPrice: this.state.configSubscriptionPrice, 
-          subscriptionType: MONTHLY_SUBSCRIPTION_ID
+          subscriptionType: MONTHLY_SUBSCRIPTION_ID,
+          buttonLoaded: this.state.buttonLoaded
         });
         break;
       case TRIMESTRAL_SUBSCRIPTION_ID: 
         this.setState({
           subscriptionName: t('subscription.type.trimestral'), 
           subscriptionPrice: this.getTrimestralPrice(), 
-          subscriptionType: TRIMESTRAL_SUBSCRIPTION_ID
+          subscriptionType: TRIMESTRAL_SUBSCRIPTION_ID,
+          buttonLoaded: this.state.buttonLoaded
         });
         break;
       case ANNUAL_SUBSCRIPTION_ID: 
         this.setState({
           subscriptionName: t('subscription.type.annual'), 
           subscriptionPrice: this.getAnnualPrice(), 
-          subscriptionType: ANNUAL_SUBSCRIPTION_ID
+          subscriptionType: ANNUAL_SUBSCRIPTION_ID,
+          buttonLoaded: this.state.buttonLoaded
         });
         break;
       default:
@@ -169,7 +173,7 @@ class PaySubscriptionContainer extends React.Component{
   }
 
   render(){
-    const {configSubscriptionPrice, trimestralDiscount, annualDiscount, subscriptionType, subscriptionPrice, subscriptionName, errorMessage, unknownEstablishment, paidSubscription, loaded, orderId, successfullPayment } = this.state
+    const { buttonLoaded, configSubscriptionPrice, trimestralDiscount, annualDiscount, subscriptionType, subscriptionPrice, subscriptionName, errorMessage, unknownEstablishment, paidSubscription, loaded, orderId, successfullPayment } = this.state
     const { t } = this.props;
 
     if (unknownEstablishment) {
@@ -241,7 +245,9 @@ class PaySubscriptionContainer extends React.Component{
                 <div>{configSubscriptionPrice && t('subscription.discounts.generic').replace('DISCOUNT', Math.round(annualDiscount * 100))}</div>
               </div>
 
+              {subscriptionType !== null && !buttonLoaded && <Icon className="small-loading" type={"loading"}/>}
               {(subscriptionType !== null) && <PayPalButton
+                    onButtonReady={() => { this.setState({buttonLoaded: true}) }}
                     amount={subscriptionPrice}
                     createOrder = {(data, actions) => {
                       return actions.order.create({

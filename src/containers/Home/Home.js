@@ -16,6 +16,7 @@ import jesus from '../../media/Jesus.optimized.jpg'
 import migue from '../../media/Miguel.optimized.jpg'
 import jose from '../../media/Jose.optimized.jpg'
 import { configurationService } from '../../services/configurationService';
+import { BackTop } from 'antd';
 
 class Home extends Component {
     
@@ -137,6 +138,7 @@ class Home extends Component {
         return (
             <Page layout="public">
                 <Section slot="contentWithBackground">
+                <BackTop  visibilityHeight={50} target={()=> {return document.getElementsByClassName("contentWithBackground")[0]}} />
                     {  auth.isAuthenticated() && auth.isEstablishment() && (auth.getUserData().subscription == null) &&  this.getSubcriptionWarning() }
                         <div className="landing-container">
                             <div className="landing-container__bg"></div>

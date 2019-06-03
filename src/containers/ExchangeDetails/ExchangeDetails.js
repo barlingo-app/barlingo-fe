@@ -339,6 +339,38 @@ class ExchangeDetails extends Component {
         return false;
     }
 
+    getRating = (assessments) => {
+            let rating = 0;
+            let countLikes = 0;
+            let countDislikes = 0;
+
+            for (let index in assessments) {
+                if (assessments[index].alike) {
+                    countLikes++;
+                } else {
+                    countDislikes++;
+                }
+            }
+
+            if ((countLikes + countDislikes) > 0) {
+                let percent = (countLikes * 100) / (countLikes + countDislikes);
+
+                if (percent >= 0 && percent <= 20) {
+                    rating = 1;
+                } else if (percent > 20 && percent <= 40) {
+                    rating = 2;
+                } else if (percent > 40 && percent <= 60) {
+                    rating = 3;
+                } else if (percent > 60 && percent <= 80) {
+                    rating = 4;
+                } else if (percent > 80 && percent <= 100) {
+                    rating = 5;
+                }
+            }
+
+            return rating;
+    }
+
     assess = (e, userId, alike) => {
         e.preventDefault();
 
@@ -398,6 +430,8 @@ class ExchangeDetails extends Component {
         const checkLike = this.checkLike;
         const checkDislike = this.checkDislike;
         const assess = this.assess;
+        const getRating = this.getRating;
+        const ratesArray = [1,2,3,4,5];
 
         const userImage = this.getUserImage;
         return (
@@ -438,16 +472,33 @@ class ExchangeDetails extends Component {
                                         }
                                         return (
                                             <Col xs="12" md="4" lg="3" key={i.id}>
-                                                <NavLink exact={true} activeClassName={"active"} to={{pathname: `/${route}/${i.id}`, state: {from: "/exchanges/" + exchange.id }}} className="exchange-details__link">
-                                                    <img className="exchange-details__participant-image" alt="Participant" src={userImage(i.personalPic)} onError={(e) => e.target.src = defaultUserImage} />
-                                                    <div className="exchange-details__participant-name">{i.name + " " + i.surname + creator}</div>
-                                                </NavLink>
-                                                {isJoined() && isPastExchange() && i.id !== auth.getUserData().id && <div style={{paddingTop: "20px", paddingBottom: "20px", textAlign: "center", fontSize: "30px"}}>
-                                                    {!checkLike(i.assessments) && <a href="/" onClick={(e) => {assess(e, i.id, true)}} style={{color: "#32CD32", padding: "10px 10px"}}><Icon type="like" /></a>}
-                                                    {checkLike(i.assessments) && <span style={{color: "#32CD32",padding: "10px 10px"}}><Icon type="like" theme="filled"/></span>}
-                                                    {!checkDislike(i.assessments) && <a href="/" onClick={(e) => {assess(e, i.id, false)}} style={{color: "#f5222d",padding: "10px 10px"}}><Icon type="dislike" /></a>}
-                                                    {checkDislike(i.assessments) && <span style={{color: "#f5222d",padding: "10px 10px"}}><Icon type="dislike" theme="filled"/></span>}
-                                                </div>}
+                                                <Row>
+                                                    <Col>
+                                                        <NavLink exact={true} activeClassName={"active"} to={{pathname: `/${route}/${i.id}`, state: {from: "/exchanges/" + exchange.id }}} className="exchange-details__link">
+                                                            <img className="exchange-details__participant-image" alt="Participant" src={userImage(i.personalPic)} onError={(e) => e.target.src = defaultUserImage} />
+                                                            <div className="exchange-details__participant-name">{i.name + " " + i.surname + creator}</div>
+                                                        </NavLink>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col>
+                                                        {isJoined() && isPastExchange() && i.id !== auth.getUserData().id && <div style={{paddingTop: "10px", paddingBottom: "20px", textAlign: "center", fontSize: "25px"}}>
+                                                            {!checkLike(i.assessments) && <a href="/" onClick={(e) => {assess(e, i.id, true)}} style={{color: "#32CD32", padding: "10px 10px"}}><Icon type="like" /></a>}
+                                                            {checkLike(i.assessments) && <span style={{color: "#32CD32",padding: "10px 10px"}}><Icon type="like" theme="filled"/></span>}
+                                                            {!checkDislike(i.assessments) && <a href="/" onClick={(e) => {assess(e, i.id, false)}} style={{color: "#f5222d",padding: "10px 10px"}}><Icon type="dislike" /></a>}
+                                                            {checkDislike(i.assessments) && <span style={{color: "#f5222d",padding: "10px 10px"}}><Icon type="dislike" theme="filled"/></span>}
+                                                        </div>}
+                                                        {!isPastExchange() && getRating(i.assessments) > 0  && <div style={{paddingTop: "10px", paddingBottom: "20px", textAlign: "center", fontSize: "20px"}}>
+                                                            {ratesArray.map(function(j) {
+                                                                if (j <= getRating(i.assessments)) {
+                                                                    return(<span key={j} className="profileview__rates-actived"><Icon type="star" theme="filled" /></span>)
+                                                                } else {
+                                                                    return(<span key={j} className="profileview__rates-actived"><Icon type="star" /></span>)
+                                                                }
+                                                            })}
+                                                        </div>}
+                                                    </Col>
+                                                </Row>
                                             </Col>
                                         )
 
