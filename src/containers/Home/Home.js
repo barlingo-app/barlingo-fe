@@ -15,13 +15,17 @@ import angel from '../../media/Angel.optimized.jpg'
 import jesus from '../../media/Jesus.optimized.jpg'
 import migue from '../../media/Miguel.optimized.jpg'
 import jose from '../../media/Jose.optimized.jpg'
+import { configurationService } from '../../services/configurationService';
 
 class Home extends Component {
     
     constructor(props) {
         super(props);
         this.state = {
-            errorAlreadyDisplayed: false
+            errorAlreadyDisplayed: false,
+            subscriptionPrice: null,
+            trimestralDiscount: null,
+            annualDiscount: null
         }
     }
 
@@ -47,6 +51,16 @@ class Home extends Component {
                 this.setState({errorAlreadyDisplayed: true});
             }
         }
+
+        configurationService.getConfiguration().then(response => {
+            if (response.data && response.data.success && response.data.code === 200) {
+                this.setState({
+                    subscriptionPrice: response.data.content.priceMonthSubscription, 
+                    trimestralDiscount: response.data.content.trimestralDiscount, 
+                    annualDiscount: response.data.content.annualDiscount
+                });
+            }
+        });
     }
 
     getSubcriptionWarning = () => (
@@ -60,8 +74,27 @@ class Home extends Component {
         />
     )
 
+    getTrimestralMonthlyPrice = () => {
+        return (this.getTrimestralPrice() / 3).toFixed(2)
+    }
+
+    getTrimestralPrice = () => {
+        let trimestralDiscount = (this.state.subscriptionPrice * 3) * this.state.trimestralDiscount;
+        return ((this.state.subscriptionPrice * 3) - trimestralDiscount).toFixed(2);
+    }    
+    
+    getAnnualMonthlyPrice = () => {
+        return (this.getAnnualPrice() / 12).toFixed(2);
+    }
+
+    getAnnualPrice = () => {
+        let annualDiscount = (this.state.subscriptionPrice * 12) * this.state.annualDiscount;
+        return ((this.state.subscriptionPrice * 12) - annualDiscount).toFixed(2);
+    }
+
     render() {
         const { t } = this.props;
+        const { subscriptionPrice, trimestralDiscount, annualDiscount } = this.state;
         
         let label1 = "undefiend"
         let label2 = "undefined"
@@ -100,7 +133,6 @@ class Home extends Component {
             path1 = '/login'
             path2 = '/register'
         }
-
 
         return (
             <Page layout="public">
@@ -154,29 +186,34 @@ class Home extends Component {
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col className="home-info__pricing-col" xs={{span:10,offset:1}} md={{span:4,offset:0}}>
+                                        {subscriptionPrice && <Col className="home-info__pricing-col" xs={{span:10,offset:1}} md={{span:4,offset:0}}>
                                             <div className="home-info__pricing-card">
                                                 <b className="home-info__pricing-title">{t('home.monthly')}</b>
-                                                <div className="home-info__monthly">9.99 €/{t('home.month')}</div>
-                                                <div className="home-info__total">TOTAL: 9.99€</div>
+                                                <div className="home-info__monthly">{ subscriptionPrice.toFixed(2) } €/{t('home.month')}</div>
+                                                <div className="home-info__total">TOTAL: { subscriptionPrice.toFixed(2) } €</div>
                                             </div>
-                                        </Col>
-                                        <Col className="home-info__pricing-col" xs={{span:10,offset:1}} md={{span:4,offset:0}}> 
+                                        </Col>}
+                                        {subscriptionPrice && trimestralDiscount && <Col className="home-info__pricing-col" xs={{span:10,offset:1}} md={{span:4,offset:0}}> 
                                             <div className="home-info__pricing-card">
                                                 <b className="home-info__pricing-title">{t('home.quarterly')}</b>
-                                                <div className="home-info__quarterly">8.99 €/{t('home.month')}</div>
-                                                <div className="home-info__discount">-10%</div>
-                                                <div className="home-info__total">TOTAL: 26.97€</div>
+                                                <div className="home-info__quarterly">{ this.getTrimestralMonthlyPrice() } €/{t('home.month')}</div>
+                                                <div className="home-info__discount">-{ Math.round(trimestralDiscount * 100) }%</div>
+                                                <div className="home-info__total">TOTAL: {this.getTrimestralPrice()}€</div>
                                             </div>
-                                        </Col>
-                                        <Col className="home-info__pricing-col" xs={{span:10,offset:1}} md={{span:4,offset:0}}>
+                                        </Col>}
+                                        {subscriptionPrice && annualDiscount && <Col className="home-info__pricing-col" xs={{span:10,offset:1}} md={{span:4,offset:0}}>
                                             <div className="home-info__pricing-card">
                                                 <b className="home-info__pricing-title">{t('home.annual')}</b>
-                                                <div className="home-info__annual">7.99 €/{t('home.month')}</div>
-                                                <div className="home-info__discount">-25%</div>
-                                                <div className="home-info__total">TOTAL: 95.90€</div>
+                                                <div className="home-info__annual">{this.getAnnualMonthlyPrice() } €/{t('home.month')}</div>
+                                                <div className="home-info__discount">-{ Math.round(annualDiscount * 100) }%</div>
+                                                <div className="home-info__total">TOTAL: { this.getAnnualPrice() } €</div>
                                             </div>
-                                        </Col>
+                                        </Col>}
+                                        {!subscriptionPrice &&
+                                            <div style={{width: "100%", textAlign: "center"}}>
+                                                {t('subscription.errorLoadingConfiguration')}
+                                            </div>
+                                        }
                                     </Row>
                                 </Col>            
                             </Row>
@@ -248,7 +285,7 @@ class Home extends Component {
                                 </Col>    
                             </Row>
 
-                        </div>
+                        </div>              
             </Section>
         </Page>
         );

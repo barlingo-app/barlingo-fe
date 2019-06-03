@@ -8,7 +8,7 @@ import Loading from "../../components/Loading/Loading";
 import { Redirect } from 'react-router-dom';
 import { discountCodeService } from '../../services/discountCodeService';
 import { exchangesService } from '../../services/exchangesService';
-import { notification } from 'antd';
+import { notification, Icon } from 'antd';
 import defaultImage from '../../media/default-exchange-logo.png';
 import defaultUserImage from '../../media/person.jpg';
 import MapContainer from '../MapContainer/MapContainer';
@@ -16,7 +16,10 @@ import QRCode from 'qrcode.react';
 import './ExchangeDetails.scss';
 import { isMobile } from "react-device-detect";
 import BackButton from "../../components/BackButton/BackButton";
-
+import { configurationService } from '../../services/configurationService';
+import moment from 'moment';
+import Countdown from 'react-countdown-now';
+import { userService } from "../../services/userService";
 
 class ExchangeDetails extends Component {
     constructor(props) {
@@ -26,7 +29,11 @@ class ExchangeDetails extends Component {
             loaded: false,
             errorMessage: null,
             codeShown: null,
-            redirectToNotFound: false
+            redirectToNotFound: false,
+            showCodeButton: false,
+            showCodeError: false,
+            timeToShowBefore: null,
+            timeToShowAfter: null
         }
     }
 
@@ -37,6 +44,21 @@ class ExchangeDetails extends Component {
             exchangesService.findOne(this.props.match.params.exchangeTitle)
                 .then((response) => this.setData(response))
                 .catch((error) => this.setError(error));
+                
+
+            configurationService.getConfiguration().then(response => {
+                if (response.data && response.data.success && response.data.code === 200) {
+                    this.setState({
+                        showCodeButton: true, 
+                        timeToShowBefore: response.data.content.timeShowBeforeDiscount, 
+                        timeToShowAfter: response.data.content.timeShowAfterDiscount
+                    });
+                } else {
+                    this.setState({
+                        showCodeError: true
+                    });
+                }
+            });
         }
     };
 
@@ -94,13 +116,15 @@ class ExchangeDetails extends Component {
     showCode = () => {
         const { t } = this.props;
 
-        let before = new Date(this.state.exchange.moment);
-        before.setHours(before.getHours() - 4);
+        let before = moment.utc(new Date(this.state.exchange.moment + 'Z'));
+        before.subtract(this.state.timeToShowBefore, 'minutes');
 
-        let after = new Date(this.state.exchange.moment);
-        after.setHours(after.getHours() + 48);
+        let after = moment.utc(new Date(this.state.exchange.moment + 'Z'));
+        after.add(this.state.timeToShowAfter, 'minutes');
 
-        if (new Date() >= before && new Date() <= after) {
+        let current = moment.utc(new Date());
+
+        if (current.isAfter(before) && current.isBefore(after)) {
             discountCodeService.getDiscountCode(this.state.exchange.id)
                 .then((response) => this.readCodeOk(response))
                 .catch(() => this.readCodeFail());
@@ -110,9 +134,36 @@ class ExchangeDetails extends Component {
                 description: t('code.outDate'),
             });
         }
-
-
     };
+
+    codeStatus = () => {
+        let before = moment.utc(new Date(this.state.exchange.moment + 'Z'));
+        before.subtract(this.state.timeToShowBefore, 'minutes');
+
+        let after = moment.utc(new Date(this.state.exchange.moment + 'Z'));
+        after.add(this.state.timeToShowAfter, 'minutes');
+
+        let current = moment.utc();
+        if (current.isAfter(before) && current.isBefore(after)) {
+            return 'ok';
+        } else if (current.isBefore(before)) {
+            return 'before';
+        } else if (current.isAfter(after)) {
+            return 'after';
+        }
+    }
+
+    isPastExchange = () => {
+        let exchangeDate = moment.utc(new Date(this.state.exchange.moment + 'Z'));
+        let current = moment.utc();
+
+        return current.isAfter(exchangeDate);
+    }
+
+    getCountdownDate = () => {
+        return new Date(moment.utc(new Date(this.state.exchange.moment + 'Z'))
+        .subtract(this.state.timeToShowBefore, 'minutes').toISOString());
+    }
 
     isJoined = () => {
         const { exchange } = this.state;
@@ -267,9 +318,56 @@ class ExchangeDetails extends Component {
         }
     }
 
+    checkLike = (assessments) => {
+        for (let index in assessments) {
+            if (assessments[index].user.id === auth.getUserData().id) {
+                return assessments[index].alike;
+            }
+        }
+
+        return false;
+    }
+
+    checkDislike = (assessments) => {
+
+        for (let index in assessments) {
+            if (assessments[index].user.id === auth.getUserData().id) {
+                return !assessments[index].alike;
+            }
+        }
+
+        return false;
+    }
+
+    assess = (e, userId, alike) => {
+        e.preventDefault();
+
+        let data = {
+            alike: alike,
+            assessedUserId: userId
+        }
+
+        userService.assess(this.state.exchange.id, data)
+        .then(response => {
+            if (response.data && response.data.success && response.data.code === 200) {
+                this.fetchData();
+            } else if (response.data && response.data.code === 500) {
+                notification.error({
+                    message: this.props.t('apiErrors.defaultErrorTitle'),
+                    description: this.props.t('apiErrors.' + response.data.message)
+                });
+            } else {
+                notification.error({
+                    message: this.props.t('apiErrors.defaultErrorTitle'),
+                    description: this.props.t('apiErrors.defaultErrorMessage')
+                });
+            }
+        });
+    }
+
     render() {
 
-        const { errorMessage, loaded, exchange, codeShown, redirectToNotFound } = this.state;
+        const { showCodeError, showCodeButton, errorMessage, loaded, exchange, codeShown, redirectToNotFound } = this.state;
         const { t } = this.props;
 
 
@@ -295,6 +393,11 @@ class ExchangeDetails extends Component {
         const name = exchange.establishment.establishmentName;
         const orderedParticipants = this.orderParticipants(exchange.participants)
         const route = "profile";
+        const isPastExchange = this.isPastExchange;
+        const isJoined = this.isJoined;
+        const checkLike = this.checkLike;
+        const checkDislike = this.checkDislike;
+        const assess = this.assess;
 
         const userImage = this.getUserImage;
         return (
@@ -339,6 +442,12 @@ class ExchangeDetails extends Component {
                                                     <img className="exchange-details__participant-image" alt="Participant" src={userImage(i.personalPic)} onError={(e) => e.target.src = defaultUserImage} />
                                                     <div className="exchange-details__participant-name">{i.name + " " + i.surname + creator}</div>
                                                 </NavLink>
+                                                {isJoined() && isPastExchange() && i.id !== auth.getUserData().id && <div style={{paddingTop: "20px", paddingBottom: "20px", textAlign: "center", fontSize: "30px"}}>
+                                                    {!checkLike(i.assessments) && <a href="/" onClick={(e) => {assess(e, i.id, true)}} style={{color: "#32CD32", padding: "10px 10px"}}><Icon type="like" /></a>}
+                                                    {checkLike(i.assessments) && <span style={{color: "#32CD32",padding: "10px 10px"}}><Icon type="like" theme="filled"/></span>}
+                                                    {!checkDislike(i.assessments) && <a href="/" onClick={(e) => {assess(e, i.id, false)}} style={{color: "#f5222d",padding: "10px 10px"}}><Icon type="dislike" /></a>}
+                                                    {checkDislike(i.assessments) && <span style={{color: "#f5222d",padding: "10px 10px"}}><Icon type="dislike" theme="filled"/></span>}
+                                                </div>}
                                             </Col>
                                         )
 
@@ -347,10 +456,10 @@ class ExchangeDetails extends Component {
                                 {this.renderButton()}
                                 {auth.isAuthenticated() && this.isJoined() &&
                                     <div style={{ textAlign: "center", margin: "30px" }}>
-                                        {(codeShown === null) && <button htmlType="submit" onClick={() => this.showCode()} className="exchange-details__button">
+                                        {showCodeButton && (codeShown === null) && this.codeStatus() === 'ok' && <button htmlType="submit" onClick={() => this.showCode()} className="exchange-details__button">
                                             {t('code.show')}
                                         </button>}
-                                        {(codeShown !== null) &&
+                                        {showCodeButton && (codeShown !== null) && this.codeStatus() === 'ok' &&
                                             <Row>
                                                 <Col xs="12" sm={{ span: 6, offset: 3 }} md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }} xl={{ span: 4, offset: 4 }}>
                                                     <div className="exchange-details__code-wrapper">
@@ -362,8 +471,31 @@ class ExchangeDetails extends Component {
                                                     </div>
                                                 </Col>
                                             </Row>}
-                                        {/*{(codeShown !== null) && <div className="exchange-details__code-title" >{t('code.showTitle')}:</div>}
-                                {(codeShown !== null) && <div className="exchange-details__code">{codeShown}</div>}*/}
+                                            {showCodeButton && this.codeStatus() === 'before' &&
+                                            <Row>
+                                                <Col xs="12" sm={{ span: 6, offset: 3 }} md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }} xl={{ span: 4, offset: 4 }}>
+                                                    <div className="exchange-details__code-wrapper">
+                                                        <div className="exchange-details__code-title" >{t('code.before')}:</div>
+                                                        <div className="exchange-details__code">{<Countdown date={this.getCountdownDate()} onComplete={ () => {this.setState({})}} />}</div>
+                                                    </div>
+                                                </Col>
+                                            </Row>}
+                                            { showCodeButton && this.codeStatus() === 'after' &&
+                                            <Row>
+                                                <Col xs="12" sm={{ span: 6, offset: 3 }} md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }} xl={{ span: 4, offset: 4 }}>
+                                                    <div className="exchange-details__code-wrapper">
+                                                        <div className="exchange-details__code-title" >{t('code.after')}</div>
+                                                    </div>
+                                                </Col>
+                                            </Row>}
+                                            { showCodeError &&
+                                            <Row>
+                                                <Col xs="12" sm={{ span: 6, offset: 3 }} md={{ span: 8, offset: 2 }} lg={{ span: 6, offset: 3 }} xl={{ span: 4, offset: 4 }}>
+                                                    <div className="exchange-details__code-wrapper">
+                                                        <div className="exchange-details__code-title" >{t('subscription.errorLoadingConfiguration')}</div>
+                                                    </div>
+                                                </Col>
+                                            </Row>}
                                     </div>
                                 }
                             </Col>

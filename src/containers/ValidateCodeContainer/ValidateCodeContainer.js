@@ -7,9 +7,12 @@ import {
 import './ValidateCodeContainer.scss';
 import { discountCodeService } from '../../services/discountCodeService';
 import { exchangesService } from '../../services/exchangesService';
+import { configurationService } from '../../services/configurationService';
 import QrReader from 'react-qr-reader'
 import moment from 'moment';
 import {isMobile} from 'react-device-detect';
+import Loading from "../../components/Loading/Loading";
+import { auth } from '../../auth';
 
 class ValidateCodeContainer extends React.Component {
 
@@ -17,6 +20,7 @@ class ValidateCodeContainer extends React.Component {
   constructor() {
     super()
     this.state = {
+      loaded: false,
       code: null,
       showQrScanner: false,
       scannerBlocked: false,
@@ -24,7 +28,9 @@ class ValidateCodeContainer extends React.Component {
       redeemable: false,
       errorMessage: null,
       codeValidationMessage: null,
-      codeValidationStatus: null
+      codeValidationStatus: null,
+      timeToShowBefore: null,
+      timeToShowAfter: null
     };
   }
 
@@ -32,6 +38,20 @@ class ValidateCodeContainer extends React.Component {
     const regex = /^\d{8}-[A-Z]{4}$/gm;
 
     return regex.exec(code) != null;
+  }
+
+  componentDidMount() {
+    configurationService.getConfiguration().then(response => {
+      if (response.data && response.data.success && response.data.code === 200) {
+        this.setState({
+          timeToShowBefore: response.data.content.timeShowBeforeDiscount, 
+          timeToShowAfter: response.data.content.timeShowAfterDiscount,
+          loaded: true
+        });
+      } else {
+        this.setState({errorMessage: 'subscription.errorLoadingConfiguration'})
+      }
+    });
   }
 
   handleInput = (event) => {
@@ -60,18 +80,22 @@ class ValidateCodeContainer extends React.Component {
     exchangesService.findOne(code.langExchangeId)
       .then((response) => {
         if (response.data.code === 200 && response.data.success && response.data.content) {
-          let startMoment = moment.utc(new Date(response.data.content.moment + 'Z'));
-          let finishMoment = moment.utc(new Date(response.data.content.moment + 'Z')).add(2, 'd');
+          let startMoment = moment.utc(new Date(response.data.content.moment + 'Z')).subtract(this.state.timeToShowBefore, 'minutes');
+          let finishMoment = moment.utc(new Date(response.data.content.moment + 'Z')).add(this.state.timeToShowAfter, 'minutes');
           if (moment().isAfter(startMoment) 
-            && moment().isBefore(finishMoment)) {
+            && moment().isBefore(finishMoment) && response.data.content.establishment.id === auth.getUserData().id) {
             this.codeOk(code);
           } else {
+            if (auth.getUserData().id !== response.data.content.establishment.id) {
+              this.codeFail("wrongEstablishment")
+            } else {
             if (moment().isBefore(startMoment))
               this.codeFail("undone")
             if (moment().isAfter(finishMoment))
               this.codeFail("expired")
             if (response.data.content.exchanged)
               this.codeFail("exchanged")
+            }
           }
         } else if (response.data.code === 500) {
           notification.error({
@@ -113,7 +137,10 @@ class ValidateCodeContainer extends React.Component {
     let description = t('code.validate.failCode.message');
 
     if (string) {
-      if (string === "undone") {
+      if (string === "wrongEstablishment") {
+        message = t('code.errorTitles.Signed.UserDiscount.CodeBelongOtherStablishment');
+        description = t('apiErrors.Signed.UserDiscount.CodeBelongOtherStablishment');
+      } else if (string === "undone") {
         message = t('code.redeem.fail.date.title');
         description = t('code.redeem.fail.date.message');
       } else if (string === "expired") {
@@ -199,10 +226,21 @@ class ValidateCodeContainer extends React.Component {
   }
 
   render() {
+    const { loaded, errorMessage } = this.state;
     const { t } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { showQrScanner, codeValidationMessage, codeValidationStatus, scannerBlocked } = this.state;
 
+
+    if (!loaded) {
+      return (
+          <Page layout="public">
+              <Section slot="content">
+                  <Loading message={errorMessage} />
+              </Section>
+          </Page>
+      );
+    }
     return (
       <Page layout="public">
         <Section slot="content">
