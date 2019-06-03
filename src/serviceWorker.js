@@ -52,8 +52,11 @@ export function register(config) {
       }
     });
 
-    window.addEventListener('activate', function(event) {
+    
+    window.addEventListener('install', function(event) {
       var cacheWhitelist = ['v1', 'v2'];
+
+      window.skipWaiting();
     
       event.waitUntil(
         caches.keys().then(function(keyList) {
