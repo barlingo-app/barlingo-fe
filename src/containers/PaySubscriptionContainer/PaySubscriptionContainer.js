@@ -9,17 +9,11 @@ import { establishmentService } from '../../services/establishmentService';
 import Loading from "../../components/Loading/Loading";
 import {Col, Row} from 'react-bootstrap';
 import { auth } from '../../auth';
+import { configurationService } from '../../services/configurationService';
 
 const MONTHLY_SUBSCRIPTION_ID = 1;
 const TRIMESTRAL_SUBSCRIPTION_ID = 2;
 const ANNUAL_SUBSCRIPTION_ID = 3;
-
-const MONTLY_SUBSCRIPTION_PRICE = 6.99;
-const TRIMESTRAL_SUBSCRIPTION_PRICE = 19.88;
-const ANNUAL_SUBSCRIPTION_PRICE = 49.99;
-
-const ANNUAL_DISCOUNT = "25%";
-const TRIMESTRAL_DISCOUNT = "10%";
 
 class PaySubscriptionContainer extends React.Component{
 
@@ -27,11 +21,14 @@ class PaySubscriptionContainer extends React.Component{
     super(props)
     this.state = {
       loaded: false,
+      configSubscriptionPrice: null,
+      trimestralDiscount: null,
+      annualDiscount: null,
       subscriptionType: null,
       subscriptionPrice: null,
       subscriptionName: null,
       errorShown: false,
-      errorMessage: false,
+      errorMessage: null,
       successfullPayment: false,
       establishmentId: null,
       unknownEstablishment: false,
@@ -47,10 +44,41 @@ class PaySubscriptionContainer extends React.Component{
       if (auth.isAuthenticated() && auth.isEstablishment() && auth.getUserData().subscription != null) {
         this.setState({paidSubscription: true});
       } else if (establishmentId) {
-        this.setState({establishmentId: establishmentId, loaded: true});
+        configurationService.getConfiguration().then(response => {
+          if (response.data && response.data.success && response.data.code === 200) {
+            this.setState({
+              configSubscriptionPrice: response.data.content.priceMonthSubscription, 
+              trimestralDiscount: response.data.content.trimestralDiscount, 
+              annualDiscount: response.data.content.annualDiscount,
+              establishmentId: establishmentId,
+              loaded: true
+            });
+          } else {
+            this.setState({errorMessage: 'subscription.errorLoadingConfiguration'})
+          }
+        });
       } else {
         this.setState({unknownEstablishment: true});
       }
+
+  }
+
+  getTrimestralMonthlyPrice = () => {
+    return (this.getTrimestralPrice() / 3).toFixed(2)
+}
+
+  getTrimestralPrice = () => {
+      let trimestralDiscount = (this.state.configSubscriptionPrice * 3) * this.state.trimestralDiscount;
+      return ((this.state.configSubscriptionPrice * 3) - trimestralDiscount).toFixed(2);
+  }    
+
+  getAnnualMonthlyPrice = () => {
+      return (this.getAnnualPrice() / 12).toFixed(2);
+  }
+
+  getAnnualPrice = () => {
+      let annualDiscount = (this.state.configSubscriptionPrice * 12) * this.state.annualDiscount;
+      return ((this.state.configSubscriptionPrice * 12) - annualDiscount).toFixed(2);
   }
 
   selectSubscriptionType = (subscriptionId) => {
@@ -60,21 +88,21 @@ class PaySubscriptionContainer extends React.Component{
       case MONTHLY_SUBSCRIPTION_ID: 
         this.setState({
           subscriptionName: t('subscription.type.monthly'), 
-          subscriptionPrice: MONTLY_SUBSCRIPTION_PRICE, 
+          subscriptionPrice: this.state.configSubscriptionPrice, 
           subscriptionType: MONTHLY_SUBSCRIPTION_ID
         });
         break;
       case TRIMESTRAL_SUBSCRIPTION_ID: 
         this.setState({
           subscriptionName: t('subscription.type.trimestral'), 
-          subscriptionPrice: TRIMESTRAL_SUBSCRIPTION_PRICE, 
+          subscriptionPrice: this.getTrimestralPrice(), 
           subscriptionType: TRIMESTRAL_SUBSCRIPTION_ID
         });
         break;
       case ANNUAL_SUBSCRIPTION_ID: 
         this.setState({
           subscriptionName: t('subscription.type.annual'), 
-          subscriptionPrice: ANNUAL_SUBSCRIPTION_PRICE, 
+          subscriptionPrice: this.getAnnualPrice(), 
           subscriptionType: ANNUAL_SUBSCRIPTION_ID
         });
         break;
@@ -141,7 +169,7 @@ class PaySubscriptionContainer extends React.Component{
   }
 
   render(){
-    const {subscriptionType, subscriptionPrice, subscriptionName, errorMessage, unknownEstablishment, paidSubscription, loaded, orderId, successfullPayment } = this.state
+    const {configSubscriptionPrice, trimestralDiscount, annualDiscount, subscriptionType, subscriptionPrice, subscriptionName, errorMessage, unknownEstablishment, paidSubscription, loaded, orderId, successfullPayment } = this.state
     const { t } = this.props;
 
     if (unknownEstablishment) {
@@ -198,19 +226,19 @@ class PaySubscriptionContainer extends React.Component{
 
               <div className={this.getClass(MONTHLY_SUBSCRIPTION_ID)} onClick={() => this.selectSubscriptionType(MONTHLY_SUBSCRIPTION_ID)}>
                 <div>{t('subscription.type.monthly')}</div>
-                <div>{MONTLY_SUBSCRIPTION_PRICE} €</div>
+                <div>{configSubscriptionPrice && configSubscriptionPrice.toFixed(2)} €</div>
               </div>
               
               <div className={this.getClass(TRIMESTRAL_SUBSCRIPTION_ID)} onClick={() => this.selectSubscriptionType(TRIMESTRAL_SUBSCRIPTION_ID)}>
                 <div>{t('subscription.type.trimestral')}</div>
-                <div>{TRIMESTRAL_SUBSCRIPTION_PRICE} €</div>
-                <div>{t('subscription.discounts.' + TRIMESTRAL_DISCOUNT)}</div>
+                <div>{configSubscriptionPrice && this.getTrimestralPrice()} €</div>
+                <div>{configSubscriptionPrice && t('subscription.discounts.generic').replace('DISCOUNT', Math.round(trimestralDiscount * 100))}</div>
               </div>
               
               <div className={this.getClass(ANNUAL_SUBSCRIPTION_ID)} onClick={() => this.selectSubscriptionType(ANNUAL_SUBSCRIPTION_ID)}>
                 <div>{t('subscription.type.annual')}</div>
-                <div>{ANNUAL_SUBSCRIPTION_PRICE} €</div>
-                <div>{t('subscription.discounts.' + ANNUAL_DISCOUNT)}</div>
+                <div>{configSubscriptionPrice && this.getAnnualPrice()} €</div>
+                <div>{configSubscriptionPrice && t('subscription.discounts.generic').replace('DISCOUNT', Math.round(annualDiscount * 100))}</div>
               </div>
 
               {(subscriptionType !== null) && <PayPalButton

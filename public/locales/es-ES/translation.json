@@ -18,6 +18,7 @@
     "fe-dev": "Desarrollador frontend"
 
   },
+  "wrong": "Algo fue mal",
   "filter": "Búsqueda avanzada",
   "date&time": "Fecha y hora:",
   "laanguages": "Idiomas",
@@ -387,8 +388,10 @@
     "finishTitle": "Fecha de finalización",
     "discounts": {
       "10%": "¡Obten un 10% de descuento!",
-      "25%": "¡Obten un 25% de descuento!"
+      "25%": "¡Obten un 25% de descuento!",
+      "generic": "¡Obten un DISCOUNT% de descuento!"
     },
+    "errorLoadingConfiguration": "Hubo un error cargando la configuración. Por favor, inténtelo de nuevo más tarde.",
     "type": {
       "monthly": "Suscripción mensual",
       "trimestral": "Suscripción trimestral",
@@ -422,6 +425,8 @@
     "payButton": "Pagar suscripción"
   },
   "code": {
+    "before": "El código estará disponible en",
+    "after": "El código ya no esta disponible",
     "scan": "Escanear código QR",
     "manual": "Introducir el código manualmente",
     "scanError": {
@@ -547,6 +552,11 @@
       }
     },
     "Signed": {
+      "Assessment": {
+        "UserAndAssseduserNotMatchInSameExchange": "Debes compartir el intercambio con esta persona.",
+        "ExchangeMomentIsNotPast": "El momento del intercambio debe estar en el pasado.",
+        "UserAndAssessedUserNotBeSame": "No te puedes valorar a ti mismo."
+      },
       "Establishment": {
         "ErrorLoadingImage": "Se ha producido un error al cargar la imagen."
       },

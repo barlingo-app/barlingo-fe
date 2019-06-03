@@ -18,6 +18,7 @@
     "fe-dev": "Frontend developer"
 
   },
+  "wrong": "Something was wrong",
   "filter":"Advanced search",
   "date&time": "Date and time",
   "laanguages": "Languages",
@@ -387,11 +388,13 @@
     "finishTitle": "Finish date",
     "discounts": {
       "10%": "Get 10% discount!",
-      "25%": "Get 25% discount!"
+      "25%": "Get 25% discount!",
+      "generic": "Get DISCOUNT% discount!"
     },
+    "errorLoadingConfiguration": "There was an error loading the configuration. Please try again later.",
     "type": {
       "monthly": "Monthly subscription",
-      "trimestral": "Trimestral subscription",
+      "trimestral": "Quarterly subscription",
       "annual": "Annual subscription"
     },
     "unknownEstablishment": {
@@ -422,6 +425,8 @@
     "payButton": "Pay subscription"
   },
   "code": {
+    "before": "The code will be available in",
+    "after": "The code is no longer available",
     "scan": "Scan QR code",
     "manual": "Enter the code manually",
     "scanError": {
@@ -537,6 +542,11 @@
       }
     },
     "Signed": {
+      "Assessment": {
+        "UserAndAssseduserNotMatchInSameExchange": "You must share the exchange with this person.",
+        "ExchangeMomentIsNotPast": "The exchange moment must be in the past.",
+        "UserAndAssessedUserNotBeSame": "You cannot rate yourself."
+      },
       "Establishment": {
         "ErrorLoadingImage": "There was an error loading the image."
       },

@@ -58,34 +58,34 @@
         font-weight: bold;
 
         &.monthly {
-            border: 2px solid #f29a17;
-            color: #f29a17;
-            background-color: #fff0a5;
+            border: 2px solid #ff8c00;
+            color: #ff8c00;
+            background-color: #ffffff;//#FFC57F;
 
             &.active {
-                background-color: #f29a17;
+                background-color: #ff8c00;
                 color: #ffffff;
             }
         }
 
         &.trimestral {
-            border: 2px solid #3399cc;
-            color: #3399cc;
-            background-color: #cdedff;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            background-color: #ffffff;//#FFEB7F;
 
             &.active {
-                background-color: #3399cc;
+                background-color: #ffd700;
                 color: #ffffff;
             }
         }
 
         &.annual {
-            border: 2px solid #468966;
-            color: #468966;
-            background-color: #c8ffc8;
+            border: 2px solid #32cd32;
+            color: #32cd32;
+            background-color: #ffffff;//#98E698;
 
             &.active {
-                background-color: #468966;
+                background-color: #32cd32;
                 color: #ffffff;
             }
         }

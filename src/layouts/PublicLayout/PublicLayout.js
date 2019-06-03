@@ -14,7 +14,7 @@ class PublicLayout extends Component {
                 <Slot name="content" component="main" className={"content"}/>
                 <Slot name="contentWithWarning" component="main" className={"content contentWithWarning"}/>
                 <Slot name="contentWithBackground" component="main" className={"contentWithBackground"}/>              
-                <BackTop visibilityHeight={100} />
+                <BackTop visibilityHeight={50} />
                 <FooterContainer />
             </>
         );

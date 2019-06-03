@@ -60,12 +60,6 @@ function beforeUpload(file) {
     }
   
     render() {
-      const uploadButton = (
-        <div>
-          <Icon type={this.state.loading ? 'loading' : 'plus'} />
-          <div>Upload</div>
-        </div>
-      );
       const imageUrl = this.state.imageUrl;
 
       if (this.props.allowUpload !== true) {

@@ -31,7 +31,8 @@ class ProfileView extends Component {
             confirmLoading: false,
             paySubscription: false,
             redirectToNotFound: false,
-            visibleChangePassword: false
+            visibleChangePassword: false,
+            assessments: null
         }
     }
 
@@ -48,6 +49,7 @@ class ProfileView extends Component {
 
     componentDidMount() {
         this.consultarUsuario();
+        //this.getAssessments();
         document.title = "Barlingo - " + this.props.t('profile');
     }
 
@@ -57,6 +59,13 @@ class ProfileView extends Component {
                 user: response,
                 loaded: true,
                 isLoggedUser: loggedUser
+            });
+            userService.getAssessments(auth.getUserData().id).then(response => {
+                if (response.data && response.data.success && response.data.code === 200) {
+                    this.setState({
+                        assessments: response.data.content
+                    });
+                }
             });
         }else if (response.data.code === 200 && response.data.success && response.data.content) {
             this.setState({
@@ -323,8 +332,24 @@ class ProfileView extends Component {
         return auth.isAuthenticated() && auth.isEstablishment() ? this.state.user.description : this.state.user.aboutMe
     }
 
-    
+    getRates = (alike) => {
+        if (this.state.user.id === auth.getUserData().id && this.state.assessments === null) {
+            return this.props.t('generic.loading');
+        } else if (this.state.user.id === auth.getUserData().id && this.state.assessments === false) {
+            return 'Error';
+        } else {
+            let count = 0;
+            let assessments = this.state.user.id === auth.getUserData().id ? this.state.assessments : this.state.user.assessments;
 
+            for (let index in assessments) {
+                if (assessments[index].alike === alike) {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+    }
     
     
     render() {
@@ -536,6 +561,28 @@ class ProfileView extends Component {
                                                         {t(`languages.${i}`)}
                                                     </div>)
                                                 })}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </div>
+                                }
+                                { auth.isAuthenticated() && (auth.isUser()|| auth.isAdmin()) &&     
+                                <div>
+                                    <Row>
+                                        <Col>
+                                            <div className="profileview__rates-title">
+                                                <span style={{color: "#32CD32",padding: "10px 10px"}}><Icon type="like" theme="filled"/></span>
+                                            </div>
+                                            <div className="profileview__rates">
+                                                { this.getRates(true) }
+                                            </div>
+                                        </Col>
+                                        <Col>
+                                            <div className="profileview__rates-title">
+                                                <span style={{color: "#f5222d",padding: "10px 10px"}}><Icon type="dislike" theme="filled"/></span>
+                                            </div>
+                                            <div className="profileview__rates">
+                                                { this.getRates(false) }
                                             </div>
                                         </Col>
                                     </Row>

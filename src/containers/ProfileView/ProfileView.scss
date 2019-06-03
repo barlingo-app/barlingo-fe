@@ -172,4 +172,17 @@
         list-style-type: none;
     
     }
+    &__rates {
+        font-family: $font-primary;
+        text-align: center;
+        list-style-type: none;
+    
+    }
+    &__rates-title {
+        font-family: $font-primary;
+        font-size: 30px;
+        font-weight: 600;
+        margin-top: 15px;
+        text-align: center;    
+    }
 }
