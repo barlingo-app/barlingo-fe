@@ -121,36 +121,37 @@ class EstablishmentDetails extends Component {
                                 <div className="establishment-details__workingHours-wrapper">
                                     <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
                                     <table className="establishment-details__table">
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.monday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[0]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.tuesday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[1]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.wednesday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[2]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.thursday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[3]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.friday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[4]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.saturday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[5]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.sunday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[6]}</td>
-                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.monday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[0]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.tuesday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[1]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.wednesday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[2]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.thursday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[3]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.friday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[4]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.saturday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[5]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.sunday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[6]}</td>
+                                            </tr>
+                                        </tbody>
                                     </table>
-
                                 </div>
 
 

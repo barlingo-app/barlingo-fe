@@ -377,7 +377,7 @@ class CreateExchangeForm extends Component {
                         )}
                     </Form.Item>
                     <Form.Item >
-                        <button className="create-exchange__button" type="primary" htmlType="submit">
+                        <button className="create-exchange__button" type="primary" htmltype="submit">
                             {t('generic.create')}
                         </button>
                     </Form.Item>
