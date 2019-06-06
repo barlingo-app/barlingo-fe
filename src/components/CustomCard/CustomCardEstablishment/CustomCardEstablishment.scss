@@ -136,7 +136,10 @@
       border-radius: 5px;
       padding: 5px 20px;
       color: white;
-      background: white;
+      background: #44cfcb; /* Old browsers */
+      background: -moz-linear-gradient(-45deg, #44cfcb 1%, #4ea5d9 47%, #4357ad 100%); /* FF3.6-15 */
+      background: -webkit-linear-gradient(-45deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%); /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(135deg, #44cfcb 1%,#4ea5d9 47%,#4357ad 100%);
       font-family: $font-primary;
       margin-left: 10px;
       @media(max-width: 576px) {

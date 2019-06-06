@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { auth } from "../../auth";
 import { establishmentService } from '../../services/establishmentService';
 import { userService } from '../../services/userService';
-
+import { configurationService } from '../../services/configurationService';
 import moment from 'moment';
 import './index.scss';
 import BackButton from '../BackButton/BackButton';
@@ -31,7 +31,10 @@ class index extends Component {
       wednesdayIsOpen: true,
       fridayIsOpen: true,
       saturdayIsOpen: true,
-      sundayIsOpen: true
+      sundayIsOpen: true,
+      subscriptionPrice: null,
+      trimestralDiscount: null,
+      annualDiscount: null
     }
 
     this.errors = {
@@ -45,6 +48,28 @@ class index extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleConfirmBlur = this.handleConfirmBlur.bind(this)
   }
+
+  componentDidMount() {
+    configurationService.getConfiguration().then(response => {
+      if (response.data && response.data.success && response.data.code === 200) {
+          this.setState({
+              subscriptionPrice: response.data.content.priceMonthSubscription, 
+              trimestralDiscount: response.data.content.trimestralDiscount, 
+              annualDiscount: response.data.content.annualDiscount
+          });
+      }
+  });
+  }
+
+  getTrimestralPrice = () => {
+    let trimestralDiscount = (this.state.subscriptionPrice * 3) * this.state.trimestralDiscount;
+    return ((this.state.subscriptionPrice * 3) - trimestralDiscount).toFixed(2);
+}
+
+  getAnnualPrice = () => {
+    let annualDiscount = (this.state.subscriptionPrice * 12) * this.state.annualDiscount;
+    return ((this.state.subscriptionPrice * 12) - annualDiscount).toFixed(2);
+}
 
   getValidationMessage = (fieldName) => {
     if (this.errors.hasOwnProperty(fieldName)) {
@@ -303,6 +328,7 @@ class index extends Component {
     })
   }
   render() {
+    const { subscriptionPrice, trimestralDiscount, annualDiscount } = this.state;
     const { getFieldDecorator } = this.props.form;
     const { successfulLogin } = this.state;
     const { t } = this.props;
@@ -1067,9 +1093,9 @@ class index extends Component {
           <p><b>{t('terms-prices')}</b></p>
           <p>{t('terms-prices-title')}</p>
           <ul>
-            <li>{t('terms-price1')}</li>
-            <li>{t('terms-price2')}</li>
-            <li>{t('terms-price3')}</li>
+            <li>{t('terms-price1')}{ subscriptionPrice }€</li>
+            <li>{t('terms-price2')}{ this.getTrimestralPrice() }€.{t('terms-discount')}{ Math.round(trimestralDiscount * 100) }%{t('terms-applied')}</li>
+            <li>{t('terms-price3')}{ this.getAnnualPrice() }€.{t('terms-discount')}{ Math.round(annualDiscount * 100) }%{t('terms-applied')}</li>
           </ul>
 
           <p><b>{t('terms-modifications')}</b></p>
