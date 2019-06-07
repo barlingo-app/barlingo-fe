@@ -14,7 +14,7 @@ install: false
 script: npm install; npm run build
 cache:
   directories:
-  - "node_module"
+  - "node_modules"
 branches:
   only:
     - CI

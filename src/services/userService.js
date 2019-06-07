@@ -93,5 +93,27 @@ export const userService = {
                 .then((response) => { return response; })
                 .catch((error) => { return error });
         })
-    }
+    },
+    async assess(exchangedId, data) {
+        return auth.getToken().then((token) => {
+            return axios.post(process.env.REACT_APP_BE_URL + '/assessments/' + exchangedId, data, {
+                headers: {
+                    'Authorization': "Bearer " + token
+                }
+            })
+                .then((response) => { return response; })
+                .catch((error) => { return error });
+        })
+    },
+
+    async getAssessments(userId) {
+        return auth.getToken().then((token) => {
+            return axios.get(process.env.REACT_APP_BE_URL + '/assessments/' + userId, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            }).then(response => { return response; })
+                .catch((error) => { return error; });
+        });
+    },
 }

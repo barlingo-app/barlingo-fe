@@ -27,6 +27,7 @@ import es_ES from 'antd/lib/locale-provider/es_ES';
 import moment from 'moment';
 import 'moment/locale/es';
 
+
 const layouts = {
 	'public': PublicLayout,
 };

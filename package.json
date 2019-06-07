@@ -1,6 +1,6 @@
 {
   "name": "barlingo-fe",
-  "version": "1.1.0-SNAPSHOT",
+  "version": "1.2.0-SNAPSHOT",
   "private": true,
   "dependencies": {
     "antd": "^3.15.1",
@@ -21,6 +21,7 @@
     "react-big-calendar": "^0.21.0",
     "react-bootstrap": "^1.0.0-beta.6",
     "react-bootstrap-validation": "^0.1.11",
+    "react-countdown-now": "^2.1.0",
     "react-device-detect": "^1.6.2",
     "react-dom": "^16.8.5",
     "react-geocode": "^0.1.2",
@@ -36,7 +37,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && sw-precache --config=src/sw-precache-config.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -48,5 +49,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "sw-precache": "^5.2.1"
+  }
 }

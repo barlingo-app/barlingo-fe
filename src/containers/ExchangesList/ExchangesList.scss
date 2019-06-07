@@ -1,22 +1,59 @@
 @import "../../styles/defaultStyles";
 
+.emptyMessageContainer {
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+}
+
 .exchange-list {
     background: linear-gradient(to top, #ffffff, #D7DDE8);
     &__card {
         margin-bottom: 15px;
     }
-    &__filter-title {
-        color: $mainColor;
-        font-family: $font-primary;
-        font-size: 20px;
+    &__filter-title,
+    .ant-collapse-header {
+        color: $mainColor !important;
+        font-family: $font-primary !important;
+        font-size: 20px !important;
         font-weight:600;
-        margin-top: 15px;
     }
+
+
+    .ant-collapse-header {
+        background-color: transparent !important;
+        border: none !important;
+        padding: 20px 0 0 0 !important;
+        margin: 0 !important;
+    }
+
     &__filter-text {
-        font-family: $font-primary;
-        font-size: 18px;
-        margin-top: 10px;
+        font-family: $font-primary !important;
+        font-size: 18px !important;
+        margin-top: 10px !important;
+        color: #000000;
     }
+
+    .ant-collapse-content,
+    .ant-collapse,
+    .ant-collapse-content-box,
+    .ant-collapse-item {
+        background-color: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .anticon-right {
+        right: 0 !important;
+        left: auto !important;
+    }
+
+    .ant-collapse-arrow {
+        margin-top: 5px !important;
+        font-size: 20px !important;
+    }
+
     &__button {
         border: none;
         border-radius: 10px;

@@ -1,8 +1,6 @@
 @import "../../styles/variables";
 
 .content {
-  //position: absolute;
-  //top: 0;
   width: 100%;
   box-sizing: border-box;
   padding: $navbarHeight + 30px 40px $footerHeight + 30px 40px;
@@ -12,7 +10,7 @@
   padding-top: $navbarHeight + 100px !important;
 }
 
-.fullContent {
+.contentWithBackground {
   position: absolute;
   top: $navbarHeight;
   bottom:0;
@@ -20,4 +18,18 @@
   right: 0;
   box-sizing: border-box;
   padding: 0;
+  background: white;
+  background-size: cover; 
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.ant-back-top {
+  bottom: 70px;
+
+  .ant-back-top-content,
+  .ant-back-top-content:hover {
+    background-color: $mainColor;
+    color: $mainFontColor;
+  }
 }

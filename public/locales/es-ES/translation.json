@@ -1,5 +1,5 @@
 {
-
+  "version": "Versión",
   "home": {
     "whatis": "¿Qué es Barlingo?",
     "paragraph1": "Barlingo es una aplicación de intercambio de idiomas donde los usuarios realizan intercambios en establecimientos y reciben descuentos.",
@@ -18,7 +18,9 @@
     "fe-dev": "Desarrollador frontend"
 
   },
-  "filter": "Filtrar resultados:",
+  "wrong": "Algo fue mal",
+  "rating": "Puntuación",
+  "filter": "Búsqueda avanzada",
   "date&time": "Fecha y hora:",
   "laanguages": "Idiomas",
   "timerange": "Rango horario",
@@ -41,6 +43,11 @@
   "ourExchanges": "Nuestros establecimientos",
   "notification": {
     "priority": "Prioridad",
+    "priorities": {
+      "top": "Máxima",
+      "high": "Alta",
+      "normal": "Normal"
+    },
     "emptyPriority": "Por favor, indique una prioridad",
     "success": {
       "title": "Notificación enviada",
@@ -116,9 +123,11 @@
   "terms-intellectual-property-text": "La página y su contenido original, las características y la funcionalidad son propiedad de Barlingo y están protegidos por derechos de autor internacionales, marcas registradas, patentes, secretos comerciales y demás leyes de propiedad intelectual o de derechos de propiedad",
   "terms-prices": "4. Precios y pagos",
   "terms-prices-title": "Barlingo cuenta con tres tipos de suscripción al servicio:",
-  "terms-price1": "Suscripción mensual: el precio de la suscripción mensual es de 6.99€.",
-  "terms-price2": "Suscripción trimestral: el precio de la suscripción trimestral es de 18.99€.  Se aplica un descuento del 10% con respecto a la suscripción mensual.",
-  "terms-price3": "Suscripción anual: el precio de la suscripción anual es de 62.99€. Se aplica un descuento del 25% con respecto a la suscripción mensual.",
+  "terms-price1": "Suscripción mensual: el precio de la suscripción mensual es de ",
+  "terms-price2": "Suscripción trimestral: el precio de la suscripción trimestral es de ",
+  "terms-price3": "Suscripción anual: el precio de la suscripción anual es de ",
+  "terms-discount": " Un descuento del ",
+  "terms-applied": " es aplicado con respecto a la suscripción mensual.",
   "terms-modifications": "5. Modificaciones",
   "terms-modifications-text": "Barlingo se reserva el derecho a modificar en cualquier momento los términos y condiciones de uso del portal.",
   "ihaveread": "He leído y acepto los ",
@@ -136,6 +145,13 @@
     "list": "Lista de usuarios",
     "deactivate": "Desactivar",
     "activate": "Activar"
+  },
+  "exchanges":{
+    "empty": "No hay intercambios",
+    "myList": {
+      "activeEmpty": "No tienes intercambios activos",
+      "empty": "No tienes ningún intercambio. Crea uno nuevo o unete a uno que ya exista."
+    }
   },
   "titles": {
     "exchangesList": "Intercambios",
@@ -375,8 +391,10 @@
     "finishTitle": "Fecha de finalización",
     "discounts": {
       "10%": "¡Obten un 10% de descuento!",
-      "25%": "¡Obten un 25% de descuento!"
+      "25%": "¡Obten un 25% de descuento!",
+      "generic": "¡Obten un DISCOUNT% de descuento!"
     },
+    "errorLoadingConfiguration": "Hubo un error cargando la configuración. Por favor, inténtelo de nuevo más tarde.",
     "type": {
       "monthly": "Suscripción mensual",
       "trimestral": "Suscripción trimestral",
@@ -410,6 +428,8 @@
     "payButton": "Pagar suscripción"
   },
   "code": {
+    "before": "El código estará disponible en",
+    "after": "El código ya no esta disponible",
     "scan": "Escanear código QR",
     "manual": "Introducir el código manualmente",
     "scanError": {
@@ -474,6 +494,7 @@
           "UserNotNull": "Hubo un error",
           "ErrorSavingDiscount":  "Hubo un error",
           "CodeBelongOtherExchange":  "Código inválido",
+          "CodeBelongOtherStablishment":  "Código inválido",
           "CodeNotValid": "Código inválido",
           "CodeNotExists": "Código no encontrado",
           "NotVisible": "Código no visible",
@@ -489,6 +510,7 @@
           "UserNotNull": "Hubo un error",
           "ErrorSavingDiscount":  "Hubo un error",
           "CodeBelongOtherExchange":  "Código inválido",
+          "CodeBelongOtherStablishment":  "Código inválido",
           "CodeNotValid": "Código inválido",
           "CodeNotExists": "Código no encontrado",
           "NotVisible": "Código no visible",
@@ -533,6 +555,11 @@
       }
     },
     "Signed": {
+      "Assessment": {
+        "UserAndAssseduserNotMatchInSameExchange": "Debes compartir el intercambio con esta persona.",
+        "ExchangeMomentIsNotPast": "El momento del intercambio debe estar en el pasado.",
+        "UserAndAssessedUserNotBeSame": "No te puedes valorar a ti mismo."
+      },
       "Establishment": {
         "ErrorLoadingImage": "Se ha producido un error al cargar la imagen."
       },
@@ -544,8 +571,9 @@
       },
       "UserDiscount": {
         "UserNotNull": "Se ha producido un error al crear el intercambio.",
-        "ErrorSavingDiscount": "Se ha producido un error al crear el intercambio.",
-        "CodeBelongOtherExchange": "Se ha producido un error al crear el intercambio.",
+        "ErrorSavingDiscount": "Se ha producido un error al canjear el código.",
+        "CodeBelongOtherExchange": "El código pertenece a otro intercambio.",
+        "CodeBelongOtherStablishment": "El código pertenece a otro establecimiento.",
         "CodeNotValid": "El código no es válido.",
         "CodeNotExists": "El código no existe.",
         "NotVisible": "El código solo se mostrará 4 horas antes del evento y 48 horas después.",

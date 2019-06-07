@@ -180,6 +180,7 @@ class CustomCardExchange extends Component {
         const orderedParticipants = this.orderParticipants(exchange.participants)
         const route = "profile";
         const userImage = this.getUserImage
+        const from = (this.props.from) ? this.props.from : "/exchanges";
 
         return (
                 <div className="custom-card-exchange">
@@ -211,7 +212,7 @@ class CustomCardExchange extends Component {
                                         { orderedParticipants.map(function (i) {
                                             return (
                                                 <div key={i.id} className="custom-card-exchange__participants">
-                                                    <NavLink exact={true} activeClassName={"active"} to={{pathname: `/${route}/${i.id}`, state: {from: "/exchanges" }}} className="custom-card-exchange__link">
+                                                    <NavLink exact={true} activeClassName={"active"} to={{pathname: `/${route}/${i.id}`, state: {from: from  }}} className="custom-card-exchange__link">
                                                         <img  className="custom-card-exchange__participant-image" alt="Participant" src={userImage(i.personalPic)} onError={(e) => e.target.src = defaultUserImage}/>
                                                     </NavLink>
                                                 </div>
