@@ -1069,6 +1069,7 @@ class index extends Component {
           </Col>
         </Row>
         <Modal
+          className="terms-modal"
           title={t('term&cond')}
           visible={this.state.visible}
           onOk={this.handleOk}
