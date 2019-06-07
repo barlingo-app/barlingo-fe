@@ -9,6 +9,7 @@ import defaultImage from '../../media/default-exchange-logo.png';
 import { establishmentService } from '../../services/establishmentService';
 import MapContainer from '../MapContainer/MapContainer';
 import './EstablishmentDetails.scss';
+import { auth } from '../../auth';
 
 
 
@@ -157,9 +158,9 @@ class EstablishmentDetails extends Component {
 
                                 <div className="establishment-details__offer-title">{t('form.offer')}</div>
                                 <div className="establishment-details__offer">{establishment.offer}</div>
-                                <div style={{ textAlign: "center", margin: "30px" }}>
+                                {auth.isAuthenticated() && auth.isUser() && <div style={{ textAlign: "center", margin: "30px" }}>
                                     <button className="custom-card-establishment__button" onClick={() => this.handleOnClick()}>{t('generic.createExchange')}</button>
-                                </div>
+                                </div>}
                             </Col>
                         </Row>
                     </Section>
