@@ -1,6 +1,7 @@
-{ 
+{
+  "version": "Version", 
   "home": {
-    "whatis": "¿Qué es Barlingo?",
+    "whatis": "¿What is Barlingo?",
     "paragraph1": "Barlingo is a language exchange app where users make exchanges in establishments and receive discounts.",
     "paragraph2": "If you want to practice languages ​​for free, join one of the exchanges published or create one to your liking. There are people like you willing to learn and have a good time.",
     "paragraph3": "If you have a business and you want to attract people who exchange languages, sign up.",
@@ -17,7 +18,9 @@
     "fe-dev": "Frontend developer"
 
   },
-  "filter":"Filter results:",
+  "wrong": "Something was wrong",
+  "rating": "Rating",
+  "filter":"Advanced search",
   "date&time": "Date and time",
   "laanguages": "Languages",
   "timerange": "Time range",
@@ -41,6 +44,11 @@
   "ourExchanges": "Our establishments",
   "notification": {
     "priority": "Priority",
+    "priorities": {
+      "top": "Top",
+      "high": "High",
+      "normal": "Normal"
+    },
     "emptyPriority": "Please, mark a priority",
     "success": {
       "title": "Notify sent",
@@ -116,9 +124,11 @@
   "terms-intellectual-property-text": "The page and its original content, features and functionality are the property of Barlingo and are protected by international copyright, trademarks, patents, trade secrets and other laws of intellectual property or property rights.",
   "terms-prices": "4. Prices and payments",
   "terms-prices-title": "Barlingo has three types of subscription to the service:",
-  "terms-price1": "Monthly subscription: the price of the monthly subscription is € 6.99.",
-  "terms-price2": "Quarterly subscription: the price of the quarterly subscription is 18.99 €. A discount of 10% is applied with respect to the monthly subscription.",
-  "terms-price3": "Annual subscription: the price of the annual subscription is € 62.99. A discount of 25% is applied with respect to the monthly subscription.",
+  "terms-price1": "Monthly subscription: the price of the monthly subscription is ",
+  "terms-price2": "Quarterly subscription: the price of the quarterly subscription is ",
+  "terms-price3": "Annual subscription: the price of the annual subscription is ",
+  "terms-discount": " A discount of ",
+  "terms-applied": " is applied with respect to the monthly subscription.",
   "terms-modifications": "5. Modifications",
   "terms-modifications-text": "Barlingo reserves the right to modify at any time the terms and conditions of use of the portal.",
   "userword": "User",
@@ -135,6 +145,13 @@
     "list": "Users list",
     "deactivate": "Deactivate",
     "activate": "Activate"
+  },
+  "exchanges":{
+    "empty": "There are no exchanges",
+    "myList": {
+      "activeEmpty": "You do not have active exchanges",
+      "empty": "You do not have any exchange. Create a new one or join one that already exists."
+    }
   },
   "titles": {
     "exchangesList": "Exchanges",
@@ -374,11 +391,13 @@
     "finishTitle": "Finish date",
     "discounts": {
       "10%": "Get 10% discount!",
-      "25%": "Get 25% discount!"
+      "25%": "Get 25% discount!",
+      "generic": "Get DISCOUNT% discount!"
     },
+    "errorLoadingConfiguration": "There was an error loading the configuration. Please try again later.",
     "type": {
       "monthly": "Monthly subscription",
-      "trimestral": "Trimestral subscription",
+      "trimestral": "Quarterly subscription",
       "annual": "Annual subscription"
     },
     "unknownEstablishment": {
@@ -409,6 +428,8 @@
     "payButton": "Pay subscription"
   },
   "code": {
+    "before": "The code will be available in",
+    "after": "The code is no longer available",
     "scan": "Scan QR code",
     "manual": "Enter the code manually",
     "scanError": {
@@ -464,6 +485,7 @@
           "UserNotNull": "There was an error",
           "ErrorSavingDiscount":  "There was an error",
           "CodeBelongOtherExchange":  "Invalid code",
+          "CodeBelongOtherStablishment": "Invalid code",
           "CodeNotValid": "Invalid code",
           "CodeNotExists": "Code not found",
           "NotVisible": "Code not visible",
@@ -479,6 +501,7 @@
           "UserNotNull": "There was an error",
           "ErrorSavingDiscount":  "There was an error",
           "CodeBelongOtherExchange":  "Invalid code",
+          "CodeBelongOtherStablishment": "Invalid code",
           "CodeNotValid": "Invalid code",
           "CodeNotExists": "Code not found",
           "NotVisible": "Code not visible",
@@ -522,6 +545,11 @@
       }
     },
     "Signed": {
+      "Assessment": {
+        "UserAndAssseduserNotMatchInSameExchange": "You must share the exchange with this person.",
+        "ExchangeMomentIsNotPast": "The exchange moment must be in the past.",
+        "UserAndAssessedUserNotBeSame": "You cannot rate yourself."
+      },
       "Establishment": {
         "ErrorLoadingImage": "There was an error loading the image."
       },
@@ -533,7 +561,8 @@
       "UserDiscount": {
         "UserNotNull": "An error occurred while creating the exchange.",
         "ErrorSavingDiscount": "An error occurred while creating the exchange.",
-        "CodeBelongOtherExchange": "An error occurred while creating the exchange.",
+        "CodeBelongOtherExchange": "The code belongs to another exchange.",
+        "CodeBelongOtherStablishment": "The code belongs to another establishment.",
         "CodeNotValid": "The code is not valid.",
         "CodeNotExists": "The code does not exist.",
         "NotVisible": "The code only can be showed 4 hours before the event and 48 hours after.",

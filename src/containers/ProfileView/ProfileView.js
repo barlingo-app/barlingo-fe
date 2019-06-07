@@ -31,7 +31,8 @@ class ProfileView extends Component {
             confirmLoading: false,
             paySubscription: false,
             redirectToNotFound: false,
-            visibleChangePassword: false
+            visibleChangePassword: false,
+            assessments: null
         }
     }
 
@@ -48,6 +49,7 @@ class ProfileView extends Component {
 
     componentDidMount() {
         this.consultarUsuario();
+        //this.getAssessments();
         document.title = "Barlingo - " + this.props.t('profile');
     }
 
@@ -57,6 +59,13 @@ class ProfileView extends Component {
                 user: response,
                 loaded: true,
                 isLoggedUser: loggedUser
+            });
+            userService.getAssessments(auth.getUserData().id).then(response => {
+                if (response.data && response.data.success && response.data.code === 200) {
+                    this.setState({
+                        assessments: response.data.content
+                    });
+                }
             });
         }else if (response.data.code === 200 && response.data.success && response.data.content) {
             this.setState({
@@ -323,14 +332,50 @@ class ProfileView extends Component {
         return auth.isAuthenticated() && auth.isEstablishment() ? this.state.user.description : this.state.user.aboutMe
     }
 
-    
+    getRating = () => {
+        if (this.state.isLoggedUser && this.state.assessments === null) {
+            return 0;
+        } else if (this.state.isLoggedUser && this.state.assessments === false) {
+            return 0;
+        } else {
+            let rating = 0;
+            let countLikes = 0;
+            let countDislikes = 0;
+            let assessments = this.state.isLoggedUser ? this.state.assessments : this.state.user.assessments;
 
+            for (let index in assessments) {
+                if (assessments[index].alike) {
+                    countLikes++;
+                } else {
+                    countDislikes++;
+                }
+            }
+
+            let percent = (countLikes * 100) / (countLikes + countDislikes);
+
+            if (percent >= 0 && percent <= 20) {
+                rating = 1;
+            } else if (percent > 20 && percent <= 40) {
+                rating = 2;
+            } else if (percent > 40 && percent <= 60) {
+                rating = 3;
+            } else if (percent > 60 && percent <= 80) {
+                rating = 4;
+            } else if (percent > 80 && percent <= 100) {
+                rating = 5;
+            }
+
+            return rating;
+        }
+    }
     
     
     render() {
         const { t } = this.props
         const {calendar, visibleChangePassword, myExchange, errorMessage, loaded, user, editProfile, visible, confirmLoading, ModalText, paySubscription, redirectToNotFound } = this.state;
-        
+        const getRating = this.getRating;
+        const ratesArray = [1,2,3,4,5];
+
         if (editProfile) {
             return (<Redirect to={"/editProfile"} />);
         }
@@ -411,8 +456,8 @@ class ProfileView extends Component {
                         <Row>
                             <Col className="profileview__content" sm="12" md={{span: 6, offset: 3}}>
                                 <div className="profileview__top">
-                                {this.props.location.state && this.props.location.state.from && (!auth.isAuthenticated() || (auth.isAuthenticated() && user.id !== auth.getUserData().id)) && <BackButton to={this.props.location.state.from} additionalClasses={"centered contrast"} />}
-                                {auth.isAuthenticated() && (auth.isEstablishment() || user.id === auth.getUserData().id) && 
+                                {this.props.location.state && this.props.location.state.from && this.props.match.params.userId !== null && this.props.match.params.userId !== undefined && <BackButton to={this.props.location.state.from} additionalClasses={"centered contrast"} />}
+                                {auth.isAuthenticated() && (auth.isEstablishment() || this.state.isLoggedUser) && 
                                 <Row>
                                     <Col xs={{span: 3, offset: 9}} lg={{span: 1, offset: 10}}>
                                         <Dropdown overlay={menu} trigger={['click']}>
@@ -425,7 +470,7 @@ class ProfileView extends Component {
                                 </Row>
                             }
                                     
-                                    {auth.isAuthenticated() && (auth.isAdmin() || user.id !== auth.getUserData().id) ? 
+                                    {auth.isAuthenticated() && (auth.isAdmin() || !this.state.isLoggedUser) ? 
                                     
                                     <img  className="profileview__image" alt="Profile" src={this.getImage(user.personalPic)} onError={(e) => e.target.src = defaultImage}/>
                                     
@@ -451,6 +496,7 @@ class ProfileView extends Component {
                                     <div className="establishment-details__workingHours-wrapper">
                                         <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
                                             <table className="establishment-details__table">
+                                                <tbody>
                                                 <tr>
                                                     <td className="hours-table__day">{t('days.monday')}</td>
                                                     <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[0]}</td>
@@ -479,6 +525,7 @@ class ProfileView extends Component {
                                                     <td className="hours-table__day">{t('days.sunday')}</td>
                                                     <td className="hours-table__time">{this.formatWorkingHours(user.workingHours)[6]}</td>
                                                 </tr>
+                                                </tbody>
                                             </table>
                                         </div>
                                     <div className="profileview__offer-title">{t('form.offer')}</div>
@@ -517,7 +564,7 @@ class ProfileView extends Component {
                                             <div className="profileview__speaked-languages">
                                                 {user.speakLangs.map(function(i) {
                                                     return (
-                                                    <div key={i.id}>
+                                                    <div key={i}>
                                                         {t(`languages.${i}`)}
                                                     </div>
                                                     )
@@ -532,9 +579,31 @@ class ProfileView extends Component {
                                             <div className="profileview__languages-to-learn">
                                                 {user.langsToLearn.map(function(i) {
                                                     return (
-                                                    <div key={i.id}>
+                                                    <div key={i}>
                                                         {t(`languages.${i}`)}
                                                     </div>)
+                                                })}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </div>
+                                }
+                                { auth.isAuthenticated() && (auth.isUser()|| auth.isAdmin()) &&     
+                                <div>
+                                    <Row>
+                                        <Col>
+                                            <div className="profileview__rates-title">
+                                                { t('rating') }
+                                            </div>
+                                            <div className="profileview__rates">
+                                                {ratesArray.map(function(i) {
+                                                    if (getRating() === 0) {
+                                                        return(<span key={i} className="profileview__rates-disabled"><Icon type="star" theme="filled" /></span>)
+                                                    } else if (i <= getRating()) {
+                                                        return(<span key={i} className="profileview__rates-actived"><Icon type="star" theme="filled" /></span>)
+                                                    } else {
+                                                        return(<span key={i} className="profileview__rates-actived"><Icon type="star" /></span>)
+                                                    }
                                                 })}
                                             </div>
                                         </Col>

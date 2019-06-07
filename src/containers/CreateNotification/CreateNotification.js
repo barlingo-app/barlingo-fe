@@ -75,9 +75,9 @@ class CreateNotification extends Component {
                                     >
                                         {getFieldDecorator('priority', { rules: [{ required: true, message: t('notification.emptyPriority') }] })(
                                             <Radio.Group>
-                                                <Radio value="TOP">TOP</Radio>
-                                                <Radio value="HIGH">HIGH</Radio>
-                                                <Radio value="NORMAL">NORMAL</Radio>
+                                                <Radio value="TOP">{t('notification.priorities.top')}</Radio>
+                                                <Radio value="HIGH">{t('notification.priorities.high')}</Radio>
+                                                <Radio value="NORMAL">{t('notification.priorities.normal')}</Radio>
                                             </Radio.Group>
                                         )}
                                     </Form.Item>

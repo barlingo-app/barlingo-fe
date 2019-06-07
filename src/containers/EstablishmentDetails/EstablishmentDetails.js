@@ -9,6 +9,7 @@ import defaultImage from '../../media/default-exchange-logo.png';
 import { establishmentService } from '../../services/establishmentService';
 import MapContainer from '../MapContainer/MapContainer';
 import './EstablishmentDetails.scss';
+import { auth } from '../../auth';
 
 
 
@@ -121,44 +122,45 @@ class EstablishmentDetails extends Component {
                                 <div className="establishment-details__workingHours-wrapper">
                                     <div className="establishment-details__workingHours-title">{t('form.workingHours')}</div>
                                     <table className="establishment-details__table">
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.monday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[0]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.tuesday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[1]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.wednesday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[2]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.thursday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[3]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.friday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[4]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.saturday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[5]}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="hours-table__day">{t('days.sunday')}</td>
-                                            <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[6]}</td>
-                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.monday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[0]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.tuesday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[1]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.wednesday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[2]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.thursday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[3]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.friday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[4]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.saturday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[5]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="hours-table__day">{t('days.sunday')}</td>
+                                                <td className="hours-table__time">{this.formatWorkingHours(establishment.workingHours)[6]}</td>
+                                            </tr>
+                                        </tbody>
                                     </table>
-
                                 </div>
 
 
                                 <div className="establishment-details__offer-title">{t('form.offer')}</div>
                                 <div className="establishment-details__offer">{establishment.offer}</div>
-                                <div style={{ textAlign: "center", margin: "30px" }}>
+                                {auth.isAuthenticated() && auth.isUser() && <div style={{ textAlign: "center", margin: "30px" }}>
                                     <button className="custom-card-establishment__button" onClick={() => this.handleOnClick()}>{t('generic.createExchange')}</button>
-                                </div>
+                                </div>}
                             </Col>
                         </Row>
                     </Section>

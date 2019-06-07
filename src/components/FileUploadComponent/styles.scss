@@ -1,6 +1,30 @@
-.full {
-    .ant-upload.ant-upload-select-picture-card {
-        width: 100%;
-        height: 100%;
+@import '../../styles/defaultStyles.scss';
+
+.ant-upload {
+    position: relative;
+}
+
+.uploadIconContainer {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 0 5px 5px 0;
+
+    .uploadIcon {
+        font-size: 25px;
+        border-radius: 50%;
+        color: $mainColor;
+        background-color: $mainFontColor;
+        width: 45px;
+        height: 45px;
+        font-weight: bold;
+        border: 2px solid $mainColor;
+
+        .anticon {
+            vertical-align: 0; 
+        }
     }
 }
