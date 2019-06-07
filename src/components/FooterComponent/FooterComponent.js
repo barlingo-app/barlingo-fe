@@ -63,6 +63,7 @@ class FooterComponent extends Component {
                     {t('term&cond')}
                 </Button>
                 <Modal
+                    className="terms-modal"
                     title={t('term&cond')}
                     visible={this.state.visible}
                     onOk={this.handleOk}
